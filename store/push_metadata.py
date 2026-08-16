@@ -43,9 +43,10 @@ def token():
 
 TOKEN = token()
 
-def call(method, path, body=None):
+def call(method, path, body=None, version="v1"):
     req = urllib.request.Request(
-        f"https://api.appstoreconnect.apple.com/v1/{path}", method=method,
+        f"https://api.appstoreconnect.apple.com/{version}/{path}",
+        method=method,
         headers={"Authorization": f"Bearer {TOKEN}",
                  "Content-Type": "application/json"},
         data=json.dumps(body).encode() if body else None)
@@ -97,9 +98,13 @@ def push_iap(meta, product_id):
         print(f"  {meta['locale']}: no in-app purchase {product_id} yet")
         return True
 
+    # v2, not v1. The localisations relationship only exists on the v2
+    # resource; against v1 it 404s, which reads as "none yet" and turns every
+    # re-run into a POST that Apple rejects as a duplicate. The listing looks
+    # like it failed when in fact it was already right.
     st, locs = call(
         "GET", f"inAppPurchases/{product['id']}/inAppPurchaseLocalizations"
-               "?limit=200")
+               "?limit=200", version="v2")
     existing = next((l for l in locs.get("data", [])
                      if l["attributes"].get("locale") == meta["locale"]), None)
     attrs = {"name": iap["name"], "description": iap["description"]}
