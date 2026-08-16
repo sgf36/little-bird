@@ -2,25 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'src/entitlement.dart';
 import 'src/guide_link.dart';
 import 'src/ocr.dart';
 import 'src/resolver.dart';
 
-void main() => runApp(const LittleBirdApp());
+void main() => runApp(const WrenApp());
 
-class LittleBirdApp extends StatelessWidget {
-  const LittleBirdApp({super.key});
+class WrenApp extends StatelessWidget {
+  const WrenApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     final scheme = ColorScheme.fromSeed(
-      seedColor: const Color(0xFF9B2D5E),
+      seedColor: const Color(0xFF1E4B45),
       brightness: MediaQuery.platformBrightnessOf(context) == Brightness.dark
           ? Brightness.dark
           : Brightness.light,
     );
     return MaterialApp(
-      title: 'Little Bird',
+      title: 'Wren',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(colorScheme: scheme, useMaterial3: true),
       home: const CapturePage(),
@@ -45,7 +46,10 @@ class CapturePage extends StatefulWidget {
 class _CapturePageState extends State<CapturePage> {
   final _picker = ImagePicker();
   final _resolver = StubResolver();
+  final UnlockStore _store = UnavailableUnlockStore();
   final _pending = <Pending>[];
+
+  Entitlement _entitlement = const Entitlement.free();
   String? _status;
   bool _busy = false;
 
@@ -103,18 +107,178 @@ class _CapturePageState extends State<CapturePage> {
     }
   }
 
+  /// Apple takes the guide's name from the payload and never asks, so this is
+  /// the only chance to get it right.
+  Future<String?> _askGuideName(int count) async {
+    final controller = TextEditingController();
+    return showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Name this guide'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'It will appear under this name in Apple Maps, alongside '
+              '$count ${count == 1 ? 'place' : 'places'}.',
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: controller,
+              autofocus: true,
+              maxLength: 60,
+              textCapitalization: TextCapitalization.words,
+              decoration: const InputDecoration(
+                labelText: 'Guide name',
+                hintText: 'Rome, October',
+                border: OutlineInputBorder(),
+              ),
+              onSubmitted: (v) {
+                final name = v.trim();
+                if (name.isNotEmpty) Navigator.pop(context, name);
+              },
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () {
+              final name = controller.text.trim();
+              if (name.isNotEmpty) Navigator.pop(context, name);
+            },
+            child: const Text('Create guide'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Offers the unlock, and offers a way forward without it. Dead-ending
+  /// someone at a paywall when a smaller guide would still work is the wrong
+  /// trade — they came here to save places, not to be sold to.
+  Future<_UnlockChoice> _offerUnlock(int selected) async {
+    final price = await _store.price() ?? unlimitedFallbackPrice;
+    // The store round trip can outlive this page.
+    if (!mounted) return _UnlockChoice.cancel;
+    final over = _entitlement.overBy(selected);
+    final choice = await showModalBottomSheet<_UnlockChoice>(
+      context: context,
+      showDragHandle: true,
+      builder: (context) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Guides of any size',
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                'Wren saves up to $freePlaceLimit places in a guide for free. '
+                'You have $selected selected, which is $over more.',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'One payment, kept for good. No subscription.',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: () => Navigator.pop(context, _UnlockChoice.buy),
+                  child: Text('Unlock for $price'),
+                ),
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton.tonal(
+                  onPressed: () =>
+                      Navigator.pop(context, _UnlockChoice.publishFree),
+                  child: Text('Save the first $freePlaceLimit instead'),
+                ),
+              ),
+              const SizedBox(height: 4),
+              Center(
+                child: TextButton(
+                  onPressed: () =>
+                      Navigator.pop(context, _UnlockChoice.restore),
+                  child: const Text('Restore a previous purchase'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    return choice ?? _UnlockChoice.cancel;
+  }
+
   Future<void> _publish() async {
-    final keep = _pending
-        .where((p) => p.keep)
-        .map((p) => GuidePlace(id: p.match.id, name: p.match.name))
-        .toList();
+    var keep = _pending.where((p) => p.keep).toList();
     if (keep.isEmpty) return;
 
-    // One place appends into a guide that already exists; several can only
-    // become a new guide, because guides cannot be merged.
-    final url = keep.length == 1
-        ? buildPlaceLink(keep.single.id)
-        : buildGuideLinks('Little Bird', keep).first;
+    switch (_entitlement.check(keep.length)) {
+      case PublishBlock.nothingSelected:
+        return;
+      case PublishBlock.needsUnlock:
+        final choice = await _offerUnlock(keep.length);
+        switch (choice) {
+          case _UnlockChoice.buy:
+            if (await _store.buy()) {
+              setState(() => _entitlement = const Entitlement.unlocked());
+            } else {
+              setState(
+                () => _status =
+                    'The purchase did not complete, so nothing was charged.',
+              );
+              return;
+            }
+          case _UnlockChoice.restore:
+            if (await _store.restore()) {
+              setState(() => _entitlement = const Entitlement.unlocked());
+            } else {
+              setState(
+                () => _status =
+                    'No previous purchase found on this Apple Account.',
+              );
+              return;
+            }
+          case _UnlockChoice.publishFree:
+            keep = keep.take(freePlaceLimit).toList();
+          case _UnlockChoice.cancel:
+            return;
+        }
+      case PublishBlock.none:
+        break;
+    }
+
+    final places = keep
+        .map((p) => GuidePlace(id: p.match.id, name: p.match.name))
+        .toList();
+
+    // A single place goes to its own card, where "Add to Guide" can append it to
+    // a guide that already exists. Several can only become a new guide, because
+    // Apple Maps cannot merge them — so that is the only case worth naming.
+    final String url;
+    if (places.length == 1) {
+      url = buildPlaceLink(places.single.id);
+    } else {
+      final name = await _askGuideName(places.length);
+      if (name == null) return;
+      url = buildGuideLinks(name, places).first;
+    }
 
     if (!await launchUrl(
       Uri.parse(url),
@@ -127,8 +291,9 @@ class _CapturePageState extends State<CapturePage> {
   @override
   Widget build(BuildContext context) {
     final keeping = _pending.where((p) => p.keep).length;
+    final over = _entitlement.overBy(keeping);
     return Scaffold(
-      appBar: AppBar(title: const Text('Little Bird')),
+      appBar: AppBar(title: const Text('Wren')),
       body: Column(
         children: [
           if (_status != null)
@@ -136,6 +301,16 @@ class _CapturePageState extends State<CapturePage> {
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
               child: Text(
                 _status!,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ),
+          if (over > 0)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+              child: Text(
+                '$over over the free limit of $freePlaceLimit — '
+                'you will be asked to unlock, or you can save the first '
+                '$freePlaceLimit.',
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
@@ -193,6 +368,8 @@ class _CapturePageState extends State<CapturePage> {
   }
 }
 
+enum _UnlockChoice { buy, restore, publishFree, cancel }
+
 class _Empty extends StatelessWidget {
   const _Empty();
   @override
@@ -209,7 +386,7 @@ class _Empty extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'Screenshot the places in a reel, then add them here.',
+            'Screenshot the places people tell you about, then add them here.',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium,
           ),

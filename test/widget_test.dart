@@ -6,7 +6,7 @@ void main() {
   testWidgets('opens on the empty state with publishing disabled', (
     tester,
   ) async {
-    await tester.pumpWidget(const LittleBirdApp());
+    await tester.pumpWidget(const WrenApp());
 
     expect(find.textContaining('Screenshot the places'), findsOneWidget);
     expect(find.text('Add screenshots'), findsOneWidget);
@@ -24,7 +24,7 @@ void main() {
   testWidgets('warns that guides cannot be merged', (tester) async {
     // The user has to understand this before they publish, not after they end
     // up with four guides called the same thing.
-    await tester.pumpWidget(const LittleBirdApp());
+    await tester.pumpWidget(const WrenApp());
     expect(find.textContaining('cannot merge guides'), findsOneWidget);
   });
 }

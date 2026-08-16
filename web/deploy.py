@@ -17,7 +17,7 @@ import json, os, sys, pathlib, keyring, requests
 HOST = "box5192.bluehost.com"
 PORT = 2083
 USER = "spencgh6"
-DOCROOT = f"/home2/{USER}/littlebird.spencerfields.com"
+DOCROOT = f"/home2/{USER}/wren.spencerfields.com"
 WEB = pathlib.Path(__file__).parent
 
 def token():
@@ -73,5 +73,5 @@ for p in targets:
     print(f"uploaded {p.name}  ({size:,} bytes)")
 
 print(f"\ndeployed to {DOCROOT}")
-print("verify at https://littlebird.spencerfields.com/ — a 200 from the API is")
+print("verify at https://wren.spencerfields.com/ — a 200 from the API is")
 print("not proof the page is live, so always fetch it back.")
