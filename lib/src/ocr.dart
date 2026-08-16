@@ -36,7 +36,13 @@ class TextLine {
 
 class OcrUnavailable implements Exception {
   final String message;
-  OcrUnavailable(this.message);
+
+  /// True when there is no Vision framework at all, rather than a failure
+  /// inside it. The UI replaces the message with a translated one; a message
+  /// that came back from the OS is shown as the OS worded it.
+  final bool unsupported;
+
+  OcrUnavailable(this.message, {this.unsupported = false});
   @override
   String toString() => 'OcrUnavailable: $message';
 }
@@ -60,6 +66,7 @@ class Ocr {
     } on MissingPluginException {
       throw OcrUnavailable(
         'no OCR on this platform — run on an iOS device or simulator',
+        unsupported: true,
       );
     } on PlatformException catch (e) {
       throw OcrUnavailable(e.message ?? e.code);

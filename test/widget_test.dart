@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wren/main.dart';
 import 'package:wren/src/splash.dart';
-import 'package:wren/src/theme.dart';
 import 'package:wren/src/wren_mark.dart';
 
-Widget app(Widget home) => MaterialApp(theme: Wren.theme, home: home);
+import 'harness.dart';
 
 void main() {
   group('empty state', () {

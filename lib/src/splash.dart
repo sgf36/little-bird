@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
+import '../l10n/app_localizations.dart';
 import 'theme.dart';
 import 'wren_mark.dart';
 
@@ -189,14 +190,20 @@ class _SplashGateState extends State<SplashGate>
                   const SizedBox(height: 6),
                   Opacity(
                     opacity: _wordIn.value * 0.85,
-                    child: const Text(
-                      'A little bird told me.',
-                      style: TextStyle(
-                        fontFamily: Wren.serif,
-                        fontStyle: FontStyle.italic,
-                        fontSize: 15,
-                        color: Wren.gold,
-                        decoration: TextDecoration.none,
+                    child: Padding(
+                      // The idiom is short in English and long in several other
+                      // languages, so it is given room rather than clipped.
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
+                      child: Text(
+                        L.of(context).tagline,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontFamily: Wren.serif,
+                          fontStyle: FontStyle.italic,
+                          fontSize: 15,
+                          color: Wren.gold,
+                          decoration: TextDecoration.none,
+                        ),
                       ),
                     ),
                   ),

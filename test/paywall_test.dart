@@ -5,6 +5,8 @@ import 'package:wren/src/entitlement.dart';
 import 'package:wren/src/guide_link.dart';
 import 'package:wren/src/resolver.dart';
 
+import 'harness.dart';
+
 /// Stands in for StoreKit. Records what was asked of it so the tests can check
 /// the app did not, for instance, charge someone twice.
 class FakeStore implements UnlockStore {
@@ -44,8 +46,8 @@ Pending place(int i) => Pending(
 
 Future<void> pump(WidgetTester tester, FakeStore store, int count) async {
   await tester.pumpWidget(
-    MaterialApp(
-      home: CapturePage(
+    app(
+      CapturePage(
         store: store,
         initialPending: List.generate(count, place),
       ),

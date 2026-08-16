@@ -32,7 +32,17 @@ class PlaceMatch {
 class ResolverUnavailable implements Exception {
   final String message;
   final bool throttled;
-  ResolverUnavailable(this.message, {this.throttled = false});
+
+  /// True when there is no MapKit at all, rather than a failure inside it. The
+  /// UI replaces the message with a translated one; a message that came back
+  /// from the OS is shown as the OS worded it.
+  final bool unsupported;
+
+  ResolverUnavailable(
+    this.message, {
+    this.throttled = false,
+    this.unsupported = false,
+  });
   @override
   String toString() => 'ResolverUnavailable: $message';
 }
@@ -127,6 +137,7 @@ class MapKitResolver implements PlaceResolver {
     } on MissingPluginException {
       throw ResolverUnavailable(
         'place lookup needs iOS — there is no implementation on this platform',
+        unsupported: true,
       );
     } on PlatformException catch (e) {
       throw ResolverUnavailable(

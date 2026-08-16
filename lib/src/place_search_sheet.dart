@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import 'resolver.dart';
 import 'theme.dart';
 
@@ -95,10 +96,13 @@ class _PlaceSearchSheetState extends State<PlaceSearchSheet> {
       });
     } on ResolverUnavailable catch (e) {
       if (!mounted || mine != _generation) return;
+      final l = L.of(context);
       setState(() {
         _searching = false;
         _error = e.throttled
-            ? 'Apple Maps is rate-limiting lookups. Pause a moment and try again.'
+            ? l.rateLimited
+            : e.unsupported
+            ? l.lookupUnavailable
             : e.message;
       });
     }
@@ -106,6 +110,7 @@ class _PlaceSearchSheetState extends State<PlaceSearchSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l = L.of(context);
     final t = Theme.of(context).textTheme;
     final insets = MediaQuery.viewInsetsOf(context).bottom;
 
@@ -123,7 +128,7 @@ class _PlaceSearchSheetState extends State<PlaceSearchSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Find this place', style: t.headlineMedium),
+                  Text(l.findThisPlace, style: t.headlineMedium),
                   const SizedBox(height: 8),
                   Row(
                     children: [
@@ -134,10 +139,7 @@ class _PlaceSearchSheetState extends State<PlaceSearchSheet> {
                       ),
                       const SizedBox(width: 6),
                       Expanded(
-                        child: Text(
-                          'read as “${widget.readAs}”',
-                          style: t.bodySmall,
-                        ),
+                        child: Text(l.readAs(widget.readAs), style: t.bodySmall),
                       ),
                     ],
                   ),
@@ -150,8 +152,8 @@ class _PlaceSearchSheetState extends State<PlaceSearchSheet> {
                     onSubmitted: _search,
                     decoration: InputDecoration(
                       labelText: widget.region == null
-                          ? 'Search Apple Maps'
-                          : 'Search in ${widget.region!.name}',
+                          ? l.searchAppleMaps
+                          : l.searchInRegion(widget.region!.name),
                       suffixIcon: _searching
                           ? const Padding(
                               padding: EdgeInsets.all(14),
@@ -180,10 +182,10 @@ class _PlaceSearchSheetState extends State<PlaceSearchSheet> {
                   : _results.isEmpty
                   ? _Message(
                       text: _searching
-                          ? 'Searching…'
+                          ? l.searching
                           : _controller.text.trim().length < 2
-                          ? 'Type at least two characters.'
-                          : 'Nothing found. Try the street, or a shorter name.',
+                          ? l.typeTwoCharacters
+                          : l.nothingFound,
                       tone: Wren.muted,
                     )
                   : ListView.separated(

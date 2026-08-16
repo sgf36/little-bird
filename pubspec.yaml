@@ -38,6 +38,9 @@ dependencies:
   url_launcher: ^6.3.2
   in_app_purchase: ^3.3.0
   shared_preferences: ^2.5.5
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +64,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  # Runs flutter gen-l10n on every build, so a new string never ships missing.
+  generate: true
 
   # To add assets to your application, add an assets section, like this:
   # assets:

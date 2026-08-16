@@ -1,0 +1,15 @@
+# Wren speaks every language the App Store does — fifty of them.
+#
+# The English file is the template: add a string there first, with a
+# description, then translate. `flutter gen-l10n` runs automatically as part of
+# `flutter run` and `flutter build` because generate: true is set in pubspec.
+arb-dir: lib/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
+output-class: L
+nullable-getter: false
+
+# A missing translation falls back to English rather than showing a key or
+# crashing. Untranslated strings are listed in the file below at build time so
+# gaps are visible rather than silent.
+untranslated-messages-file: lib/l10n/untranslated.json

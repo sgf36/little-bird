@@ -3,8 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:wren/main.dart';
 import 'package:wren/src/guide_link.dart';
 import 'package:wren/src/resolver.dart';
-import 'package:wren/src/theme.dart';
 
+import 'harness.dart';
 import 'paywall_test.dart' show FakeStore;
 
 PlaceMatch match(String name, String hex) => PlaceMatch(
@@ -37,9 +37,8 @@ Future<void> pump(
   PlaceResolver? resolver,
 }) async {
   await tester.pumpWidget(
-    MaterialApp(
-      theme: Wren.theme,
-      home: CapturePage(
+    app(
+      CapturePage(
         store: FakeStore(),
         resolver: resolver ?? FakeResolver(),
         initialPending: pending,

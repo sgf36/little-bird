@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'l10n/app_localizations.dart';
 import 'src/entitlement.dart';
 import 'src/guide_link.dart';
 import 'src/ocr.dart';
@@ -21,9 +22,14 @@ class WrenApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
+    // Not translated. It is the app's name, and it is a bird.
     title: 'Wren',
     debugShowCheckedModeBanner: false,
     theme: Wren.theme,
+    // Both lists come from the generated class, so adding an .arb file is the
+    // whole of adding a language — there is no second place to keep in step.
+    localizationsDelegates: L.localizationsDelegates,
+    supportedLocales: L.supportedLocales,
     home: const SplashGate(child: CapturePage()),
   );
 }
@@ -104,31 +110,32 @@ class _CapturePageState extends State<CapturePage> {
   /// builds without a review code compiled in do not have it at all.
   Future<void> _reviewUnlock() async {
     if (!review.available || _entitlement.unlimited) return;
+    final l = L.of(context);
     final controller = TextEditingController();
     final entered = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text(
-          'Reviewer access',
-          style: TextStyle(fontFamily: Wren.serif),
+        title: Text(
+          l.reviewerAccess,
+          style: const TextStyle(fontFamily: Wren.serif),
         ),
         content: TextField(
           controller: controller,
           autofocus: true,
           autocorrect: false,
           enableSuggestions: false,
-          decoration: const InputDecoration(labelText: 'Code'),
+          decoration: InputDecoration(labelText: l.code),
           onSubmitted: (v) => Navigator.pop(context, v),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel', style: TextStyle(color: Wren.muted)),
+            child: Text(l.cancel, style: const TextStyle(color: Wren.muted)),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, controller.text),
             style: FilledButton.styleFrom(minimumSize: const Size(0, 44)),
-            child: const Text('Unlock'),
+            child: Text(l.unlock),
           ),
         ],
       ),
@@ -140,23 +147,24 @@ class _CapturePageState extends State<CapturePage> {
       if (!mounted) return;
       setState(() {
         _entitlement = const Entitlement.unlocked();
-        _status = 'Reviewer access enabled.';
+        _status = l.reviewerEnabled;
       });
     } else {
-      setState(() => _status = 'That code was not recognised.');
+      setState(() => _status = l.codeNotRecognised);
     }
   }
 
   Future<void> _restoreFromMenu() async {
-    setState(() => _status = 'Checking your Apple Account…');
+    final l = L.of(context);
+    setState(() => _status = l.checkingAppleAccount);
     final ok = await _store.restore();
     if (!mounted) return;
     setState(() {
       if (ok) {
         _entitlement = const Entitlement.unlocked();
-        _status = 'Restored. Guides of any size are unlocked.';
+        _status = l.restoredUnlocked;
       } else {
-        _status = 'No previous purchase found on this Apple Account.';
+        _status = l.noPreviousPurchase;
       }
     });
   }
@@ -167,23 +175,21 @@ class _CapturePageState extends State<CapturePage> {
   /// it drags every lookup toward the wrong city and each result comes back
   /// looking perfectly valid — and the caption is not always there to read.
   Future<Region?> _confirmRegion(String? detected) async {
+    final l = L.of(context);
     final controller = TextEditingController(text: detected ?? '');
     final answer = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text(
-          'Where are these places?',
-          style: TextStyle(fontFamily: Wren.serif),
+        title: Text(
+          l.whereAreThesePlaces,
+          style: const TextStyle(fontFamily: Wren.serif),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              detected == null
-                  ? 'Nothing in the screenshots said where these are. A city '
-                        'makes the search far more accurate.'
-                  : 'Read from the captions. Change it if that is wrong.',
+              detected == null ? l.regionNotDetected : l.regionDetected,
               style: Theme.of(context).textTheme.bodySmall,
             ),
             const SizedBox(height: 16),
@@ -191,9 +197,9 @@ class _CapturePageState extends State<CapturePage> {
               controller: controller,
               autofocus: true,
               textCapitalization: TextCapitalization.words,
-              decoration: const InputDecoration(
-                labelText: 'City or region',
-                hintText: 'e.g. London',
+              decoration: InputDecoration(
+                labelText: l.cityOrRegion,
+                hintText: l.cityExample,
               ),
               onSubmitted: (v) => Navigator.pop(context, v.trim()),
             ),
@@ -202,15 +208,15 @@ class _CapturePageState extends State<CapturePage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, ''),
-            child: const Text(
-              'Search anywhere',
-              style: TextStyle(color: Wren.muted),
+            child: Text(
+              l.searchAnywhere,
+              style: const TextStyle(color: Wren.muted),
             ),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, controller.text.trim()),
             style: FilledButton.styleFrom(minimumSize: const Size(0, 44)),
-            child: const Text('Find places'),
+            child: Text(l.findPlaces),
           ),
         ],
       ),
@@ -221,6 +227,7 @@ class _CapturePageState extends State<CapturePage> {
   }
 
   Future<void> _importScreenshots() async {
+    final l = L.of(context);
     setState(() {
       _busy = true;
       _status = null;
@@ -261,7 +268,7 @@ class _CapturePageState extends State<CapturePage> {
       if (readings.isEmpty) {
         setState(() {
           _busy = false;
-          _status = 'Nothing readable in ${files.length} screenshots';
+          _status = l.nothingReadable(files.length);
         });
         return;
       }
@@ -290,8 +297,9 @@ class _CapturePageState extends State<CapturePage> {
           setState(() {
             _busy = false;
             _status = e.throttled
-                ? 'Apple Maps is rate-limiting lookups — added $added so far, '
-                      'try the rest in a moment.'
+                ? l.rateLimitedDuringImport(added)
+                : e.unsupported
+                ? l.lookupUnavailable
                 : e.message;
           });
           return;
@@ -314,16 +322,16 @@ class _CapturePageState extends State<CapturePage> {
       setState(() {
         _busy = false;
         _status = [
-          '$added found',
-          if (region != null) 'in ${region.name}',
-          if (unmatched > 0) '· $unmatched need a look',
-          if (unread > 0) '· $unread unreadable',
+          l.importSummary(added),
+          if (region != null) l.importSummaryIn(region.name),
+          if (unmatched > 0) '· ${l.importSummaryNeedLook(unmatched)}',
+          if (unread > 0) '· ${l.importSummaryUnreadable(unread)}',
         ].join(' ');
       });
     } on OcrUnavailable catch (e) {
       setState(() {
         _busy = false;
-        _status = e.message;
+        _status = e.unsupported ? l.ocrUnavailable : e.message;
       });
     } catch (e) {
       setState(() {
@@ -334,21 +342,21 @@ class _CapturePageState extends State<CapturePage> {
   }
 
   Future<String?> _askGuideName(int count) async {
+    final l = L.of(context);
     final controller = TextEditingController();
     return showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text(
-          'Name this guide',
-          style: TextStyle(fontFamily: Wren.serif),
+        title: Text(
+          l.nameThisGuide,
+          style: const TextStyle(fontFamily: Wren.serif),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'It will appear under this name in Apple Maps, with '
-              '$count ${count == 1 ? 'place' : 'places'} in it.',
+              l.nameThisGuideBody(count),
               style: Theme.of(context).textTheme.bodySmall,
             ),
             const SizedBox(height: 16),
@@ -357,9 +365,9 @@ class _CapturePageState extends State<CapturePage> {
               autofocus: true,
               maxLength: 60,
               textCapitalization: TextCapitalization.words,
-              decoration: const InputDecoration(
-                labelText: 'Guide name',
-                hintText: 'e.g. Rome, October',
+              decoration: InputDecoration(
+                labelText: l.guideName,
+                hintText: l.guideNameExample,
               ),
               onSubmitted: (v) {
                 if (v.trim().isNotEmpty) Navigator.pop(context, v.trim());
@@ -370,7 +378,7 @@ class _CapturePageState extends State<CapturePage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel', style: TextStyle(color: Wren.muted)),
+            child: Text(l.cancel, style: const TextStyle(color: Wren.muted)),
           ),
           FilledButton(
             onPressed: () {
@@ -378,7 +386,7 @@ class _CapturePageState extends State<CapturePage> {
               if (name.isNotEmpty) Navigator.pop(context, name);
             },
             style: FilledButton.styleFrom(minimumSize: const Size(0, 44)),
-            child: const Text('Create guide'),
+            child: Text(l.createGuide),
           ),
         ],
       ),
@@ -386,6 +394,7 @@ class _CapturePageState extends State<CapturePage> {
   }
 
   Future<_UnlockChoice> _offerUnlock(int selected) async {
+    final l = L.of(context);
     final price = await _store.price() ?? unlimitedFallbackPrice;
     if (!mounted) return _UnlockChoice.cancel;
     final over = _entitlement.overBy(selected);
@@ -403,39 +412,40 @@ class _CapturePageState extends State<CapturePage> {
               const WrenMark(size: 44),
               const SizedBox(height: 16),
               Text(
-                'Guides of any size',
+                l.guidesOfAnySize,
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               const SizedBox(height: 10),
               Text(
-                'Wren saves up to $freePlaceLimit places in a guide for free. '
-                'You have $selected selected — $over more than that.',
+                l.unlockExplain(freePlaceLimit, selected, over),
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 6),
               Text(
-                'One payment, kept for good. No subscription.',
+                l.onePaymentKept,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               const SizedBox(height: 22),
               FilledButton(
                 onPressed: () => Navigator.pop(context, _UnlockChoice.buy),
-                child: Text('Unlock for $price'),
+                // The price string comes from StoreKit already formatted for
+                // the storefront, so it is never reformatted here.
+                child: Text(l.unlockFor(price)),
               ),
               const SizedBox(height: 10),
               OutlinedButton(
                 onPressed: () =>
                     Navigator.pop(context, _UnlockChoice.publishFree),
-                child: Text('Save the first $freePlaceLimit instead'),
+                child: Text(l.saveFirstInstead(freePlaceLimit)),
               ),
               const SizedBox(height: 2),
               Center(
                 child: TextButton(
                   onPressed: () =>
                       Navigator.pop(context, _UnlockChoice.restore),
-                  child: const Text(
-                    'Restore a previous purchase',
-                    style: TextStyle(color: Wren.muted),
+                  child: Text(
+                    l.restorePrevious,
+                    style: const TextStyle(color: Wren.muted),
                   ),
                 ),
               ),
@@ -450,6 +460,7 @@ class _CapturePageState extends State<CapturePage> {
   /// Opens the lookup for a row — to correct a wrong match, or to find one that
   /// was never made.
   Future<void> _editPlace(int index) async {
+    final l = L.of(context);
     final p = _pending[index];
     final chosen = await showModalBottomSheet<PlaceMatch>(
       context: context,
@@ -471,12 +482,13 @@ class _CapturePageState extends State<CapturePage> {
       p.match = chosen;
       p.keep = true;
       if (duplicate >= 0) {
-        _status = '${chosen.name} was already in the list.';
+        _status = l.alreadyInTheList(chosen.name);
       }
     });
   }
 
   Future<void> _publish() async {
+    final l = L.of(context);
     var keep = _pending.where((p) => p.publishable).toList();
     if (keep.isEmpty) return;
 
@@ -489,20 +501,14 @@ class _CapturePageState extends State<CapturePage> {
             if (await _store.buy()) {
               setState(() => _entitlement = const Entitlement.unlocked());
             } else {
-              setState(
-                () => _status =
-                    'The purchase did not complete, so nothing was charged.',
-              );
+              setState(() => _status = l.purchaseDidNotComplete);
               return;
             }
           case _UnlockChoice.restore:
             if (await _store.restore()) {
               setState(() => _entitlement = const Entitlement.unlocked());
             } else {
-              setState(
-                () => _status =
-                    'No previous purchase found on this Apple Account.',
-              );
+              setState(() => _status = l.noPreviousPurchase);
               return;
             }
           case _UnlockChoice.publishFree:
@@ -532,12 +538,13 @@ class _CapturePageState extends State<CapturePage> {
       Uri.parse(url),
       mode: LaunchMode.externalApplication,
     )) {
-      setState(() => _status = 'Could not open Maps');
+      setState(() => _status = l.couldNotOpenMaps);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l = L.of(context);
     final keeping = _pending.where((p) => p.publishable).length;
     final unresolved = _pending.where((p) => !p.resolved).length;
     final over = _entitlement.overBy(keeping);
@@ -568,10 +575,10 @@ class _CapturePageState extends State<CapturePage> {
               onSelected: (v) {
                 if (v == 'restore') _restoreFromMenu();
               },
-              itemBuilder: (context) => const [
+              itemBuilder: (context) => [
                 PopupMenuItem(
                   value: 'restore',
-                  child: Text('Restore purchase'),
+                  child: Text(l.restorePurchase),
                 ),
               ],
             ),
@@ -584,7 +591,7 @@ class _CapturePageState extends State<CapturePage> {
             _Banner(
               accent: Wren.gold,
               child: Text(
-                'Reading $_readCount of $_totalCount…',
+                l.readingProgress(_readCount, _totalCount),
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
@@ -605,7 +612,7 @@ class _CapturePageState extends State<CapturePage> {
                   const SizedBox(width: 6),
                   Expanded(
                     child: Text(
-                      'Searched in ${_region!.label}',
+                      l.searchedIn(_region!.label),
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
@@ -616,8 +623,7 @@ class _CapturePageState extends State<CapturePage> {
             _Banner(
               accent: Wren.clay,
               child: Text(
-                '$unresolved ${unresolved == 1 ? 'place was' : 'places were'} '
-                'not found. Tap to search for them.',
+                l.notFoundBanner(unresolved),
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
@@ -625,8 +631,7 @@ class _CapturePageState extends State<CapturePage> {
             _Banner(
               accent: Wren.clay,
               child: Text(
-                '$over over the free limit of $freePlaceLimit. '
-                'You can unlock, or save the first $freePlaceLimit.',
+                l.overFreeLimit(over, freePlaceLimit),
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
@@ -658,7 +663,9 @@ class _CapturePageState extends State<CapturePage> {
                         Icons.add_photo_alternate_outlined,
                         size: 20,
                       ),
-                      label: Text(_busy ? 'Reading…' : 'Add screenshots'),
+                      label: Text(
+                        _busy ? l.readingShort : l.addScreenshots,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -667,9 +674,7 @@ class _CapturePageState extends State<CapturePage> {
                       onPressed: keeping == 0 ? null : _publish,
                       icon: const Icon(Icons.map_outlined, size: 20),
                       label: Text(
-                        keeping == 1
-                            ? 'Add to a guide'
-                            : 'Make a guide ($keeping)',
+                        keeping == 1 ? l.addToGuide : l.makeGuide(keeping),
                       ),
                     ),
                   ),
@@ -717,6 +722,7 @@ class _PlaceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = L.of(context);
     final t = Theme.of(context).textTheme;
     final match = pending.match;
     final resolved = match != null;
@@ -761,17 +767,19 @@ class _PlaceCard extends StatelessWidget {
                               color: Wren.clay,
                             ),
                             const SizedBox(width: 6),
-                            Text(
-                              'Not found on the map',
-                              style: t.titleMedium?.copyWith(
-                                fontSize: 16,
-                                color: Wren.clay,
+                            Expanded(
+                              child: Text(
+                                l.notFoundOnMap,
+                                style: t.titleMedium?.copyWith(
+                                  fontSize: 16,
+                                  color: Wren.clay,
+                                ),
                               ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 3),
-                        Text('Tap to search for it', style: t.bodySmall),
+                        Text(l.tapToSearchForIt, style: t.bodySmall),
                       ],
                       // Always shown, matched or not. It is what the screenshot
                       // said, and the only way to tell a right match from a
@@ -788,7 +796,7 @@ class _PlaceCard extends StatelessWidget {
                           const SizedBox(width: 5),
                           Expanded(
                             child: Text(
-                              'read as “${pending.readAs}”',
+                              l.readAs(pending.readAs),
                               style: t.bodySmall?.copyWith(fontSize: 12.5),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
@@ -804,7 +812,7 @@ class _PlaceCard extends StatelessWidget {
                 else
                   IconButton(
                     icon: const Icon(Icons.search, color: Wren.clay),
-                    tooltip: 'Search Apple Maps',
+                    tooltip: l.searchAppleMaps,
                     onPressed: onEdit,
                   ),
               ],
@@ -821,9 +829,10 @@ class _Empty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = L.of(context);
     final t = Theme.of(context).textTheme;
     return Center(
-      child: Padding(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(36, 0, 36, 60),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -831,22 +840,19 @@ class _Empty extends StatelessWidget {
             const WrenMark(size: 92),
             const SizedBox(height: 26),
             Text(
-              'Places, kept.',
+              l.emptyTitle,
               style: t.headlineMedium,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),
             Text(
-              'Screenshot what people tell you about — a reel, a post, '
-              'a message, a page of a guidebook. Wren reads the names and '
-              'puts them in Apple Maps.',
+              l.emptyBody,
               style: t.bodyMedium,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 18),
             Text(
-              'One place joins a guide you already have. '
-              'Several become a new one — Apple Maps cannot merge guides.',
+              l.emptyNote,
               style: t.bodySmall,
               textAlign: TextAlign.center,
             ),

@@ -1,0 +1,206 @@
+{
+  "@@locale": "en",
+
+  "tagline": "A little bird told me.",
+  "@tagline": {
+    "description": "Shown under the app name on the opening screen. An English idiom meaning 'somebody told me, and I am not saying who'. Translate the sense, not the words — the app is named after the bird in that saying. If no equivalent idiom exists, something like 'somebody told me about it' is right."
+  },
+
+  "emptyTitle": "Places, kept.",
+  "@emptyTitle": {
+    "description": "Headline on the empty main screen. Two words, deliberately terse: the app keeps places for you."
+  },
+  "emptyBody": "Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and puts them in Apple Maps.",
+  "@emptyBody": {
+    "description": "Explains the app on the empty screen. 'Wren' is the app name and is never translated. 'Reel' means a short social video."
+  },
+  "emptyNote": "One place joins a guide you already have. Several become a new one — Apple Maps cannot merge guides.",
+  "@emptyNote": {
+    "description": "A limitation of Apple Maps, stated up front. 'Guide' is Apple's own feature name — use whatever Apple Maps calls it in this language."
+  },
+
+  "addScreenshots": "Add screenshots",
+  "@addScreenshots": { "description": "Button. Opens the photo picker." },
+  "readingShort": "Reading…",
+  "@readingShort": { "description": "Button label while text recognition is running." },
+  "readingProgress": "Reading {done} of {total}…",
+  "@readingProgress": {
+    "description": "Progress while reading screenshots.",
+    "placeholders": { "done": { "type": "int" }, "total": { "type": "int" } }
+  },
+  "addToGuide": "Add to a guide",
+  "@addToGuide": {
+    "description": "Button shown when exactly one place is selected. It opens that place in Apple Maps, where the user can add it to a guide they already have."
+  },
+  "makeGuide": "Make a guide ({count})",
+  "@makeGuide": {
+    "description": "Button that creates a new guide containing the selected places.",
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "notFoundOnMap": "Not found on the map",
+  "@notFoundOnMap": { "description": "Title of a place Apple Maps could not identify." },
+  "tapToSearchForIt": "Tap to search for it",
+  "@tapToSearchForIt": { "description": "Prompt under an unidentified place." },
+  "readAs": "read as “{text}”",
+  "@readAs": {
+    "description": "Shows the exact text that was read from the screenshot, so the user can tell a correct match from a confident wrong one. Keep the quotation marks in the style of the target language.",
+    "placeholders": { "text": { "type": "String" } }
+  },
+  "notFoundBanner": "{count, plural, =1{1 place was not found. Tap to search for it.} other{{count} places were not found. Tap to search for them.}}",
+  "@notFoundBanner": {
+    "description": "Banner counting places that could not be identified.",
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "whereAreThesePlaces": "Where are these places?",
+  "@whereAreThesePlaces": { "description": "Title of the dialog asking which city the batch is in." },
+  "regionDetected": "Read from the captions. Change it if that is wrong.",
+  "@regionDetected": { "description": "Shown when a city was found in the screenshot text." },
+  "regionNotDetected": "Nothing in the screenshots said where these are. A city makes the search far more accurate.",
+  "@regionNotDetected": { "description": "Shown when no city could be found in the screenshot text." },
+  "cityOrRegion": "City or region",
+  "@cityOrRegion": { "description": "Text field label." },
+  "cityExample": "e.g. London",
+  "@cityExample": {
+    "description": "Placeholder example in the city field. Replace London with a well-known city in the target language's main market."
+  },
+  "searchAnywhere": "Search anywhere",
+  "@searchAnywhere": { "description": "Button. Proceeds without narrowing the search to a city." },
+  "findPlaces": "Find places",
+  "@findPlaces": { "description": "Confirming button on the city dialog." },
+  "searchedIn": "Searched in {region}",
+  "@searchedIn": {
+    "description": "Banner showing which place the search was centred on.",
+    "placeholders": { "region": { "type": "String" } }
+  },
+
+  "nameThisGuide": "Name this guide",
+  "@nameThisGuide": { "description": "Title of the dialog asking what to call the guide." },
+  "nameThisGuideBody": "{count, plural, =1{It will appear under this name in Apple Maps, with 1 place in it.} other{It will appear under this name in Apple Maps, with {count} places in it.}}",
+  "@nameThisGuideBody": {
+    "description": "Explains where the name will be seen.",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "guideName": "Guide name",
+  "@guideName": { "description": "Text field label." },
+  "guideNameExample": "e.g. Rome, October",
+  "@guideNameExample": {
+    "description": "Placeholder example for a guide name: a city and a month. Use a city and month natural in the target language."
+  },
+  "createGuide": "Create guide",
+  "@createGuide": { "description": "Confirming button." },
+  "cancel": "Cancel",
+  "@cancel": { "description": "Dismisses a dialog without acting." },
+
+  "guidesOfAnySize": "Guides of any size",
+  "@guidesOfAnySize": { "description": "Title of the purchase sheet, and the name of the in-app purchase." },
+  "unlockExplain": "Wren saves up to {limit} places in a guide for free. You have {selected} selected — {over} more than that.",
+  "@unlockExplain": {
+    "description": "Explains why the purchase is being offered.",
+    "placeholders": {
+      "limit": { "type": "int" }, "selected": { "type": "int" }, "over": { "type": "int" }
+    }
+  },
+  "onePaymentKept": "One payment, kept for good. No subscription.",
+  "@onePaymentKept": { "description": "Reassurance that nothing recurs." },
+  "unlockFor": "Unlock for {price}",
+  "@unlockFor": {
+    "description": "Purchase button. The price comes from the App Store already formatted for the user's country — never reformat it.",
+    "placeholders": { "price": { "type": "String" } }
+  },
+  "saveFirstInstead": "Save the first {limit} instead",
+  "@saveFirstInstead": {
+    "description": "Button that proceeds with only the free allowance rather than buying.",
+    "placeholders": { "limit": { "type": "int" } }
+  },
+  "restorePrevious": "Restore a previous purchase",
+  "@restorePrevious": { "description": "Link on the purchase sheet." },
+  "restorePurchase": "Restore purchase",
+  "@restorePurchase": { "description": "Menu item in the top-right." },
+  "overFreeLimit": "{over} over the free limit of {limit}. You can unlock, or save the first {limit}.",
+  "@overFreeLimit": {
+    "description": "Banner when more places are selected than the free allowance.",
+    "placeholders": { "over": { "type": "int" }, "limit": { "type": "int" } }
+  },
+
+  "findThisPlace": "Find this place",
+  "@findThisPlace": { "description": "Title of the search sheet." },
+  "searchAppleMaps": "Search Apple Maps",
+  "@searchAppleMaps": { "description": "Search field label when no city is set." },
+  "searchInRegion": "Search in {region}",
+  "@searchInRegion": {
+    "description": "Search field label when a city is set.",
+    "placeholders": { "region": { "type": "String" } }
+  },
+  "searching": "Searching…",
+  "@searching": { "description": "Shown while a search is running." },
+  "typeTwoCharacters": "Type at least two characters.",
+  "@typeTwoCharacters": { "description": "Shown when the search box is nearly empty." },
+  "nothingFound": "Nothing found. Try the street, or a shorter name.",
+  "@nothingFound": { "description": "Shown when a search returns no places." },
+  "rateLimited": "Apple Maps is rate-limiting lookups. Pause a moment and try again.",
+  "@rateLimited": { "description": "Apple has temporarily refused further searches." },
+  "rateLimitedDuringImport": "Apple Maps is rate-limiting lookups — added {added} so far, try the rest in a moment.",
+  "@rateLimitedDuringImport": {
+    "description": "Apple refused further searches part-way through a batch.",
+    "placeholders": { "added": { "type": "int" } }
+  },
+
+  "importSummary": "{found} found",
+  "@importSummary": {
+    "description": "How many places were identified from the screenshots.",
+    "placeholders": { "found": { "type": "int" } }
+  },
+  "importSummaryIn": "in {region}",
+  "@importSummaryIn": {
+    "description": "Appended to the summary. Reads as '12 found in London'.",
+    "placeholders": { "region": { "type": "String" } }
+  },
+  "importSummaryNeedLook": "{count} need a look",
+  "@importSummaryNeedLook": {
+    "description": "Appended to the summary, counting places that were not identified.",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "importSummaryUnreadable": "{count} unreadable",
+  "@importSummaryUnreadable": {
+    "description": "Appended to the summary, counting screenshots with no readable text.",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "nothingReadable": "Nothing readable in {count} screenshots",
+  "@nothingReadable": {
+    "description": "Shown when no screenshot yielded any text.",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "couldNotOpenMaps": "Could not open Maps",
+  "@couldNotOpenMaps": { "description": "Opening the Apple Maps link failed." },
+  "checkingAppleAccount": "Checking your Apple Account…",
+  "@checkingAppleAccount": { "description": "Shown while restoring a purchase." },
+  "restoredUnlocked": "Restored. Guides of any size are unlocked.",
+  "@restoredUnlocked": { "description": "A previous purchase was found." },
+  "noPreviousPurchase": "No previous purchase found on this Apple Account.",
+  "@noPreviousPurchase": { "description": "Nothing to restore." },
+  "purchaseDidNotComplete": "The purchase did not complete, so nothing was charged.",
+  "@purchaseDidNotComplete": { "description": "The payment sheet was cancelled or failed." },
+  "alreadyInTheList": "{name} was already in the list.",
+  "@alreadyInTheList": {
+    "description": "The chosen place duplicates one already added.",
+    "placeholders": { "name": { "type": "String" } }
+  },
+
+  "ocrUnavailable": "Reading screenshots needs an iPhone — there is no text recognition on this platform.",
+  "@ocrUnavailable": { "description": "Shown if the app runs somewhere without Apple's Vision framework." },
+  "lookupUnavailable": "Place lookup needs an iPhone — there is no map search on this platform.",
+  "@lookupUnavailable": { "description": "Shown if the app runs somewhere without MapKit." },
+
+  "reviewerAccess": "Reviewer access",
+  "@reviewerAccess": { "description": "Title of the hidden dialog used by App Review and the developer." },
+  "code": "Code",
+  "@code": { "description": "Text field label for the reviewer code." },
+  "unlock": "Unlock",
+  "@unlock": { "description": "Confirming button on the reviewer dialog." },
+  "reviewerEnabled": "Reviewer access enabled.",
+  "@reviewerEnabled": { "description": "The reviewer code was accepted." },
+  "codeNotRecognised": "That code was not recognised.",
+  "@codeNotRecognised": { "description": "The reviewer code was wrong." }
+}
