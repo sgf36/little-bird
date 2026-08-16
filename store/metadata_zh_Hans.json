@@ -1,4 +1,13 @@
 {
+  "_comment": [
+    "The only locale that overrides the shared name. Apple refuses \"Wren\"",
+    "here — another app already holds it in this storefront — and refuses the",
+    "whole localisation with it, so without a distinct name Simplified Chinese",
+    "readers would get the English listing. Adding a descriptor after the",
+    "wordmark is ordinary practice on the Chinese App Store."
+  ],
+
+  "name": "Wren 地点收藏",
   "subtitle": "把地方，收进地图",
 
   "promotionalText": "把别人推荐的地方截个图。Wren 读出名字，找到它们，直接放进地图的一份指南里。",

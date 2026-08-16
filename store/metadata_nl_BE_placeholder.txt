@@ -1,9 +1,0 @@
-This file is not a listing and is deliberately not JSON.
-
-App Store Connect has no nl-BE locale — Dutch is one listing, nl-NL, which
-serves Belgium as well. The same is true of several near-misses that look like
-they ought to exist: there is no en-IE, no de-AT, no fr-BE, no es-AR.
-
-The fifty locales Apple actually accepts are the fifty metadata_*.json files
-beside this one. Left here so the question is answered once rather than looked
-up again.
