@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support — Wren</title>
+<meta name="description" content="Get help with Wren. Questions about saving places to Apple Maps, purchases, or anything that is not working.">
+<meta name="theme-color" content="#12332F">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%231E4B45'/><polygon points='22,62 12,29 24,23 31,50' fill='%23F2C879'/><ellipse cx='42' cy='60' rx='23' ry='17' fill='%23F2C879'/><ellipse cx='63' cy='44' rx='12' ry='11.5' fill='%23F2C879'/><polygon points='74,42 89,46 74,48' fill='%23E08A4B'/><circle cx='67' cy='41' r='2.3' fill='%231E4B45'/></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 100 100" role="img" aria-label="Wren">
+        <rect width="100" height="100" rx="22" fill="#1E4B45"/>
+        <polygon points="22,62 12,29 24,23 31,50" fill="#F2C879"/>
+        <ellipse cx="42" cy="60" rx="23" ry="17" fill="#F2C879"/>
+        <ellipse cx="63" cy="44" rx="12" ry="11.5" fill="#F2C879"/>
+        <polygon points="74,42 89,46 74,48" fill="#E08A4B"/>
+        <circle cx="67" cy="41" r="2.3" fill="#1E4B45"/>
+      </svg>
+      Wren
+    </a>
+    <nav>
+      <a href="index.html">Overview</a>
+      <a href="support.html" aria-current="page">Support</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+    </nav>
+  </div>
+
+  <header class="hero">
+    <h1>Support</h1>
+    <p class="tagline">Talk to a person.</p>
+  </header>
+
+  <section>
+    <h2>Common things first</h2>
+
+    <h3>A place was matched to the wrong one</h3>
+    <p>Tap the place in the list. The search opens with what Apple chose already filled in, and what the screenshot actually said shown above it. Search again and pick the right one. This happens most with chains and with places that share a name in another city.</p>
+
+    <h3>A place was not found at all</h3>
+    <p>It stays in the list, outlined, with the text that was read. Tap it and search by hand — the street name often works better than the business name. Confirming the right city when Wren asks makes this much rarer.</p>
+
+    <h3>Wren asked me which city, and got it wrong</h3>
+    <p>Type over it. Wren reads the city out of the caption in the screenshots, which is usually right and occasionally is not. You can also choose to search anywhere.</p>
+
+    <h3>The guide did not appear in Apple Maps</h3>
+    <p>Guides open in the Maps app, so make sure it is installed and not restricted. Apple Maps cannot merge guides: publishing several places always creates a <em>new</em> guide rather than adding to one you already have. To add to an existing guide, publish a single place — Wren sends it to its own place card, where Maps offers "Add to Guide".</p>
+
+    <h3>I paid, and it is asking me to pay again</h3>
+    <p>Tap the menu in the top-right and choose "Restore purchase". The unlock is tied to your Apple Account, so it restores on any device signed in to it, at no further cost. If it still does not restore, write below and include the Apple Account email you bought it with.</p>
+
+    <h3>I would like a refund</h3>
+    <p>Purchases go through Apple, so refunds do too: <a href="https://reportaproblem.apple.com/">reportaproblem.apple.com</a>. Wren never receives your payment and cannot refund it directly.</p>
+  </section>
+
+  <section>
+    <h2>Write to me</h2>
+    <p>For anything not covered above. Include your iPhone model and iOS version if something is not working, and a screenshot if you can.</p>
+
+    <div class="support-grid">
+      <form method="post" action="contact.php" id="contact-form" novalidate>
+        <div class="field">
+          <label for="cf-name">Your name</label>
+          <input type="text" id="cf-name" name="name" maxlength="100" required autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="cf-email">Your email</label>
+          <input type="email" id="cf-email" name="email" maxlength="150" required autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="cf-topic">What is this about?</label>
+          <select id="cf-topic" name="topic">
+            <option>A place was matched wrongly</option>
+            <option>A place was not found</option>
+            <option>Guides and Apple Maps</option>
+            <option>Purchase or restore</option>
+            <option>Bug report</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="cf-message">Message</label>
+          <textarea id="cf-message" name="message" maxlength="4000" required></textarea>
+        </div>
+
+        <!-- Honeypot: invisible to people, irresistible to bots. Any value
+             submitted here means the sender is automated. -->
+        <div class="hp" aria-hidden="true">
+          <label for="cf-website">Leave this field empty</label>
+          <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+        <!-- Filled in by script on load. A form posted with no timestamp, or
+             submitted implausibly fast, did not come from a person. -->
+        <input type="hidden" name="ts" id="cf-ts" value="">
+
+        <button class="btn" type="submit">Send message</button>
+        <p class="form-note">Replies come from Spencer Fields, usually within one business day. Your address is used only to answer you.</p>
+        <noscript>
+          <p class="form-note">This form needs JavaScript. Without it, write to <strong>Apps [at] spencerfields [dot] com</strong>.</p>
+        </noscript>
+      </form>
+
+      <aside class="contact-card">
+        <h3>Prefer not to use a form?</h3>
+        <p>The form reaches the same inbox and is the quickest route. Direct details are here if you need them.</p>
+        <details>
+          <summary>Show email address</summary>
+          <dl>
+            <dt>Email</dt>
+            <dd data-contact="email">&nbsp;</dd>
+          </dl>
+        </details>
+        <p class="form-note">Bugs are also welcome on the <a href="https://github.com/sgf36/wren/issues">public issue tracker</a>.</p>
+      </aside>
+    </div>
+  </section>
+
+  <footer>
+    <span>Wren</span>
+    <span><a href="privacy.html">Privacy</a></span>
+    <span><a href="terms.html">Terms</a></span>
+  </footer>
+
+</div>
+
+<script>
+  // Timestamp the form so the server can reject submissions filled in faster
+  // than a person could type, and those posted without ever loading the page.
+  document.getElementById('cf-ts').value = Date.now();
+
+  // Assembled here rather than written into the HTML, so the address is not
+  // sitting in the page source for harvesters.
+  (function () {
+    var user = 'Apps', host = 'spencerfields.com';
+    var email = user + '@' + host;
+    var e = document.querySelector('[data-contact="email"]');
+    if (e) { e.innerHTML = '<a href="mai' + 'lto:' + email + '">' + email + '</a>'; }
+  })();
+</script>
+</body>
+</html>

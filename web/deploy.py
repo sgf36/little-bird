@@ -63,7 +63,7 @@ def upload(path: pathlib.Path):
     return path.stat().st_size
 
 targets = [pathlib.Path(a) for a in sys.argv[1:]] or \
-          sorted(p for p in WEB.iterdir() if p.is_file() and p.suffix in {".html", ".css", ".js", ".svg", ".png", ".ico", ".txt", ".xml"})
+          sorted(p for p in WEB.iterdir() if p.is_file() and p.suffix in {".html", ".css", ".js", ".php", ".svg", ".png", ".ico", ".txt", ".xml"})
 
 if not targets:
     sys.exit("nothing to upload")
