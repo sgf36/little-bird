@@ -1,0 +1,475 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Chinese (`zh`).
+class LZh extends L {
+  LZh([String locale = 'zh']) : super(locale);
+
+  @override
+  String get tagline => '一只小鸟告诉我的。';
+
+  @override
+  String get emptyTitle => '地方，收着。';
+
+  @override
+  String get emptyBody =>
+      '把别人推荐给你的东西截个图 — 一条 Reel、一个帖子、一条消息、旅行指南的一页。Wren 会读出名字，放进地图。';
+
+  @override
+  String get emptyNote => '单个地点会加进你已有的指南。多个地点会新建一个 — 地图无法合并指南。';
+
+  @override
+  String get addScreenshots => '添加截屏';
+
+  @override
+  String get readingShort => '读取中…';
+
+  @override
+  String readingProgress(int done, int total) {
+    return '正在读取第 $done 张，共 $total 张…';
+  }
+
+  @override
+  String get addToGuide => '添加到指南';
+
+  @override
+  String makeGuide(int count) {
+    return '创建指南（$count）';
+  }
+
+  @override
+  String get notFoundOnMap => '地图上没找到';
+
+  @override
+  String get tapToSearchForIt => '轻点以搜索';
+
+  @override
+  String readAs(String text) {
+    return '读作“$text”';
+  }
+
+  @override
+  String notFoundBanner(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '有 $count 个地点没找到。轻点以搜索。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get whereAreThesePlaces => '这些地方在哪里？';
+
+  @override
+  String get regionDetected => '从图片说明中读出。不对的话请修改。';
+
+  @override
+  String get regionNotDetected => '截屏里没有说明这些地方在哪里。填上城市，搜索会准确得多。';
+
+  @override
+  String get cityOrRegion => '城市或地区';
+
+  @override
+  String get cityExample => '例如：上海';
+
+  @override
+  String get searchAnywhere => '全球搜索';
+
+  @override
+  String get findPlaces => '查找地点';
+
+  @override
+  String searchedIn(String region) {
+    return '已在$region搜索';
+  }
+
+  @override
+  String get nameThisGuide => '给这个指南起个名字';
+
+  @override
+  String nameThisGuideBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '它会以这个名字出现在地图里，包含 $count 个地点。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get guideName => '指南名称';
+
+  @override
+  String get guideNameExample => '例如：罗马，十月';
+
+  @override
+  String get createGuide => '创建指南';
+
+  @override
+  String get cancel => '取消';
+
+  @override
+  String get guidesOfAnySize => '不限数量的指南';
+
+  @override
+  String unlockExplain(int limit, int selected, int over) {
+    return 'Wren 免费为一个指南保存最多 $limit 个地点。你选了 $selected 个，多出 $over 个。';
+  }
+
+  @override
+  String get onePaymentKept => '一次付费，永久保留。不是订阅。';
+
+  @override
+  String unlockFor(String price) {
+    return '$price 解锁';
+  }
+
+  @override
+  String saveFirstInstead(int limit) {
+    return '改为保存前 $limit 个';
+  }
+
+  @override
+  String get restorePrevious => '恢复以前的购买';
+
+  @override
+  String get restorePurchase => '恢复购买';
+
+  @override
+  String overFreeLimit(int over, int limit) {
+    return '超出免费上限 $limit 个共 $over 个。你可以解锁，也可以只保存前 $limit 个。';
+  }
+
+  @override
+  String get findThisPlace => '查找这个地点';
+
+  @override
+  String get searchAppleMaps => '在地图中搜索';
+
+  @override
+  String searchInRegion(String region) {
+    return '在$region搜索';
+  }
+
+  @override
+  String get searching => '搜索中…';
+
+  @override
+  String get typeTwoCharacters => '请至少输入两个字符。';
+
+  @override
+  String get nothingFound => '什么都没找到。试试街道名，或者更短的名字。';
+
+  @override
+  String get rateLimited => '地图正在限制搜索次数。稍等片刻再试。';
+
+  @override
+  String rateLimitedDuringImport(int added) {
+    return '地图正在限制搜索次数 — 目前已添加 $added 个，其余的稍后再试。';
+  }
+
+  @override
+  String importSummary(int found) {
+    return '找到 $found 个';
+  }
+
+  @override
+  String importSummaryIn(String region) {
+    return '（$region）';
+  }
+
+  @override
+  String importSummaryNeedLook(int count) {
+    return '$count 个需要确认';
+  }
+
+  @override
+  String importSummaryUnreadable(int count) {
+    return '$count 个无法读取';
+  }
+
+  @override
+  String nothingReadable(int count) {
+    return '$count 张截屏里没有可读的内容';
+  }
+
+  @override
+  String get couldNotOpenMaps => '无法打开地图';
+
+  @override
+  String get checkingAppleAccount => '正在检查你的 Apple 账户…';
+
+  @override
+  String get restoredUnlocked => '已恢复。不限数量的指南已解锁。';
+
+  @override
+  String get noPreviousPurchase => '这个 Apple 账户上没有找到以前的购买。';
+
+  @override
+  String get purchaseDidNotComplete => '购买没有完成，所以没有扣款。';
+
+  @override
+  String alreadyInTheList(String name) {
+    return '“$name”已经在列表里了。';
+  }
+
+  @override
+  String get ocrUnavailable => '读取截屏需要 iPhone — 这个平台上没有文字识别。';
+
+  @override
+  String get lookupUnavailable => '查找地点需要 iPhone — 这个平台上没有地图搜索。';
+
+  @override
+  String get reviewerAccess => '审核人员访问';
+
+  @override
+  String get code => '代码';
+
+  @override
+  String get unlock => '解锁';
+
+  @override
+  String get reviewerEnabled => '已开启审核人员访问。';
+
+  @override
+  String get codeNotRecognised => '无法识别这个代码。';
+}
+
+/// The translations for Chinese, using the Han script (`zh_Hant`).
+class LZhHant extends LZh {
+  LZhHant() : super('zh_Hant');
+
+  @override
+  String get tagline => '一隻小鳥告訴我的。';
+
+  @override
+  String get emptyTitle => '地方，收著。';
+
+  @override
+  String get emptyBody =>
+      '把別人推薦給你的東西截個圖 — 一則 Reel、一篇貼文、一則訊息、旅遊指南的一頁。Wren 會讀出名字，放進地圖。';
+
+  @override
+  String get emptyNote => '單一地點會加進你已有的指南。多個地點會新建一個 — 地圖無法合併指南。';
+
+  @override
+  String get addScreenshots => '加入截圖';
+
+  @override
+  String get readingShort => '讀取中…';
+
+  @override
+  String readingProgress(int done, int total) {
+    return '正在讀取第 $done 張，共 $total 張…';
+  }
+
+  @override
+  String get addToGuide => '加入指南';
+
+  @override
+  String makeGuide(int count) {
+    return '製作指南（$count）';
+  }
+
+  @override
+  String get notFoundOnMap => '地圖上找不到';
+
+  @override
+  String get tapToSearchForIt => '點一下來搜尋';
+
+  @override
+  String readAs(String text) {
+    return '讀作「$text」';
+  }
+
+  @override
+  String notFoundBanner(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '有 $count 個地點找不到。點一下來搜尋。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get whereAreThesePlaces => '這些地方在哪裡？';
+
+  @override
+  String get regionDetected => '從圖片說明讀出。不對的話請修改。';
+
+  @override
+  String get regionNotDetected => '截圖裡沒有說這些地方在哪裡。填上城市，搜尋會準確得多。';
+
+  @override
+  String get cityOrRegion => '城市或地區';
+
+  @override
+  String get cityExample => '例如：台北';
+
+  @override
+  String get searchAnywhere => '全球搜尋';
+
+  @override
+  String get findPlaces => '尋找地點';
+
+  @override
+  String searchedIn(String region) {
+    return '已在$region搜尋';
+  }
+
+  @override
+  String get nameThisGuide => '為這個指南取名';
+
+  @override
+  String nameThisGuideBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '它會以這個名稱出現在地圖中，包含 $count 個地點。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get guideName => '指南名稱';
+
+  @override
+  String get guideNameExample => '例如：羅馬，十月';
+
+  @override
+  String get createGuide => '製作指南';
+
+  @override
+  String get cancel => '取消';
+
+  @override
+  String get guidesOfAnySize => '不限數量的指南';
+
+  @override
+  String unlockExplain(int limit, int selected, int over) {
+    return 'Wren 免費為一個指南儲存最多 $limit 個地點。你選了 $selected 個，多出 $over 個。';
+  }
+
+  @override
+  String get onePaymentKept => '一次付費，永久保留。不是訂閱。';
+
+  @override
+  String unlockFor(String price) {
+    return '$price 解鎖';
+  }
+
+  @override
+  String saveFirstInstead(int limit) {
+    return '改為儲存前 $limit 個';
+  }
+
+  @override
+  String get restorePrevious => '回復先前的購買項目';
+
+  @override
+  String get restorePurchase => '回復購買項目';
+
+  @override
+  String overFreeLimit(int over, int limit) {
+    return '超出免費上限 $limit 個共 $over 個。你可以解鎖，也可以只儲存前 $limit 個。';
+  }
+
+  @override
+  String get findThisPlace => '尋找這個地點';
+
+  @override
+  String get searchAppleMaps => '在地圖中搜尋';
+
+  @override
+  String searchInRegion(String region) {
+    return '在$region搜尋';
+  }
+
+  @override
+  String get searching => '搜尋中…';
+
+  @override
+  String get typeTwoCharacters => '請至少輸入兩個字元。';
+
+  @override
+  String get nothingFound => '什麼都找不到。試試街道名，或更短的名字。';
+
+  @override
+  String get rateLimited => '地圖正在限制搜尋次數。稍等片刻再試一次。';
+
+  @override
+  String rateLimitedDuringImport(int added) {
+    return '地圖正在限制搜尋次數 — 目前已加入 $added 個，其餘的稍後再試。';
+  }
+
+  @override
+  String importSummary(int found) {
+    return '找到 $found 個';
+  }
+
+  @override
+  String importSummaryIn(String region) {
+    return '（$region）';
+  }
+
+  @override
+  String importSummaryNeedLook(int count) {
+    return '$count 個需要確認';
+  }
+
+  @override
+  String importSummaryUnreadable(int count) {
+    return '$count 個無法讀取';
+  }
+
+  @override
+  String nothingReadable(int count) {
+    return '$count 張截圖裡沒有可讀的內容';
+  }
+
+  @override
+  String get couldNotOpenMaps => '無法打開地圖';
+
+  @override
+  String get checkingAppleAccount => '正在檢查你的 Apple 帳號…';
+
+  @override
+  String get restoredUnlocked => '已回復。不限數量的指南已解鎖。';
+
+  @override
+  String get noPreviousPurchase => '這個 Apple 帳號上找不到先前的購買項目。';
+
+  @override
+  String get purchaseDidNotComplete => '購買沒有完成，所以沒有扣款。';
+
+  @override
+  String alreadyInTheList(String name) {
+    return '「$name」已經在列表中了。';
+  }
+
+  @override
+  String get ocrUnavailable => '讀取截圖需要 iPhone — 這個平台上沒有文字辨識。';
+
+  @override
+  String get lookupUnavailable => '尋找地點需要 iPhone — 這個平台上沒有地圖搜尋。';
+
+  @override
+  String get reviewerAccess => '審查人員存取';
+
+  @override
+  String get code => '代碼';
+
+  @override
+  String get unlock => '解鎖';
+
+  @override
+  String get reviewerEnabled => '已開啟審查人員存取。';
+
+  @override
+  String get codeNotRecognised => '無法辨識這個代碼。';
+}

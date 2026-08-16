@@ -5,7 +5,35 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_ar.dart';
+import 'app_localizations_ca.dart';
+import 'app_localizations_cs.dart';
+import 'app_localizations_da.dart';
+import 'app_localizations_de.dart';
+import 'app_localizations_el.dart';
 import 'app_localizations_en.dart';
+import 'app_localizations_es.dart';
+import 'app_localizations_fi.dart';
+import 'app_localizations_fr.dart';
+import 'app_localizations_he.dart';
+import 'app_localizations_hr.dart';
+import 'app_localizations_hu.dart';
+import 'app_localizations_it.dart';
+import 'app_localizations_ja.dart';
+import 'app_localizations_ko.dart';
+import 'app_localizations_nl.dart';
+import 'app_localizations_no.dart';
+import 'app_localizations_pl.dart';
+import 'app_localizations_pt.dart';
+import 'app_localizations_ro.dart';
+import 'app_localizations_ru.dart';
+import 'app_localizations_sk.dart';
+import 'app_localizations_sl.dart';
+import 'app_localizations_sv.dart';
+import 'app_localizations_th.dart';
+import 'app_localizations_tr.dart';
+import 'app_localizations_uk.dart';
+import 'app_localizations_zh.dart';
 
 // ignore_for_file: type=lint
 
@@ -91,7 +119,41 @@ abstract class L {
       ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('ar'),
+    Locale('ca'),
+    Locale('cs'),
+    Locale('da'),
+    Locale('de'),
+    Locale('el'),
+    Locale('en'),
+    Locale('es'),
+    Locale('es', 'MX'),
+    Locale('fi'),
+    Locale('fr'),
+    Locale('fr', 'CA'),
+    Locale('he'),
+    Locale('hr'),
+    Locale('hu'),
+    Locale('it'),
+    Locale('ja'),
+    Locale('ko'),
+    Locale('nl'),
+    Locale('no'),
+    Locale('pl'),
+    Locale('pt'),
+    Locale('pt', 'PT'),
+    Locale('ro'),
+    Locale('ru'),
+    Locale('sk'),
+    Locale('sl'),
+    Locale('sv'),
+    Locale('th'),
+    Locale('tr'),
+    Locale('uk'),
+    Locale('zh'),
+    Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
+  ];
 
   /// Shown under the app name on the opening screen. An English idiom meaning 'somebody told me, and I am not saying who'. Translate the sense, not the words — the app is named after the bird in that saying. If no equivalent idiom exists, something like 'somebody told me about it' is right.
   ///
@@ -469,18 +531,143 @@ class _LDelegate extends LocalizationsDelegate<L> {
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>[
+    'ar',
+    'ca',
+    'cs',
+    'da',
+    'de',
+    'el',
+    'en',
+    'es',
+    'fi',
+    'fr',
+    'he',
+    'hr',
+    'hu',
+    'it',
+    'ja',
+    'ko',
+    'nl',
+    'no',
+    'pl',
+    'pt',
+    'ro',
+    'ru',
+    'sk',
+    'sl',
+    'sv',
+    'th',
+    'tr',
+    'uk',
+    'zh',
+  ].contains(locale.languageCode);
 
   @override
   bool shouldReload(_LDelegate old) => false;
 }
 
 L lookupL(Locale locale) {
+  // Lookup logic when language+script codes are specified.
+  switch (locale.languageCode) {
+    case 'zh':
+      {
+        switch (locale.scriptCode) {
+          case 'Hant':
+            return LZhHant();
+        }
+        break;
+      }
+  }
+
+  // Lookup logic when language+country codes are specified.
+  switch (locale.languageCode) {
+    case 'es':
+      {
+        switch (locale.countryCode) {
+          case 'MX':
+            return LEsMx();
+        }
+        break;
+      }
+    case 'fr':
+      {
+        switch (locale.countryCode) {
+          case 'CA':
+            return LFrCa();
+        }
+        break;
+      }
+    case 'pt':
+      {
+        switch (locale.countryCode) {
+          case 'PT':
+            return LPtPt();
+        }
+        break;
+      }
+  }
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'ar':
+      return LAr();
+    case 'ca':
+      return LCa();
+    case 'cs':
+      return LCs();
+    case 'da':
+      return LDa();
+    case 'de':
+      return LDe();
+    case 'el':
+      return LEl();
     case 'en':
       return LEn();
+    case 'es':
+      return LEs();
+    case 'fi':
+      return LFi();
+    case 'fr':
+      return LFr();
+    case 'he':
+      return LHe();
+    case 'hr':
+      return LHr();
+    case 'hu':
+      return LHu();
+    case 'it':
+      return LIt();
+    case 'ja':
+      return LJa();
+    case 'ko':
+      return LKo();
+    case 'nl':
+      return LNl();
+    case 'no':
+      return LNo();
+    case 'pl':
+      return LPl();
+    case 'pt':
+      return LPt();
+    case 'ro':
+      return LRo();
+    case 'ru':
+      return LRu();
+    case 'sk':
+      return LSk();
+    case 'sl':
+      return LSl();
+    case 'sv':
+      return LSv();
+    case 'th':
+      return LTh();
+    case 'tr':
+      return LTr();
+    case 'uk':
+      return LUk();
+    case 'zh':
+      return LZh();
   }
 
   throw FlutterError(

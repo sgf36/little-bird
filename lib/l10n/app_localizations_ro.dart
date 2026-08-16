@@ -1,0 +1,254 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Romanian Moldavian Moldovan (`ro`).
+class LRo extends L {
+  LRo([String locale = 'ro']) : super(locale);
+
+  @override
+  String get tagline => 'Mi-a spus o păsărică.';
+
+  @override
+  String get emptyTitle => 'Locuri, păstrate.';
+
+  @override
+  String get emptyBody =>
+      'Fă o captură de ecran cu ce ți se recomandă — un reel, o postare, un mesaj, o pagină dintr-un ghid de călătorie. Wren citește numele și le pune în Apple Hărți.';
+
+  @override
+  String get emptyNote =>
+      'Un singur loc intră într-un ghid pe care îl ai deja. Mai multe creează unul nou — Apple Hărți nu poate îmbina ghiduri.';
+
+  @override
+  String get addScreenshots => 'Adaugă capturi de ecran';
+
+  @override
+  String get readingShort => 'Se citește…';
+
+  @override
+  String readingProgress(int done, int total) {
+    return 'Se citește $done din $total…';
+  }
+
+  @override
+  String get addToGuide => 'Adaugă într-un ghid';
+
+  @override
+  String makeGuide(int count) {
+    return 'Creează un ghid ($count)';
+  }
+
+  @override
+  String get notFoundOnMap => 'Nu a fost găsit pe hartă';
+
+  @override
+  String get tapToSearchForIt => 'Atinge pentru a-l căuta';
+
+  @override
+  String readAs(String text) {
+    return 'citit ca „$text”';
+  }
+
+  @override
+  String notFoundBanner(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de locuri nu au fost găsite. Atinge pentru a le căuta.',
+      few: '$count locuri nu au fost găsite. Atinge pentru a le căuta.',
+      one: '1 loc nu a fost găsit. Atinge pentru a-l căuta.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get whereAreThesePlaces => 'Unde se află aceste locuri?';
+
+  @override
+  String get regionDetected => 'Citit din descrieri. Schimbă dacă nu e corect.';
+
+  @override
+  String get regionNotDetected =>
+      'În capturi nu scria unde se află. Cu un oraș, căutarea devine mult mai precisă.';
+
+  @override
+  String get cityOrRegion => 'Oraș sau regiune';
+
+  @override
+  String get cityExample => 'de ex. București';
+
+  @override
+  String get searchAnywhere => 'Caută peste tot';
+
+  @override
+  String get findPlaces => 'Găsește locurile';
+
+  @override
+  String searchedIn(String region) {
+    return 'Căutat în $region';
+  }
+
+  @override
+  String get nameThisGuide => 'Dă un nume acestui ghid';
+
+  @override
+  String nameThisGuideBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Va apărea cu acest nume în Apple Hărți, cu $count de locuri.',
+      few: 'Va apărea cu acest nume în Apple Hărți, cu $count locuri.',
+      one: 'Va apărea cu acest nume în Apple Hărți, cu 1 loc.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get guideName => 'Numele ghidului';
+
+  @override
+  String get guideNameExample => 'de ex. Roma, octombrie';
+
+  @override
+  String get createGuide => 'Creează ghidul';
+
+  @override
+  String get cancel => 'Anulează';
+
+  @override
+  String get guidesOfAnySize => 'Ghiduri de orice mărime';
+
+  @override
+  String unlockExplain(int limit, int selected, int over) {
+    return 'Wren salvează gratuit până la $limit locuri într-un ghid. Ai selectat $selected — cu $over mai multe.';
+  }
+
+  @override
+  String get onePaymentKept =>
+      'O singură plată, a ta pentru totdeauna. Fără abonament.';
+
+  @override
+  String unlockFor(String price) {
+    return 'Deblochează pentru $price';
+  }
+
+  @override
+  String saveFirstInstead(int limit) {
+    return 'Salvează în schimb primele $limit';
+  }
+
+  @override
+  String get restorePrevious => 'Restaurează o achiziție anterioară';
+
+  @override
+  String get restorePurchase => 'Restaurează achiziția';
+
+  @override
+  String overFreeLimit(int over, int limit) {
+    return '$over peste limita gratuită de $limit. Poți debloca sau salva primele $limit.';
+  }
+
+  @override
+  String get findThisPlace => 'Găsește acest loc';
+
+  @override
+  String get searchAppleMaps => 'Caută în Apple Hărți';
+
+  @override
+  String searchInRegion(String region) {
+    return 'Caută în $region';
+  }
+
+  @override
+  String get searching => 'Se caută…';
+
+  @override
+  String get typeTwoCharacters => 'Scrie cel puțin două caractere.';
+
+  @override
+  String get nothingFound =>
+      'Nu s-a găsit nimic. Încearcă strada sau un nume mai scurt.';
+
+  @override
+  String get rateLimited =>
+      'Apple Hărți limitează căutările. Așteaptă puțin și încearcă din nou.';
+
+  @override
+  String rateLimitedDuringImport(int added) {
+    return 'Apple Hărți limitează căutările — $added adăugate până acum, încearcă restul peste puțin timp.';
+  }
+
+  @override
+  String importSummary(int found) {
+    return '$found găsite';
+  }
+
+  @override
+  String importSummaryIn(String region) {
+    return 'în $region';
+  }
+
+  @override
+  String importSummaryNeedLook(int count) {
+    return '$count de verificat';
+  }
+
+  @override
+  String importSummaryUnreadable(int count) {
+    return '$count ilizibile';
+  }
+
+  @override
+  String nothingReadable(int count) {
+    return 'Nimic lizibil în $count capturi de ecran';
+  }
+
+  @override
+  String get couldNotOpenMaps => 'Hărți nu a putut fi deschisă';
+
+  @override
+  String get checkingAppleAccount => 'Se verifică contul tău Apple…';
+
+  @override
+  String get restoredUnlocked =>
+      'Restaurat. Ghidurile de orice mărime sunt deblocate.';
+
+  @override
+  String get noPreviousPurchase =>
+      'Nu s-a găsit nicio achiziție anterioară pe acest cont Apple.';
+
+  @override
+  String get purchaseDidNotComplete =>
+      'Achiziția nu s-a finalizat, așa că nu s-a perceput nimic.';
+
+  @override
+  String alreadyInTheList(String name) {
+    return '$name era deja în listă.';
+  }
+
+  @override
+  String get ocrUnavailable =>
+      'Citirea capturilor de ecran necesită un iPhone — pe această platformă nu există recunoaștere de text.';
+
+  @override
+  String get lookupUnavailable =>
+      'Căutarea locurilor necesită un iPhone — pe această platformă nu există căutare pe hartă.';
+
+  @override
+  String get reviewerAccess => 'Acces pentru evaluatori';
+
+  @override
+  String get code => 'Cod';
+
+  @override
+  String get unlock => 'Deblochează';
+
+  @override
+  String get reviewerEnabled => 'Acces pentru evaluatori activat.';
+
+  @override
+  String get codeNotRecognised => 'Acest cod nu a fost recunoscut.';
+}

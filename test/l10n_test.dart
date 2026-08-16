@@ -21,10 +21,18 @@ void main() {
 
   /// Placeholder names as they appear in the message itself, which is what
   /// matters — the generator reads the braces, not the metadata.
-  Set<String> braces(String value) => RegExp(r'\{(\w+)')
-      .allMatches(value)
-      .map((m) => m.group(1)!)
-      .toSet();
+  ///
+  /// Two forms count, and nothing else: `{name}` where a value is substituted,
+  /// and `{name, plural` where a count selects a branch. ICU sub-messages open
+  /// with a brace too — `other{Orte …}` — and a looser pattern reads the first
+  /// word of every translated branch as a placeholder, which fails every
+  /// language whose sentence happens to start with a different word.
+  Set<String> braces(String value) => {
+    ...RegExp(r'\{(\w+)\}').allMatches(value).map((m) => m.group(1)!),
+    ...RegExp(
+      r'\{(\w+)\s*,\s*(?:plural|select)',
+    ).allMatches(value).map((m) => m.group(1)!),
+  };
 
   final expected = messages(template);
 
@@ -55,8 +63,10 @@ void main() {
       final arb =
           jsonDecode(file.readAsStringSync()) as Map<String, dynamic>;
 
+      // Underscore form, matching the filename. The generator warns when the
+      // two disagree, because it then has two candidate locales for one file.
       test('declares its own locale', () {
-        expect(arb['@@locale'], locale.replaceAll('_', '-'));
+        expect(arb['@@locale'], locale);
       });
 
       test('translates every message and invents none', () {
