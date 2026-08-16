@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Little Bird</string>
+	<string>Wren</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>little_bird</string>
+	<string>Wren</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -73,7 +73,7 @@
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Little Bird reads the text in screenshots you choose, so it can find the places they name. Screenshots are read on this device and are not uploaded.</string>
+	<string>Wren reads the text in screenshots you choose, so it can find the places they name. Screenshots are read on this device and are not uploaded.</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>maps</string>

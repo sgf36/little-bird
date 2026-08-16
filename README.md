@@ -1,7 +1,13 @@
-# Little Bird
+# Wren
 
-*A little bird told me.* Turns screenshots of Instagram reels into Apple Maps
-guides — the places people tell you about, kept somewhere you'll find them.
+*A little bird told me.* Turns screenshots into Apple Maps guides — the places
+people tell you about, kept somewhere you'll find them.
+
+The bundle id is `com.spencerfields.littlebird` and the OCR method channel is
+`littlebird/ocr`. Both are deliberate leftovers from the app's first name: the
+App ID, provisioning profile and every shipped build are bound to that
+identifier, and it is invisible to users. Renaming it would cost a new App ID,
+a new profile and a new App Store record for no benefit.
 
 > **This repository is public.** It is public deliberately, so GitHub Actions
 > minutes are free. Nothing sensitive may exist as a file here — a commit is a
