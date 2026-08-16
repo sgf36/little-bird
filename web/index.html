@@ -60,6 +60,7 @@
     color: var(--gold);
     margin: 0;
   }
+  .prose { display: flex; flex-direction: column; gap: 1.15rem; }
   .lede { font-size: clamp(1.02rem, 2.6vw, 1.15rem); color: var(--text); margin: 0; max-width: 34rem; }
   .lede + .lede { color: var(--muted); }
 
@@ -133,7 +134,7 @@
     <p class="tagline">A little bird told me.</p>
   </header>
 
-  <section>
+  <section class="prose">
     <p class="lede">Someone sends you a reel of the five places you have to eat at in Rome. You watch it, you mean to remember, and it is gone by Thursday.</p>
     <p class="lede">Little Bird catches them. Screenshot the places as they appear, and it reads the names off the screen, works out which restaurants they actually are, and drops the lot into a guide in Apple Maps — where you will be standing when you need them.</p>
   </section>
