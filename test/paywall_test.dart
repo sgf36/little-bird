@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:little_bird/main.dart';
-import 'package:little_bird/src/entitlement.dart';
-import 'package:little_bird/src/guide_link.dart';
-import 'package:little_bird/src/resolver.dart';
+import 'package:wren/main.dart';
+import 'package:wren/src/entitlement.dart';
+import 'package:wren/src/guide_link.dart';
+import 'package:wren/src/resolver.dart';
 
 /// Stands in for StoreKit. Records what was asked of it so the tests can check
 /// the app did not, for instance, charge someone twice.

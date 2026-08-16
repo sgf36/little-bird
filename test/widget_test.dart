@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:little_bird/main.dart';
+import 'package:wren/main.dart';
 
 void main() {
   testWidgets('opens on the empty state with publishing disabled', (

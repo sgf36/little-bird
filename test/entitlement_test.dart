@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:little_bird/src/entitlement.dart';
+import 'package:wren/src/entitlement.dart';
 
 void main() {
   group('free tier', () {
