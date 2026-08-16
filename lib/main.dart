@@ -193,7 +193,7 @@ class _CapturePageState extends State<CapturePage> {
               textCapitalization: TextCapitalization.words,
               decoration: const InputDecoration(
                 labelText: 'City or region',
-                hintText: 'London',
+                hintText: 'e.g. London',
               ),
               onSubmitted: (v) => Navigator.pop(context, v.trim()),
             ),
@@ -359,7 +359,7 @@ class _CapturePageState extends State<CapturePage> {
               textCapitalization: TextCapitalization.words,
               decoration: const InputDecoration(
                 labelText: 'Guide name',
-                hintText: 'Rome, October',
+                hintText: 'e.g. Rome, October',
               ),
               onSubmitted: (v) {
                 if (v.trim().isNotEmpty) Navigator.pop(context, v.trim());

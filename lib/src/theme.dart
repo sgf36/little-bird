@@ -15,6 +15,10 @@ abstract final class Wren {
   static const muted = Color(0xFF9FB5B0);
   static const danger = Color(0xFFE8776B);
 
+  /// Dimmer than [muted], for placeholder text that must not be mistaken for
+  /// something the user typed.
+  static const placeholder = Color(0xFF6E8781);
+
   /// Serif for names and headings — the website uses Georgia, and iOS resolves
   /// it. The body face stays the system sans, which is what people read fastest.
   static const serif = 'Georgia';
@@ -111,6 +115,13 @@ abstract final class Wren {
           borderSide: const BorderSide(color: gold, width: 1.6),
         ),
         labelStyle: const TextStyle(color: muted),
+        // Dimmer and italic, so an example is never mistaken for a value the
+        // user has already entered.
+        hintStyle: const TextStyle(
+          color: placeholder,
+          fontStyle: FontStyle.italic,
+        ),
+        counterStyle: const TextStyle(color: placeholder, fontSize: 11),
       ),
       bottomSheetTheme: const BottomSheetThemeData(
         backgroundColor: raised,
