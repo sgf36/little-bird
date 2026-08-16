@@ -131,6 +131,53 @@ jobs:
           [ -n "$ASC_KEY" ] && echo "upload=true" >> "$GITHUB_OUTPUT" || echo "upload=false" >> "$GITHUB_OUTPUT"
           [ -n "$P12_B64" ] || echo "::notice::signing secrets absent — skipping the signed build"
 
+      # Fail in seconds rather than after a full archive and a long upload.
+      # altool reports a bad key as a generic "Failure to authenticate", which
+      # says nothing about which of the three ASC secrets is wrong — so check
+      # them against the API first and say so plainly.
+      - name: Check the App Store Connect key actually authenticates
+        if: steps.signing.outputs.upload == 'true'
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_API_KEY_P8_BASE64: ${{ secrets.ASC_API_KEY_P8_BASE64 }}
+        run: |
+          python3 -m pip install --quiet pyjwt cryptography
+          python3 - <<'PY'
+          import base64, json, os, sys, time, urllib.request, urllib.error
+          import jwt
+
+          key_id = os.environ["ASC_KEY_ID"].strip()
+          issuer = os.environ["ASC_ISSUER_ID"].strip()
+          try:
+              pem = base64.b64decode(os.environ["ASC_API_KEY_P8_BASE64"]).decode()
+          except Exception as e:
+              sys.exit(f"::error::ASC_API_KEY_P8_BASE64 is not valid base64 ({e})")
+
+          if "PRIVATE KEY" not in pem:
+              sys.exit("::error::ASC_API_KEY_P8_BASE64 does not decode to a PEM "
+                       "private key. Did you base64 the .p8 itself?")
+
+          now = int(time.time())
+          token = jwt.encode({"iss": issuer, "iat": now, "exp": now + 300,
+                              "aud": "appstoreconnect-v1"},
+                             pem, algorithm="ES256",
+                             headers={"kid": key_id, "typ": "JWT"})
+          req = urllib.request.Request(
+              "https://api.appstoreconnect.apple.com/v1/apps?limit=1",
+              headers={"Authorization": f"Bearer {token}"})
+          try:
+              with urllib.request.urlopen(req, timeout=30) as r:
+                  print(f"key {key_id} authenticates (HTTP {r.status})")
+          except urllib.error.HTTPError as e:
+              sys.exit(
+                  f"::error::ASC key {key_id} was rejected (HTTP {e.code}). The "
+                  "three secrets must agree: ASC_API_KEY_P8_BASE64 must be the "
+                  f".p8 whose Key ID is {key_id}, and ASC_ISSUER_ID must be the "
+                  "issuer from the same App Store Connect tab. An APNs or "
+                  "In-App-Purchase key will fail here.")
+          PY
+
       - name: Import certificate and provisioning profile
         if: steps.signing.outputs.ready == 'true'
         env:
