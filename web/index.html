@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Little Bird — places worth remembering</title>
+<meta name="description" content="Little Bird turns the places people tell you about into an Apple Maps guide. Screenshot a reel, and it reads the name, finds the place and saves it.">
+<meta name="theme-color" content="#12332F">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%231E4B45'/><polygon points='34,58 20,52 27,68' fill='%23F2C879'/><ellipse cx='53' cy='60' rx='22' ry='18' fill='%23F2C879'/><circle cx='70' cy='42' r='13' fill='%23F2C879'/><polygon points='81,40 92,44 81,48' fill='%23E08A4B'/></svg>">
+
+<meta property="og:title" content="Little Bird — places worth remembering">
+<meta property="og:description" content="Screenshot the places people recommend. Little Bird reads them and saves them into an Apple Maps guide.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://littlebird.spencerfields.com/">
+
+<style>
+  :root {
+    --ground:  #12332F;
+    --raised:  #1E4B45;
+    --gold:    #F2C879;
+    --clay:    #E08A4B;
+    --text:    #EFEAE0;
+    --muted:   #9FB5B0;
+    --line:    #2C5B54;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--text);
+    font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: clamp(2.5rem, 8vw, 5.5rem) clamp(1.25rem, 5vw, 2rem) 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2.5rem, 6vw, 3.75rem);
+  }
+
+  header { display: flex; flex-direction: column; gap: 1.15rem; align-items: flex-start; }
+  .mark { width: 76px; height: 76px; border-radius: 18px; display: block; }
+  h1 {
+    font-family: Georgia, "Iowan Old Style", serif;
+    font-weight: 400;
+    font-size: clamp(2.5rem, 9vw, 3.75rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .tagline {
+    font-family: Georgia, "Iowan Old Style", serif;
+    font-style: italic;
+    font-size: clamp(1.15rem, 3.4vw, 1.4rem);
+    color: var(--gold);
+    margin: 0;
+  }
+  .lede { font-size: clamp(1.02rem, 2.6vw, 1.15rem); color: var(--text); margin: 0; max-width: 34rem; }
+  .lede + .lede { color: var(--muted); }
+
+  ol.steps {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: grid;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  ol.steps li {
+    background: var(--raised);
+    padding: 1.15rem 1.35rem;
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: 0 1rem;
+    align-items: baseline;
+  }
+  .n {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: .78rem;
+    color: var(--gold);
+    font-variant-numeric: tabular-nums;
+  }
+  .step-t { font-weight: 620; }
+  .step-d { grid-column: 2; color: var(--muted); font-size: .94rem; margin-top: .15rem; }
+
+  .status {
+    border-left: 3px solid var(--clay);
+    background: var(--raised);
+    border-radius: 0 6px 6px 0;
+    padding: 1.1rem 1.35rem;
+  }
+  .status p { margin: 0; }
+  .status p + p { margin-top: .6rem; color: var(--muted); font-size: .94rem; }
+  .label {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: .68rem; letter-spacing: .13em; text-transform: uppercase;
+    color: var(--clay); display: block; margin-bottom: .45rem;
+  }
+
+  a { color: var(--gold); text-underline-offset: 3px; }
+  a:hover { color: var(--clay); }
+  a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding-top: 1.35rem;
+    color: var(--muted);
+    font-size: .88rem;
+    display: flex; flex-wrap: wrap; gap: .4rem 1.25rem;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <svg class="mark" viewBox="0 0 100 100" role="img" aria-label="Little Bird">
+      <rect width="100" height="100" rx="22" fill="#1E4B45"/>
+      <polygon points="34,58 20,52 27,68" fill="#F2C879"/>
+      <ellipse cx="53" cy="60" rx="22" ry="18" fill="#F2C879"/>
+      <circle cx="70" cy="42" r="13" fill="#F2C879"/>
+      <polygon points="81,40 92,44 81,48" fill="#E08A4B"/>
+      <circle cx="74" cy="39" r="2.2" fill="#1E4B45"/>
+    </svg>
+    <h1>Little Bird</h1>
+    <p class="tagline">A little bird told me.</p>
+  </header>
+
+  <section>
+    <p class="lede">Someone sends you a reel of the five places you have to eat at in Rome. You watch it, you mean to remember, and it is gone by Thursday.</p>
+    <p class="lede">Little Bird catches them. Screenshot the places as they appear, and it reads the names off the screen, works out which restaurants they actually are, and drops the lot into a guide in Apple Maps — where you will be standing when you need them.</p>
+  </section>
+
+  <ol class="steps">
+    <li>
+      <span class="n">01</span>
+      <span class="step-t">Screenshot what you see</span>
+      <span class="step-d">One tap per place, straight from the reel. Nothing is sent to Instagram and nothing is scraped.</span>
+    </li>
+    <li>
+      <span class="n">02</span>
+      <span class="step-t">It reads the names</span>
+      <span class="step-d">Text recognition runs on your phone, so the screenshots stay there.</span>
+    </li>
+    <li>
+      <span class="n">03</span>
+      <span class="step-t">Straight into Apple Maps</span>
+      <span class="step-d">Not a copy of your places in another app — an actual guide, in the Maps you already use.</span>
+    </li>
+  </ol>
+
+  <div class="status">
+    <span class="label">Where it is up to</span>
+    <p>Being built. It is not on the App Store yet, and there is nothing to download.</p>
+    <p>The awkward part — getting places into Apple Maps in bulk, which Apple provides no way to do — is solved and working on a real device. What remains is the app around it.</p>
+  </div>
+
+  <footer>
+    <span>Little Bird</span>
+    <span>Also made here: <a href="https://easy-post.spencerfields.com">Easy-Post</a>, for desktop and mobile</span>
+    <span><a href="https://github.com/sgf36/little-bird">Source on GitHub</a></span>
+  </footer>
+
+</div>
+</body>
+</html>
