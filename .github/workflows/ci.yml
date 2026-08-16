@@ -126,9 +126,10 @@ jobs:
     name: TestFlight
     runs-on: macos-26
     needs: ios
+    # `inputs.testflight` is a real boolean because the input is typed, so it is
+    # used directly — comparing it to the string 'true' silently never matches.
     if: >-
-      github.event_name == 'workflow_dispatch' &&
-      inputs.testflight == 'true' ||
+      (github.event_name == 'workflow_dispatch' && inputs.testflight) ||
       startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/checkout@v5
