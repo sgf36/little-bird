@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:reel_places/src/ocr.dart';
+import 'package:little_bird/src/ocr.dart';
 
 TextLine line(String text, double height) =>
     TextLine(text: text, confidence: 1, height: height, midX: .5, midY: .5);

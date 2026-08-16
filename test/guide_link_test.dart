@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:reel_places/src/guide_link.dart';
+import 'package:little_bird/src/guide_link.dart';
 
 // The expected URLs below are not guesses. They were generated during the
 // feasibility work, opened on an iPhone, and confirmed to populate a guide in

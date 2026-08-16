@@ -42,7 +42,7 @@ class OcrUnavailable implements Exception {
 }
 
 class Ocr {
-  static const _channel = MethodChannel('reel_places/ocr');
+  static const _channel = MethodChannel('littlebird/ocr');
 
   /// Runs Apple's Vision over an image file. Returns lines ordered largest
   /// type first. iOS only — there is no Windows or Android implementation

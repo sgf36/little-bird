@@ -1,6 +1,7 @@
-# Reel Places
+# Little Bird
 
-Turns screenshots of Instagram reels into Apple Maps guides.
+*A little bird told me.* Turns screenshots of Instagram reels into Apple Maps
+guides — the places people tell you about, kept somewhere you'll find them.
 
 > **This repository is public.** It is public deliberately, so GitHub Actions
 > minutes are free. Nothing sensitive may exist as a file here — a commit is a

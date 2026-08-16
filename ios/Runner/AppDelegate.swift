@@ -23,7 +23,7 @@ import Vision
   ) -> Bool {
     let controller = window?.rootViewController as! FlutterViewController
     let channel = FlutterMethodChannel(
-      name: "reel_places/ocr",
+      name: "littlebird/ocr",
       binaryMessenger: controller.binaryMessenger)
 
     channel.setMethodCallHandler { call, result in

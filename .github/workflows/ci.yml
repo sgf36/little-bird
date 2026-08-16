@@ -166,7 +166,7 @@ jobs:
             <key>teamID</key><string>$TEAM_ID</string>
             <key>signingStyle</key><string>manual</string>
             <key>provisioningProfiles</key><dict>
-              <key>com.spencerfields.reelPlaces</key>
+              <key>com.spencerfields.littlebird</key>
               <string>$PROFILE_NAME</string>
             </dict>
             <key>uploadSymbols</key><true/>

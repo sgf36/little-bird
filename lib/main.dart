@@ -6,10 +6,10 @@ import 'src/guide_link.dart';
 import 'src/ocr.dart';
 import 'src/resolver.dart';
 
-void main() => runApp(const ReelPlacesApp());
+void main() => runApp(const LittleBirdApp());
 
-class ReelPlacesApp extends StatelessWidget {
-  const ReelPlacesApp({super.key});
+class LittleBirdApp extends StatelessWidget {
+  const LittleBirdApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class ReelPlacesApp extends StatelessWidget {
           : Brightness.light,
     );
     return MaterialApp(
-      title: 'Reel Places',
+      title: 'Little Bird',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(colorScheme: scheme, useMaterial3: true),
       home: const CapturePage(),
@@ -114,7 +114,7 @@ class _CapturePageState extends State<CapturePage> {
     // become a new guide, because guides cannot be merged.
     final url = keep.length == 1
         ? buildPlaceLink(keep.single.id)
-        : buildGuideLinks('Reel Places', keep).first;
+        : buildGuideLinks('Little Bird', keep).first;
 
     if (!await launchUrl(
       Uri.parse(url),
@@ -128,7 +128,7 @@ class _CapturePageState extends State<CapturePage> {
   Widget build(BuildContext context) {
     final keeping = _pending.where((p) => p.keep).length;
     return Scaffold(
-      appBar: AppBar(title: const Text('Reel Places')),
+      appBar: AppBar(title: const Text('Little Bird')),
       body: Column(
         children: [
           if (_status != null)

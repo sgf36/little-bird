@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Reel Places</string>
+	<string>Little Bird</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>reel_places</string>
+	<string>little_bird</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -67,7 +67,7 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Reel Places reads the text in screenshots you choose, so it can find the places they name. Screenshots are read on this device and are not uploaded.</string>
+	<string>Little Bird reads the text in screenshots you choose, so it can find the places they name. Screenshots are read on this device and are not uploaded.</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>maps</string>
