@@ -2,6 +2,21 @@
 
 Turns screenshots of Instagram reels into Apple Maps guides.
 
+> **This repository is public.** It is public deliberately, so GitHub Actions
+> minutes are free. Nothing sensitive may exist as a file here — a commit is a
+> disclosure.
+>
+> That is a narrower rule than it sounds. **CI secrets are fine**: repository
+> secrets are encrypted, never printed in logs, and not exposed to pull requests
+> from forks, so signing certificates and the App Store Connect key live there
+> safely. The Maps Server API key does not belong here at all — it lives in the
+> Cloudflare Worker, which is why `MapsServerResolver` calls an endpoint rather
+> than signing a JWT in the app.
+>
+> Never commit: `.p8`, `.p12`, `.pem`, provisioning profiles, `.env` files, or
+> personal reel screenshots. All are gitignored, and the **No credentials
+> committed** CI job fails the build if one slips through anyway.
+
 Scaffold only — the pipeline is wired end to end, but place resolution is a stub
 until a Maps Server API key exists.
 

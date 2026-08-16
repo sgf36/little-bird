@@ -43,3 +43,23 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# --- this repository is PUBLIC ------------------------------------------------
+# Credentials belong in GitHub Actions secrets (encrypted, not exposed to fork
+# PRs) or in the Cloudflare Worker — never in a file here.
+*.p8
+*.p12
+*.pem
+*.key
+*.keystore
+*.jks
+*.mobileprovision
+.env
+.env.*
+!.env.example
+
+# Personal reel screenshots: read them locally, do not publish them.
+real/*
+!real/README.md
+screenshots/*
+!screenshots/README.md

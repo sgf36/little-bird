@@ -18,6 +18,44 @@ env:
   FLUTTER_VERSION: '3.44.8'
 
 jobs:
+  # This repository is PUBLIC, so a committed credential is disclosed the moment
+  # it is pushed. CI secrets are fine — they are encrypted and never exposed to
+  # fork PRs — but nothing sensitive may exist as a file. This job fails the
+  # build rather than letting one through.
+  secrets:
+    name: No credentials committed
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Reject credential file types
+        run: |
+          found=$(git ls-files | grep -E '\.(p8|p12|pem|key|keystore|jks|mobileprovision)$' || true)
+          if [ -n "$found" ]; then
+            echo "::error::credential files must never be committed to a public repo:"
+            echo "$found"
+            exit 1
+          fi
+          echo "no credential file types present"
+
+      - name: Reject key material and tokens in tracked content
+        run: |
+          if git grep -InE -- '-----BEGIN [A-Z ]*PRIVATE KEY|gh[pousr]_[A-Za-z0-9]{20}|github_pat_[A-Za-z0-9_]{20}|xox[baprs]-|AKIA[0-9A-Z]{16}' -- . ':(exclude).github/workflows/*'; then
+            echo "::error::key material or a token appears in tracked files"
+            exit 1
+          fi
+          echo "no key material in tracked files"
+
+      - name: Warn on anything that looks like a personal screenshot
+        run: |
+          found=$(git ls-files 'real/*' 'screenshots/*' | grep -viE '\.md$' || true)
+          if [ -n "$found" ]; then
+            echo "::error::personal screenshots are gitignored for a reason:"
+            echo "$found"
+            exit 1
+          fi
+          echo "no screenshots committed"
+
   dart:
     name: Analyse and test
     runs-on: ubuntu-latest
@@ -37,7 +75,7 @@ jobs:
   ios:
     name: Build iOS
     runs-on: macos-15
-    needs: dart
+    needs: [secrets, dart]
     steps:
       - uses: actions/checkout@v5
       - uses: subosito/flutter-action@v2
