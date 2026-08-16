@@ -5,6 +5,11 @@ an over-length field with a generic error and no indication of which one.
 
     python store/push_metadata.py            # primary locale only
     python store/push_metadata.py --all      # every locale with a file
+    python store/push_metadata.py --check    # lengths only, sends nothing
+
+Fields that are the same in every language — the two URLs, the app's name —
+live in common.json and are merged in, so a URL change is one edit rather than
+fifty and the locale files hold only what a translator touched.
 
 Reads the App Manager key from the signing folder. Creates nothing that cannot
 be edited afterwards in App Store Connect.
@@ -16,6 +21,7 @@ KEY_ID, ISSUER = "4CU796U485", "65aee88f-46c4-4daf-8238-5dc37263d06b"
 KEY = (pathlib.Path(r"C:\Users\SpencerFields\OneDrive - Spencer Fields"
                     r"\Apps\Claude MacOS\signing") / "AuthKey_4CU796U485.p8")
 APP = "6802053382"
+PRODUCT_ID = "com.spencerfields.littlebird.unlimited"
 HERE = pathlib.Path(__file__).resolve().parent
 
 # Apple's caps. Exceeding one is rejected with a generic message.
@@ -23,6 +29,10 @@ LIMITS = {
     "name": 30, "subtitle": 30, "promotionalText": 170,
     "keywords": 100, "description": 4000, "whatsNew": 4000,
 }
+
+# The in-app purchase has its own, much tighter caps — 45 characters for the
+# description, which is a third of what the App Store subtitle allows.
+IAP_LIMITS = {"name": 30, "description": 45}
 
 def token():
     now = int(time.time())
@@ -61,7 +71,55 @@ def check_limits(meta):
         value = meta.get(field)
         if value and len(value) > cap:
             bad.append(f"{field} is {len(value)} characters, limit {cap}")
+    for field, cap in IAP_LIMITS.items():
+        value = (meta.get("inAppPurchase") or {}).get(field)
+        if value and len(value) > cap:
+            bad.append(
+                f"inAppPurchase.{field} is {len(value)} characters, "
+                f"limit {cap}")
     return bad
+
+
+def push_iap(meta, product_id):
+    """Localises the in-app purchase, which is a separate resource entirely.
+
+    Skipped rather than failed when the product does not exist yet: the price
+    and the review screenshot are set in App Store Connect by hand, and the
+    listing should not wait on that.
+    """
+    iap = meta.get("inAppPurchase")
+    if not iap:
+        return True
+    st, products = call("GET", f"apps/{APP}/inAppPurchasesV2?limit=20")
+    product = next((p for p in products.get("data", [])
+                    if p["attributes"].get("productId") == product_id), None)
+    if not product:
+        print(f"  {meta['locale']}: no in-app purchase {product_id} yet")
+        return True
+
+    st, locs = call(
+        "GET", f"inAppPurchases/{product['id']}/inAppPurchaseLocalizations"
+               "?limit=200")
+    existing = next((l for l in locs.get("data", [])
+                     if l["attributes"].get("locale") == meta["locale"]), None)
+    attrs = {"name": iap["name"], "description": iap["description"]}
+    if existing:
+        st, d = call("PATCH", f"inAppPurchaseLocalizations/{existing['id']}",
+                     {"data": {"type": "inAppPurchaseLocalizations",
+                               "id": existing["id"], "attributes": attrs}})
+    else:
+        st, d = call("POST", "inAppPurchaseLocalizations",
+                     {"data": {"type": "inAppPurchaseLocalizations",
+                               "attributes": {**attrs,
+                                              "locale": meta["locale"]},
+                               "relationships": {"inAppPurchaseV2": {"data": {
+                                   "id": product["id"],
+                                   "type": "inAppPurchases"}}}}})
+    if st in (200, 201):
+        print(f"  {meta['locale']}: purchase set")
+        return True
+    print(f"  {meta['locale']}: purchase FAILED {st} — {errs(d)}")
+    return False
 
 def push(meta):
     locale = meta["locale"]
@@ -160,24 +218,56 @@ def push(meta):
     else:
         print(f"  {locale}: FAILED {st} — {errs(d)}")
         ok = False
+
+    if not push_iap(meta, PRODUCT_ID):
+        ok = False
     return ok
+
+def load(path):
+    """A locale file merged over the shared fields, with comments dropped."""
+    common = {}
+    shared = HERE / "common.json"
+    if shared.exists():
+        common = json.loads(shared.read_text(encoding="utf-8"))
+    meta = {**common, **json.loads(path.read_text(encoding="utf-8"))}
+    # The locale is the filename, not a field, so the two cannot disagree.
+    meta["locale"] = path.stem.removeprefix("metadata_").replace("_", "-")
+    return {k: v for k, v in meta.items() if not k.startswith("_")}
+
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--all", action="store_true",
                     help="push every metadata_*.json in this folder")
+    ap.add_argument("--check", action="store_true",
+                    help="report field lengths and send nothing")
     args = ap.parse_args()
 
-    files = sorted(HERE.glob("metadata_*.json")) if args.all \
+    files = sorted(HERE.glob("metadata_*.json")) if (args.all or args.check) \
         else [HERE / "metadata_en_GB.json"]
     if not files:
         sys.exit("no metadata files found")
 
+    if args.check:
+        print(f"checking {len(files)} locale(s)")
+        bad = 0
+        for f in files:
+            meta = load(f)
+            missing = [k for k in ("name", "subtitle", "promotionalText",
+                                   "description", "keywords")
+                       if not meta.get(k)]
+            problems = check_limits(meta) + [f"{k} is missing"
+                                             for k in missing]
+            for p in problems:
+                print(f"  {meta['locale']}: {p}")
+            bad += bool(problems)
+        print(f"\n{len(files) - bad} of {len(files)} are ready to push")
+        sys.exit(1 if bad else 0)
+
     print(f"pushing {len(files)} locale(s)")
     failures = 0
     for f in files:
-        meta = json.loads(f.read_text(encoding="utf-8"))
-        if not push(meta):
+        if not push(load(f)):
             failures += 1
     print(f"\n{len(files) - failures} of {len(files)} succeeded")
     sys.exit(1 if failures else 0)

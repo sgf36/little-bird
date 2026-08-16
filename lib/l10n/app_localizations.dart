@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_ar.dart';
+import 'app_localizations_bn.dart';
 import 'app_localizations_ca.dart';
 import 'app_localizations_cs.dart';
 import 'app_localizations_da.dart';
@@ -15,14 +16,23 @@ import 'app_localizations_en.dart';
 import 'app_localizations_es.dart';
 import 'app_localizations_fi.dart';
 import 'app_localizations_fr.dart';
+import 'app_localizations_gu.dart';
 import 'app_localizations_he.dart';
+import 'app_localizations_hi.dart';
 import 'app_localizations_hr.dart';
 import 'app_localizations_hu.dart';
+import 'app_localizations_id.dart';
 import 'app_localizations_it.dart';
 import 'app_localizations_ja.dart';
+import 'app_localizations_kn.dart';
 import 'app_localizations_ko.dart';
+import 'app_localizations_ml.dart';
+import 'app_localizations_mr.dart';
+import 'app_localizations_ms.dart';
 import 'app_localizations_nl.dart';
 import 'app_localizations_no.dart';
+import 'app_localizations_or.dart';
+import 'app_localizations_pa.dart';
 import 'app_localizations_pl.dart';
 import 'app_localizations_pt.dart';
 import 'app_localizations_ro.dart';
@@ -30,9 +40,13 @@ import 'app_localizations_ru.dart';
 import 'app_localizations_sk.dart';
 import 'app_localizations_sl.dart';
 import 'app_localizations_sv.dart';
+import 'app_localizations_ta.dart';
+import 'app_localizations_te.dart';
 import 'app_localizations_th.dart';
 import 'app_localizations_tr.dart';
 import 'app_localizations_uk.dart';
+import 'app_localizations_ur.dart';
+import 'app_localizations_vi.dart';
 import 'app_localizations_zh.dart';
 
 // ignore_for_file: type=lint
@@ -121,6 +135,7 @@ abstract class L {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('ar'),
+    Locale('bn'),
     Locale('ca'),
     Locale('cs'),
     Locale('da'),
@@ -132,14 +147,23 @@ abstract class L {
     Locale('fi'),
     Locale('fr'),
     Locale('fr', 'CA'),
+    Locale('gu'),
     Locale('he'),
+    Locale('hi'),
     Locale('hr'),
     Locale('hu'),
+    Locale('id'),
     Locale('it'),
     Locale('ja'),
+    Locale('kn'),
     Locale('ko'),
+    Locale('ml'),
+    Locale('mr'),
+    Locale('ms'),
     Locale('nl'),
     Locale('no'),
+    Locale('or'),
+    Locale('pa'),
     Locale('pl'),
     Locale('pt'),
     Locale('pt', 'PT'),
@@ -148,9 +172,13 @@ abstract class L {
     Locale('sk'),
     Locale('sl'),
     Locale('sv'),
+    Locale('ta'),
+    Locale('te'),
     Locale('th'),
     Locale('tr'),
     Locale('uk'),
+    Locale('ur'),
+    Locale('vi'),
     Locale('zh'),
     Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
   ];
@@ -533,6 +561,7 @@ class _LDelegate extends LocalizationsDelegate<L> {
   @override
   bool isSupported(Locale locale) => <String>[
     'ar',
+    'bn',
     'ca',
     'cs',
     'da',
@@ -542,14 +571,23 @@ class _LDelegate extends LocalizationsDelegate<L> {
     'es',
     'fi',
     'fr',
+    'gu',
     'he',
+    'hi',
     'hr',
     'hu',
+    'id',
     'it',
     'ja',
+    'kn',
     'ko',
+    'ml',
+    'mr',
+    'ms',
     'nl',
     'no',
+    'or',
+    'pa',
     'pl',
     'pt',
     'ro',
@@ -557,9 +595,13 @@ class _LDelegate extends LocalizationsDelegate<L> {
     'sk',
     'sl',
     'sv',
+    'ta',
+    'te',
     'th',
     'tr',
     'uk',
+    'ur',
+    'vi',
     'zh',
   ].contains(locale.languageCode);
 
@@ -612,6 +654,8 @@ L lookupL(Locale locale) {
   switch (locale.languageCode) {
     case 'ar':
       return LAr();
+    case 'bn':
+      return LBn();
     case 'ca':
       return LCa();
     case 'cs':
@@ -630,22 +674,40 @@ L lookupL(Locale locale) {
       return LFi();
     case 'fr':
       return LFr();
+    case 'gu':
+      return LGu();
     case 'he':
       return LHe();
+    case 'hi':
+      return LHi();
     case 'hr':
       return LHr();
     case 'hu':
       return LHu();
+    case 'id':
+      return LId();
     case 'it':
       return LIt();
     case 'ja':
       return LJa();
+    case 'kn':
+      return LKn();
     case 'ko':
       return LKo();
+    case 'ml':
+      return LMl();
+    case 'mr':
+      return LMr();
+    case 'ms':
+      return LMs();
     case 'nl':
       return LNl();
     case 'no':
       return LNo();
+    case 'or':
+      return LOr();
+    case 'pa':
+      return LPa();
     case 'pl':
       return LPl();
     case 'pt':
@@ -660,12 +722,20 @@ L lookupL(Locale locale) {
       return LSl();
     case 'sv':
       return LSv();
+    case 'ta':
+      return LTa();
+    case 'te':
+      return LTe();
     case 'th':
       return LTh();
     case 'tr':
       return LTr();
     case 'uk':
       return LUk();
+    case 'ur':
+      return LUr();
+    case 'vi':
+      return LVi();
     case 'zh':
       return LZh();
   }

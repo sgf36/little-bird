@@ -4,11 +4,11 @@
     "Every other locale is translated from this file, so edit it here and",
     "re-run the push rather than editing anything in App Store Connect by hand.",
     "Apple's limits: name 30, subtitle 30, promotionalText 170, keywords 100,",
-    "description 4000. The push script checks all of them before sending."
+    "description 4000. The push script checks all of them before sending.",
+    "",
+    "Shared fields — name and the two URLs — come from common.json."
   ],
 
-  "locale": "en-GB",
-  "name": "Wren",
   "subtitle": "Places, kept in Apple Maps",
 
   "promotionalText": "Screenshot the places people tell you about. Wren reads the names, finds them, and puts them straight into a guide in Apple Maps.",
@@ -17,15 +17,10 @@
 
   "keywords": "places,save,map,guide,travel,restaurant,screenshot,bookmark,city,trip,food,itinerary,spots,reel",
 
-  "supportUrl": "https://wren.spencerfields.com/support.html",
-  "marketingUrl": "https://wren.spencerfields.com/",
-
-  "whatsNew": "First release.",
-
   "inAppPurchase": {
     "productId": "com.spencerfields.littlebird.unlimited",
     "name": "Guides of any size",
-    "description": "Save as many places to a guide as you like, instead of three. One payment, kept for good."
+    "description": "Save as many places as you like, not three."
   },
 
   "reviewNotes": "Wren is free for guides of up to three places. Larger guides require a one-time non-consumable purchase.\n\nTo test the paid features without purchasing: long-press the \"Wren\" title in the top-left of the main screen and enter the code provided in the review notes field. This entry point exists solely for review and internal testing. It is not advertised anywhere in the app, is not reachable by ordinary users, and the code is compiled in from a build secret rather than present in the source.\n\nTO TEST THE APP: take or save a few screenshots that contain place names (for example a screenshot of a social post listing restaurants in a city), then tap \"Add screenshots\" and select them. Wren reads the names on device using the Vision framework, asks which city they are in, and finds them using MapKit. Tapping \"Make a guide\" opens Apple Maps with the places in a new guide.\n\nWren requires no account and no sign-in."

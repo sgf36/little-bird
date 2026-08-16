@@ -1,0 +1,252 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Oriya (`or`).
+class LOr extends L {
+  LOr([String locale = 'or']) : super(locale);
+
+  @override
+  String get tagline => 'ଗୋଟିଏ ଛୋଟ ଚଢ଼େଇ କହିଲା।';
+
+  @override
+  String get emptyTitle => 'ସ୍ଥାନ, ସାଇତି ରଖା।';
+
+  @override
+  String get emptyBody =>
+      'କେହି ଯାହା ସୁପାରିଶ କରନ୍ତି ତାହାର ସ୍କ୍ରିନଶଟ୍ ନିଅନ୍ତୁ — ଏକ ରିଲ୍, ଏକ ପୋଷ୍ଟ, ଏକ ବାର୍ତ୍ତା, କିମ୍ବା ଗାଇଡ୍‌ବୁକ୍‌ର ଗୋଟିଏ ପୃଷ୍ଠା। Wren ନାମଗୁଡ଼ିକ ପଢ଼ି ସେଗୁଡ଼ିକୁ Apple Maps‌ରେ ରଖିଦିଏ।';
+
+  @override
+  String get emptyNote =>
+      'ଗୋଟିଏ ସ୍ଥାନ ଆପଣଙ୍କ ପାଖରେ ପୂର୍ବରୁ ଥିବା ଗାଇଡ୍‌ରେ ଯୋଡ଼ି ହୁଏ। ଏକାଧିକ ହେଲେ ନୂଆ ଗୋଟିଏ ତିଆରି ହୁଏ — Apple Maps ଗାଇଡ୍‌ଗୁଡ଼ିକୁ ମିଶାଇ ପାରେ ନାହିଁ।';
+
+  @override
+  String get addScreenshots => 'ସ୍କ୍ରିନଶଟ୍ ଯୋଡ଼ନ୍ତୁ';
+
+  @override
+  String get readingShort => 'ପଢ଼ୁଛି…';
+
+  @override
+  String readingProgress(int done, int total) {
+    return '$totalରୁ $done ପଢ଼ୁଛି…';
+  }
+
+  @override
+  String get addToGuide => 'ଏକ ଗାଇଡ୍‌ରେ ଯୋଡ଼ନ୍ତୁ';
+
+  @override
+  String makeGuide(int count) {
+    return 'ଗାଇଡ୍ ତିଆରି କରନ୍ତୁ ($count)';
+  }
+
+  @override
+  String get notFoundOnMap => 'ମାନଚିତ୍ରରେ ମିଳିଲା ନାହିଁ';
+
+  @override
+  String get tapToSearchForIt => 'ଖୋଜିବା ପାଇଁ ଟ୍ୟାପ୍ କରନ୍ତୁ';
+
+  @override
+  String readAs(String text) {
+    return 'ଏହିପରି ପଢ଼ାଗଲା: “$text”';
+  }
+
+  @override
+  String notFoundBanner(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countଟି ସ୍ଥାନ ମିଳିଲା ନାହିଁ। ଖୋଜିବା ପାଇଁ ଟ୍ୟାପ୍ କରନ୍ତୁ।',
+      one: '1ଟି ସ୍ଥାନ ମିଳିଲା ନାହିଁ। ଖୋଜିବା ପାଇଁ ଟ୍ୟାପ୍ କରନ୍ତୁ।',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get whereAreThesePlaces => 'ଏହି ସ୍ଥାନଗୁଡ଼ିକ କେଉଁଠି?';
+
+  @override
+  String get regionDetected => 'କ୍ୟାପ୍‌ସନରୁ ପଢ଼ାଯାଇଛି। ଭୁଲ ଥିଲେ ବଦଳାନ୍ତୁ।';
+
+  @override
+  String get regionNotDetected =>
+      'ଏଗୁଡ଼ିକ କେଉଁଠି ଅଛି ତାହା ସ୍କ୍ରିନଶଟ୍‌ରେ ଲେଖା ନଥିଲା। ସହର ଦେଲେ ଖୋଜା ବହୁତ ଠିକ୍ ହୁଏ।';
+
+  @override
+  String get cityOrRegion => 'ସହର କିମ୍ବା ଅଞ୍ଚଳ';
+
+  @override
+  String get cityExample => 'ଯଥା ଭୁବନେଶ୍ୱର';
+
+  @override
+  String get searchAnywhere => 'ସବୁଠି ଖୋଜନ୍ତୁ';
+
+  @override
+  String get findPlaces => 'ସ୍ଥାନ ଖୋଜନ୍ତୁ';
+
+  @override
+  String searchedIn(String region) {
+    return '$regionରେ ଖୋଜାଗଲା';
+  }
+
+  @override
+  String get nameThisGuide => 'ଏହି ଗାଇଡ୍‌କୁ ନାମ ଦିଅନ୍ତୁ';
+
+  @override
+  String nameThisGuideBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ଏହି ନାମରେ ଏହା Apple Maps‌ରେ ଦେଖାଯିବ, ଏଥିରେ $countଟି ସ୍ଥାନ ରହିବ।',
+      one: 'ଏହି ନାମରେ ଏହା Apple Maps‌ରେ ଦେଖାଯିବ, ଏଥିରେ 1ଟି ସ୍ଥାନ ରହିବ।',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get guideName => 'ଗାଇଡ୍‌ର ନାମ';
+
+  @override
+  String get guideNameExample => 'ଯଥା ରୋମ୍, ଅକ୍ଟୋବର';
+
+  @override
+  String get createGuide => 'ଗାଇଡ୍ ତିଆରି କରନ୍ତୁ';
+
+  @override
+  String get cancel => 'ବାତିଲ୍ କରନ୍ତୁ';
+
+  @override
+  String get guidesOfAnySize => 'ଯେକୌଣସି ଆକାରର ଗାଇଡ୍';
+
+  @override
+  String unlockExplain(int limit, int selected, int over) {
+    return 'Wren ଗୋଟିଏ ଗାଇଡ୍‌ରେ ମାଗଣାରେ $limitଟି ପର୍ଯ୍ୟନ୍ତ ସ୍ଥାନ ସାଇତେ। ଆପଣ $selectedଟି ବାଛିଛନ୍ତି — $overଟି ଅଧିକ।';
+  }
+
+  @override
+  String get onePaymentKept =>
+      'ଥରେ ଦେୟ, ଚିରଦିନ ଆପଣଙ୍କର। କୌଣସି ସବ୍‌ସ୍କ୍ରିପ୍‌ସନ୍ ନାହିଁ।';
+
+  @override
+  String unlockFor(String price) {
+    return '$priceରେ ଅନଲକ୍ କରନ୍ତୁ';
+  }
+
+  @override
+  String saveFirstInstead(int limit) {
+    return 'ଏହା ବଦଳରେ ପ୍ରଥମ $limitଟି ସାଇତନ୍ତୁ';
+  }
+
+  @override
+  String get restorePrevious => 'ପୂର୍ବ କ୍ରୟ ପୁନରୁଦ୍ଧାର କରନ୍ତୁ';
+
+  @override
+  String get restorePurchase => 'କ୍ରୟ ପୁନରୁଦ୍ଧାର କରନ୍ତୁ';
+
+  @override
+  String overFreeLimit(int over, int limit) {
+    return 'ମାଗଣା ସୀମା $limitଠାରୁ $overଟି ଅଧିକ। ଅନଲକ୍ କରିପାରିବେ, କିମ୍ବା ପ୍ରଥମ $limitଟି ସାଇତିପାରିବେ।';
+  }
+
+  @override
+  String get findThisPlace => 'ଏହି ସ୍ଥାନ ଖୋଜନ୍ତୁ';
+
+  @override
+  String get searchAppleMaps => 'Apple Maps‌ରେ ଖୋଜନ୍ତୁ';
+
+  @override
+  String searchInRegion(String region) {
+    return '$regionରେ ଖୋଜନ୍ତୁ';
+  }
+
+  @override
+  String get searching => 'ଖୋଜୁଛି…';
+
+  @override
+  String get typeTwoCharacters => 'ଅନ୍ତତଃ ଦୁଇଟି ଅକ୍ଷର ଲେଖନ୍ତୁ।';
+
+  @override
+  String get nothingFound =>
+      'କିଛି ମିଳିଲା ନାହିଁ। ରାସ୍ତାର ନାମ, କିମ୍ବା ଛୋଟ ନାମ ଚେଷ୍ଟା କରନ୍ତୁ।';
+
+  @override
+  String get rateLimited =>
+      'Apple Maps ଖୋଜାକୁ ସୀମିତ କରୁଛି। ଟିକିଏ ଅପେକ୍ଷା କରି ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।';
+
+  @override
+  String rateLimitedDuringImport(int added) {
+    return 'Apple Maps ଖୋଜାକୁ ସୀମିତ କରୁଛି — ଏପର୍ଯ୍ୟନ୍ତ $addedଟି ଯୋଡ଼ାଗଲା, ବାକିଗୁଡ଼ିକ ଟିକିଏ ପରେ ଚେଷ୍ଟା କରନ୍ତୁ।';
+  }
+
+  @override
+  String importSummary(int found) {
+    return '$foundଟି ମିଳିଲା';
+  }
+
+  @override
+  String importSummaryIn(String region) {
+    return '$regionରେ';
+  }
+
+  @override
+  String importSummaryNeedLook(int count) {
+    return '$countଟି ଦେଖିବାକୁ ଅଛି';
+  }
+
+  @override
+  String importSummaryUnreadable(int count) {
+    return '$countଟି ପଢ଼ାଗଲା ନାହିଁ';
+  }
+
+  @override
+  String nothingReadable(int count) {
+    return '$countଟି ସ୍କ୍ରିନଶଟ୍‌ରେ ପଢ଼ିବା ଯୋଗ୍ୟ କିଛି ନାହିଁ';
+  }
+
+  @override
+  String get couldNotOpenMaps => 'Maps ଖୋଲାଗଲା ନାହିଁ';
+
+  @override
+  String get checkingAppleAccount => 'ଆପଣଙ୍କ Apple ଖାତା ଯାଞ୍ଚ କରୁଛି…';
+
+  @override
+  String get restoredUnlocked =>
+      'ପୁନରୁଦ୍ଧାର ହେଲା। ଯେକୌଣସି ଆକାରର ଗାଇଡ୍ ଅନଲକ୍ ହୋଇଛି।';
+
+  @override
+  String get noPreviousPurchase =>
+      'ଏହି Apple ଖାତାରେ ପୂର୍ବ କୌଣସି କ୍ରୟ ମିଳିଲା ନାହିଁ।';
+
+  @override
+  String get purchaseDidNotComplete =>
+      'କ୍ରୟ ସମ୍ପୂର୍ଣ୍ଣ ହେଲା ନାହିଁ, ତେଣୁ କିଛି ନିଆଯାଇ ନାହିଁ।';
+
+  @override
+  String alreadyInTheList(String name) {
+    return '$name ପୂର୍ବରୁ ତାଲିକାରେ ଥିଲା।';
+  }
+
+  @override
+  String get ocrUnavailable =>
+      'ସ୍କ୍ରିନଶଟ୍ ପଢ଼ିବା ପାଇଁ iPhone ଦରକାର — ଏହି ପ୍ଲାଟଫର୍ମରେ ଲେଖା ଚିହ୍ନଟ ନାହିଁ।';
+
+  @override
+  String get lookupUnavailable =>
+      'ସ୍ଥାନ ଖୋଜିବା ପାଇଁ iPhone ଦରକାର — ଏହି ପ୍ଲାଟଫର୍ମରେ ମାନଚିତ୍ର ଖୋଜା ନାହିଁ।';
+
+  @override
+  String get reviewerAccess => 'ସମୀକ୍ଷକ ପ୍ରବେଶ';
+
+  @override
+  String get code => 'କୋଡ୍';
+
+  @override
+  String get unlock => 'ଅନଲକ୍ କରନ୍ତୁ';
+
+  @override
+  String get reviewerEnabled => 'ସମୀକ୍ଷକ ପ୍ରବେଶ ଚାଲୁ ହେଲା।';
+
+  @override
+  String get codeNotRecognised => 'ସେହି କୋଡ୍ ଚିହ୍ନଟ ହେଲା ନାହିଁ।';
+}

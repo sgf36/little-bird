@@ -1,0 +1,21 @@
+{
+  "_comment": [
+    "Fields that are identical in every language. push_metadata.py merges this",
+    "under each metadata_<locale>.json, so a locale file carries only the text",
+    "a translator actually touched. Change a URL here, not in fifty places.",
+    "",
+    "name is the app's name and is deliberately not translated: it is a bird,",
+    "and the App Store shows one name per listing. whatsNew is rejected on an",
+    "app that has never been released, and the push script drops it if Apple",
+    "objects.",
+    "",
+    "reviewNotes lives in metadata_en_GB.json alone — App Review reads the",
+    "primary locale, and the reviewer unlock code must not be repeated fifty",
+    "times over."
+  ],
+
+  "name": "Wren",
+  "supportUrl": "https://wren.spencerfields.com/support.html",
+  "marketingUrl": "https://wren.spencerfields.com/",
+  "whatsNew": "First release."
+}
