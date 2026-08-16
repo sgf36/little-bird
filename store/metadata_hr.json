@@ -1,0 +1,14 @@
+{
+  "subtitle": "Mjesta, spremljena u Kartama",
+
+  "promotionalText": "Snimi zaslon s mjestima koja ti preporuče. Wren pročita imena, pronađe ih i odmah ih stavi u vodič u Apple Kartama.",
+
+  "description": "Netko ti pošalje reel. Pet mjesta gdje moraš jesti u Rimu, bar na krovu u Lisabonu, knjižara u uličici u Tokiju. Gledaš, misliš da ćeš zapamtiti, a do četvrtka toga više nema.\n\nWren ih uhvati.\n\nSnimi zaslon svaki put kad se neko mjesto pojavi. Wren pročita imena sa zaslona, shvati o kojim se mjestima zapravo radi i sve ih stavi u vodič u Apple Kartama — ondje gdje ćeš stajati u trenutku kad ti zatrebaju.\n\nKAKO RADI\n\n1. Snimi ono što vidiš. Iz reela, objave, poruke od prijatelja ili fotografirane stranice vodiča.\n\n2. Wren čita imena. Prepoznavanje teksta radi na tvom iPhoneu, pa snimke zaslona nikad ne odlaze s njega. Wren čita i opis kako bi otkrio o kojem je gradu riječ, i traži da to potvrdiš.\n\n3. Pregledaj popis. Uz svako mjesto piše što je pročitano pored onoga što je pronađeno, pa se kriva podudarnost odmah vidi. Ono što nije pronađeno — ili je pronađeno krivo — možeš potražiti ručno.\n\n4. Ravno u Apple Karte. Ne kopija tvojih mjesta u još jednoj aplikaciji. Pravi vodič, u Kartama koje ionako koristiš.\n\nBILO GDJE, NE SAMO RESTORANI\n\nRestorani i barovi, naravno. Ali i vidikovci, tržnice, hoteli, galerije, dućani, počeci staza, plaže i ona benzinska postaja za koju netko tvrdi da ima najbolju kavu u osamdeset kilometara. Sve što ima ime i lokaciju.\n\nBEZ RAČUNA, BEZ PRAĆENJA, BEZ POSLUŽITELJA\n\nWren nema prijavu i ne prikuplja ništa o tebi. Ne postoji Wrenov poslužitelj na koji bi tvoji podaci mogli doći. Snimke zaslona čitaju se na tvom uređaju i nikad se ne prenose. Jedino što napušta tvoj iPhone jest ime mjesta, poslano Apple Kartama da ga pronađu — točno onako kako to radi i sama aplikacija Karte.\n\nWren se ne povezuje s Instagramom ni bilo kojom drugom uslugom i ne čita ništa s tvojih računa. Čita samo one snimke zaslona koje mu sam daš.\n\nBESPLATNO, UZ JEDNU NEOBAVEZNU KUPNJU\n\nVodiči s najviše tri mjesta besplatni su, zauvijek. Spremanje vodiča s više od tri mjesta jednokratna je kupnja — bez pretplate, bez ičega što se obnavlja, i vraća se na tvoje druge uređaje bez dodatnog troška.\n\nNAPOMENA O APPLE KARTAMA\n\nApple Karte ne mogu spojiti vodiče. Objava više mjesta uvijek stvara novi vodič. Želiš li dodati jedno mjesto u vodič koji već imaš, pošalji ga samog — Karte će same ponuditi da ga dodaju.",
+
+  "keywords": "mjesta,spremi,karta,vodič,putovanje,restoran,snimka zaslona,grad,odmor,hrana,ruta,reel",
+
+  "inAppPurchase": {
+    "name": "Vodiči bilo koje veličine",
+    "description": "Koliko god mjesta želiš, ne tri."
+  }
+}

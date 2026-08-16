@@ -34,20 +34,38 @@ LIMITS = {
 # description, which is a third of what the App Store subtitle allows.
 IAP_LIMITS = {"name": 30, "description": 45}
 
+_token = {"value": None, "expires": 0}
+
+
 def token():
+    """Minted on demand and refreshed before it lapses.
+
+    A single token minted at import was enough for one locale and not for
+    fifty: Apple caps the lifetime at 20 minutes, a full run takes longer, and
+    an expired token comes back as an ordinary empty response rather than an
+    error. The symptom was one locale in forty-nine failing with "no editable
+    version found" — which reads like missing data, not an expired credential.
+    """
     now = int(time.time())
-    return jwt.encode({"iss": ISSUER, "iat": now, "exp": now + 1200,
-                       "aud": "appstoreconnect-v1"},
-                      KEY.read_text(encoding="utf-8"), algorithm="ES256",
-                      headers={"kid": KEY_ID, "typ": "JWT"})
+    if _token["value"] is None or now > _token["expires"] - 120:
+        # iat is backdated a minute. If this machine's clock runs even a second
+        # ahead of Apple's, a token issued "in the future" is rejected — which
+        # is what made the first locale of the run fail while the other
+        # forty-eight, minted from the same call, went through.
+        _token["value"] = jwt.encode(
+            {"iss": ISSUER, "iat": now - 60, "exp": now + 1200,
+             "aud": "appstoreconnect-v1"},
+            KEY.read_text(encoding="utf-8"), algorithm="ES256",
+            headers={"kid": KEY_ID, "typ": "JWT"})
+        _token["expires"] = now + 1200
+    return _token["value"]
 
-TOKEN = token()
 
-def call(method, path, body=None, version="v1"):
+def call(method, path, body=None, version="v1", _retry=True):
     req = urllib.request.Request(
         f"https://api.appstoreconnect.apple.com/{version}/{path}",
         method=method,
-        headers={"Authorization": f"Bearer {TOKEN}",
+        headers={"Authorization": f"Bearer {token()}",
                  "Content-Type": "application/json"},
         data=json.dumps(body).encode() if body else None)
     try:
@@ -56,6 +74,13 @@ def call(method, path, body=None, version="v1"):
             return r.status, (json.loads(raw) if raw else {})
     except urllib.error.HTTPError as e:
         raw = e.read().decode("utf-8", "replace")
+        # A 401 is worth exactly one retry with a fresh token. Apple returns it
+        # for skew and for expiry alike, and neither is a reason to abandon a
+        # locale halfway through a fifty-locale run.
+        if e.code == 401 and _retry:
+            _token["value"] = None
+            time.sleep(2)
+            return call(method, path, body, version, _retry=False)
         try:
             return e.code, json.loads(raw)
         except ValueError:
@@ -175,7 +200,9 @@ def push(meta):
           "METADATA_REJECTED", "WAITING_FOR_REVIEW")),
         (vers.get("data") or [None])[0])
     if not version:
-        print("  no editable version found")
+        # Says which locale, because "no editable version" is app-wide state
+        # and a bare line gives no clue that only one of fifty hit it.
+        print(f"  {locale}: no editable version found — {errs(vers)}")
         return False
 
     st, locs = call(

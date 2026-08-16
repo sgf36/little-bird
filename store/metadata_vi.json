@@ -1,0 +1,14 @@
+{
+  "subtitle": "Giữ lại địa điểm trong Maps",
+
+  "promotionalText": "Chụp màn hình những chỗ người ta gợi ý cho bạn. Wren đọc tên, tìm ra chúng và đưa thẳng vào một hướng dẫn trong Apple Maps.",
+
+  "description": "Ai đó gửi bạn một reel. Năm chỗ nhất định phải ăn ở Rome, một quán bar trên sân thượng ở Lisbon, một hiệu sách trong con hẻm ở Tokyo. Bạn xem, bạn định bụng sẽ nhớ, rồi đến thứ Năm là quên sạch.\n\nWren giữ lại giúp bạn.\n\nCứ chụp màn hình mỗi khi một địa điểm hiện ra. Wren đọc tên trên màn hình, xác định thật ra đó là những nơi nào, rồi đưa tất cả vào một hướng dẫn trong Apple Maps — đúng nơi bạn sẽ đứng khi cần đến chúng.\n\nCÁCH HOẠT ĐỘNG\n\n1. Chụp lại những gì bạn thấy. Từ một reel, một bài đăng, một tin nhắn của bạn bè, hay một trang sách hướng dẫn du lịch được chụp lại.\n\n2. Wren đọc tên. Việc nhận dạng văn bản chạy ngay trên iPhone của bạn, nên ảnh chụp màn hình không bao giờ rời khỏi máy. Wren cũng đọc phần chú thích để đoán ra đó là thành phố nào, rồi hỏi bạn xác nhận.\n\n3. Xem lại danh sách. Mỗi địa điểm đều hiển thị phần đọc được bên cạnh kết quả tìm thấy, nên một kết quả sai sẽ lộ ra ngay. Chỗ nào không tìm thấy — hoặc tìm sai — bạn có thể tự tìm lại bằng tay.\n\n4. Thẳng vào Apple Maps. Không phải một bản sao địa điểm của bạn trong thêm một ứng dụng nữa. Đây là một hướng dẫn thật, ngay trong Maps mà bạn vẫn dùng.\n\nBẤT CỨ ĐÂU, KHÔNG CHỈ NHÀ HÀNG\n\nNhà hàng và quán bar, tất nhiên rồi. Còn có cả điểm ngắm cảnh, chợ, khách sạn, phòng tranh, cửa hàng, điểm bắt đầu đường mòn, bãi biển, và cái cây xăng mà ai đó khăng khăng là pha cà phê ngon nhất trong tám mươi cây số. Bất cứ thứ gì có tên và có vị trí.\n\nKHÔNG TÀI KHOẢN, KHÔNG THEO DÕI, KHÔNG MÁY CHỦ\n\nWren không có phần đăng nhập và không thu thập bất cứ điều gì về bạn. Không hề có máy chủ Wren nào để dữ liệu của bạn chạy tới. Ảnh chụp màn hình được đọc ngay trên máy của bạn và không bao giờ được tải lên. Thứ duy nhất rời khỏi iPhone là tên một địa điểm, gửi sang Apple Maps để tìm — đúng như việc ứng dụng Maps vẫn làm.\n\nWren không kết nối với Instagram hay bất kỳ dịch vụ nào khác, và không đọc gì từ tài khoản của bạn. Nó chỉ đọc những ảnh chụp màn hình mà bạn đưa cho.\n\nMIỄN PHÍ, VỚI MỘT GIAO DỊCH TUỲ CHỌN\n\nHướng dẫn tối đa ba địa điểm là miễn phí, mãi mãi. Lưu một hướng dẫn có hơn ba địa điểm là giao dịch trả một lần — không phải gói thuê bao, không có gì tự gia hạn, và khôi phục được trên các thiết bị khác mà không mất thêm phí.\n\nMỘT LƯU Ý VỀ APPLE MAPS\n\nApple Maps không gộp được các hướng dẫn. Đăng nhiều địa điểm luôn tạo ra một hướng dẫn mới. Muốn thêm một địa điểm vào hướng dẫn bạn đã có, hãy gửi riêng nó và Maps sẽ hỏi bạn có muốn thêm vào không.",
+
+  "keywords": "địa điểm,lưu,bản đồ,hướng dẫn,du lịch,nhà hàng,ảnh chụp màn hình,thành phố,ăn uống,reel",
+
+  "inAppPurchase": {
+    "name": "Hướng dẫn không giới hạn",
+    "description": "Bao nhiêu địa điểm cũng được."
+  }
+}
