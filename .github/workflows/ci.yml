@@ -11,8 +11,14 @@ name: CI
 on:
   push:
     branches: [main]
+    tags: ['v*']
   pull_request:
   workflow_dispatch:
+    inputs:
+      testflight:
+        description: 'Also build signed and upload to TestFlight'
+        type: boolean
+        default: false
 
 env:
   FLUTTER_VERSION: '3.44.8'
@@ -108,11 +114,22 @@ jobs:
   #   ASC_KEY_ID, ASC_ISSUER_ID, ASC_API_KEY_P8_BASE64   App Manager API key
   # New, because a profile is bound to one bundle id:
   #   IOS_PROVISION_PROFILE_BASE64, IOS_PROVISION_PROFILE_NAME
+  # Deliberately NOT on every push. Shipping a build per commit burns macOS
+  # minutes, churns build numbers and fills TestFlight with noise — one change
+  # produced two builds before this gate existed.
+  #
+  # Ships when you ask for it:
+  #   gh workflow run ci.yml -f testflight=true
+  # or on a version tag:
+  #   git tag v1.0.1 && git push origin v1.0.1
   testflight:
     name: TestFlight
     runs-on: macos-26
     needs: ios
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    if: >-
+      github.event_name == 'workflow_dispatch' &&
+      inputs.testflight == 'true' ||
+      startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/checkout@v5
       - uses: subosito/flutter-action@v2
