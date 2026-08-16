@@ -1,0 +1,206 @@
+/* Wren — shared styles.
+   Dark by deliberate choice: the brand ground is a dim teal and the palette is
+   built for it, so every colour is painted explicitly rather than inherited. */
+
+:root {
+  --ground:  #12332F;
+  --raised:  #1E4B45;
+  --gold:    #F2C879;
+  --clay:    #E08A4B;
+  --text:    #EFEAE0;
+  --muted:   #9FB5B0;
+  --line:    #2C5B54;
+  --danger:  #E8776B;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--text);
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: clamp(2rem, 6vw, 3.5rem) clamp(1.25rem, 5vw, 2rem) 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 5vw, 3rem);
+}
+
+/* ── masthead and navigation ─────────────────────────────────────────── */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1rem;
+}
+.topbar .brand {
+  display: flex; align-items: center; gap: .6rem;
+  font-weight: 700; font-size: 1.05rem;
+  color: var(--text); text-decoration: none;
+}
+.topbar .brand svg { width: 30px; height: 30px; border-radius: 8px; display: block; }
+.topbar nav { margin-left: auto; display: flex; flex-wrap: wrap; gap: .35rem 1.1rem; }
+.topbar nav a { color: var(--muted); text-decoration: none; font-size: .93rem; }
+.topbar nav a:hover, .topbar nav a[aria-current="page"] { color: var(--gold); }
+
+header.hero { display: flex; flex-direction: column; gap: 1.15rem; align-items: flex-start; }
+.mark { width: 76px; height: 76px; border-radius: 18px; display: block; }
+
+h1 {
+  font-family: Georgia, "Iowan Old Style", serif;
+  font-weight: 400;
+  font-size: clamp(2.2rem, 8vw, 3.4rem);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-wrap: balance;
+}
+h2 {
+  font-family: Georgia, "Iowan Old Style", serif;
+  font-weight: 400;
+  font-size: clamp(1.4rem, 4vw, 1.85rem);
+  line-height: 1.2;
+  margin: 0 0 .35rem;
+  text-wrap: balance;
+}
+h3 {
+  font-size: .82rem; font-weight: 700; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--muted);
+  margin: 1.4rem 0 .4rem;
+}
+.tagline {
+  font-family: Georgia, "Iowan Old Style", serif;
+  font-style: italic;
+  font-size: clamp(1.15rem, 3.4vw, 1.4rem);
+  color: var(--gold);
+  margin: 0;
+}
+.lede { font-size: clamp(1.02rem, 2.6vw, 1.15rem); margin: 0; max-width: 34rem; }
+.lede + .lede { color: var(--muted); }
+.prose { display: flex; flex-direction: column; gap: 1.15rem; }
+.updated { color: var(--muted); font-size: .88rem; margin: 0; }
+
+section > p { margin: 0 0 .9rem; }
+section > p:last-child { margin-bottom: 0; }
+section ul { margin: 0 0 .9rem; padding-left: 1.15rem; display: flex; flex-direction: column; gap: .45rem; }
+section li::marker { color: var(--gold); }
+
+a { color: var(--gold); text-underline-offset: 3px; }
+a:hover { color: var(--clay); }
+a:focus-visible, button:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px;
+}
+strong { font-weight: 650; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .88em; }
+
+/* ── steps ───────────────────────────────────────────────────────────── */
+ol.steps {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+ol.steps li {
+  background: var(--raised);
+  padding: 1.15rem 1.35rem;
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0 1rem;
+  align-items: baseline;
+}
+.n {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: .78rem; color: var(--gold); font-variant-numeric: tabular-nums;
+}
+.step-t { font-weight: 620; }
+.step-d { grid-column: 2; color: var(--muted); font-size: .94rem; margin-top: .15rem; }
+
+/* ── callout ─────────────────────────────────────────────────────────── */
+.status, .callout {
+  border-left: 3px solid var(--clay);
+  background: var(--raised);
+  border-radius: 0 6px 6px 0;
+  padding: 1.1rem 1.35rem;
+}
+.status p, .callout p { margin: 0; }
+.status p + p, .callout p + p { margin-top: .6rem; color: var(--muted); font-size: .94rem; }
+.label {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: .68rem; letter-spacing: .13em; text-transform: uppercase;
+  color: var(--clay); display: block; margin-bottom: .45rem;
+}
+
+/* ── support form ────────────────────────────────────────────────────── */
+.support-grid { display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
+@media (min-width: 46rem) { .support-grid { grid-template-columns: 1.4fr 1fr; } }
+
+.field { display: flex; flex-direction: column; gap: .35rem; margin-bottom: 1rem; }
+.field label { font-size: .88rem; color: var(--muted); }
+input, select, textarea {
+  font: inherit; font-size: .96rem;
+  color: var(--text);
+  background: var(--raised);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: .6rem .7rem;
+  width: 100%;
+}
+textarea { min-height: 8rem; resize: vertical; }
+
+.btn {
+  font: inherit; font-weight: 650; font-size: .95rem;
+  color: var(--ground); background: var(--gold);
+  border: 0; border-radius: 5px;
+  padding: .65rem 1.2rem;
+  cursor: pointer;
+}
+.btn:hover { background: var(--clay); }
+
+.form-note { color: var(--muted); font-size: .86rem; margin: .7rem 0 0; }
+.form-error { color: var(--danger); }
+
+/* Honeypot: present for bots, invisible and unreachable for people. */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+.contact-card {
+  background: var(--raised);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1.25rem;
+  align-self: start;
+}
+.contact-card h3 { margin-top: 0; }
+.contact-card dl { margin: .6rem 0 0; }
+.contact-card dt { font-size: .78rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-top: .6rem; }
+.contact-card dd { margin: .1rem 0 0; }
+summary { cursor: pointer; color: var(--gold); }
+
+/* ── tables in legal pages ───────────────────────────────────────────── */
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; }
+table { border-collapse: collapse; width: 100%; font-size: .93rem; min-width: 28rem; }
+th, td { text-align: left; padding: .7rem .9rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+thead th { background: var(--raised); color: var(--muted); font-size: .78rem; text-transform: uppercase; letter-spacing: .07em; }
+tbody tr:last-child td { border-bottom: 0; }
+
+/* ── footer ──────────────────────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--line);
+  padding-top: 1.35rem;
+  color: var(--muted);
+  font-size: .88rem;
+  display: flex; flex-wrap: wrap; gap: .4rem 1.25rem;
+}
