@@ -6,6 +6,7 @@ import 'src/entitlement.dart';
 import 'src/guide_link.dart';
 import 'src/ocr.dart';
 import 'src/resolver.dart';
+import 'src/store_unlock.dart';
 
 void main() => runApp(const WrenApp());
 
@@ -46,12 +47,24 @@ class CapturePage extends StatefulWidget {
 class _CapturePageState extends State<CapturePage> {
   final _picker = ImagePicker();
   final _resolver = StubResolver();
-  final UnlockStore _store = UnavailableUnlockStore();
+  final UnlockStore _store = StoreUnlockStore();
   final _pending = <Pending>[];
 
   Entitlement _entitlement = const Entitlement.free();
   String? _status;
   bool _busy = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Start from the cached answer so a paying customer is not shown a paywall
+    // while the store is still being asked. The store remains the authority.
+    StoreUnlockStore.cachedUnlocked().then((unlocked) {
+      if (unlocked && mounted) {
+        setState(() => _entitlement = const Entitlement.unlocked());
+      }
+    });
+  }
 
   Future<void> _importScreenshots() async {
     setState(() {

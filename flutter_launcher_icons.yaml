@@ -1,0 +1,19 @@
+# Generates the iOS and Android icon sets from the single 1024px master that
+# tool/make_icon.py renders. Re-run after changing the mark:
+#
+#   python tool/make_icon.py
+#   dart run flutter_launcher_icons
+#
+flutter_launcher_icons:
+  image_path: "assets/icon/app_icon.png"
+
+  ios: true
+  # iOS icons must not carry an alpha channel; the master is opaque already,
+  # and this strips one if it ever creeps in.
+  remove_alpha_ios: true
+
+  android: true
+  # The bird sits inside the circular safe zone on the foreground layer, with
+  # the teal ground supplied as a flat colour behind it.
+  adaptive_icon_background: "#1E4B45"
+  adaptive_icon_foreground: "assets/icon/app_icon_foreground.png"
