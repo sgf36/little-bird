@@ -7,6 +7,7 @@ import 'src/guide_link.dart';
 import 'src/ocr.dart';
 import 'src/region_hint.dart';
 import 'src/resolver.dart';
+import 'src/review_unlock.dart' as review;
 import 'src/splash.dart';
 import 'src/store_unlock.dart';
 import 'src/theme.dart';
@@ -79,6 +80,58 @@ class _CapturePageState extends State<CapturePage> {
         setState(() => _entitlement = const Entitlement.unlocked());
       }
     });
+    review.wasUnlocked().then((unlocked) {
+      if (unlocked && mounted) {
+        setState(() => _entitlement = const Entitlement.unlocked());
+      }
+    });
+  }
+
+  /// Reached by long-pressing the title. Nothing on screen advertises it, and
+  /// builds without a review code compiled in do not have it at all.
+  Future<void> _reviewUnlock() async {
+    if (!review.available || _entitlement.unlimited) return;
+    final controller = TextEditingController();
+    final entered = await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text(
+          'Reviewer access',
+          style: TextStyle(fontFamily: Wren.serif),
+        ),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          autocorrect: false,
+          enableSuggestions: false,
+          decoration: const InputDecoration(labelText: 'Code'),
+          onSubmitted: (v) => Navigator.pop(context, v),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel', style: TextStyle(color: Wren.muted)),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, controller.text),
+            style: FilledButton.styleFrom(minimumSize: const Size(0, 44)),
+            child: const Text('Unlock'),
+          ),
+        ],
+      ),
+    );
+    if (entered == null || !mounted) return;
+
+    if (review.matches(entered)) {
+      await review.remember();
+      if (!mounted) return;
+      setState(() {
+        _entitlement = const Entitlement.unlocked();
+        _status = 'Reviewer access enabled.';
+      });
+    } else {
+      setState(() => _status = 'That code was not recognised.');
+    }
   }
 
   Future<void> _restoreFromMenu() async {
@@ -445,17 +498,22 @@ class _CapturePageState extends State<CapturePage> {
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 20,
-        title: Row(
-          children: [
-            const WrenMark(size: 30),
-            const SizedBox(width: 10),
-            Text(
-              'Wren',
-              style: Theme.of(
-                context,
-              ).textTheme.titleMedium?.copyWith(fontSize: 21),
-            ),
-          ],
+        title: GestureDetector(
+          // Long press opens reviewer access. Undiscoverable on purpose, and
+          // absent entirely from builds with no review code compiled in.
+          onLongPress: _reviewUnlock,
+          child: Row(
+            children: [
+              const WrenMark(size: 30),
+              const SizedBox(width: 10),
+              Text(
+                'Wren',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontSize: 21),
+              ),
+            ],
+          ),
         ),
         actions: [
           if (!_entitlement.unlimited)
