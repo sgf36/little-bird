@@ -139,7 +139,10 @@ class _PlaceSearchSheetState extends State<PlaceSearchSheet> {
                       ),
                       const SizedBox(width: 6),
                       Expanded(
-                        child: Text(l.readAs(widget.readAs), style: t.bodySmall),
+                        child: Text(
+                          l.readAs(widget.readAs),
+                          style: t.bodySmall,
+                        ),
                       ),
                     ],
                   ),

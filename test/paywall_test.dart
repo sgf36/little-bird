@@ -46,12 +46,7 @@ Pending place(int i) => Pending(
 
 Future<void> pump(WidgetTester tester, FakeStore store, int count) async {
   await tester.pumpWidget(
-    app(
-      CapturePage(
-        store: store,
-        initialPending: List.generate(count, place),
-      ),
-    ),
+    app(CapturePage(store: store, initialPending: List.generate(count, place))),
   );
   await tester.pumpAndSettle();
 }

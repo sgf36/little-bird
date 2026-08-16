@@ -576,10 +576,7 @@ class _CapturePageState extends State<CapturePage> {
                 if (v == 'restore') _restoreFromMenu();
               },
               itemBuilder: (context) => [
-                PopupMenuItem(
-                  value: 'restore',
-                  child: Text(l.restorePurchase),
-                ),
+                PopupMenuItem(value: 'restore', child: Text(l.restorePurchase)),
               ],
             ),
           const SizedBox(width: 4),
@@ -663,9 +660,7 @@ class _CapturePageState extends State<CapturePage> {
                         Icons.add_photo_alternate_outlined,
                         size: 20,
                       ),
-                      label: Text(
-                        _busy ? l.readingShort : l.addScreenshots,
-                      ),
+                      label: Text(_busy ? l.readingShort : l.addScreenshots),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -845,17 +840,9 @@ class _Empty extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),
-            Text(
-              l.emptyBody,
-              style: t.bodyMedium,
-              textAlign: TextAlign.center,
-            ),
+            Text(l.emptyBody, style: t.bodyMedium, textAlign: TextAlign.center),
             const SizedBox(height: 18),
-            Text(
-              l.emptyNote,
-              style: t.bodySmall,
-              textAlign: TextAlign.center,
-            ),
+            Text(l.emptyNote, style: t.bodySmall, textAlign: TextAlign.center),
           ],
         ),
       ),

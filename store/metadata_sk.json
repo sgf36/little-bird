@@ -1,0 +1,14 @@
+{
+  "subtitle": "Miesta, uložené v Mapách",
+
+  "promotionalText": "Odfoť si obrazovku s miestami, ktoré ti odporučia. Wren prečíta názvy, nájde ich a rovno ich uloží do sprievodcu v Mapách Apple.",
+
+  "description": "Niekto ti pošle reel. Päť miest, kde musíš v Ríme jesť, strešný bar v Lisabone, kníhkupectvo v uličke v Tokiu. Pozeráš sa na to, hovoríš si, že si to zapamätáš, a vo štvrtok je to preč.\n\nWren to zachytí.\n\nOdfoť si obrazovku vždy, keď sa nejaké miesto objaví. Wren prečíta názvy z obrazovky, zistí, o ktoré miesta naozaj ide, a všetky ich uloží do sprievodcu v Mapách Apple — tam, kde budeš stáť vo chvíli, keď ich budeš potrebovať.\n\nAKO TO FUNGUJE\n\n1. Odfoť to, čo vidíš. Reel, príspevok, správu od kamaráta alebo odfotenú stranu zo sprievodcu.\n\n2. Wren prečíta názvy. Rozpoznávanie textu beží na tvojom iPhone, takže snímky ho nikdy neopustia. Wren číta aj popis, aby zistil, o ktoré mesto ide, a nechá si to od teba potvrdiť.\n\n3. Prejdi si zoznam. Pri každom mieste je vedľa nájdenej zhody vidieť to, čo sa prečítalo, takže nesprávna zhoda je hneď nápadná. Čo sa nenašlo — alebo našlo zle — sa dá dohľadať ručne.\n\n4. Rovno do Máp Apple. Nie kópia tvojich miest v ďalšej aplikácii. Skutočný sprievodca v Mapách, ktoré aj tak používaš.\n\nKAMKOĽVEK, NIELEN REŠTAURÁCIE\n\nReštaurácie a bary samozrejme. Ale aj vyhliadky, trhy, hotely, galérie, obchody, začiatky chodníkov, pláže a tá jedna pumpa, o ktorej niekto tvrdí, že robí najlepšiu kávu v okruhu osemdesiatich kilometrov. Čokoľvek, čo má názov a miesto.\n\nŽIADNY ÚČET, ŽIADNE SLEDOVANIE, ŽIADNE SERVERY\n\nWren nemá prihlasovanie a nezbiera o tebe nič. Neexistuje žiadny server Wren, kam by sa tvoje údaje mohli dostať. Snímky sa čítajú na tvojom zariadení a nikdy sa nikam nenahrávajú. Jediné, čo iPhone opustí, je názov miesta poslaný Mapám Apple, aby ho našli — presne tak, ako to robí samotná aplikácia Mapy.\n\nWren sa nepripája k Instagramu ani k žiadnej inej službe a nečíta nič z tvojich účtov. Číta len tie snímky, ktoré mu sám dáš.\n\nZADARMO, S JEDNÝM NEPOVINNÝM NÁKUPOM\n\nSprievodcovia až s tromi miestami sú zadarmo, natrvalo. Uložiť sprievodcu s viac ako tromi miestami je jednorazový nákup — žiadne predplatné, nič, čo by sa obnovovalo, a na ďalších zariadeniach sa obnoví bez doplatku.\n\nPOZNÁMKA K MAPÁM APPLE\n\nMapy Apple nevedia sprievodcov zlúčiť. Zverejnenie viacerých miest vždy vytvorí nového. Keď chceš pridať jedno miesto k sprievodcovi, ktorého už máš, pošli ho samotné — Mapy samy ponúknu, že ho pridajú.",
+
+  "keywords": "miesta,uložiť,mapa,sprievodca,cesta,reštaurácia,snímka,mesto,dovolenka,jedlo,trasa,tipy,reel",
+
+  "inAppPurchase": {
+    "name": "Sprievodcovia bez limitu",
+    "description": "Koľko miest chceš, nie len tri."
+  }
+}

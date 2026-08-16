@@ -36,17 +36,18 @@ void main() {
 
   final expected = messages(template);
 
-  final translations = dir
-      .listSync()
-      .whereType<File>()
-      .where((f) => f.path.endsWith('.arb') && !f.path.endsWith('app_en.arb'))
-      .toList()
-    ..sort((a, b) => a.path.compareTo(b.path));
+  final translations =
+      dir
+          .listSync()
+          .whereType<File>()
+          .where(
+            (f) => f.path.endsWith('.arb') && !f.path.endsWith('app_en.arb'),
+          )
+          .toList()
+        ..sort((a, b) => a.path.compareTo(b.path));
 
   test('the template itself describes every message', () {
-    final undescribed = expected
-        .where((k) => template['@$k'] == null)
-        .toList();
+    final undescribed = expected.where((k) => template['@$k'] == null).toList();
     expect(
       undescribed,
       isEmpty,
@@ -60,8 +61,7 @@ void main() {
         .replaceFirst('.arb', '');
 
     group(locale, () {
-      final arb =
-          jsonDecode(file.readAsStringSync()) as Map<String, dynamic>;
+      final arb = jsonDecode(file.readAsStringSync()) as Map<String, dynamic>;
 
       // Underscore form, matching the filename. The generator warns when the
       // two disagree, because it then has two candidate locales for one file.
