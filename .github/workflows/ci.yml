@@ -1,0 +1,83 @@
+name: CI
+
+# Split deliberately by cost. Analyse and test run on Linux, which is free and
+# fast, and cover everything that is pure Dart — including the guide-link
+# encoder, which is checked byte-for-byte against links confirmed working on a
+# physical iPhone. Only the iOS build needs a macOS runner.
+#
+# There is no Mac in this project, so the macOS job is the only place the Swift
+# OCR bridge ever compiles. Expect it to be where breakages surface.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  FLUTTER_VERSION: '3.44.8'
+
+jobs:
+  dart:
+    name: Analyse and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+      - run: dart format --output=none --set-exit-if-changed lib test
+      - run: flutter analyze
+      - run: flutter test --reporter expanded
+
+  ios:
+    name: Build iOS
+    runs-on: macos-15
+    needs: dart
+    steps:
+      - uses: actions/checkout@v5
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      # Unsigned: proves the Swift bridge and the pod install are sound without
+      # needing certificates. Signing comes in with the TestFlight job below.
+      - name: Build (no codesign)
+        run: flutter build ios --release --no-codesign
+
+      - name: Report app size
+        run: |
+          du -sh build/ios/iphoneos/Runner.app
+          echo "Built unsigned. Add signing secrets to ship to TestFlight."
+
+  # Enable once signing secrets exist. Without a Mac, TestFlight is the device
+  # testing loop, so this job is how the app gets onto a phone at all.
+  #
+  # Needs, as repository secrets:
+  #   IOS_P12_BASE64, IOS_P12_PASSWORD   distribution certificate
+  #   IOS_PROVISIONING_PROFILE_BASE64    App Store profile
+  #   ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_BASE64   App Store Connect API key
+  #
+  # The mobile-companion project already produces all of these; reuse them
+  # rather than minting a second set.
+  testflight:
+    name: TestFlight
+    runs-on: macos-15
+    needs: ios
+    if: false   # flip to: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v5
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - run: echo "wire up signing, then flutter build ipa and xcrun altool"
