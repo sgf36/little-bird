@@ -1,0 +1,14 @@
+{
+  "subtitle": "Platser, i Apple Kartor",
+
+  "promotionalText": "Skärmavbilda platserna folk tipsar dig om. Wren läser namnen, hittar dem och lägger dem rakt in i en guide i Apple Kartor.",
+
+  "description": "Någon skickar dig en reel. Fem ställen du måste äta på i Rom, en takbar i Lissabon, en bokhandel i en gränd i Tokyo. Du tittar, du tänker att du ska komma ihåg, och på torsdagen är det borta.\n\nWren fångar dem.\n\nSkärmavbilda platserna allteftersom de dyker upp. Wren läser namnen från skärmen, listar ut vilka platser det faktiskt rör sig om och lägger hela högen i en guide i Apple Kartor — där du står den dag du behöver dem.\n\nSÅ FUNGERAR DET\n\n1. Skärmavbilda det du ser. Från en reel, ett inlägg, ett meddelande från en vän, eller en fotograferad sida ur en reseguide.\n\n2. Wren läser namnen. Textigenkänningen körs på din iPhone, så dina skärmavbilder lämnar den aldrig. Wren läser också bildtexten för att lista ut vilken stad det handlar om, och ber dig bekräfta.\n\n3. Gå igenom listan. Varje plats visar vad som lästes bredvid vad som hittades, så en felaktig träff syns direkt. Det som inte hittades — eller hittades fel — går att söka upp för hand.\n\n4. Rakt in i Apple Kartor. Ingen kopia av dina platser i ännu en app. En riktig guide, i den Kartor du redan använder.\n\nÖVERALLT, INTE BARA RESTAURANGER\n\nRestauranger och barer, förvisso. Även utsiktsplatser, marknader, hotell, gallerier, butiker, vandringsleder, stränder och den där macken som någon envisas med serverar bästa kaffet på åtta mil. Allt med ett namn och ett läge.\n\nINGET KONTO, INGEN SPÅRNING, INGA SERVRAR\n\nWren har ingen inloggning och samlar inte in något om dig. Det finns ingen Wren-server dit dina uppgifter kan nå. Dina skärmavbilder läses på din enhet och laddas aldrig upp. Det enda som lämnar din iPhone är namnet på en plats, skickat till Apple Kartor för att hittas — precis som Kartor-appen gör.\n\nWren ansluter inte till Instagram eller någon annan tjänst, och läser ingenting från dina konton. Den läser bara de skärmavbilder du själv ger den.\n\nGRATIS, MED ETT VALFRITT KÖP\n\nGuider med upp till tre platser är gratis, för gott. Att spara en guide med fler än tre platser är ett engångsköp — ingen prenumeration, inget som förnyas, och det återskapas på dina andra enheter utan extra kostnad.\n\nEN ANMÄRKNING OM APPLE KARTOR\n\nApple Kartor kan inte slå ihop guider. Att publicera flera platser skapar alltid en ny guide. Vill du lägga till en enstaka plats i en guide du redan har, skicka den ensam så erbjuder sig Kartor att lägga till den.",
+
+  "keywords": "platser,spara,karta,guide,resa,restaurang,skärmavbild,stad,semester,mat,rutt,tips,reel",
+
+  "inAppPurchase": {
+    "name": "Guider utan storleksgräns",
+    "description": "Hur många platser du vill, inte tre."
+  }
+}

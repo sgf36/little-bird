@@ -1,0 +1,14 @@
+{
+  "subtitle": "Mekânlar, Harita'da saklı",
+
+  "promotionalText": "Sana önerilen mekânların ekran görüntüsünü al. Wren adları okur, mekânları bulur ve doğrudan Apple Harita'daki bir rehbere koyar.",
+
+  "description": "Biri sana bir reel yolluyor. Roma'da mutlaka yemek yemen gereken beş yer, Lizbon'da bir teras bar, Tokyo'da bir ara sokakta bir kitapçı. İzliyorsun, aklında tutacağını sanıyorsun, perşembe olduğunda gitmiş oluyor.\n\nWren onları yakalıyor.\n\nMekânlar ekrana geldikçe görüntüsünü al. Wren adları ekrandan okur, bunların gerçekte hangi mekânlar olduğunu çıkarır ve hepsini Apple Harita'daki bir rehbere bırakır — onlara ihtiyacın olduğunda zaten orada duruyor olacaksın.\n\nNASIL ÇALIŞIR\n\n1. Gördüğünün ekran görüntüsünü al. Bir reel, bir gönderi, bir arkadaşından gelen mesaj ya da fotoğrafını çektiğin bir gezi rehberi sayfası olabilir.\n\n2. Wren adları okur. Metin tanıma iPhone'unda çalışır, yani ekran görüntülerin telefondan hiç çıkmaz. Wren açıklamayı da okuyup hangi şehre baktığını anlar ve sana onaylatır.\n\n3. Listeyi gözden geçir. Her mekânda okunan metin ile eşleşen sonuç yan yana görünür, böylece yanlış eşleşme hemen belli olur. Bulunamayan — ya da yanlış bulunan — her şey elle yeniden aranabilir.\n\n4. Doğrudan Apple Harita'ya. Mekânlarının bir başka uygulamadaki kopyası değil. Zaten kullandığın Harita'nın içinde, gerçek bir rehber.\n\nSADECE RESTORANLAR DEĞİL, HER YER\n\nRestoranlar ve barlar elbette. Ayrıca manzara noktaları, pazarlar, oteller, galeriler, dükkânlar, yürüyüş başlangıçları, plajlar ve birinin seksen kilometre içindeki en iyi kahveyi yaptığında ısrar ettiği o benzinlik. Adı ve konumu olan her şey.\n\nHESAP YOK, TAKİP YOK, SUNUCU YOK\n\nWren'de giriş yoktur ve senin hakkında hiçbir şey toplamaz. Verilerinin ulaşabileceği bir Wren sunucusu yoktur. Ekran görüntülerin cihazında okunur ve hiçbir zaman yüklenmez. iPhone'undan çıkan tek şey, bulunması için Apple Harita'ya gönderilen mekân adıdır — Harita uygulamasının kendi yaptığının aynısı.\n\nWren, Instagram'a ya da başka bir servise bağlanmaz ve hesaplarından hiçbir şey okumaz. Yalnızca ona vermeyi seçtiğin ekran görüntülerini okur.\n\nÜCRETSİZ, TEK BİR İSTEĞE BAĞLI SATIN ALMAYLA\n\nÜç mekâna kadar rehberler her zaman ücretsizdir. Üçten fazla mekân içeren bir rehberi kaydetmek tek seferlik bir satın almadır — abonelik yok, yenilenen hiçbir şey yok ve diğer cihazlarında ek ücret olmadan geri yüklenir.\n\nAPPLE HARİTA HAKKINDA BİR NOT\n\nApple Harita rehberleri birleştiremez. Birden fazla mekân yayımlamak her zaman yeni bir rehber oluşturur. Zaten sahip olduğun bir rehbere tek mekân eklemek için onu tek başına gönder; Harita eklemeyi teklif edecektir.",
+
+  "keywords": "mekan,kaydet,harita,rehber,gezi,restoran,ekran görüntüsü,şehir,tatil,yemek,rota,reel,liste",
+
+  "inAppPurchase": {
+    "name": "Her boyutta rehber",
+    "description": "Üç değil, istediğin kadar mekân."
+  }
+}

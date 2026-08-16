@@ -1,0 +1,14 @@
+{
+  "subtitle": "Paikat talteen Apple Kartoissa",
+
+  "promotionalText": "Ota kuvakaappaus paikoista, joita sinulle suositellaan. Wren lukee nimet, löytää paikat ja vie ne suoraan oppaaseen Apple Kartoissa.",
+
+  "description": "Joku lähettää sinulle reelin. Viisi paikkaa, joissa on pakko syödä Roomassa, kattobaari Lissabonissa, kirjakauppa kujan päässä Tokiossa. Katsot sen, aiot muistaa, ja torstaina se on poissa.\n\nWren nappaa ne talteen.\n\nOta kuvakaappaus paikoista sitä mukaa kun ne vilahtavat. Wren lukee nimet ruudulta, selvittää mistä paikoista on todella kyse, ja vie ne kaikki oppaaseen Apple Kartoissa — sinne, missä seisot sillä hetkellä kun niitä tarvitset.\n\nNÄIN SE TOIMII\n\n1. Ota kuvakaappaus siitä, mitä näet. Reelistä, julkaisusta, kaverin viestistä tai valokuvatusta matkaoppaan sivusta.\n\n2. Wren lukee nimet. Tekstintunnistus toimii iPhonessasi, joten kuvakaappaukset eivät koskaan poistu siitä. Wren lukee myös kuvatekstin päätelläkseen, mistä kaupungista on kyse, ja pyytää sinua vahvistamaan.\n\n3. Käy lista läpi. Jokaisen paikan kohdalla näkyy luettu teksti löydetyn osuman vieressä, joten väärä osuma erottuu heti. Sen, mitä ei löytynyt — tai löytyi väärin — voi hakea käsin.\n\n4. Suoraan Apple Karttoihin. Ei kopiota paikoistasi vielä yhteen sovellukseen. Aito opas siinä Kartat-sovelluksessa, jota jo käytät.\n\nMISSÄ TAHANSA, EI VAIN RAVINTOLAT\n\nRavintolat ja baarit toki. Myös näköalapaikat, torit, hotellit, galleriat, kaupat, polkujen alut, rannat ja se yksi huoltoasema, jonka kahvia joku vannoo parhaaksi kahdeksankymmeneen kilometriin. Kaikki, millä on nimi ja sijainti.\n\nEI TILIÄ, EI SEURANTAA, EI PALVELIMIA\n\nWrenissä ei ole kirjautumista eikä se kerää sinusta mitään. Ei ole olemassa Wren-palvelinta, jonne tietosi voisivat päätyä. Kuvakaappauksesi luetaan laitteellasi eikä niitä koskaan lähetetä. Ainoa asia, joka poistuu iPhonestasi, on paikan nimi, joka lähetetään Apple Kartoille löytämistä varten — täsmälleen kuten Kartat-sovellus itse tekee.\n\nWren ei yhdistä Instagramiin eikä mihinkään muuhun palveluun, eikä lue mitään tileiltäsi. Se lukee vain ne kuvakaappaukset, jotka sille itse annat.\n\nILMAINEN, YHDELLÄ VAPAAEHTOISELLA OSTOLLA\n\nEnintään kolmen paikan oppaat ovat ilmaisia, pysyvästi. Yli kolmen paikan oppaan tallentaminen on kertaosto — ei tilausta, ei mitään uusiutuvaa, ja se palautuu muille laitteillesi ilman lisämaksua.\n\nHUOMAUTUS APPLE KARTOISTA\n\nApple Kartat ei osaa yhdistää oppaita. Useamman paikan julkaiseminen luo aina uuden oppaan. Jos haluat lisätä yhden paikan oppaaseen, joka sinulla jo on, lähetä se yksinään — Kartat tarjoutuu lisäämään sen.",
+
+  "keywords": "paikat,tallenna,kartta,opas,matka,ravintola,kuvakaappaus,kaupunki,loma,ruoka,reitti,reel",
+
+  "inAppPurchase": {
+    "name": "Rajattoman kokoiset oppaat",
+    "description": "Niin monta paikkaa kuin haluat."
+  }
+}

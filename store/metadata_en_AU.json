@@ -1,0 +1,16 @@
+{
+  "_comment": [
+    "Generated from metadata_en_GB.json — the English listings differ only",
+    "in a couple of words. Edit en-GB and re-run the generator in the",
+    "commit that added this file, rather than editing here."
+  ],
+  "subtitle": "Places, kept in Apple Maps",
+  "promotionalText": "Screenshot the places people tell you about. Wren reads the names, finds them, and puts them straight into a guide in Apple Maps.",
+  "description": "Someone sends you a reel. Five places you have to eat at in Rome, a rooftop bar in Lisbon, a bookshop down an alley in Tokyo. You watch it, you mean to remember, and by Thursday it is gone.\n\nWren catches them.\n\nScreenshot the places as they appear. Wren reads the names off the screen, works out which places they actually are, and drops the lot into a guide in Apple Maps — where you will be standing when you need them.\n\nHOW IT WORKS\n\n1. Screenshot what you see. From a reel, a post, a message from a friend, or a photographed page of a guidebook.\n\n2. Wren reads the names. Text recognition runs on your phone, so your screenshots never leave it. Wren also reads the caption to work out which city you are looking at, and asks you to confirm.\n\n3. Check the list. Every place shows what was read next to what was matched, so a wrong match is obvious. Anything not found — or found wrongly — can be searched again by hand.\n\n4. Straight into Apple Maps. Not a copy of your places in another app. An actual guide, in the Maps you already use.\n\nANYWHERE, NOT JUST RESTAURANTS\n\nRestaurants and bars, certainly. Also viewpoints, markets, hotels, galleries, shops, trailheads, beaches and the odd servo someone insists does the best coffee for eighty kilometres. Anywhere with a name and a location.\n\nNO ACCOUNT, NO TRACKING, NO SERVERS\n\nWren has no sign-in and collects nothing about you. There is no Wren server for your data to reach. Your screenshots are read on your device and are never uploaded. The only thing that leaves your phone is the name of a place, sent to Apple Maps to find it — exactly as the Maps app does.\n\nWren does not connect to Instagram or any other service, and reads nothing from your accounts. It only reads screenshots you choose to give it.\n\nFREE, WITH ONE OPTIONAL PURCHASE\n\nGuides of up to three places are free, for good. Saving a guide with more than three places is a single one-time purchase — no subscription, nothing that renews, and it restores on your other devices at no further cost.\n\nA NOTE ON APPLE MAPS\n\nApple Maps cannot merge guides. Publishing several places always creates a new guide. To add one place to a guide you already have, send it on its own and Maps will offer to add it.",
+  "keywords": "places,save,map,guide,travel,restaurant,screenshot,bookmark,city,trip,food,itinerary,spots,reel",
+  "inAppPurchase": {
+    "productId": "com.spencerfields.littlebird.unlimited",
+    "name": "Guides of any size",
+    "description": "Save as many places as you like, not three."
+  }
+}
