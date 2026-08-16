@@ -56,9 +56,13 @@
   "alreadyInTheList": "{name} sudah ada dalam senarai.",
   "ocrUnavailable": "Membaca tangkapan skrin memerlukan iPhone — platform ini tiada pengecaman teks.",
   "lookupUnavailable": "Mencari tempat memerlukan iPhone — platform ini tiada carian peta.",
-  "reviewerAccess": "Akses penyemak",
+  "compAccess": "Akses percuma",
   "code": "Kod",
   "unlock": "Buka",
-  "reviewerEnabled": "Akses penyemak dihidupkan.",
-  "codeNotRecognised": "Kod itu tidak dikenali."
+  "compChecking": "Menyemak kod itu…",
+  "compEnabled": "Akses percuma telah dihidupkan.",
+  "compRefused": "Kod itu tidak dikenali, atau telah pun digunakan.",
+  "compTooOften": "Terlalu banyak percubaan. Tunggu beberapa minit dan cuba lagi.",
+  "compUnreachable": "Pelayan tidak dapat dihubungi. Semak sambungan anda dan cuba lagi.",
+  "compUntrusted": "Balasan itu tidak dapat disahkan, jadi tiada apa-apa yang dibuka."
 }

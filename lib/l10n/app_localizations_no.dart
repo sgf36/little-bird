@@ -236,7 +236,7 @@ class LNo extends L {
       'Å søke etter steder krever en iPhone — det finnes ingen kartsøk på denne plattformen.';
 
   @override
-  String get reviewerAccess => 'Tilgang for anmeldere';
+  String get compAccess => 'Gratis tilgang';
 
   @override
   String get code => 'Kode';
@@ -245,8 +245,24 @@ class LNo extends L {
   String get unlock => 'Lås opp';
 
   @override
-  String get reviewerEnabled => 'Tilgang for anmeldere slått på.';
+  String get compChecking => 'Sjekker koden…';
 
   @override
-  String get codeNotRecognised => 'Koden ble ikke gjenkjent.';
+  String get compEnabled => 'Gratis tilgang slått på.';
+
+  @override
+  String get compRefused =>
+      'Koden ble ikke gjenkjent, eller den er allerede brukt.';
+
+  @override
+  String get compTooOften =>
+      'For mange forsøk. Vent et par minutter og prøv igjen.';
+
+  @override
+  String get compUnreachable =>
+      'Kunne ikke nå serveren. Sjekk forbindelsen din og prøv igjen.';
+
+  @override
+  String get compUntrusted =>
+      'Svaret kunne ikke bekreftes, så ingenting ble låst opp.';
 }

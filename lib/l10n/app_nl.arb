@@ -56,9 +56,13 @@
   "alreadyInTheList": "{name} stond al in de lijst.",
   "ocrUnavailable": "Voor het lezen van schermafbeeldingen is een iPhone nodig — op dit platform is er geen tekstherkenning.",
   "lookupUnavailable": "Voor het zoeken naar plekken is een iPhone nodig — op dit platform is er geen kaartzoekfunctie.",
-  "reviewerAccess": "Toegang voor beoordelaars",
+  "compAccess": "Gratis toegang",
   "code": "Code",
   "unlock": "Ontgrendel",
-  "reviewerEnabled": "Toegang voor beoordelaars ingeschakeld.",
-  "codeNotRecognised": "Die code is niet herkend."
+  "compChecking": "Die code controleren…",
+  "compEnabled": "Gratis toegang ingeschakeld.",
+  "compRefused": "Die code is niet herkend, of is al gebruikt.",
+  "compTooOften": "Te veel pogingen. Wacht een paar minuten en probeer het opnieuw.",
+  "compUnreachable": "De server was niet bereikbaar. Controleer je verbinding en probeer het opnieuw.",
+  "compUntrusted": "Dat antwoord kon niet worden geverifieerd, er is niets ontgrendeld."
 }

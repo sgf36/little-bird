@@ -238,7 +238,7 @@ class LNl extends L {
       'Voor het zoeken naar plekken is een iPhone nodig — op dit platform is er geen kaartzoekfunctie.';
 
   @override
-  String get reviewerAccess => 'Toegang voor beoordelaars';
+  String get compAccess => 'Gratis toegang';
 
   @override
   String get code => 'Code';
@@ -247,8 +247,23 @@ class LNl extends L {
   String get unlock => 'Ontgrendel';
 
   @override
-  String get reviewerEnabled => 'Toegang voor beoordelaars ingeschakeld.';
+  String get compChecking => 'Die code controleren…';
 
   @override
-  String get codeNotRecognised => 'Die code is niet herkend.';
+  String get compEnabled => 'Gratis toegang ingeschakeld.';
+
+  @override
+  String get compRefused => 'Die code is niet herkend, of is al gebruikt.';
+
+  @override
+  String get compTooOften =>
+      'Te veel pogingen. Wacht een paar minuten en probeer het opnieuw.';
+
+  @override
+  String get compUnreachable =>
+      'De server was niet bereikbaar. Controleer je verbinding en probeer het opnieuw.';
+
+  @override
+  String get compUntrusted =>
+      'Dat antwoord kon niet worden geverifieerd, er is niets ontgrendeld.';
 }

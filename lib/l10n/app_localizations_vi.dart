@@ -234,7 +234,7 @@ class LVi extends L {
       'Tìm địa điểm cần iPhone — nền tảng này không có tìm kiếm trên bản đồ.';
 
   @override
-  String get reviewerAccess => 'Quyền truy cập của người kiểm duyệt';
+  String get compAccess => 'Quyền truy cập miễn phí';
 
   @override
   String get code => 'Mã';
@@ -243,8 +243,22 @@ class LVi extends L {
   String get unlock => 'Mở khoá';
 
   @override
-  String get reviewerEnabled => 'Đã bật quyền truy cập của người kiểm duyệt.';
+  String get compChecking => 'Đang kiểm tra mã…';
 
   @override
-  String get codeNotRecognised => 'Không nhận ra mã đó.';
+  String get compEnabled => 'Đã bật quyền truy cập miễn phí.';
+
+  @override
+  String get compRefused => 'Không nhận ra mã đó, hoặc mã đã được dùng rồi.';
+
+  @override
+  String get compTooOften => 'Thử quá nhiều lần. Chờ vài phút rồi thử lại.';
+
+  @override
+  String get compUnreachable =>
+      'Không kết nối được với máy chủ. Kiểm tra kết nối rồi thử lại.';
+
+  @override
+  String get compUntrusted =>
+      'Không xác minh được phản hồi đó nên không có gì được mở khoá.';
 }

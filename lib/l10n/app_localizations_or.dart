@@ -236,7 +236,7 @@ class LOr extends L {
       'ସ୍ଥାନ ଖୋଜିବା ପାଇଁ iPhone ଦରକାର — ଏହି ପ୍ଲାଟଫର୍ମରେ ମାନଚିତ୍ର ଖୋଜା ନାହିଁ।';
 
   @override
-  String get reviewerAccess => 'ସମୀକ୍ଷକ ପ୍ରବେଶ';
+  String get compAccess => 'ମାଗଣା ପ୍ରବେଶ';
 
   @override
   String get code => 'କୋଡ୍';
@@ -245,8 +245,24 @@ class LOr extends L {
   String get unlock => 'ଅନଲକ୍ କରନ୍ତୁ';
 
   @override
-  String get reviewerEnabled => 'ସମୀକ୍ଷକ ପ୍ରବେଶ ଚାଲୁ ହେଲା।';
+  String get compChecking => 'ସେହି କୋଡ୍ ଯାଞ୍ଚ କରୁଛି…';
 
   @override
-  String get codeNotRecognised => 'ସେହି କୋଡ୍ ଚିହ୍ନଟ ହେଲା ନାହିଁ।';
+  String get compEnabled => 'ମାଗଣା ପ୍ରବେଶ ଚାଲୁ ହେଲା।';
+
+  @override
+  String get compRefused =>
+      'ସେହି କୋଡ୍ ଚିହ୍ନଟ ହେଲା ନାହିଁ, କିମ୍ବା ଏହା ପୂର୍ବରୁ ବ୍ୟବହୃତ ହୋଇସାରିଛି।';
+
+  @override
+  String get compTooOften =>
+      'ବହୁତ ଥର ଚେଷ୍ଟା ହେଲା। କିଛି ମିନିଟ୍ ଅପେକ୍ଷା କରି ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।';
+
+  @override
+  String get compUnreachable =>
+      'ସର୍ଭର ପାଖରେ ପହଞ୍ଚି ହେଲା ନାହିଁ। ଆପଣଙ୍କ ସଂଯୋଗ ଯାଞ୍ଚ କରି ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।';
+
+  @override
+  String get compUntrusted =>
+      'ସେହି ଉତ୍ତର ଯାଞ୍ଚ ହୋଇପାରିଲା ନାହିଁ, ତେଣୁ କିଛି ଅନଲକ୍ ହେଲା ନାହିଁ।';
 }

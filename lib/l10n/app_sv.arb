@@ -56,9 +56,13 @@
   "alreadyInTheList": "{name} fanns redan i listan.",
   "ocrUnavailable": "Att läsa skärmavbilder kräver en iPhone — det finns ingen textigenkänning på den här plattformen.",
   "lookupUnavailable": "Att söka platser kräver en iPhone — det finns ingen kartsökning på den här plattformen.",
-  "reviewerAccess": "Granskaråtkomst",
+  "compAccess": "Kostnadsfri åtkomst",
   "code": "Kod",
   "unlock": "Lås upp",
-  "reviewerEnabled": "Granskaråtkomst påslagen.",
-  "codeNotRecognised": "Koden känns inte igen."
+  "compChecking": "Kollar koden…",
+  "compEnabled": "Kostnadsfri åtkomst påslagen.",
+  "compRefused": "Koden känns inte igen, eller så är den redan använd.",
+  "compTooOften": "För många försök. Vänta några minuter och försök igen.",
+  "compUnreachable": "Det gick inte att nå servern. Kontrollera din anslutning och försök igen.",
+  "compUntrusted": "Svaret kunde inte verifieras, så inget har låsts upp."
 }

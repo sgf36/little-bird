@@ -9,7 +9,7 @@ import 'src/ocr.dart';
 import 'src/place_search_sheet.dart';
 import 'src/region_hint.dart';
 import 'src/resolver.dart';
-import 'src/review_unlock.dart' as review;
+import 'src/comp_unlock.dart' as comp;
 import 'src/splash.dart';
 import 'src/store_unlock.dart';
 import 'src/theme.dart';
@@ -99,7 +99,7 @@ class _CapturePageState extends State<CapturePage> {
         setState(() => _entitlement = const Entitlement.unlocked());
       }
     });
-    review.wasUnlocked().then((unlocked) {
+    comp.wasUnlocked().then((unlocked) {
       if (unlocked && mounted) {
         setState(() => _entitlement = const Entitlement.unlocked());
       }
@@ -107,16 +107,17 @@ class _CapturePageState extends State<CapturePage> {
   }
 
   /// Reached by long-pressing the title. Nothing on screen advertises it, and
-  /// builds without a review code compiled in do not have it at all.
-  Future<void> _reviewUnlock() async {
-    if (!review.available || _entitlement.unlimited) return;
+  /// a code has to be issued before it does anything — the entry point on its
+  /// own is not a way in.
+  Future<void> _compUnlock() async {
+    if (_entitlement.unlimited) return;
     final l = L.of(context);
     final controller = TextEditingController();
     final entered = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          l.reviewerAccess,
+          l.compAccess,
           style: const TextStyle(fontFamily: Wren.serif),
         ),
         content: TextField(
@@ -140,18 +141,29 @@ class _CapturePageState extends State<CapturePage> {
         ],
       ),
     );
-    if (entered == null || !mounted) return;
+    if (entered == null || entered.trim().isEmpty || !mounted) return;
 
-    if (review.matches(entered)) {
-      await review.remember();
-      if (!mounted) return;
-      setState(() {
-        _entitlement = const Entitlement.unlocked();
-        _status = l.reviewerEnabled;
-      });
-    } else {
-      setState(() => _status = l.codeNotRecognised);
-    }
+    // Redeeming reaches the network, which the rest of the app never does, so
+    // it says so rather than appearing to hang.
+    setState(() => _status = l.compChecking);
+    final outcome = await comp.redeem(entered);
+    if (!mounted) return;
+
+    setState(() {
+      switch (outcome) {
+        case comp.RedeemOutcome.unlocked:
+          _entitlement = const Entitlement.unlocked();
+          _status = l.compEnabled;
+        case comp.RedeemOutcome.refused:
+          _status = l.compRefused;
+        case comp.RedeemOutcome.toooften:
+          _status = l.compTooOften;
+        case comp.RedeemOutcome.unreachable:
+          _status = l.compUnreachable;
+        case comp.RedeemOutcome.untrusted:
+          _status = l.compUntrusted;
+      }
+    });
   }
 
   Future<void> _restoreFromMenu() async {
@@ -553,9 +565,9 @@ class _CapturePageState extends State<CapturePage> {
       appBar: AppBar(
         titleSpacing: 20,
         title: GestureDetector(
-          // Long press opens reviewer access. Undiscoverable on purpose, and
-          // absent entirely from builds with no review code compiled in.
-          onLongPress: _reviewUnlock,
+          // Long press opens complimentary access. Undiscoverable on purpose,
+          // and useless without a code that the server recognises.
+          onLongPress: _compUnlock,
           child: Row(
             children: [
               const WrenMark(size: 30),

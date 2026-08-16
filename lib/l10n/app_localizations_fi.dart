@@ -236,7 +236,7 @@ class LFi extends L {
       'Paikkojen haku vaatii iPhonen — tällä alustalla ei ole karttahakua.';
 
   @override
-  String get reviewerAccess => 'Arvioijan käyttöoikeus';
+  String get compAccess => 'Maksuton käyttöoikeus';
 
   @override
   String get code => 'Koodi';
@@ -245,8 +245,23 @@ class LFi extends L {
   String get unlock => 'Avaa';
 
   @override
-  String get reviewerEnabled => 'Arvioijan käyttöoikeus otettu käyttöön.';
+  String get compChecking => 'Tarkistetaan koodia…';
 
   @override
-  String get codeNotRecognised => 'Koodia ei tunnistettu.';
+  String get compEnabled => 'Maksuton käyttöoikeus otettu käyttöön.';
+
+  @override
+  String get compRefused => 'Koodia ei tunnistettu, tai se on jo käytetty.';
+
+  @override
+  String get compTooOften =>
+      'Liian monta yritystä. Odota muutama minuutti ja yritä uudelleen.';
+
+  @override
+  String get compUnreachable =>
+      'Palvelimeen ei saatu yhteyttä. Tarkista yhteytesi ja yritä uudelleen.';
+
+  @override
+  String get compUntrusted =>
+      'Vastausta ei voitu varmentaa, joten mitään ei avattu.';
 }

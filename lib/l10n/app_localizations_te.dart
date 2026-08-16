@@ -236,7 +236,7 @@ class LTe extends L {
       'ప్రదేశాలు వెతకడానికి iPhone కావాలి — ఈ ప్లాట్‌ఫారమ్‌లో మ్యాప్ శోధన లేదు.';
 
   @override
-  String get reviewerAccess => 'సమీక్షకుల ప్రవేశం';
+  String get compAccess => 'ఉచిత ప్రవేశం';
 
   @override
   String get code => 'కోడ్';
@@ -245,8 +245,23 @@ class LTe extends L {
   String get unlock => 'అన్‌లాక్ చేయండి';
 
   @override
-  String get reviewerEnabled => 'సమీక్షకుల ప్రవేశం ఆన్ చేయబడింది.';
+  String get compChecking => 'ఆ కోడ్‌ను తనిఖీ చేస్తోంది…';
 
   @override
-  String get codeNotRecognised => 'ఆ కోడ్ గుర్తించబడలేదు.';
+  String get compEnabled => 'ఉచిత ప్రవేశం ఆన్ చేయబడింది.';
+
+  @override
+  String get compRefused => 'ఆ కోడ్ గుర్తించబడలేదు, లేదా ఇప్పటికే వాడబడింది.';
+
+  @override
+  String get compTooOften =>
+      'చాలాసార్లు ప్రయత్నించారు. కొన్ని నిమిషాలు ఆగి మళ్లీ ప్రయత్నించండి.';
+
+  @override
+  String get compUnreachable =>
+      'సర్వర్‌ను చేరుకోలేకపోయాం. మీ కనెక్షన్ చూసి మళ్లీ ప్రయత్నించండి.';
+
+  @override
+  String get compUntrusted =>
+      'ఆ సమాధానాన్ని ధృవీకరించలేకపోయాం, కాబట్టి ఏమీ అన్‌లాక్ కాలేదు.';
 }

@@ -238,7 +238,7 @@ class LRo extends L {
       'Căutarea locurilor necesită un iPhone — pe această platformă nu există căutare pe hartă.';
 
   @override
-  String get reviewerAccess => 'Acces pentru evaluatori';
+  String get compAccess => 'Acces gratuit';
 
   @override
   String get code => 'Cod';
@@ -247,8 +247,24 @@ class LRo extends L {
   String get unlock => 'Deblochează';
 
   @override
-  String get reviewerEnabled => 'Acces pentru evaluatori activat.';
+  String get compChecking => 'Se verifică acest cod…';
 
   @override
-  String get codeNotRecognised => 'Acest cod nu a fost recunoscut.';
+  String get compEnabled => 'Acces gratuit activat.';
+
+  @override
+  String get compRefused =>
+      'Acest cod nu a fost recunoscut sau a fost deja folosit.';
+
+  @override
+  String get compTooOften =>
+      'Prea multe încercări. Așteaptă câteva minute și încearcă din nou.';
+
+  @override
+  String get compUnreachable =>
+      'Serverul nu a putut fi contactat. Verifică-ți conexiunea și încearcă din nou.';
+
+  @override
+  String get compUntrusted =>
+      'Răspunsul nu a putut fi verificat, așa că nu s-a deblocat nimic.';
 }

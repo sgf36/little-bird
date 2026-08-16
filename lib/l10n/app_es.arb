@@ -56,9 +56,13 @@
   "alreadyInTheList": "{name} ya estaba en la lista.",
   "ocrUnavailable": "Para leer capturas hace falta un iPhone: en esta plataforma no hay reconocimiento de texto.",
   "lookupUnavailable": "Para buscar lugares hace falta un iPhone: en esta plataforma no hay búsqueda en mapas.",
-  "reviewerAccess": "Acceso para revisores",
+  "compAccess": "Acceso de cortesía",
   "code": "Código",
   "unlock": "Desbloquear",
-  "reviewerEnabled": "Acceso para revisores activado.",
-  "codeNotRecognised": "No se ha reconocido ese código."
+  "compChecking": "Comprobando ese código…",
+  "compEnabled": "Acceso de cortesía activado.",
+  "compRefused": "No se ha reconocido ese código, o ya se ha usado.",
+  "compTooOften": "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.",
+  "compUnreachable": "No se ha podido conectar con el servidor. Comprueba tu conexión e inténtalo de nuevo.",
+  "compUntrusted": "No se ha podido verificar esa respuesta, así que no se ha desbloqueado nada."
 }

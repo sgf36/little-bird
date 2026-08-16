@@ -228,7 +228,7 @@ class LJa extends L {
       '場所の検索にはiPhoneが必要です — このプラットフォームにはマップ検索がありません。';
 
   @override
-  String get reviewerAccess => '審査担当者用アクセス';
+  String get compAccess => '無料アクセス';
 
   @override
   String get code => 'コード';
@@ -237,8 +237,20 @@ class LJa extends L {
   String get unlock => 'ロック解除';
 
   @override
-  String get reviewerEnabled => '審査担当者用アクセスを有効にしました。';
+  String get compChecking => 'コードを確認中…';
 
   @override
-  String get codeNotRecognised => 'そのコードは認識されませんでした。';
+  String get compEnabled => '無料アクセスを有効にしました。';
+
+  @override
+  String get compRefused => 'そのコードは認識されないか、すでに使用されています。';
+
+  @override
+  String get compTooOften => '試行回数が多すぎます。数分待ってからもう一度お試しください。';
+
+  @override
+  String get compUnreachable => 'サーバーに接続できませんでした。接続を確認してもう一度お試しください。';
+
+  @override
+  String get compUntrusted => '応答を検証できなかったため、何もロック解除されませんでした。';
 }

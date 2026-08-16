@@ -25,6 +25,9 @@ import Vision
     if let registrar = registrar(forPlugin: "PlacesPlugin") {
       PlacesPlugin.register(with: registrar)
     }
+    if let registrar = registrar(forPlugin: "IdentityPlugin") {
+      IdentityPlugin.register(with: registrar)
+    }
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
@@ -249,5 +252,82 @@ public class PlacesPlugin: NSObject, FlutterPlugin {
         "lon": loc.coordinate.longitude,
       ])
     }
+  }
+}
+/// A stable identifier for this device, kept in the keychain.
+///
+/// It exists so a complimentary unlock code can be spent once. The server
+/// records which device redeemed which code; without something stable to
+/// record, "used once" would mean "used once per install".
+///
+/// The keychain rather than UserDefaults, because UserDefaults is deleted with
+/// the app and a friend who reinstalls would find their one-use code already
+/// spent — by themselves. Keychain items survive deletion, so re-entering the
+/// same code on the same phone is recognised as the same redemption.
+///
+/// Not identifierForVendor: that resets once the last app from this vendor is
+/// removed, which is exactly the case that matters here. And it is a random
+/// UUID, not anything derived from the hardware — it identifies an install of
+/// Wren, and is of no use to anyone for anything else.
+class IdentityPlugin: NSObject, FlutterPlugin {
+  private static let service = "com.spencerfields.littlebird.identity"
+  private static let account = "device"
+
+  public static func register(with registrar: FlutterPluginRegistrar) {
+    let channel = FlutterMethodChannel(name: "littlebird/identity",
+                                       binaryMessenger: registrar.messenger())
+    registrar.addMethodCallDelegate(IdentityPlugin(), channel: channel)
+  }
+
+  public func handle(_ call: FlutterMethodCall,
+                     result: @escaping FlutterResult) {
+    guard call.method == "deviceId" else {
+      result(FlutterMethodNotImplemented)
+      return
+    }
+    if let existing = IdentityPlugin.read() {
+      result(existing)
+      return
+    }
+    let fresh = UUID().uuidString
+    if IdentityPlugin.write(fresh) {
+      result(fresh)
+    } else {
+      result(FlutterError(code: "keychain",
+                          message: "could not store a device identifier",
+                          details: nil))
+    }
+  }
+
+  private static func read() -> String? {
+    let query: [String: Any] = [
+      kSecClass as String: kSecClassGenericPassword,
+      kSecAttrService as String: service,
+      kSecAttrAccount as String: account,
+      kSecReturnData as String: true,
+      kSecMatchLimit as String: kSecMatchLimitOne,
+    ]
+    var item: CFTypeRef?
+    guard SecItemCopyMatching(query as CFDictionary, &item) == errSecSuccess,
+          let data = item as? Data,
+          let value = String(data: data, encoding: .utf8),
+          !value.isEmpty
+    else { return nil }
+    return value
+  }
+
+  private static func write(_ value: String) -> Bool {
+    // ThisDeviceOnly, and so deliberately not carried into an iCloud or
+    // encrypted backup: a device identifier restored onto a second phone would
+    // let one redemption unlock both.
+    let attributes: [String: Any] = [
+      kSecClass as String: kSecClassGenericPassword,
+      kSecAttrService as String: service,
+      kSecAttrAccount as String: account,
+      kSecValueData as String: Data(value.utf8),
+      kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
+    ]
+    SecItemDelete(attributes as CFDictionary)
+    return SecItemAdd(attributes as CFDictionary, nil) == errSecSuccess
   }
 }

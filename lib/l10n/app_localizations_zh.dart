@@ -224,7 +224,7 @@ class LZh extends L {
   String get lookupUnavailable => '查找地点需要 iPhone — 这个平台上没有地图搜索。';
 
   @override
-  String get reviewerAccess => '审核人员访问';
+  String get compAccess => '免费使用权限';
 
   @override
   String get code => '代码';
@@ -233,10 +233,22 @@ class LZh extends L {
   String get unlock => '解锁';
 
   @override
-  String get reviewerEnabled => '已开启审核人员访问。';
+  String get compChecking => '正在检查这个代码…';
 
   @override
-  String get codeNotRecognised => '无法识别这个代码。';
+  String get compEnabled => '已开启免费使用权限。';
+
+  @override
+  String get compRefused => '无法识别这个代码，或者它已经用过了。';
+
+  @override
+  String get compTooOften => '尝试次数太多。等几分钟再试。';
+
+  @override
+  String get compUnreachable => '无法连接服务器。检查你的网络连接，然后再试。';
+
+  @override
+  String get compUntrusted => '无法验证服务器的回复，所以没有解锁任何内容。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -459,7 +471,7 @@ class LZhHant extends LZh {
   String get lookupUnavailable => '尋找地點需要 iPhone — 這個平台上沒有地圖搜尋。';
 
   @override
-  String get reviewerAccess => '審查人員存取';
+  String get compAccess => '免費使用權限';
 
   @override
   String get code => '代碼';
@@ -468,8 +480,20 @@ class LZhHant extends LZh {
   String get unlock => '解鎖';
 
   @override
-  String get reviewerEnabled => '已開啟審查人員存取。';
+  String get compChecking => '正在檢查這個代碼…';
 
   @override
-  String get codeNotRecognised => '無法辨識這個代碼。';
+  String get compEnabled => '已開啟免費使用權限。';
+
+  @override
+  String get compRefused => '無法辨識這個代碼，或者它已經用過了。';
+
+  @override
+  String get compTooOften => '嘗試次數太多。等幾分鐘再試一次。';
+
+  @override
+  String get compUnreachable => '無法連線伺服器。檢查你的網路連線，然後再試一次。';
+
+  @override
+  String get compUntrusted => '無法驗證伺服器的回覆，所以沒有解鎖任何內容。';
 }

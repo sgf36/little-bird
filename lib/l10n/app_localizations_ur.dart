@@ -236,7 +236,7 @@ class LUr extends L {
       'جگہ تلاش کرنے کے لیے iPhone چاہیے — اس پلیٹ فارم پر نقشے میں تلاش نہیں ہے۔';
 
   @override
-  String get reviewerAccess => 'جائزہ کار رسائی';
+  String get compAccess => 'اعزازی رسائی';
 
   @override
   String get code => 'کوڈ';
@@ -245,8 +245,24 @@ class LUr extends L {
   String get unlock => 'ان لاک کریں';
 
   @override
-  String get reviewerEnabled => 'جائزہ کار رسائی آن ہو گئی۔';
+  String get compChecking => 'یہ کوڈ دیکھا جا رہا ہے…';
 
   @override
-  String get codeNotRecognised => 'یہ کوڈ پہچانا نہیں گیا۔';
+  String get compEnabled => 'اعزازی رسائی آن ہو گئی۔';
+
+  @override
+  String get compRefused =>
+      'یہ کوڈ پہچانا نہیں گیا، یا پہلے ہی استعمال ہو چکا ہے۔';
+
+  @override
+  String get compTooOften =>
+      'بہت زیادہ کوششیں۔ چند منٹ ٹھہر کر دوبارہ کوشش کیجیے۔';
+
+  @override
+  String get compUnreachable =>
+      'سرور تک نہیں پہنچا جا سکا۔ اپنا کنکشن دیکھ کر دوبارہ کوشش کیجیے۔';
+
+  @override
+  String get compUntrusted =>
+      'اس جواب کی تصدیق نہیں ہو سکی، اس لیے کچھ ان لاک نہیں ہوا۔';
 }

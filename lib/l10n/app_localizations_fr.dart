@@ -237,7 +237,7 @@ class LFr extends L {
       'La recherche de lieux nécessite un iPhone — il n\'y a pas de recherche cartographique sur cette plateforme.';
 
   @override
-  String get reviewerAccess => 'Accès évaluateur';
+  String get compAccess => 'Accès à titre gracieux';
 
   @override
   String get code => 'Code';
@@ -246,10 +246,26 @@ class LFr extends L {
   String get unlock => 'Débloquer';
 
   @override
-  String get reviewerEnabled => 'Accès évaluateur activé.';
+  String get compChecking => 'Vérification du code…';
 
   @override
-  String get codeNotRecognised => 'Ce code n\'a pas été reconnu.';
+  String get compEnabled => 'Accès à titre gracieux activé.';
+
+  @override
+  String get compRefused =>
+      'Ce code n\'a pas été reconnu, ou il a déjà été utilisé.';
+
+  @override
+  String get compTooOften =>
+      'Trop de tentatives. Patientez quelques minutes et réessayez.';
+
+  @override
+  String get compUnreachable =>
+      'Impossible de joindre le serveur. Vérifiez votre connexion et réessayez.';
+
+  @override
+  String get compUntrusted =>
+      'Cette réponse n\'a pas pu être vérifiée, rien n\'a été débloqué.';
 }
 
 /// The translations for French, as used in Canada (`fr_CA`).
@@ -485,7 +501,7 @@ class LFrCa extends LFr {
       'La recherche de lieux nécessite un iPhone — il n\'y a pas de recherche cartographique sur cette plateforme.';
 
   @override
-  String get reviewerAccess => 'Accès évaluateur';
+  String get compAccess => 'Accès à titre gracieux';
 
   @override
   String get code => 'Code';
@@ -494,8 +510,24 @@ class LFrCa extends LFr {
   String get unlock => 'Débloquer';
 
   @override
-  String get reviewerEnabled => 'Accès évaluateur activé.';
+  String get compChecking => 'Vérification du code…';
 
   @override
-  String get codeNotRecognised => 'Ce code n\'a pas été reconnu.';
+  String get compEnabled => 'Accès à titre gracieux activé.';
+
+  @override
+  String get compRefused =>
+      'Ce code n\'a pas été reconnu, ou il a déjà été utilisé.';
+
+  @override
+  String get compTooOften =>
+      'Trop de tentatives. Patientez quelques minutes et réessayez.';
+
+  @override
+  String get compUnreachable =>
+      'Impossible de joindre le serveur. Vérifiez votre connexion et réessayez.';
+
+  @override
+  String get compUntrusted =>
+      'Cette réponse n\'a pas pu être vérifiée, rien n\'a été débloqué.';
 }

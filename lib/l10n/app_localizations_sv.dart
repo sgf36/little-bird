@@ -238,7 +238,7 @@ class LSv extends L {
       'Att söka platser kräver en iPhone — det finns ingen kartsökning på den här plattformen.';
 
   @override
-  String get reviewerAccess => 'Granskaråtkomst';
+  String get compAccess => 'Kostnadsfri åtkomst';
 
   @override
   String get code => 'Kod';
@@ -247,8 +247,24 @@ class LSv extends L {
   String get unlock => 'Lås upp';
 
   @override
-  String get reviewerEnabled => 'Granskaråtkomst påslagen.';
+  String get compChecking => 'Kollar koden…';
 
   @override
-  String get codeNotRecognised => 'Koden känns inte igen.';
+  String get compEnabled => 'Kostnadsfri åtkomst påslagen.';
+
+  @override
+  String get compRefused =>
+      'Koden känns inte igen, eller så är den redan använd.';
+
+  @override
+  String get compTooOften =>
+      'För många försök. Vänta några minuter och försök igen.';
+
+  @override
+  String get compUnreachable =>
+      'Det gick inte att nå servern. Kontrollera din anslutning och försök igen.';
+
+  @override
+  String get compUntrusted =>
+      'Svaret kunde inte verifieras, så inget har låsts upp.';
 }

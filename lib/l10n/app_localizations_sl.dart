@@ -241,7 +241,7 @@ class LSl extends L {
       'Za iskanje krajev je potreben iPhone — na tej platformi ni iskanja po zemljevidu.';
 
   @override
-  String get reviewerAccess => 'Dostop za ocenjevalce';
+  String get compAccess => 'Brezplačen dostop';
 
   @override
   String get code => 'Koda';
@@ -250,8 +250,24 @@ class LSl extends L {
   String get unlock => 'Odkleni';
 
   @override
-  String get reviewerEnabled => 'Dostop za ocenjevalce vklopljen.';
+  String get compChecking => 'Preverjanje kode…';
 
   @override
-  String get codeNotRecognised => 'Ta koda ni bila prepoznana.';
+  String get compEnabled => 'Brezplačen dostop vklopljen.';
+
+  @override
+  String get compRefused =>
+      'Ta koda ni bila prepoznana ali pa je bila že uporabljena.';
+
+  @override
+  String get compTooOften =>
+      'Preveč poskusov. Počakaj nekaj minut in poskusi znova.';
+
+  @override
+  String get compUnreachable =>
+      'Strežnika ni bilo mogoče doseči. Preveri povezavo in poskusi znova.';
+
+  @override
+  String get compUntrusted =>
+      'Tega odgovora ni bilo mogoče preveriti, zato ni bilo nič odklenjeno.';
 }

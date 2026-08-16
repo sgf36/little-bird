@@ -242,7 +242,7 @@ class LAr extends L {
       'البحث عن الأماكن يتطلب iPhone — لا يوجد بحث في الخرائط على هذه المنصة.';
 
   @override
-  String get reviewerAccess => 'وصول المراجِع';
+  String get compAccess => 'وصول مجاني';
 
   @override
   String get code => 'الرمز';
@@ -251,8 +251,23 @@ class LAr extends L {
   String get unlock => 'فتح';
 
   @override
-  String get reviewerEnabled => 'تم تفعيل وصول المراجِع.';
+  String get compChecking => 'جارٍ التحقق من الرمز…';
 
   @override
-  String get codeNotRecognised => 'لم يتم التعرّف على هذا الرمز.';
+  String get compEnabled => 'تم تفعيل الوصول المجاني.';
+
+  @override
+  String get compRefused =>
+      'لم يتم التعرّف على هذا الرمز، أو أنه استُخدم بالفعل.';
+
+  @override
+  String get compTooOften =>
+      'محاولات كثيرة جداً. انتظر بضع دقائق ثم أعد المحاولة.';
+
+  @override
+  String get compUnreachable =>
+      'تعذّر الوصول إلى الخادم. تحقق من اتصالك ثم أعد المحاولة.';
+
+  @override
+  String get compUntrusted => 'تعذّر التحقق من هذا الرد، لذا لم يُفتح أي شيء.';
 }

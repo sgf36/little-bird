@@ -236,7 +236,7 @@ class LEn extends L {
       'Place lookup needs an iPhone — there is no map search on this platform.';
 
   @override
-  String get reviewerAccess => 'Reviewer access';
+  String get compAccess => 'Complimentary access';
 
   @override
   String get code => 'Code';
@@ -245,8 +245,24 @@ class LEn extends L {
   String get unlock => 'Unlock';
 
   @override
-  String get reviewerEnabled => 'Reviewer access enabled.';
+  String get compChecking => 'Checking that code…';
 
   @override
-  String get codeNotRecognised => 'That code was not recognised.';
+  String get compEnabled => 'Complimentary access enabled.';
+
+  @override
+  String get compRefused =>
+      'That code was not recognised, or it has already been used.';
+
+  @override
+  String get compTooOften =>
+      'Too many attempts. Wait a few minutes and try again.';
+
+  @override
+  String get compUnreachable =>
+      'Could not reach the server. Check your connection and try again.';
+
+  @override
+  String get compUntrusted =>
+      'That reply could not be verified, so nothing was unlocked.';
 }

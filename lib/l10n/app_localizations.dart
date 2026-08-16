@@ -519,35 +519,59 @@ abstract class L {
   /// **'Place lookup needs an iPhone — there is no map search on this platform.'**
   String get lookupUnavailable;
 
-  /// Title of the hidden dialog used by App Review and the developer.
+  /// Title of a hidden dialog, reached by long-pressing the app name. Used by App Review and by people the developer has given a free code to. 'Complimentary' in the sense of free of charge, not in the sense of praise.
   ///
   /// In en, this message translates to:
-  /// **'Reviewer access'**
-  String get reviewerAccess;
+  /// **'Complimentary access'**
+  String get compAccess;
 
-  /// Text field label for the reviewer code.
+  /// Text field label for the complimentary access code.
   ///
   /// In en, this message translates to:
   /// **'Code'**
   String get code;
 
-  /// Confirming button on the reviewer dialog.
+  /// Confirming button on the complimentary access dialog.
   ///
   /// In en, this message translates to:
   /// **'Unlock'**
   String get unlock;
 
-  /// The reviewer code was accepted.
+  /// Shown while the code is being checked with the server.
   ///
   /// In en, this message translates to:
-  /// **'Reviewer access enabled.'**
-  String get reviewerEnabled;
+  /// **'Checking that code…'**
+  String get compChecking;
 
-  /// The reviewer code was wrong.
+  /// The code was accepted and the paid feature is now unlocked.
   ///
   /// In en, this message translates to:
-  /// **'That code was not recognised.'**
-  String get codeNotRecognised;
+  /// **'Complimentary access enabled.'**
+  String get compEnabled;
+
+  /// The code failed. Deliberately covers several causes in one sentence — wrong, already used, withdrawn — because saying which would confirm to a stranger that a code they hold is real.
+  ///
+  /// In en, this message translates to:
+  /// **'That code was not recognised, or it has already been used.'**
+  String get compRefused;
+
+  /// Rate limited after repeated failures.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Wait a few minutes and try again.'**
+  String get compTooOften;
+
+  /// The code could not be checked because the network was unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach the server. Check your connection and try again.'**
+  String get compUnreachable;
+
+  /// The server answered but the answer failed a signature check. Rare, and means either a fault or something impersonating the server.
+  ///
+  /// In en, this message translates to:
+  /// **'That reply could not be verified, so nothing was unlocked.'**
+  String get compUntrusted;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

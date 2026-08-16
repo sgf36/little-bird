@@ -56,9 +56,13 @@
   "alreadyInTheList": "{name} war bereits in der Liste.",
   "ocrUnavailable": "Zum Lesen von Screenshots wird ein iPhone benötigt — auf dieser Plattform gibt es keine Texterkennung.",
   "lookupUnavailable": "Für die Ortssuche wird ein iPhone benötigt — auf dieser Plattform gibt es keine Kartensuche.",
-  "reviewerAccess": "Prüferzugang",
+  "compAccess": "Kostenloser Zugang",
   "code": "Code",
   "unlock": "Freischalten",
-  "reviewerEnabled": "Prüferzugang aktiviert.",
-  "codeNotRecognised": "Dieser Code wurde nicht erkannt."
+  "compChecking": "Der Code wird geprüft…",
+  "compEnabled": "Kostenloser Zugang aktiviert.",
+  "compRefused": "Dieser Code wurde nicht erkannt oder wurde bereits verwendet.",
+  "compTooOften": "Zu viele Versuche. Warte ein paar Minuten und versuch es erneut.",
+  "compUnreachable": "Der Server war nicht erreichbar. Prüf deine Verbindung und versuch es erneut.",
+  "compUntrusted": "Diese Antwort ließ sich nicht verifizieren, es wurde nichts freigeschaltet."
 }

@@ -56,9 +56,13 @@
   "alreadyInTheList": "“{name}”已经在列表里了。",
   "ocrUnavailable": "读取截屏需要 iPhone — 这个平台上没有文字识别。",
   "lookupUnavailable": "查找地点需要 iPhone — 这个平台上没有地图搜索。",
-  "reviewerAccess": "审核人员访问",
+  "compAccess": "免费使用权限",
   "code": "代码",
   "unlock": "解锁",
-  "reviewerEnabled": "已开启审核人员访问。",
-  "codeNotRecognised": "无法识别这个代码。"
+  "compChecking": "正在检查这个代码…",
+  "compEnabled": "已开启免费使用权限。",
+  "compRefused": "无法识别这个代码，或者它已经用过了。",
+  "compTooOften": "尝试次数太多。等几分钟再试。",
+  "compUnreachable": "无法连接服务器。检查你的网络连接，然后再试。",
+  "compUntrusted": "无法验证服务器的回复，所以没有解锁任何内容。"
 }

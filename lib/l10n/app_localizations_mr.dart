@@ -235,7 +235,7 @@ class LMr extends L {
       'ठिकाणं शोधण्यासाठी iPhone लागतो — या प्लॅटफॉर्मवर नकाशावरचा शोध नाही.';
 
   @override
-  String get reviewerAccess => 'परीक्षकाचा प्रवेश';
+  String get compAccess => 'मोफत प्रवेश';
 
   @override
   String get code => 'कोड';
@@ -244,8 +244,24 @@ class LMr extends L {
   String get unlock => 'अनलॉक करा';
 
   @override
-  String get reviewerEnabled => 'परीक्षकाचा प्रवेश सुरू झाला.';
+  String get compChecking => 'तो कोड तपासत आहे…';
 
   @override
-  String get codeNotRecognised => 'हा कोड ओळखता आला नाही.';
+  String get compEnabled => 'मोफत प्रवेश सुरू झाला.';
+
+  @override
+  String get compRefused =>
+      'हा कोड ओळखता आला नाही, किंवा तो आधीच वापरला गेला आहे.';
+
+  @override
+  String get compTooOften =>
+      'खूप वेळा प्रयत्न झाले. काही मिनिटं थांबून पुन्हा प्रयत्न करा.';
+
+  @override
+  String get compUnreachable =>
+      'सर्व्हरशी संपर्क होऊ शकला नाही. तुमचं कनेक्शन तपासून पुन्हा प्रयत्न करा.';
+
+  @override
+  String get compUntrusted =>
+      'त्या उत्तराची खात्री करता आली नाही, त्यामुळे काहीही अनलॉक झालं नाही.';
 }

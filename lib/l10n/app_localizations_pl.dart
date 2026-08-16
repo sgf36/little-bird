@@ -239,7 +239,7 @@ class LPl extends L {
       'Wyszukiwanie miejsc wymaga iPhone\'a — na tej platformie nie ma wyszukiwania na mapie.';
 
   @override
-  String get reviewerAccess => 'Dostęp dla recenzenta';
+  String get compAccess => 'Bezpłatny dostęp';
 
   @override
   String get code => 'Kod';
@@ -248,8 +248,24 @@ class LPl extends L {
   String get unlock => 'Odblokuj';
 
   @override
-  String get reviewerEnabled => 'Dostęp dla recenzenta włączony.';
+  String get compChecking => 'Sprawdzanie kodu…';
 
   @override
-  String get codeNotRecognised => 'Nie rozpoznano tego kodu.';
+  String get compEnabled => 'Bezpłatny dostęp włączony.';
+
+  @override
+  String get compRefused =>
+      'Nie rozpoznano tego kodu albo został już wykorzystany.';
+
+  @override
+  String get compTooOften =>
+      'Zbyt wiele prób. Odczekaj kilka minut i spróbuj ponownie.';
+
+  @override
+  String get compUnreachable =>
+      'Nie udało się połączyć z serwerem. Sprawdź połączenie i spróbuj ponownie.';
+
+  @override
+  String get compUntrusted =>
+      'Nie udało się zweryfikować odpowiedzi, więc nic nie zostało odblokowane.';
 }

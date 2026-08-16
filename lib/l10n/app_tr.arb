@@ -56,9 +56,13 @@
   "alreadyInTheList": "{name} zaten listedeydi.",
   "ocrUnavailable": "Ekran görüntülerini okumak için iPhone gerekir — bu platformda metin tanıma yok.",
   "lookupUnavailable": "Mekân aramak için iPhone gerekir — bu platformda harita araması yok.",
-  "reviewerAccess": "İnceleyici erişimi",
+  "compAccess": "Ücretsiz erişim",
   "code": "Kod",
   "unlock": "Kilidi aç",
-  "reviewerEnabled": "İnceleyici erişimi açıldı.",
-  "codeNotRecognised": "Bu kod tanınmadı."
+  "compChecking": "Bu kod kontrol ediliyor…",
+  "compEnabled": "Ücretsiz erişim açıldı.",
+  "compRefused": "Bu kod tanınmadı ya da daha önce kullanılmış.",
+  "compTooOften": "Çok fazla deneme yapıldı. Birkaç dakika bekleyip yeniden dene.",
+  "compUnreachable": "Sunucuya ulaşılamadı. Bağlantını kontrol edip yeniden dene.",
+  "compUntrusted": "Bu yanıt doğrulanamadı, bu yüzden hiçbir şeyin kilidi açılmadı."
 }

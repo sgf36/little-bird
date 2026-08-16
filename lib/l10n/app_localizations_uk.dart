@@ -243,7 +243,7 @@ class LUk extends L {
       'Для пошуку місць потрібен iPhone — на цій платформі немає пошуку по карті.';
 
   @override
-  String get reviewerAccess => 'Доступ для рецензента';
+  String get compAccess => 'Безкоштовний доступ';
 
   @override
   String get code => 'Код';
@@ -252,8 +252,23 @@ class LUk extends L {
   String get unlock => 'Розблокувати';
 
   @override
-  String get reviewerEnabled => 'Доступ для рецензента ввімкнено.';
+  String get compChecking => 'Перевіряю код…';
 
   @override
-  String get codeNotRecognised => 'Цей код не розпізнано.';
+  String get compEnabled => 'Безкоштовний доступ ввімкнено.';
+
+  @override
+  String get compRefused => 'Цей код не розпізнано або він уже використаний.';
+
+  @override
+  String get compTooOften =>
+      'Забагато спроб. Зачекай кілька хвилин і спробуй знову.';
+
+  @override
+  String get compUnreachable =>
+      'Не вдалося зв\'язатися з сервером. Перевір з\'єднання й спробуй знову.';
+
+  @override
+  String get compUntrusted =>
+      'Не вдалося перевірити відповідь, тож нічого не розблоковано.';
 }

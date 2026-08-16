@@ -237,7 +237,7 @@ class LHu extends L {
       'A helykereséshez iPhone kell — ezen a platformon nincs térképes keresés.';
 
   @override
-  String get reviewerAccess => 'Ellenőri hozzáférés';
+  String get compAccess => 'Ingyenes hozzáférés';
 
   @override
   String get code => 'Kód';
@@ -246,8 +246,24 @@ class LHu extends L {
   String get unlock => 'Feloldás';
 
   @override
-  String get reviewerEnabled => 'Ellenőri hozzáférés bekapcsolva.';
+  String get compChecking => 'A kód ellenőrzése…';
 
   @override
-  String get codeNotRecognised => 'Ez a kód nem ismerhető fel.';
+  String get compEnabled => 'Ingyenes hozzáférés bekapcsolva.';
+
+  @override
+  String get compRefused =>
+      'Ez a kód nem ismerhető fel, vagy már felhasználták.';
+
+  @override
+  String get compTooOften =>
+      'Túl sok próbálkozás. Várj néhány percet, és próbáld újra.';
+
+  @override
+  String get compUnreachable =>
+      'A kiszolgáló nem érhető el. Ellenőrizd a kapcsolatot, és próbáld újra.';
+
+  @override
+  String get compUntrusted =>
+      'A válasz nem volt ellenőrizhető, ezért semmi nem oldódott fel.';
 }

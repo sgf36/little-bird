@@ -56,9 +56,13 @@
   "alreadyInTheList": "{name} már szerepelt a listán.",
   "ocrUnavailable": "A képernyőképek olvasásához iPhone kell — ezen a platformon nincs szövegfelismerés.",
   "lookupUnavailable": "A helykereséshez iPhone kell — ezen a platformon nincs térképes keresés.",
-  "reviewerAccess": "Ellenőri hozzáférés",
+  "compAccess": "Ingyenes hozzáférés",
   "code": "Kód",
   "unlock": "Feloldás",
-  "reviewerEnabled": "Ellenőri hozzáférés bekapcsolva.",
-  "codeNotRecognised": "Ez a kód nem ismerhető fel."
+  "compChecking": "A kód ellenőrzése…",
+  "compEnabled": "Ingyenes hozzáférés bekapcsolva.",
+  "compRefused": "Ez a kód nem ismerhető fel, vagy már felhasználták.",
+  "compTooOften": "Túl sok próbálkozás. Várj néhány percet, és próbáld újra.",
+  "compUnreachable": "A kiszolgáló nem érhető el. Ellenőrizd a kapcsolatot, és próbáld újra.",
+  "compUntrusted": "A válasz nem volt ellenőrizhető, ezért semmi nem oldódott fel."
 }

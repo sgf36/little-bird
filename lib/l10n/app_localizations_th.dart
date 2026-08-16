@@ -231,7 +231,7 @@ class LTh extends L {
       'การค้นหาสถานที่ต้องใช้ iPhone — แพลตฟอร์มนี้ไม่มีการค้นหาบนแผนที่';
 
   @override
-  String get reviewerAccess => 'สิทธิ์สำหรับผู้ตรวจสอบ';
+  String get compAccess => 'สิทธิ์ใช้งานฟรี';
 
   @override
   String get code => 'รหัส';
@@ -240,8 +240,21 @@ class LTh extends L {
   String get unlock => 'ปลดล็อก';
 
   @override
-  String get reviewerEnabled => 'เปิดสิทธิ์สำหรับผู้ตรวจสอบแล้ว';
+  String get compChecking => 'กำลังตรวจสอบรหัส…';
 
   @override
-  String get codeNotRecognised => 'ไม่รู้จักรหัสนี้';
+  String get compEnabled => 'เปิดสิทธิ์ใช้งานฟรีแล้ว';
+
+  @override
+  String get compRefused => 'ไม่รู้จักรหัสนี้ หรือรหัสนี้ถูกใช้ไปแล้ว';
+
+  @override
+  String get compTooOften => 'ลองมาหลายครั้งเกินไป รอสักสองสามนาทีแล้วลองใหม่';
+
+  @override
+  String get compUnreachable =>
+      'ติดต่อเซิร์ฟเวอร์ไม่ได้ ตรวจสอบการเชื่อมต่อแล้วลองใหม่';
+
+  @override
+  String get compUntrusted => 'ยืนยันคำตอบนั้นไม่ได้ จึงไม่มีการปลดล็อกอะไร';
 }

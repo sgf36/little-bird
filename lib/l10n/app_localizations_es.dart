@@ -236,7 +236,7 @@ class LEs extends L {
       'Para buscar lugares hace falta un iPhone: en esta plataforma no hay búsqueda en mapas.';
 
   @override
-  String get reviewerAccess => 'Acceso para revisores';
+  String get compAccess => 'Acceso de cortesía';
 
   @override
   String get code => 'Código';
@@ -245,10 +245,25 @@ class LEs extends L {
   String get unlock => 'Desbloquear';
 
   @override
-  String get reviewerEnabled => 'Acceso para revisores activado.';
+  String get compChecking => 'Comprobando ese código…';
 
   @override
-  String get codeNotRecognised => 'No se ha reconocido ese código.';
+  String get compEnabled => 'Acceso de cortesía activado.';
+
+  @override
+  String get compRefused => 'No se ha reconocido ese código, o ya se ha usado.';
+
+  @override
+  String get compTooOften =>
+      'Demasiados intentos. Espera unos minutos e inténtalo de nuevo.';
+
+  @override
+  String get compUnreachable =>
+      'No se ha podido conectar con el servidor. Comprueba tu conexión e inténtalo de nuevo.';
+
+  @override
+  String get compUntrusted =>
+      'No se ha podido verificar esa respuesta, así que no se ha desbloqueado nada.';
 }
 
 /// The translations for Spanish Castilian, as used in Mexico (`es_MX`).
@@ -483,7 +498,7 @@ class LEsMx extends LEs {
       'Para buscar lugares se necesita un iPhone: en esta plataforma no hay búsqueda en mapas.';
 
   @override
-  String get reviewerAccess => 'Acceso para revisores';
+  String get compAccess => 'Acceso de cortesía';
 
   @override
   String get code => 'Código';
@@ -492,8 +507,23 @@ class LEsMx extends LEs {
   String get unlock => 'Desbloquear';
 
   @override
-  String get reviewerEnabled => 'Acceso para revisores activado.';
+  String get compChecking => 'Revisando ese código…';
 
   @override
-  String get codeNotRecognised => 'No se reconoció ese código.';
+  String get compEnabled => 'Acceso de cortesía activado.';
+
+  @override
+  String get compRefused => 'No se reconoció ese código, o ya se usó.';
+
+  @override
+  String get compTooOften =>
+      'Demasiados intentos. Espera unos minutos y vuelve a intentarlo.';
+
+  @override
+  String get compUnreachable =>
+      'No se pudo conectar con el servidor. Revisa tu conexión y vuelve a intentarlo.';
+
+  @override
+  String get compUntrusted =>
+      'No se pudo verificar esa respuesta, así que no se desbloqueó nada.';
 }

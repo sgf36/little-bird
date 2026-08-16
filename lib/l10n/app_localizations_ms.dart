@@ -236,7 +236,7 @@ class LMs extends L {
       'Mencari tempat memerlukan iPhone — platform ini tiada carian peta.';
 
   @override
-  String get reviewerAccess => 'Akses penyemak';
+  String get compAccess => 'Akses percuma';
 
   @override
   String get code => 'Kod';
@@ -245,8 +245,23 @@ class LMs extends L {
   String get unlock => 'Buka';
 
   @override
-  String get reviewerEnabled => 'Akses penyemak dihidupkan.';
+  String get compChecking => 'Menyemak kod itu…';
 
   @override
-  String get codeNotRecognised => 'Kod itu tidak dikenali.';
+  String get compEnabled => 'Akses percuma telah dihidupkan.';
+
+  @override
+  String get compRefused => 'Kod itu tidak dikenali, atau telah pun digunakan.';
+
+  @override
+  String get compTooOften =>
+      'Terlalu banyak percubaan. Tunggu beberapa minit dan cuba lagi.';
+
+  @override
+  String get compUnreachable =>
+      'Pelayan tidak dapat dihubungi. Semak sambungan anda dan cuba lagi.';
+
+  @override
+  String get compUntrusted =>
+      'Balasan itu tidak dapat disahkan, jadi tiada apa-apa yang dibuka.';
 }

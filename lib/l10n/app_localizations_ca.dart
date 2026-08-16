@@ -238,7 +238,7 @@ class LCa extends L {
       'Per buscar llocs cal un iPhone: en aquesta plataforma no hi ha cerca al mapa.';
 
   @override
-  String get reviewerAccess => 'Accés per a revisors';
+  String get compAccess => 'Accés de cortesia';
 
   @override
   String get code => 'Codi';
@@ -247,8 +247,24 @@ class LCa extends L {
   String get unlock => 'Desbloquejar';
 
   @override
-  String get reviewerEnabled => 'Accés per a revisors activat.';
+  String get compChecking => 'S\'està comprovant aquest codi…';
 
   @override
-  String get codeNotRecognised => 'No s\'ha reconegut aquest codi.';
+  String get compEnabled => 'Accés de cortesia activat.';
+
+  @override
+  String get compRefused =>
+      'No s\'ha reconegut aquest codi, o ja s\'ha fet servir.';
+
+  @override
+  String get compTooOften =>
+      'Massa intents. Espera uns minuts i torna-ho a provar.';
+
+  @override
+  String get compUnreachable =>
+      'No s\'ha pogut connectar amb el servidor. Comprova la connexió i torna-ho a provar.';
+
+  @override
+  String get compUntrusted =>
+      'No s\'ha pogut verificar la resposta, així que no s\'ha desbloquejat res.';
 }

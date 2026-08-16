@@ -236,7 +236,7 @@ class LPt extends L {
       'Para buscar lugares é preciso um iPhone: nesta plataforma não há busca em mapas.';
 
   @override
-  String get reviewerAccess => 'Acesso para revisores';
+  String get compAccess => 'Acesso de cortesia';
 
   @override
   String get code => 'Código';
@@ -245,10 +245,25 @@ class LPt extends L {
   String get unlock => 'Desbloquear';
 
   @override
-  String get reviewerEnabled => 'Acesso para revisores ativado.';
+  String get compChecking => 'Verificando esse código…';
 
   @override
-  String get codeNotRecognised => 'Esse código não foi reconhecido.';
+  String get compEnabled => 'Acesso de cortesia ativado.';
+
+  @override
+  String get compRefused => 'Esse código não foi reconhecido, ou já foi usado.';
+
+  @override
+  String get compTooOften =>
+      'Tentativas demais. Espere alguns minutos e tente de novo.';
+
+  @override
+  String get compUnreachable =>
+      'Não foi possível conectar ao servidor. Verifique sua conexão e tente de novo.';
+
+  @override
+  String get compUntrusted =>
+      'Não foi possível verificar essa resposta, então nada foi desbloqueado.';
 }
 
 /// The translations for Portuguese, as used in Portugal (`pt_PT`).
@@ -484,7 +499,7 @@ class LPtPt extends LPt {
       'Para procurar lugares é preciso um iPhone: nesta plataforma não há pesquisa em mapas.';
 
   @override
-  String get reviewerAccess => 'Acesso para revisores';
+  String get compAccess => 'Acesso de cortesia';
 
   @override
   String get code => 'Código';
@@ -493,8 +508,24 @@ class LPtPt extends LPt {
   String get unlock => 'Desbloquear';
 
   @override
-  String get reviewerEnabled => 'Acesso para revisores ativado.';
+  String get compChecking => 'A verificar esse código…';
 
   @override
-  String get codeNotRecognised => 'Esse código não foi reconhecido.';
+  String get compEnabled => 'Acesso de cortesia ativado.';
+
+  @override
+  String get compRefused =>
+      'Esse código não foi reconhecido ou já foi utilizado.';
+
+  @override
+  String get compTooOften =>
+      'Demasiadas tentativas. Aguarde alguns minutos e tente novamente.';
+
+  @override
+  String get compUnreachable =>
+      'Não foi possível contactar o servidor. Verifique a sua ligação e tente novamente.';
+
+  @override
+  String get compUntrusted =>
+      'Não foi possível verificar essa resposta, por isso não foi desbloqueado nada.';
 }

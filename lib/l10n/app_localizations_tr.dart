@@ -234,7 +234,7 @@ class LTr extends L {
       'Mekân aramak için iPhone gerekir — bu platformda harita araması yok.';
 
   @override
-  String get reviewerAccess => 'İnceleyici erişimi';
+  String get compAccess => 'Ücretsiz erişim';
 
   @override
   String get code => 'Kod';
@@ -243,8 +243,23 @@ class LTr extends L {
   String get unlock => 'Kilidi aç';
 
   @override
-  String get reviewerEnabled => 'İnceleyici erişimi açıldı.';
+  String get compChecking => 'Bu kod kontrol ediliyor…';
 
   @override
-  String get codeNotRecognised => 'Bu kod tanınmadı.';
+  String get compEnabled => 'Ücretsiz erişim açıldı.';
+
+  @override
+  String get compRefused => 'Bu kod tanınmadı ya da daha önce kullanılmış.';
+
+  @override
+  String get compTooOften =>
+      'Çok fazla deneme yapıldı. Birkaç dakika bekleyip yeniden dene.';
+
+  @override
+  String get compUnreachable =>
+      'Sunucuya ulaşılamadı. Bağlantını kontrol edip yeniden dene.';
+
+  @override
+  String get compUntrusted =>
+      'Bu yanıt doğrulanamadı, bu yüzden hiçbir şeyin kilidi açılmadı.';
 }

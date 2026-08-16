@@ -235,7 +235,7 @@ class LGu extends L {
       'જગ્યા શોધવા માટે iPhone જોઈએ — આ પ્લૅટફૉર્મ પર નકશામાં શોધ નથી.';
 
   @override
-  String get reviewerAccess => 'સમીક્ષકની પહોંચ';
+  String get compAccess => 'સૌજન્ય પહોંચ';
 
   @override
   String get code => 'કોડ';
@@ -244,8 +244,23 @@ class LGu extends L {
   String get unlock => 'અનલૉક કરો';
 
   @override
-  String get reviewerEnabled => 'સમીક્ષકની પહોંચ ચાલુ થઈ.';
+  String get compChecking => 'એ કોડ તપાસી રહ્યું છે…';
 
   @override
-  String get codeNotRecognised => 'આ કોડ ઓળખાયો નહીં.';
+  String get compEnabled => 'સૌજન્ય પહોંચ ચાલુ થઈ.';
+
+  @override
+  String get compRefused => 'એ કોડ ઓળખાયો નહીં, અથવા તે વપરાઈ ચૂક્યો છે.';
+
+  @override
+  String get compTooOften =>
+      'બહુ વધારે પ્રયાસ થયા. થોડી મિનિટ થોભીને ફરી પ્રયાસ કરો.';
+
+  @override
+  String get compUnreachable =>
+      'સર્વર સુધી પહોંચી શકાયું નહીં. તમારું જોડાણ તપાસીને ફરી પ્રયાસ કરો.';
+
+  @override
+  String get compUntrusted =>
+      'એ જવાબની ખાતરી થઈ શકી નહીં, એટલે કશું અનલૉક થયું નથી.';
 }

@@ -238,7 +238,7 @@ class LCs extends L {
       'Hledání míst vyžaduje iPhone — na této platformě není vyhledávání v mapách.';
 
   @override
-  String get reviewerAccess => 'Přístup pro recenzenty';
+  String get compAccess => 'Bezplatný přístup';
 
   @override
   String get code => 'Kód';
@@ -247,8 +247,23 @@ class LCs extends L {
   String get unlock => 'Odemknout';
 
   @override
-  String get reviewerEnabled => 'Přístup pro recenzenty zapnut.';
+  String get compChecking => 'Kontrola kódu…';
 
   @override
-  String get codeNotRecognised => 'Tento kód nebyl rozpoznán.';
+  String get compEnabled => 'Bezplatný přístup zapnut.';
+
+  @override
+  String get compRefused => 'Tento kód nebyl rozpoznán, nebo už byl použit.';
+
+  @override
+  String get compTooOften =>
+      'Příliš mnoho pokusů. Počkej pár minut a zkus to znovu.';
+
+  @override
+  String get compUnreachable =>
+      'Server se nepodařilo kontaktovat. Zkontroluj připojení a zkus to znovu.';
+
+  @override
+  String get compUntrusted =>
+      'Odpověď se nepodařilo ověřit, takže nic nebylo odemčeno.';
 }

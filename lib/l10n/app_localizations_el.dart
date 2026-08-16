@@ -239,7 +239,7 @@ class LEl extends L {
       'Η αναζήτηση μερών απαιτεί iPhone — σε αυτήν την πλατφόρμα δεν υπάρχει αναζήτηση σε χάρτη.';
 
   @override
-  String get reviewerAccess => 'Πρόσβαση αξιολογητή';
+  String get compAccess => 'Δωρεάν πρόσβαση';
 
   @override
   String get code => 'Κωδικός';
@@ -248,8 +248,24 @@ class LEl extends L {
   String get unlock => 'Ξεκλείδωμα';
 
   @override
-  String get reviewerEnabled => 'Η πρόσβαση αξιολογητή ενεργοποιήθηκε.';
+  String get compChecking => 'Έλεγχος αυτού του κωδικού…';
 
   @override
-  String get codeNotRecognised => 'Ο κωδικός δεν αναγνωρίστηκε.';
+  String get compEnabled => 'Η δωρεάν πρόσβαση ενεργοποιήθηκε.';
+
+  @override
+  String get compRefused =>
+      'Ο κωδικός δεν αναγνωρίστηκε ή έχει ήδη χρησιμοποιηθεί.';
+
+  @override
+  String get compTooOften =>
+      'Πάρα πολλές προσπάθειες. Περίμενε λίγα λεπτά και δοκίμασε ξανά.';
+
+  @override
+  String get compUnreachable =>
+      'Δεν ήταν δυνατή η σύνδεση με τον διακομιστή. Έλεγξε τη σύνδεσή σου και δοκίμασε ξανά.';
+
+  @override
+  String get compUntrusted =>
+      'Δεν ήταν δυνατή η επαλήθευση της απάντησης, οπότε δεν ξεκλείδωσε τίποτα.';
 }

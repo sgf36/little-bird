@@ -56,9 +56,13 @@
   "alreadyInTheList": "{name} כבר היה ברשימה.",
   "ocrUnavailable": "קריאת צילומי מסך דורשת iPhone — בפלטפורמה הזאת אין זיהוי טקסט.",
   "lookupUnavailable": "חיפוש מקומות דורש iPhone — בפלטפורמה הזאת אין חיפוש במפה.",
-  "reviewerAccess": "גישת בודק",
+  "compAccess": "גישה ללא תשלום",
   "code": "קוד",
   "unlock": "פתיחה",
-  "reviewerEnabled": "גישת בודק הופעלה.",
-  "codeNotRecognised": "הקוד הזה לא זוהה."
+  "compChecking": "בודק את הקוד…",
+  "compEnabled": "גישה ללא תשלום הופעלה.",
+  "compRefused": "הקוד הזה לא זוהה, או שכבר נעשה בו שימוש.",
+  "compTooOften": "יותר מדי ניסיונות. יש להמתין כמה דקות ולנסות שוב.",
+  "compUnreachable": "לא ניתן היה להגיע לשרת. יש לבדוק את החיבור ולנסות שוב.",
+  "compUntrusted": "לא ניתן היה לאמת את התשובה, ולכן לא נפתח דבר."
 }

@@ -56,9 +56,13 @@
   "alreadyInTheList": "{name} je već bilo na popisu.",
   "ocrUnavailable": "Za čitanje snimaka zaslona potreban je iPhone — na ovoj platformi nema prepoznavanja teksta.",
   "lookupUnavailable": "Za traženje mjesta potreban je iPhone — na ovoj platformi nema pretraživanja karte.",
-  "reviewerAccess": "Pristup za recenzente",
+  "compAccess": "Besplatan pristup",
   "code": "Kôd",
   "unlock": "Otključaj",
-  "reviewerEnabled": "Pristup za recenzente uključen.",
-  "codeNotRecognised": "Taj kôd nije prepoznat."
+  "compChecking": "Provjera kôda…",
+  "compEnabled": "Besplatan pristup uključen.",
+  "compRefused": "Taj kôd nije prepoznat ili je već iskorišten.",
+  "compTooOften": "Previše pokušaja. Pričekaj nekoliko minuta i pokušaj ponovno.",
+  "compUnreachable": "Poslužitelju nije bilo moguće pristupiti. Provjeri vezu i pokušaj ponovno.",
+  "compUntrusted": "Taj odgovor nije bilo moguće provjeriti pa ništa nije otključano."
 }

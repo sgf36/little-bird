@@ -236,7 +236,7 @@ class LBn extends L {
       'জায়গা খুঁজতে iPhone লাগে — এই প্ল্যাটফর্মে মানচিত্রে খোঁজার সুবিধা নেই।';
 
   @override
-  String get reviewerAccess => 'পর্যালোচকের প্রবেশাধিকার';
+  String get compAccess => 'সৌজন্য প্রবেশাধিকার';
 
   @override
   String get code => 'কোড';
@@ -245,8 +245,22 @@ class LBn extends L {
   String get unlock => 'আনলক';
 
   @override
-  String get reviewerEnabled => 'পর্যালোচকের প্রবেশাধিকার চালু হয়েছে।';
+  String get compChecking => 'কোডটি দেখা হচ্ছে…';
 
   @override
-  String get codeNotRecognised => 'কোডটি চেনা গেল না।';
+  String get compEnabled => 'সৌজন্য প্রবেশাধিকার চালু হয়েছে।';
+
+  @override
+  String get compRefused => 'কোডটি চেনা গেল না, বা আগেই ব্যবহার করা হয়েছে।';
+
+  @override
+  String get compTooOften =>
+      'অনেকবার চেষ্টা হয়েছে। কয়েক মিনিট পরে আবার চেষ্টা করুন।';
+
+  @override
+  String get compUnreachable =>
+      'সার্ভারে পৌঁছানো গেল না। সংযোগ দেখে আবার চেষ্টা করুন।';
+
+  @override
+  String get compUntrusted => 'উত্তরটি যাচাই করা গেল না, তাই কিছুই আনলক হয়নি।';
 }

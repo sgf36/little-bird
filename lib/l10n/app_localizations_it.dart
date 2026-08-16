@@ -237,7 +237,7 @@ class LIt extends L {
       'Per cercare i luoghi serve un iPhone: su questa piattaforma non c\'è la ricerca sulle mappe.';
 
   @override
-  String get reviewerAccess => 'Accesso per revisori';
+  String get compAccess => 'Accesso omaggio';
 
   @override
   String get code => 'Codice';
@@ -246,8 +246,23 @@ class LIt extends L {
   String get unlock => 'Sblocca';
 
   @override
-  String get reviewerEnabled => 'Accesso per revisori attivato.';
+  String get compChecking => 'Verifica del codice…';
 
   @override
-  String get codeNotRecognised => 'Codice non riconosciuto.';
+  String get compEnabled => 'Accesso omaggio attivato.';
+
+  @override
+  String get compRefused => 'Codice non riconosciuto, oppure già utilizzato.';
+
+  @override
+  String get compTooOften =>
+      'Troppi tentativi. Aspetta qualche minuto e riprova.';
+
+  @override
+  String get compUnreachable =>
+      'Impossibile raggiungere il server. Controlla la connessione e riprova.';
+
+  @override
+  String get compUntrusted =>
+      'Non è stato possibile verificare la risposta, quindi non è stato sbloccato nulla.';
 }

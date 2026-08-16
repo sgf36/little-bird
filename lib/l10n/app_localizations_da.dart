@@ -236,7 +236,7 @@ class LDa extends L {
       'At søge efter steder kræver en iPhone — der er ingen kortsøgning på denne platform.';
 
   @override
-  String get reviewerAccess => 'Adgang for bedømmere';
+  String get compAccess => 'Gratis adgang';
 
   @override
   String get code => 'Kode';
@@ -245,8 +245,24 @@ class LDa extends L {
   String get unlock => 'Lås op';
 
   @override
-  String get reviewerEnabled => 'Adgang for bedømmere slået til.';
+  String get compChecking => 'Tjekker koden…';
 
   @override
-  String get codeNotRecognised => 'Koden blev ikke genkendt.';
+  String get compEnabled => 'Gratis adgang slået til.';
+
+  @override
+  String get compRefused =>
+      'Koden blev ikke genkendt, eller den er allerede brugt.';
+
+  @override
+  String get compTooOften =>
+      'For mange forsøg. Vent et par minutter, og prøv igen.';
+
+  @override
+  String get compUnreachable =>
+      'Serveren kunne ikke nås. Tjek din forbindelse, og prøv igen.';
+
+  @override
+  String get compUntrusted =>
+      'Svaret kunne ikke bekræftes, så der blev ikke låst op for noget.';
 }

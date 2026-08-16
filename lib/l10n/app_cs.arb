@@ -56,9 +56,13 @@
   "alreadyInTheList": "{name} už v seznamu bylo.",
   "ocrUnavailable": "Čtení snímků obrazovky vyžaduje iPhone — na této platformě není rozpoznávání textu.",
   "lookupUnavailable": "Hledání míst vyžaduje iPhone — na této platformě není vyhledávání v mapách.",
-  "reviewerAccess": "Přístup pro recenzenty",
+  "compAccess": "Bezplatný přístup",
   "code": "Kód",
   "unlock": "Odemknout",
-  "reviewerEnabled": "Přístup pro recenzenty zapnut.",
-  "codeNotRecognised": "Tento kód nebyl rozpoznán."
+  "compChecking": "Kontrola kódu…",
+  "compEnabled": "Bezplatný přístup zapnut.",
+  "compRefused": "Tento kód nebyl rozpoznán, nebo už byl použit.",
+  "compTooOften": "Příliš mnoho pokusů. Počkej pár minut a zkus to znovu.",
+  "compUnreachable": "Server se nepodařilo kontaktovat. Zkontroluj připojení a zkus to znovu.",
+  "compUntrusted": "Odpověď se nepodařilo ověřit, takže nic nebylo odemčeno."
 }

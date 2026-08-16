@@ -56,9 +56,13 @@
   "alreadyInTheList": "{name} đã có trong danh sách.",
   "ocrUnavailable": "Đọc ảnh chụp màn hình cần iPhone — nền tảng này không có nhận dạng văn bản.",
   "lookupUnavailable": "Tìm địa điểm cần iPhone — nền tảng này không có tìm kiếm trên bản đồ.",
-  "reviewerAccess": "Quyền truy cập của người kiểm duyệt",
+  "compAccess": "Quyền truy cập miễn phí",
   "code": "Mã",
   "unlock": "Mở khoá",
-  "reviewerEnabled": "Đã bật quyền truy cập của người kiểm duyệt.",
-  "codeNotRecognised": "Không nhận ra mã đó."
+  "compChecking": "Đang kiểm tra mã…",
+  "compEnabled": "Đã bật quyền truy cập miễn phí.",
+  "compRefused": "Không nhận ra mã đó, hoặc mã đã được dùng rồi.",
+  "compTooOften": "Thử quá nhiều lần. Chờ vài phút rồi thử lại.",
+  "compUnreachable": "Không kết nối được với máy chủ. Kiểm tra kết nối rồi thử lại.",
+  "compUntrusted": "Không xác minh được phản hồi đó nên không có gì được mở khoá."
 }

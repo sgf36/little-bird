@@ -237,7 +237,7 @@ class LDe extends L {
       'Für die Ortssuche wird ein iPhone benötigt — auf dieser Plattform gibt es keine Kartensuche.';
 
   @override
-  String get reviewerAccess => 'Prüferzugang';
+  String get compAccess => 'Kostenloser Zugang';
 
   @override
   String get code => 'Code';
@@ -246,8 +246,24 @@ class LDe extends L {
   String get unlock => 'Freischalten';
 
   @override
-  String get reviewerEnabled => 'Prüferzugang aktiviert.';
+  String get compChecking => 'Der Code wird geprüft…';
 
   @override
-  String get codeNotRecognised => 'Dieser Code wurde nicht erkannt.';
+  String get compEnabled => 'Kostenloser Zugang aktiviert.';
+
+  @override
+  String get compRefused =>
+      'Dieser Code wurde nicht erkannt oder wurde bereits verwendet.';
+
+  @override
+  String get compTooOften =>
+      'Zu viele Versuche. Warte ein paar Minuten und versuch es erneut.';
+
+  @override
+  String get compUnreachable =>
+      'Der Server war nicht erreichbar. Prüf deine Verbindung und versuch es erneut.';
+
+  @override
+  String get compUntrusted =>
+      'Diese Antwort ließ sich nicht verifizieren, es wurde nichts freigeschaltet.';
 }

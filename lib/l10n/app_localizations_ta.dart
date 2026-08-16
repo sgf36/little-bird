@@ -239,7 +239,7 @@ class LTa extends L {
       'இடங்களைத் தேட iPhone தேவை — இந்த தளத்தில் வரைபடத் தேடல் இல்லை.';
 
   @override
-  String get reviewerAccess => 'மதிப்பாய்வாளர் அணுகல்';
+  String get compAccess => 'இலவச அணுகல்';
 
   @override
   String get code => 'குறியீடு';
@@ -248,8 +248,24 @@ class LTa extends L {
   String get unlock => 'திற';
 
   @override
-  String get reviewerEnabled => 'மதிப்பாய்வாளர் அணுகல் இயக்கப்பட்டது.';
+  String get compChecking => 'அந்தக் குறியீட்டைச் சரிபார்க்கிறது…';
 
   @override
-  String get codeNotRecognised => 'அந்தக் குறியீடு அடையாளம் காணப்படவில்லை.';
+  String get compEnabled => 'இலவச அணுகல் இயக்கப்பட்டது.';
+
+  @override
+  String get compRefused =>
+      'அந்தக் குறியீடு அடையாளம் காணப்படவில்லை, அல்லது ஏற்கெனவே பயன்படுத்தப்பட்டுவிட்டது.';
+
+  @override
+  String get compTooOften =>
+      'அதிக முறை முயற்சிக்கப்பட்டது. சில நிமிடங்கள் காத்திருந்து மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String get compUnreachable =>
+      'சேவையகத்தை அடைய முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String get compUntrusted =>
+      'அந்தப் பதிலைச் சரிபார்க்க முடியவில்லை, எனவே எதுவும் திறக்கப்படவில்லை.';
 }

@@ -228,7 +228,7 @@ class LKo extends L {
       '장소를 검색하려면 iPhone이 필요합니다 — 이 플랫폼에는 지도 검색이 없습니다.';
 
   @override
-  String get reviewerAccess => '심사자 접근';
+  String get compAccess => '무료 이용 권한';
 
   @override
   String get code => '코드';
@@ -237,8 +237,20 @@ class LKo extends L {
   String get unlock => '잠금 해제';
 
   @override
-  String get reviewerEnabled => '심사자 접근을 사용합니다.';
+  String get compChecking => '코드 확인 중…';
 
   @override
-  String get codeNotRecognised => '인식되지 않는 코드입니다.';
+  String get compEnabled => '무료 이용 권한을 사용합니다.';
+
+  @override
+  String get compRefused => '인식되지 않는 코드이거나, 이미 사용된 코드입니다.';
+
+  @override
+  String get compTooOften => '시도가 너무 많습니다. 몇 분 기다렸다가 다시 시도하세요.';
+
+  @override
+  String get compUnreachable => '서버에 연결하지 못했습니다. 연결 상태를 확인하고 다시 시도하세요.';
+
+  @override
+  String get compUntrusted => '응답을 확인할 수 없어 잠금을 해제하지 않았습니다.';
 }

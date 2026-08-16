@@ -243,7 +243,7 @@ class LRu extends L {
       'Для поиска мест нужен iPhone — на этой платформе нет поиска по карте.';
 
   @override
-  String get reviewerAccess => 'Доступ для проверяющего';
+  String get compAccess => 'Бесплатный доступ';
 
   @override
   String get code => 'Код';
@@ -252,8 +252,23 @@ class LRu extends L {
   String get unlock => 'Разблокировать';
 
   @override
-  String get reviewerEnabled => 'Доступ для проверяющего включён.';
+  String get compChecking => 'Проверяю код…';
 
   @override
-  String get codeNotRecognised => 'Этот код не распознан.';
+  String get compEnabled => 'Бесплатный доступ включён.';
+
+  @override
+  String get compRefused => 'Этот код не распознан или уже использован.';
+
+  @override
+  String get compTooOften =>
+      'Слишком много попыток. Подожди несколько минут и попробуй снова.';
+
+  @override
+  String get compUnreachable =>
+      'Не удалось связаться с сервером. Проверь соединение и попробуй снова.';
+
+  @override
+  String get compUntrusted =>
+      'Не удалось проверить ответ, поэтому ничего не разблокировано.';
 }

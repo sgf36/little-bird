@@ -234,7 +234,7 @@ class LHi extends L {
       'जगह खोजने के लिए iPhone चाहिए — इस प्लैटफ़ॉर्म पर नक्शे में खोज नहीं है।';
 
   @override
-  String get reviewerAccess => 'समीक्षक पहुँच';
+  String get compAccess => 'मुफ़्त पहुँच';
 
   @override
   String get code => 'कोड';
@@ -243,8 +243,24 @@ class LHi extends L {
   String get unlock => 'अनलॉक करें';
 
   @override
-  String get reviewerEnabled => 'समीक्षक पहुँच चालू हो गई।';
+  String get compChecking => 'वह कोड जाँचा जा रहा है…';
 
   @override
-  String get codeNotRecognised => 'यह कोड पहचाना नहीं गया।';
+  String get compEnabled => 'मुफ़्त पहुँच चालू हो गई।';
+
+  @override
+  String get compRefused =>
+      'यह कोड पहचाना नहीं गया, या पहले से इस्तेमाल हो चुका है।';
+
+  @override
+  String get compTooOften =>
+      'बहुत बार कोशिश हो गई। कुछ मिनट रुककर फिर कोशिश कीजिए।';
+
+  @override
+  String get compUnreachable =>
+      'सर्वर तक नहीं पहुँचा जा सका। अपना कनेक्शन जाँचकर फिर कोशिश कीजिए।';
+
+  @override
+  String get compUntrusted =>
+      'उस जवाब की पुष्टि नहीं हो सकी, इसलिए कुछ भी अनलॉक नहीं हुआ।';
 }

@@ -238,7 +238,7 @@ class LMl extends L {
       'സ്ഥലം തിരയാൻ iPhone വേണം — ഈ പ്ലാറ്റ്‌ഫോമിൽ ഭൂപട തിരച്ചിൽ ഇല്ല.';
 
   @override
-  String get reviewerAccess => 'പരിശോധകരുടെ ആക്‌സസ്';
+  String get compAccess => 'സൗജന്യ ആക്‌സസ്';
 
   @override
   String get code => 'കോഡ്';
@@ -247,8 +247,24 @@ class LMl extends L {
   String get unlock => 'അൺലോക്ക്';
 
   @override
-  String get reviewerEnabled => 'പരിശോധകരുടെ ആക്‌സസ് ഓണാക്കി.';
+  String get compChecking => 'ആ കോഡ് പരിശോധിക്കുന്നു…';
 
   @override
-  String get codeNotRecognised => 'ആ കോഡ് തിരിച്ചറിഞ്ഞില്ല.';
+  String get compEnabled => 'സൗജന്യ ആക്‌സസ് ഓണാക്കി.';
+
+  @override
+  String get compRefused =>
+      'ആ കോഡ് തിരിച്ചറിഞ്ഞില്ല, അല്ലെങ്കിൽ അത് നേരത്തേ ഉപയോഗിച്ചുകഴിഞ്ഞു.';
+
+  @override
+  String get compTooOften =>
+      'ഏറെ ശ്രമങ്ങളായി. കുറച്ച് മിനിറ്റ് കാത്ത് വീണ്ടും ശ്രമിക്കുക.';
+
+  @override
+  String get compUnreachable =>
+      'സെർവറിലേക്ക് എത്താനായില്ല. നിങ്ങളുടെ കണക്ഷൻ പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക.';
+
+  @override
+  String get compUntrusted =>
+      'ആ മറുപടി ഉറപ്പാക്കാനായില്ല, അതിനാൽ ഒന്നും അൺലോക്ക് ആയിട്ടില്ല.';
 }

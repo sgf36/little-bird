@@ -56,9 +56,13 @@
   "alreadyInTheList": "「{name}」已經在列表中了。",
   "ocrUnavailable": "讀取截圖需要 iPhone — 這個平台上沒有文字辨識。",
   "lookupUnavailable": "尋找地點需要 iPhone — 這個平台上沒有地圖搜尋。",
-  "reviewerAccess": "審查人員存取",
+  "compAccess": "免費使用權限",
   "code": "代碼",
   "unlock": "解鎖",
-  "reviewerEnabled": "已開啟審查人員存取。",
-  "codeNotRecognised": "無法辨識這個代碼。"
+  "compChecking": "正在檢查這個代碼…",
+  "compEnabled": "已開啟免費使用權限。",
+  "compRefused": "無法辨識這個代碼，或者它已經用過了。",
+  "compTooOften": "嘗試次數太多。等幾分鐘再試一次。",
+  "compUnreachable": "無法連線伺服器。檢查你的網路連線，然後再試一次。",
+  "compUntrusted": "無法驗證伺服器的回覆，所以沒有解鎖任何內容。"
 }

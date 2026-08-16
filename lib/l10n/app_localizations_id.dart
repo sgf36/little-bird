@@ -236,7 +236,7 @@ class LId extends L {
       'Mencari tempat butuh iPhone — di platform ini tidak ada pencarian peta.';
 
   @override
-  String get reviewerAccess => 'Akses peninjau';
+  String get compAccess => 'Akses gratis';
 
   @override
   String get code => 'Kode';
@@ -245,8 +245,24 @@ class LId extends L {
   String get unlock => 'Buka';
 
   @override
-  String get reviewerEnabled => 'Akses peninjau diaktifkan.';
+  String get compChecking => 'Memeriksa kode…';
 
   @override
-  String get codeNotRecognised => 'Kode itu tidak dikenali.';
+  String get compEnabled => 'Akses gratis diaktifkan.';
+
+  @override
+  String get compRefused =>
+      'Kode itu tidak dikenali, atau sudah pernah dipakai.';
+
+  @override
+  String get compTooOften =>
+      'Terlalu banyak percobaan. Tunggu beberapa menit lalu coba lagi.';
+
+  @override
+  String get compUnreachable =>
+      'Server tidak bisa dihubungi. Periksa koneksimu lalu coba lagi.';
+
+  @override
+  String get compUntrusted =>
+      'Balasan itu tidak bisa diverifikasi, jadi tidak ada yang dibuka.';
 }

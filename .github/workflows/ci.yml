@@ -260,19 +260,17 @@ jobs:
             echo "CODE_SIGN_IDENTITY=Apple Distribution"
           } >> ios/Flutter/Release.xcconfig
 
-      # The reviewer code is compiled in from a secret rather than committed,
-      # because this repository is public. With the secret unset the constant is
-      # empty, the feature reports itself unavailable, and the long-press does
-      # nothing — so a fork or a local build has no back door.
+      # No unlock code is compiled in any more. Complimentary codes are issued
+      # and checked by the Worker, so there is no secret for this build to
+      # carry, a fork gains nothing by building it, and rotating a code no
+      # longer needs a release. The WREN_REVIEW_CODE repository secret is now
+      # unused and can be deleted.
       - name: Build signed IPA
         if: steps.signing.outputs.ready == 'true'
-        env:
-          WREN_REVIEW_CODE: ${{ secrets.WREN_REVIEW_CODE }}
         run: |
           flutter build ipa --release \
             --export-options-plist=ios/ExportOptions.plist \
-            --build-number=${{ github.run_number }} \
-            --dart-define=WREN_REVIEW_CODE="$WREN_REVIEW_CODE"
+            --build-number=${{ github.run_number }}
 
       - name: Keep the IPA even if upload fails
         if: steps.signing.outputs.ready == 'true'

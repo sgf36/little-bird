@@ -237,7 +237,7 @@ class LKn extends L {
       'ಸ್ಥಳ ಹುಡುಕಲು iPhone ಬೇಕು — ಈ ವೇದಿಕೆಯಲ್ಲಿ ನಕ್ಷೆ ಹುಡುಕಾಟ ಇಲ್ಲ.';
 
   @override
-  String get reviewerAccess => 'ಪರಿಶೀಲಕರ ಪ್ರವೇಶ';
+  String get compAccess => 'ಉಚಿತ ಪ್ರವೇಶ';
 
   @override
   String get code => 'ಕೋಡ್';
@@ -246,8 +246,24 @@ class LKn extends L {
   String get unlock => 'ಅನ್‌ಲಾಕ್ ಮಾಡಿ';
 
   @override
-  String get reviewerEnabled => 'ಪರಿಶೀಲಕರ ಪ್ರವೇಶ ಆನ್ ಆಗಿದೆ.';
+  String get compChecking => 'ಆ ಕೋಡ್ ಪರಿಶೀಲಿಸುತ್ತಿದೆ…';
 
   @override
-  String get codeNotRecognised => 'ಆ ಕೋಡ್ ಗುರುತಿಸಲಾಗಲಿಲ್ಲ.';
+  String get compEnabled => 'ಉಚಿತ ಪ್ರವೇಶ ಆನ್ ಆಗಿದೆ.';
+
+  @override
+  String get compRefused =>
+      'ಆ ಕೋಡ್ ಗುರುತಿಸಲಾಗಲಿಲ್ಲ, ಅಥವಾ ಅದನ್ನು ಈಗಾಗಲೇ ಬಳಸಲಾಗಿದೆ.';
+
+  @override
+  String get compTooOften =>
+      'ಬಹಳ ಪ್ರಯತ್ನಗಳಾದವು. ಕೆಲವು ನಿಮಿಷ ಕಾದು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.';
+
+  @override
+  String get compUnreachable =>
+      'ಸರ್ವರ್ ತಲುಪಲಾಗಲಿಲ್ಲ. ನಿಮ್ಮ ಸಂಪರ್ಕ ಪರಿಶೀಲಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.';
+
+  @override
+  String get compUntrusted =>
+      'ಆ ಉತ್ತರವನ್ನು ಪರಿಶೀಲಿಸಲಾಗಲಿಲ್ಲ, ಹಾಗಾಗಿ ಏನೂ ಅನ್‌ಲಾಕ್ ಆಗಿಲ್ಲ.';
 }

@@ -236,7 +236,7 @@ class LHe extends L {
       'חיפוש מקומות דורש iPhone — בפלטפורמה הזאת אין חיפוש במפה.';
 
   @override
-  String get reviewerAccess => 'גישת בודק';
+  String get compAccess => 'גישה ללא תשלום';
 
   @override
   String get code => 'קוד';
@@ -245,8 +245,22 @@ class LHe extends L {
   String get unlock => 'פתיחה';
 
   @override
-  String get reviewerEnabled => 'גישת בודק הופעלה.';
+  String get compChecking => 'בודק את הקוד…';
 
   @override
-  String get codeNotRecognised => 'הקוד הזה לא זוהה.';
+  String get compEnabled => 'גישה ללא תשלום הופעלה.';
+
+  @override
+  String get compRefused => 'הקוד הזה לא זוהה, או שכבר נעשה בו שימוש.';
+
+  @override
+  String get compTooOften =>
+      'יותר מדי ניסיונות. יש להמתין כמה דקות ולנסות שוב.';
+
+  @override
+  String get compUnreachable =>
+      'לא ניתן היה להגיע לשרת. יש לבדוק את החיבור ולנסות שוב.';
+
+  @override
+  String get compUntrusted => 'לא ניתן היה לאמת את התשובה, ולכן לא נפתח דבר.';
 }

@@ -56,9 +56,13 @@
   "alreadyInTheList": "{name} era deja în listă.",
   "ocrUnavailable": "Citirea capturilor de ecran necesită un iPhone — pe această platformă nu există recunoaștere de text.",
   "lookupUnavailable": "Căutarea locurilor necesită un iPhone — pe această platformă nu există căutare pe hartă.",
-  "reviewerAccess": "Acces pentru evaluatori",
+  "compAccess": "Acces gratuit",
   "code": "Cod",
   "unlock": "Deblochează",
-  "reviewerEnabled": "Acces pentru evaluatori activat.",
-  "codeNotRecognised": "Acest cod nu a fost recunoscut."
+  "compChecking": "Se verifică acest cod…",
+  "compEnabled": "Acces gratuit activat.",
+  "compRefused": "Acest cod nu a fost recunoscut sau a fost deja folosit.",
+  "compTooOften": "Prea multe încercări. Așteaptă câteva minute și încearcă din nou.",
+  "compUnreachable": "Serverul nu a putut fi contactat. Verifică-ți conexiunea și încearcă din nou.",
+  "compUntrusted": "Răspunsul nu a putut fi verificat, așa că nu s-a deblocat nimic."
 }

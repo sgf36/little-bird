@@ -56,9 +56,13 @@
   "alreadyInTheList": "{name} ja era a la llista.",
   "ocrUnavailable": "Per llegir captures cal un iPhone: en aquesta plataforma no hi ha reconeixement de text.",
   "lookupUnavailable": "Per buscar llocs cal un iPhone: en aquesta plataforma no hi ha cerca al mapa.",
-  "reviewerAccess": "Accés per a revisors",
+  "compAccess": "Accés de cortesia",
   "code": "Codi",
   "unlock": "Desbloquejar",
-  "reviewerEnabled": "Accés per a revisors activat.",
-  "codeNotRecognised": "No s'ha reconegut aquest codi."
+  "compChecking": "S'està comprovant aquest codi…",
+  "compEnabled": "Accés de cortesia activat.",
+  "compRefused": "No s'ha reconegut aquest codi, o ja s'ha fet servir.",
+  "compTooOften": "Massa intents. Espera uns minuts i torna-ho a provar.",
+  "compUnreachable": "No s'ha pogut connectar amb el servidor. Comprova la connexió i torna-ho a provar.",
+  "compUntrusted": "No s'ha pogut verificar la resposta, així que no s'ha desbloquejat res."
 }

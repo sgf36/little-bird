@@ -237,7 +237,7 @@ class LHr extends L {
       'Za traženje mjesta potreban je iPhone — na ovoj platformi nema pretraživanja karte.';
 
   @override
-  String get reviewerAccess => 'Pristup za recenzente';
+  String get compAccess => 'Besplatan pristup';
 
   @override
   String get code => 'Kôd';
@@ -246,8 +246,23 @@ class LHr extends L {
   String get unlock => 'Otključaj';
 
   @override
-  String get reviewerEnabled => 'Pristup za recenzente uključen.';
+  String get compChecking => 'Provjera kôda…';
 
   @override
-  String get codeNotRecognised => 'Taj kôd nije prepoznat.';
+  String get compEnabled => 'Besplatan pristup uključen.';
+
+  @override
+  String get compRefused => 'Taj kôd nije prepoznat ili je već iskorišten.';
+
+  @override
+  String get compTooOften =>
+      'Previše pokušaja. Pričekaj nekoliko minuta i pokušaj ponovno.';
+
+  @override
+  String get compUnreachable =>
+      'Poslužitelju nije bilo moguće pristupiti. Provjeri vezu i pokušaj ponovno.';
+
+  @override
+  String get compUntrusted =>
+      'Taj odgovor nije bilo moguće provjeriti pa ništa nije otključano.';
 }

@@ -1,0 +1,19 @@
+name = "wren-codes"
+main = "src/index.js"
+compatibility_date = "2026-08-16"
+
+# Two secrets, set with `wrangler secret put <NAME>` and never committed:
+#   WREN_SIGNING_KEY  base64 pkcs8 Ed25519 private key (tools/keygen.mjs)
+#   ADMIN_TOKEN       bearer token guarding /admin/*
+#
+# `wrangler secret put` takes the secret's NAME, not its value. The value goes
+# at the interactive prompt only. Passing the value as the argument creates a
+# secret whose name is the credential and leaves the real one unset.
+
+[[d1_databases]]
+binding = "DB"
+database_name = "wren-codes"
+database_id = "be417574-be78-4281-8062-e97aab4080eb"
+
+[observability]
+enabled = true

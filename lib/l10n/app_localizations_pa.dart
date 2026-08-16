@@ -236,7 +236,7 @@ class LPa extends L {
       'ਥਾਂ ਲੱਭਣ ਲਈ iPhone ਚਾਹੀਦਾ ਹੈ — ਇਸ ਪਲੇਟਫ਼ਾਰਮ ਉੱਤੇ ਨਕਸ਼ੇ ਵਿੱਚ ਖੋਜ ਨਹੀਂ ਹੈ।';
 
   @override
-  String get reviewerAccess => 'ਸਮੀਖਿਅਕ ਪਹੁੰਚ';
+  String get compAccess => 'ਮੁਫ਼ਤ ਪਹੁੰਚ';
 
   @override
   String get code => 'ਕੋਡ';
@@ -245,8 +245,24 @@ class LPa extends L {
   String get unlock => 'ਅਨਲਾਕ ਕਰੋ';
 
   @override
-  String get reviewerEnabled => 'ਸਮੀਖਿਅਕ ਪਹੁੰਚ ਚਾਲੂ ਹੋ ਗਈ।';
+  String get compChecking => 'ਉਹ ਕੋਡ ਵੇਖ ਰਿਹਾ ਹੈ…';
 
   @override
-  String get codeNotRecognised => 'ਉਹ ਕੋਡ ਪਛਾਣਿਆ ਨਹੀਂ ਗਿਆ।';
+  String get compEnabled => 'ਮੁਫ਼ਤ ਪਹੁੰਚ ਚਾਲੂ ਹੋ ਗਈ।';
+
+  @override
+  String get compRefused =>
+      'ਉਹ ਕੋਡ ਪਛਾਣਿਆ ਨਹੀਂ ਗਿਆ, ਜਾਂ ਉਹ ਪਹਿਲਾਂ ਹੀ ਵਰਤਿਆ ਜਾ ਚੁੱਕਾ ਹੈ।';
+
+  @override
+  String get compTooOften =>
+      'ਬਹੁਤ ਵਾਰ ਕੋਸ਼ਿਸ਼ ਹੋ ਗਈ। ਕੁਝ ਮਿੰਟ ਰੁਕ ਕੇ ਫਿਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ।';
+
+  @override
+  String get compUnreachable =>
+      'ਸਰਵਰ ਤੱਕ ਪਹੁੰਚ ਨਹੀਂ ਹੋ ਸਕੀ। ਆਪਣਾ ਕੁਨੈਕਸ਼ਨ ਵੇਖ ਕੇ ਫਿਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ।';
+
+  @override
+  String get compUntrusted =>
+      'ਉਸ ਜਵਾਬ ਦੀ ਪੁਸ਼ਟੀ ਨਹੀਂ ਹੋ ਸਕੀ, ਇਸ ਲਈ ਕੁਝ ਵੀ ਅਨਲਾਕ ਨਹੀਂ ਹੋਇਆ।';
 }

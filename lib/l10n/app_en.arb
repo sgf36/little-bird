@@ -193,14 +193,28 @@
   "lookupUnavailable": "Place lookup needs an iPhone — there is no map search on this platform.",
   "@lookupUnavailable": { "description": "Shown if the app runs somewhere without MapKit." },
 
-  "reviewerAccess": "Reviewer access",
-  "@reviewerAccess": { "description": "Title of the hidden dialog used by App Review and the developer." },
+  "compAccess": "Complimentary access",
+  "@compAccess": {
+    "description": "Title of a hidden dialog, reached by long-pressing the app name. Used by App Review and by people the developer has given a free code to. 'Complimentary' in the sense of free of charge, not in the sense of praise."
+  },
   "code": "Code",
-  "@code": { "description": "Text field label for the reviewer code." },
+  "@code": { "description": "Text field label for the complimentary access code." },
   "unlock": "Unlock",
-  "@unlock": { "description": "Confirming button on the reviewer dialog." },
-  "reviewerEnabled": "Reviewer access enabled.",
-  "@reviewerEnabled": { "description": "The reviewer code was accepted." },
-  "codeNotRecognised": "That code was not recognised.",
-  "@codeNotRecognised": { "description": "The reviewer code was wrong." }
+  "@unlock": { "description": "Confirming button on the complimentary access dialog." },
+  "compChecking": "Checking that code…",
+  "@compChecking": { "description": "Shown while the code is being checked with the server." },
+  "compEnabled": "Complimentary access enabled.",
+  "@compEnabled": { "description": "The code was accepted and the paid feature is now unlocked." },
+  "compRefused": "That code was not recognised, or it has already been used.",
+  "@compRefused": {
+    "description": "The code failed. Deliberately covers several causes in one sentence — wrong, already used, withdrawn — because saying which would confirm to a stranger that a code they hold is real."
+  },
+  "compTooOften": "Too many attempts. Wait a few minutes and try again.",
+  "@compTooOften": { "description": "Rate limited after repeated failures." },
+  "compUnreachable": "Could not reach the server. Check your connection and try again.",
+  "@compUnreachable": { "description": "The code could not be checked because the network was unavailable." },
+  "compUntrusted": "That reply could not be verified, so nothing was unlocked.",
+  "@compUntrusted": {
+    "description": "The server answered but the answer failed a signature check. Rare, and means either a fault or something impersonating the server."
+  }
 }

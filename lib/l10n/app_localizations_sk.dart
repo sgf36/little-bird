@@ -238,7 +238,7 @@ class LSk extends L {
       'Hľadanie miest vyžaduje iPhone — na tejto platforme nie je vyhľadávanie v mapách.';
 
   @override
-  String get reviewerAccess => 'Prístup pre recenzentov';
+  String get compAccess => 'Bezplatný prístup';
 
   @override
   String get code => 'Kód';
@@ -247,8 +247,23 @@ class LSk extends L {
   String get unlock => 'Odomknúť';
 
   @override
-  String get reviewerEnabled => 'Prístup pre recenzentov zapnutý.';
+  String get compChecking => 'Kontrola kódu…';
 
   @override
-  String get codeNotRecognised => 'Tento kód nebol rozpoznaný.';
+  String get compEnabled => 'Bezplatný prístup zapnutý.';
+
+  @override
+  String get compRefused => 'Tento kód nebol rozpoznaný, alebo už bol použitý.';
+
+  @override
+  String get compTooOften =>
+      'Príliš veľa pokusov. Počkaj pár minút a skús to znova.';
+
+  @override
+  String get compUnreachable =>
+      'Server sa nepodarilo kontaktovať. Skontroluj pripojenie a skús to znova.';
+
+  @override
+  String get compUntrusted =>
+      'Odpoveď sa nepodarilo overiť, takže sa nič neodomklo.';
 }

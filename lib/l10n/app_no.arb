@@ -56,9 +56,13 @@
   "alreadyInTheList": "{name} stod allerede på listen.",
   "ocrUnavailable": "Å lese skjermbilder krever en iPhone — det finnes ingen tekstgjenkjenning på denne plattformen.",
   "lookupUnavailable": "Å søke etter steder krever en iPhone — det finnes ingen kartsøk på denne plattformen.",
-  "reviewerAccess": "Tilgang for anmeldere",
+  "compAccess": "Gratis tilgang",
   "code": "Kode",
   "unlock": "Lås opp",
-  "reviewerEnabled": "Tilgang for anmeldere slått på.",
-  "codeNotRecognised": "Koden ble ikke gjenkjent."
+  "compChecking": "Sjekker koden…",
+  "compEnabled": "Gratis tilgang slått på.",
+  "compRefused": "Koden ble ikke gjenkjent, eller den er allerede brukt.",
+  "compTooOften": "For mange forsøk. Vent et par minutter og prøv igjen.",
+  "compUnreachable": "Kunne ikke nå serveren. Sjekk forbindelsen din og prøv igjen.",
+  "compUntrusted": "Svaret kunne ikke bekreftes, så ingenting ble låst opp."
 }
