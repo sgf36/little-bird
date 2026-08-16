@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'src/entitlement.dart';
 import 'src/guide_link.dart';
 import 'src/ocr.dart';
+import 'src/place_search_sheet.dart';
 import 'src/region_hint.dart';
 import 'src/resolver.dart';
 import 'src/review_unlock.dart' as review;
@@ -27,16 +28,28 @@ class WrenApp extends StatelessWidget {
   );
 }
 
-/// A place the user has confirmed, waiting to be published.
+/// One thing read off a screenshot, matched or not.
+///
+/// Unmatched readings are kept rather than dropped. Previously a name the map
+/// did not recognise vanished with only a count to show for it, which threw
+/// away the one record of what the user had actually seen — and left them no
+/// way to fix it.
 class Pending {
-  final String readAs; // what OCR saw
-  final PlaceMatch match; // what it resolved to
+  /// What OCR read. Never edited: it is the evidence, and the only trace of
+  /// what the screenshot said.
+  final String readAs;
+
+  /// What it resolved to, or null while it is still unidentified.
+  PlaceMatch? match;
+
   bool keep;
+
   Pending(this.readAs, this.match, {this.keep = true});
 
-  /// Only worth showing the raw reading when it differs from the answer.
-  bool get worthShowingReading =>
-      readAs.trim().toLowerCase() != match.name.trim().toLowerCase();
+  bool get resolved => match != null;
+
+  /// Only a resolved place can go in a guide — an Apple place id is required.
+  bool get publishable => resolved && keep;
 }
 
 class CapturePage extends StatefulWidget {
@@ -284,12 +297,15 @@ class _CapturePageState extends State<CapturePage> {
           return;
         }
         if (matches.isEmpty) {
+          // Kept, not discarded: the reading is the only record of what the
+          // screenshot said, and the user can search for it themselves.
           unmatched++;
+          _pending.add(Pending(r.place, null, keep: false));
           continue;
         }
         // Never write silently: Apple replaces the label with its own record,
         // so a wrong match would ship under a confident name.
-        if (!_pending.any((p) => p.match.id == matches.first.id)) {
+        if (!_pending.any((p) => p.match?.id == matches.first.id)) {
           _pending.add(Pending(r.place, matches.first));
           added++;
         }
@@ -298,10 +314,10 @@ class _CapturePageState extends State<CapturePage> {
       setState(() {
         _busy = false;
         _status = [
-          '$added added',
+          '$added found',
           if (region != null) 'in ${region.name}',
+          if (unmatched > 0) '· $unmatched need a look',
           if (unread > 0) '· $unread unreadable',
-          if (unmatched > 0) '· $unmatched not found',
         ].join(' ');
       });
     } on OcrUnavailable catch (e) {
@@ -431,8 +447,37 @@ class _CapturePageState extends State<CapturePage> {
     return choice ?? _UnlockChoice.cancel;
   }
 
+  /// Opens the lookup for a row — to correct a wrong match, or to find one that
+  /// was never made.
+  Future<void> _editPlace(int index) async {
+    final p = _pending[index];
+    final chosen = await showModalBottomSheet<PlaceMatch>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (context) => PlaceSearchSheet(
+        readAs: p.readAs,
+        resolver: _resolver,
+        region: _region,
+        initialQuery: p.match?.name ?? p.readAs,
+      ),
+    );
+    if (chosen == null || !mounted) return;
+
+    final duplicate = _pending.indexWhere(
+      (o) => o != p && o.match?.id == chosen.id,
+    );
+    setState(() {
+      p.match = chosen;
+      p.keep = true;
+      if (duplicate >= 0) {
+        _status = '${chosen.name} was already in the list.';
+      }
+    });
+  }
+
   Future<void> _publish() async {
-    var keep = _pending.where((p) => p.keep).toList();
+    var keep = _pending.where((p) => p.publishable).toList();
     if (keep.isEmpty) return;
 
     switch (_entitlement.check(keep.length)) {
@@ -469,8 +514,9 @@ class _CapturePageState extends State<CapturePage> {
         break;
     }
 
+    // Safe to force: `publishable` already required a match.
     final places = keep
-        .map((p) => GuidePlace(id: p.match.id, name: p.match.name))
+        .map((p) => GuidePlace(id: p.match!.id, name: p.match!.name))
         .toList();
 
     final String url;
@@ -492,7 +538,8 @@ class _CapturePageState extends State<CapturePage> {
 
   @override
   Widget build(BuildContext context) {
-    final keeping = _pending.where((p) => p.keep).length;
+    final keeping = _pending.where((p) => p.publishable).length;
+    final unresolved = _pending.where((p) => !p.resolved).length;
     final over = _entitlement.overBy(keeping);
 
     return Scaffold(
@@ -565,6 +612,15 @@ class _CapturePageState extends State<CapturePage> {
                 ],
               ),
             ),
+          if (unresolved > 0)
+            _Banner(
+              accent: Wren.clay,
+              child: Text(
+                '$unresolved ${unresolved == 1 ? 'place was' : 'places were'} '
+                'not found. Tap to search for them.',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ),
           if (over > 0)
             _Banner(
               accent: Wren.clay,
@@ -585,7 +641,7 @@ class _CapturePageState extends State<CapturePage> {
                       pending: _pending[i],
                       onChanged: (v) =>
                           setState(() => _pending[i].keep = v ?? true),
-                      onRemove: () => setState(() => _pending.removeAt(i)),
+                      onEdit: () => _editPlace(i),
                     ),
                   ),
           ),
@@ -652,25 +708,37 @@ class _PlaceCard extends StatelessWidget {
   const _PlaceCard({
     required this.pending,
     required this.onChanged,
-    required this.onRemove,
+    required this.onEdit,
   });
 
   final Pending pending;
   final ValueChanged<bool?> onChanged;
-  final VoidCallback onRemove;
+  final VoidCallback onEdit;
 
   @override
   Widget build(BuildContext context) {
     final t = Theme.of(context).textTheme;
-    final on = pending.keep;
+    final match = pending.match;
+    final resolved = match != null;
+
     return Opacity(
-      opacity: on ? 1 : 0.5,
+      opacity: resolved && !pending.keep ? 0.5 : 1,
       child: Material(
         color: Wren.raised,
-        borderRadius: BorderRadius.circular(12),
+        // Shape only — Material asserts if both shape and borderRadius are
+        // given, which crashed the whole list the moment an unmatched place
+        // appeared in it.
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: resolved
+              ? BorderSide.none
+              : const BorderSide(color: Wren.clay, width: 1.2),
+        ),
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
-          onTap: () => onChanged(!on),
+          // Tapping anywhere opens the lookup. Correcting a wrong match and
+          // finding one that failed are the same job, so they are one gesture.
+          onTap: onEdit,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(14, 12, 8, 12),
             child: Row(
@@ -680,34 +748,65 @@ class _PlaceCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(pending.match.name, style: t.titleMedium),
-                      const SizedBox(height: 3),
-                      Text(pending.match.address, style: t.bodySmall),
-                      if (pending.worthShowingReading) ...[
-                        const SizedBox(height: 6),
+                      if (resolved) ...[
+                        Text(match.name, style: t.titleMedium),
+                        const SizedBox(height: 3),
+                        Text(match.address, style: t.bodySmall),
+                      ] else ...[
                         Row(
                           children: [
                             const Icon(
-                              Icons.text_fields,
-                              size: 13,
-                              color: Wren.muted,
+                              Icons.help_outline,
+                              size: 16,
+                              color: Wren.clay,
                             ),
-                            const SizedBox(width: 5),
-                            Expanded(
-                              child: Text(
-                                'read as “${pending.readAs}”',
-                                style: t.bodySmall?.copyWith(fontSize: 12.5),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+                            const SizedBox(width: 6),
+                            Text(
+                              'Not found on the map',
+                              style: t.titleMedium?.copyWith(
+                                fontSize: 16,
+                                color: Wren.clay,
                               ),
                             ),
                           ],
                         ),
+                        const SizedBox(height: 3),
+                        Text('Tap to search for it', style: t.bodySmall),
                       ],
+                      // Always shown, matched or not. It is what the screenshot
+                      // said, and the only way to tell a right match from a
+                      // confident wrong one.
+                      const SizedBox(height: 7),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Icon(
+                            Icons.text_fields,
+                            size: 13,
+                            color: Wren.muted,
+                          ),
+                          const SizedBox(width: 5),
+                          Expanded(
+                            child: Text(
+                              'read as “${pending.readAs}”',
+                              style: t.bodySmall?.copyWith(fontSize: 12.5),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
-                Checkbox(value: on, onChanged: onChanged),
+                if (resolved)
+                  Checkbox(value: pending.keep, onChanged: onChanged)
+                else
+                  IconButton(
+                    icon: const Icon(Icons.search, color: Wren.clay),
+                    tooltip: 'Search Apple Maps',
+                    onPressed: onEdit,
+                  ),
               ],
             ),
           ),
