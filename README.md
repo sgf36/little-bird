@@ -75,6 +75,44 @@ flutter test
 Everything above the platform channel is pure Dart and runs on Windows. The app
 itself needs an iOS device: OCR returns `OcrUnavailable` anywhere else.
 
+## The in-app purchase
+
+Guides over three places need a one-time unlock. Non-consumable,
+`com.spencerfields.littlebird.unlimited`, $4.99.
+
+The client side is done: StoreKit wired, price read from the store rather than
+formatted locally, purchase and restore both failing closed, the non-consumable
+completed so it stops being replayed on launch, and a restore entry in the app
+bar so a returning customer never has to trip the paywall to find it.
+
+**The product itself must be created in a browser.** The App Store Connect API
+refuses it outright — `POST /v1/inAppPurchases` returns *"The resource
+'inAppPurchases' does not allow 'CREATE'. Allowed operation is:
+GET_INSTANCE"* — and that is the API declining the operation, not a permissions
+problem. An Admin key gets the same answer. Same story as creating the app
+record.
+
+In App Store Connect → Wren → Monetisation → In-App Purchases → **+**:
+
+| Field | Value |
+|---|---|
+| Type | Non-Consumable |
+| Reference name | `Wren Unlimited Guides` |
+| Product ID | `com.spencerfields.littlebird.unlimited` |
+| Price | $4.99 (Apple's nearest price point) |
+| Display name | Guides of any size |
+| Description | Save as many places to a guide as you like, instead of three. One payment, kept for good. |
+| Family Sharing | On — costs nothing and reduces support mail |
+
+Also needed before it will sell: the **Paid Applications Agreement** must be
+active, and the IAP needs a review screenshot and review notes before it can be
+submitted alongside a build.
+
+Until the product exists, `queryProductDetails` returns nothing, `price()` is
+null and the sheet falls back to the hardcoded `$4.99` string — so the paywall
+still renders, but `buy()` will refuse. That is deliberate: the store failing is
+never allowed to grant the unlock.
+
 ## Next
 
 1. Mint a Maps identifier and a `.p8` key, confirm `/v1/search` returns `I`+hex

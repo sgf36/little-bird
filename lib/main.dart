@@ -39,7 +39,14 @@ class Pending {
 }
 
 class CapturePage extends StatefulWidget {
-  const CapturePage({super.key});
+  const CapturePage({super.key, this.store, this.initialPending});
+
+  /// Injectable so the paywall can be tested without StoreKit.
+  final UnlockStore? store;
+
+  @visibleForTesting
+  final List<Pending>? initialPending;
+
   @override
   State<CapturePage> createState() => _CapturePageState();
 }
@@ -47,8 +54,8 @@ class CapturePage extends StatefulWidget {
 class _CapturePageState extends State<CapturePage> {
   final _picker = ImagePicker();
   final _resolver = StubResolver();
-  final UnlockStore _store = StoreUnlockStore();
-  final _pending = <Pending>[];
+  late final UnlockStore _store = widget.store ?? StoreUnlockStore();
+  late final List<Pending> _pending = [...?widget.initialPending];
 
   Entitlement _entitlement = const Entitlement.free();
   String? _status;
@@ -62,6 +69,23 @@ class _CapturePageState extends State<CapturePage> {
     StoreUnlockStore.cachedUnlocked().then((unlocked) {
       if (unlocked && mounted) {
         setState(() => _entitlement = const Entitlement.unlocked());
+      }
+    });
+  }
+
+  /// Apple requires a discoverable way to restore a non-consumable purchase, and
+  /// a customer on a new phone should not have to walk into the paywall to find
+  /// it. Hence a permanent entry in the app bar rather than only in the sheet.
+  Future<void> _restoreFromMenu() async {
+    setState(() => _status = 'Checking your Apple Account…');
+    final ok = await _store.restore();
+    if (!mounted) return;
+    setState(() {
+      if (ok) {
+        _entitlement = const Entitlement.unlocked();
+        _status = 'Restored. Guides of any size are unlocked.';
+      } else {
+        _status = 'No previous purchase found on this Apple Account.';
       }
     });
   }
@@ -183,8 +207,11 @@ class _CapturePageState extends State<CapturePage> {
     final choice = await showModalBottomSheet<_UnlockChoice>(
       context: context,
       showDragHandle: true,
+      // Scrollable and height-controlled: at large text sizes, or on a short
+      // viewport, a fixed sheet overflows and the buttons become unreachable.
+      isScrollControlled: true,
       builder: (context) => SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -306,7 +333,23 @@ class _CapturePageState extends State<CapturePage> {
     final keeping = _pending.where((p) => p.keep).length;
     final over = _entitlement.overBy(keeping);
     return Scaffold(
-      appBar: AppBar(title: const Text('Wren')),
+      appBar: AppBar(
+        title: const Text('Wren'),
+        actions: [
+          if (!_entitlement.unlimited)
+            PopupMenuButton<String>(
+              onSelected: (v) {
+                if (v == 'restore') _restoreFromMenu();
+              },
+              itemBuilder: (context) => const [
+                PopupMenuItem(
+                  value: 'restore',
+                  child: Text('Restore purchase'),
+                ),
+              ],
+            ),
+        ],
+      ),
       body: Column(
         children: [
           if (_status != null)
