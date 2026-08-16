@@ -1,0 +1,5 @@
+# Wrangler's local state. Holds the Cloudflare account id and name — not a
+# credential, and useless without an API token, but it is machine state rather
+# than source and does not belong in a public repository.
+.wrangler/
+node_modules/
