@@ -66,6 +66,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<!-- Wren uses only HTTPS through the system's networking and implements no
+	     cryptography of its own, which is exempt. Declaring it here means App
+	     Store Connect stops asking the export-compliance question on every
+	     build. -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Little Bird reads the text in screenshots you choose, so it can find the places they name. Screenshots are read on this device and are not uploaded.</string>
 	<key>LSApplicationQueriesSchemes</key>
