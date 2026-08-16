@@ -145,9 +145,21 @@ public class PlacesPlugin: NSObject, FlutterPlugin {
 
   public func handle(_ call: FlutterMethodCall,
                      result: @escaping FlutterResult) {
-    guard call.method == "search" else {
+    switch call.method {
+    case "search": break
+    case "geocode":
+      guard let args = call.arguments as? [String: Any],
+            let query = args["query"] as? String, !query.isEmpty else {
+        result(FlutterError(code: "bad_args",
+                            message: "expected a non-empty 'query'", details: nil))
+        return
+      }
+      PlacesPlugin.geocode(query: query, result: result)
+      return
+    default:
       result(FlutterMethodNotImplemented); return
     }
+
     guard let args = call.arguments as? [String: Any],
           let query = args["query"] as? String, !query.isEmpty else {
       result(FlutterError(code: "bad_args",
@@ -213,6 +225,29 @@ public class PlacesPlugin: NSObject, FlutterPlugin {
         ])
       }
       result(out)
+    }
+  }
+
+  /// Turns a place-context phrase ("London", "Mexico City") into a coordinate,
+  /// so every subsequent lookup can be centred there.
+  ///
+  /// Uses CLGeocoder rather than MKLocalSearch because a city is not a point of
+  /// interest — the POI search deliberately filters those out, and it is the
+  /// administrative area we want here.
+  private static func geocode(query: String,
+                              result: @escaping FlutterResult) {
+    CLGeocoder().geocodeAddressString(query) { marks, error in
+      guard let m = marks?.first, let loc = m.location else {
+        // Not knowing where somewhere is is a normal answer, not a failure.
+        result(nil)
+        return
+      }
+      result([
+        "name": m.locality ?? m.administrativeArea ?? m.name ?? query,
+        "country": m.country as Any,
+        "lat": loc.coordinate.latitude,
+        "lon": loc.coordinate.longitude,
+      ])
     }
   }
 }

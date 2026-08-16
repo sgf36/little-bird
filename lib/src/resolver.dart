@@ -37,14 +37,36 @@ class ResolverUnavailable implements Exception {
   String toString() => 'ResolverUnavailable: $message';
 }
 
+/// Where a batch of places is, once it has been confirmed.
+class Region {
+  final String name;
+  final String? country;
+  final double lat;
+  final double lon;
+
+  const Region({
+    required this.name,
+    required this.lat,
+    required this.lon,
+    this.country,
+  });
+
+  String get label => country == null ? name : '$name, $country';
+}
+
 abstract class PlaceResolver {
   /// Resolves a name to candidates, best first.
   ///
-  /// [cityHint] should be whatever context actually exists — a city or a
-  /// district. Append facts, never guesses: adding a city rescued a failed
+  /// [region], when known, both biases the search and bounds it: MapKit treats
+  /// a region as a hint rather than a filter, so distance is enforced against
+  /// its centre. Append facts, never guesses — adding a city rescued a failed
   /// lookup in testing, while adding an inferred "restaurant" returned a
   /// confidently wrong establishment with a perfectly valid id.
-  Future<List<PlaceMatch>> resolve(String name, {String? cityHint});
+  Future<List<PlaceMatch>> resolve(String name, {Region? region});
+
+  /// Turns a phrase like "London" into somewhere on the map, or null if it is
+  /// not a place. Used to confirm where a batch of screenshots is talking about.
+  Future<Region?> locate(String query);
 }
 
 /// Resolution through MapKit on the device.
@@ -61,7 +83,27 @@ class MapKitResolver implements PlaceResolver {
   DateTime _last = DateTime.fromMillisecondsSinceEpoch(0);
 
   @override
-  Future<List<PlaceMatch>> resolve(String name, {String? cityHint}) async {
+  Future<Region?> locate(String query) async {
+    try {
+      final m = await _channel.invokeMapMethod<Object?, Object?>('geocode', {
+        'query': query,
+      });
+      if (m == null) return null;
+      return Region(
+        name: (m['name'] as String?) ?? query,
+        country: m['country'] as String?,
+        lat: (m['lat'] as num).toDouble(),
+        lon: (m['lon'] as num).toDouble(),
+      );
+    } on MissingPluginException {
+      return null;
+    } on PlatformException {
+      return null;
+    }
+  }
+
+  @override
+  Future<List<PlaceMatch>> resolve(String name, {Region? region}) async {
     final since = DateTime.now().difference(_last);
     if (since < _gap) await Future<void>.delayed(_gap - since);
     _last = DateTime.now();
@@ -69,8 +111,13 @@ class MapKitResolver implements PlaceResolver {
     try {
       final raw = await _channel.invokeMethod<List<Object?>>('search', {
         'query': name,
-        if (cityHint != null && cityHint.isNotEmpty) 'cityHint': cityHint,
-        'maxMetres': 30000.0,
+        if (region != null) 'cityHint': region.name,
+        if (region != null) 'lat': region.lat,
+        if (region != null) 'lon': region.lon,
+        // A city-sized net when we know where we are; a loose one when we do
+        // not, since an unbounded search is how "Fuunji" became a city 114 km
+        // away.
+        'maxMetres': region == null ? 100000.0 : 40000.0,
       });
       if (raw == null) return const [];
       return raw
@@ -106,7 +153,15 @@ class StubResolver implements PlaceResolver {
   ];
 
   @override
-  Future<List<PlaceMatch>> resolve(String name, {String? cityHint}) async {
+  Future<Region?> locate(String query) async => Region(
+    name: query,
+    country: 'United Kingdom',
+    lat: 51.5074,
+    lon: -0.1278,
+  );
+
+  @override
+  Future<List<PlaceMatch>> resolve(String name, {Region? region}) async {
     await Future<void>.delayed(const Duration(milliseconds: 120));
     final pick = _fixtures[name.hashCode.abs() % _fixtures.length];
     return [

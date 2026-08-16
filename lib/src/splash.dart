@@ -11,9 +11,12 @@ import 'wren_mark.dart';
 /// one movement that reads as *this* bird rather than any bird — which is why
 /// the animation is a tail flick and not a generic fade.
 ///
-/// Kept to roughly 1.6 seconds, and skippable by tapping. Respects
-/// `disableAnimations`, so a launch sequence never stands between someone with
-/// motion sensitivity and their app.
+/// Four seconds, unhurried: each flick is quick, and the stillness between them
+/// is what makes them read as a bird rather than a loading spinner.
+///
+/// Skippable by tap, and skipped outright when the system asks for reduced
+/// motion — a launch flourish should never stand between someone with motion
+/// sensitivity and their app.
 class SplashGate extends StatefulWidget {
   const SplashGate({super.key, required this.child});
 
@@ -27,65 +30,74 @@ class _SplashGateState extends State<SplashGate>
     with SingleTickerProviderStateMixin {
   late final AnimationController _c = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 1600),
+    duration: const Duration(milliseconds: 4000),
   );
 
   bool _done = false;
 
-  // Arrival.
   late final Animation<double> _markIn = CurvedAnimation(
     parent: _c,
-    curve: const Interval(0.00, 0.28, curve: Curves.easeOutBack),
+    curve: const Interval(0.00, 0.12, curve: Curves.easeOutBack),
   );
-  // Two flicks, then still.
+
+  // Weights are percentages of the four seconds. The flicks stay fast; the
+  // holds around them do the lengthening.
+  static const _stillBefore = 20.0;
+  static const _outA = 6.0, _backA = 7.0, _between = 7.0;
+  static const _outB = 5.0, _backB = 7.0, _stillAfter = 48.0;
+
   late final Animation<double> _flick = TweenSequence<double>([
-    TweenSequenceItem(tween: ConstantTween(0), weight: 30),
+    TweenSequenceItem(tween: ConstantTween(0), weight: _stillBefore),
     TweenSequenceItem(
       tween: Tween(
         begin: 0.0,
-        end: -16.0,
-      ).chain(CurveTween(curve: Curves.easeOut)),
-      weight: 9,
+        end: -17.0,
+      ).chain(CurveTween(curve: Curves.easeOutCubic)),
+      weight: _outA,
     ),
     TweenSequenceItem(
       tween: Tween(
-        begin: -16.0,
+        begin: -17.0,
         end: 0.0,
-      ).chain(CurveTween(curve: Curves.easeIn)),
-      weight: 11,
+      ).chain(CurveTween(curve: Curves.easeInOutCubic)),
+      weight: _backA,
     ),
+    TweenSequenceItem(tween: ConstantTween(0), weight: _between),
     TweenSequenceItem(
       tween: Tween(
         begin: 0.0,
         end: -11.0,
-      ).chain(CurveTween(curve: Curves.easeOut)),
-      weight: 8,
+      ).chain(CurveTween(curve: Curves.easeOutCubic)),
+      weight: _outB,
     ),
     TweenSequenceItem(
       tween: Tween(
         begin: -11.0,
         end: 0.0,
-      ).chain(CurveTween(curve: Curves.easeIn)),
-      weight: 10,
+      ).chain(CurveTween(curve: Curves.easeInOutCubic)),
+      weight: _backB,
     ),
-    TweenSequenceItem(tween: ConstantTween(0), weight: 32),
+    TweenSequenceItem(tween: ConstantTween(0), weight: _stillAfter),
   ]).animate(_c);
-  // The body dips a little as the tail goes up, the way a perched bird does.
+
+  // The body dips as the tail goes up, the way a perched bird does.
   late final Animation<double> _bob = TweenSequence<double>([
-    TweenSequenceItem(tween: ConstantTween(0), weight: 30),
-    TweenSequenceItem(tween: Tween(begin: 0.0, end: 1.6), weight: 9),
-    TweenSequenceItem(tween: Tween(begin: 1.6, end: 0.0), weight: 11),
-    TweenSequenceItem(tween: Tween(begin: 0.0, end: 1.1), weight: 8),
-    TweenSequenceItem(tween: Tween(begin: 1.1, end: 0.0), weight: 10),
-    TweenSequenceItem(tween: ConstantTween(0), weight: 32),
+    TweenSequenceItem(tween: ConstantTween(0), weight: _stillBefore),
+    TweenSequenceItem(tween: Tween(begin: 0.0, end: 1.7), weight: _outA),
+    TweenSequenceItem(tween: Tween(begin: 1.7, end: 0.0), weight: _backA),
+    TweenSequenceItem(tween: ConstantTween(0), weight: _between),
+    TweenSequenceItem(tween: Tween(begin: 0.0, end: 1.1), weight: _outB),
+    TweenSequenceItem(tween: Tween(begin: 1.1, end: 0.0), weight: _backB),
+    TweenSequenceItem(tween: ConstantTween(0), weight: _stillAfter),
   ]).animate(_c);
+
   late final Animation<double> _wordIn = CurvedAnimation(
     parent: _c,
-    curve: const Interval(0.55, 0.80, curve: Curves.easeOut),
+    curve: const Interval(0.54, 0.70, curve: Curves.easeOut),
   );
   late final Animation<double> _fadeOut = CurvedAnimation(
     parent: _c,
-    curve: const Interval(0.88, 1.00, curve: Curves.easeIn),
+    curve: const Interval(0.93, 1.00, curve: Curves.easeIn),
   );
 
   @override
@@ -96,7 +108,6 @@ class _SplashGateState extends State<SplashGate>
         setState(() => _done = true);
       }
     });
-    // Honour the system setting rather than insisting on the flourish.
     final reduced = SchedulerBinding
         .instance
         .platformDispatcher
@@ -123,14 +134,18 @@ class _SplashGateState extends State<SplashGate>
   Widget build(BuildContext context) {
     if (_done) return widget.child;
 
-    return GestureDetector(
-      onTap: _skip,
-      child: AnimatedBuilder(
-        animation: _c,
-        builder: (context, _) => Opacity(
-          opacity: 1 - _fadeOut.value,
-          child: ColoredBox(
-            color: Wren.ground,
+    // Material, not a bare ColoredBox. Without a Material ancestor Flutter
+    // falls back to its debug text style, which paints those yellow double
+    // underlines under every Text.
+    return Material(
+      color: Wren.ground,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: _skip,
+        child: AnimatedBuilder(
+          animation: _c,
+          builder: (context, _) => Opacity(
+            opacity: 1 - _fadeOut.value,
             child: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -166,6 +181,7 @@ class _SplashGateState extends State<SplashGate>
                           fontSize: 34,
                           color: Wren.text,
                           letterSpacing: 0.5,
+                          decoration: TextDecoration.none,
                         ),
                       ),
                     ),
@@ -180,6 +196,7 @@ class _SplashGateState extends State<SplashGate>
                         fontStyle: FontStyle.italic,
                         fontSize: 15,
                         color: Wren.gold,
+                        decoration: TextDecoration.none,
                       ),
                     ),
                   ),

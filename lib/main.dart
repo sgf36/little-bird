@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'src/entitlement.dart';
 import 'src/guide_link.dart';
 import 'src/ocr.dart';
+import 'src/region_hint.dart';
 import 'src/resolver.dart';
 import 'src/splash.dart';
 import 'src/store_unlock.dart';
@@ -68,6 +69,7 @@ class _CapturePageState extends State<CapturePage> {
   bool _busy = false;
   int _readCount = 0;
   int _totalCount = 0;
+  Region? _region;
 
   @override
   void initState() {
@@ -93,6 +95,65 @@ class _CapturePageState extends State<CapturePage> {
     });
   }
 
+  /// Asks where the batch is, with whatever the captions suggested filled in.
+  ///
+  /// Confirming beats guessing here. A wrong region is the expensive failure —
+  /// it drags every lookup toward the wrong city and each result comes back
+  /// looking perfectly valid — and the caption is not always there to read.
+  Future<Region?> _confirmRegion(String? detected) async {
+    final controller = TextEditingController(text: detected ?? '');
+    final answer = await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text(
+          'Where are these places?',
+          style: TextStyle(fontFamily: Wren.serif),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              detected == null
+                  ? 'Nothing in the screenshots said where these are. A city '
+                        'makes the search far more accurate.'
+                  : 'Read from the captions. Change it if that is wrong.',
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: controller,
+              autofocus: true,
+              textCapitalization: TextCapitalization.words,
+              decoration: const InputDecoration(
+                labelText: 'City or region',
+                hintText: 'London',
+              ),
+              onSubmitted: (v) => Navigator.pop(context, v.trim()),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, ''),
+            child: const Text(
+              'Search anywhere',
+              style: TextStyle(color: Wren.muted),
+            ),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, controller.text.trim()),
+            style: FilledButton.styleFrom(minimumSize: const Size(0, 44)),
+            child: const Text('Find places'),
+          ),
+        ],
+      ),
+    );
+
+    if (answer == null || answer.isEmpty) return null;
+    return _resolver.locate(answer);
+  }
+
   Future<void> _importScreenshots() async {
     setState(() {
       _busy = true;
@@ -113,24 +174,58 @@ class _CapturePageState extends State<CapturePage> {
         _readCount = 0;
       });
 
-      var unread = 0, unmatched = 0, added = 0;
+      // Pass one: read everything, and keep the whole page of text. The caption
+      // is the part that says where we are, and it used to be discarded.
+      final readings = <({String place, String all})>[];
+      var unread = 0;
       for (final f in files) {
         final lines = await Ocr.recognise(f.path);
-        final guess = likeliestPlace(lines);
         if (mounted) setState(() => _readCount++);
+        final guess = likeliestPlace(lines);
         if (guess == null) {
           unread++;
           continue;
         }
+        readings.add((
+          place: guess.text,
+          all: lines.map((l) => l.text).join('\n'),
+        ));
+      }
 
+      if (readings.isEmpty) {
+        setState(() {
+          _busy = false;
+          _status = 'Nothing readable in ${files.length} screenshots';
+        });
+        return;
+      }
+
+      // Pass two: work out where, and have it confirmed.
+      final detected = regionHint(
+        readings.map((r) => r.all),
+        exclude: readings.map((r) => r.place),
+      );
+      setState(() => _busy = false);
+      if (!mounted) return;
+      final region = await _confirmRegion(detected);
+      if (!mounted) return;
+      setState(() {
+        _busy = true;
+        _region = region;
+      });
+
+      // Pass three: resolve, now that the search knows where to look.
+      var unmatched = 0, added = 0;
+      for (final r in readings) {
         List<PlaceMatch> matches;
         try {
-          matches = usable(await _resolver.resolve(guess.text));
+          matches = usable(await _resolver.resolve(r.place, region: region));
         } on ResolverUnavailable catch (e) {
           setState(() {
             _busy = false;
             _status = e.throttled
-                ? 'Apple Maps is rate-limiting lookups. Try the rest in a moment.'
+                ? 'Apple Maps is rate-limiting lookups — added $added so far, '
+                      'try the rest in a moment.'
                 : e.message;
           });
           return;
@@ -139,11 +234,10 @@ class _CapturePageState extends State<CapturePage> {
           unmatched++;
           continue;
         }
-
         // Never write silently: Apple replaces the label with its own record,
         // so a wrong match would ship under a confident name.
         if (!_pending.any((p) => p.match.id == matches.first.id)) {
-          _pending.add(Pending(guess.text, matches.first));
+          _pending.add(Pending(r.place, matches.first));
           added++;
         }
       }
@@ -152,9 +246,10 @@ class _CapturePageState extends State<CapturePage> {
         _busy = false;
         _status = [
           '$added added',
-          if (unread > 0) '$unread with no readable name',
-          if (unmatched > 0) '$unmatched not found on the map',
-        ].join(' · ');
+          if (region != null) 'in ${region.name}',
+          if (unread > 0) '· $unread unreadable',
+          if (unmatched > 0) '· $unmatched not found',
+        ].join(' ');
       });
     } on OcrUnavailable catch (e) {
       setState(() {
@@ -394,6 +489,22 @@ class _CapturePageState extends State<CapturePage> {
               child: Text(
                 _status!,
                 style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ),
+          if (_region != null && _pending.isNotEmpty)
+            _Banner(
+              accent: Wren.gold,
+              child: Row(
+                children: [
+                  const Icon(Icons.place_outlined, size: 15, color: Wren.muted),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      'Searched in ${_region!.label}',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ),
+                ],
               ),
             ),
           if (over > 0)
