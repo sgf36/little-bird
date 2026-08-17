@@ -90,5 +90,17 @@
   "lookingUpProgress": "Slår upp {done} av {total}…",
   "combineNeedsUnlock": "Den sammanslagna guiden kräver att du låser upp.",
   "unlockCombineTitle": "Lägg till i en guide du redan har",
-  "unlockCombineBody": "{count, plural, =1{Wren skapar en enda guide med platsen som redan finns i din, tillsammans med den nya.} other{Wren skapar en enda guide med de {count} platser som redan finns i din, tillsammans med de nya.}}"
+  "unlockCombineBody": "{count, plural, =1{Wren skapar en enda guide med platsen som redan finns i din, tillsammans med den nya.} other{Wren skapar en enda guide med de {count} platser som redan finns i din, tillsammans med de nya.}}",
+  "acceptedFormats": "Läser även en lista exporterad från en annan app: CSV, KML, KMZ, GPX, GeoJSON eller Google Takeout.",
+  "clearList": "Rensa listan",
+  "clearListTitle": "Rensa listan",
+  "clearListBody": "{count, plural, =1{Ta bort den enda platsen från Wren? Guider som redan skapats i Apple Kartor påverkas inte.} other{Ta bort alla {count} platser från Wren? Guider som redan skapats i Apple Kartor påverkas inte.}}",
+  "clearListConfirm": "Ta bort",
+  "listCleared": "Listan är rensad.",
+  "expandingLink": "Läser länken…",
+  "linkUnreachable": "Det gick inte att nå Apple för att läsa länken. Kontrollera din anslutning och försök igen.",
+  "splitTitle": "Det blir mer än en guide",
+  "splitBody": "Apple begränsar hur många platser en guidelänk kan bära. Wren skapar {guides} guider, numrerade så att ordningen håller, med {count} platser tillsammans.",
+  "splitConfirm": "Skapa {guides} guider",
+  "splitProgress": "Guide {done} av {total} är öppnad. Tryck för att skapa nästa."
 }

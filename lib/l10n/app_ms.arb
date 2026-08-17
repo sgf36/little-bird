@@ -90,5 +90,17 @@
   "lookingUpProgress": "Mencari {done} daripada {total}…",
   "combineNeedsUnlock": "Panduan gabungan perlu dibuka dahulu.",
   "unlockCombineTitle": "Tambah ke panduan yang sudah anda miliki",
-  "unlockCombineBody": "{count, plural, other{Wren akan mencipta satu panduan yang mengandungi {count} tempat yang sudah ada dalam panduan anda bersama tempat yang baharu.}}"
+  "unlockCombineBody": "{count, plural, other{Wren akan mencipta satu panduan yang mengandungi {count} tempat yang sudah ada dalam panduan anda bersama tempat yang baharu.}}",
+  "acceptedFormats": "Juga membaca senarai yang dieksport daripada aplikasi lain: CSV, KML, KMZ, GPX, GeoJSON atau Google Takeout.",
+  "clearList": "Kosongkan senarai",
+  "clearListTitle": "Kosongkan senarai",
+  "clearListBody": "{count, plural, other{Buang {count} tempat daripada Wren? Panduan yang sudah dicipta dalam Apple Maps tidak terjejas.}}",
+  "clearListConfirm": "Buang",
+  "listCleared": "Senarai telah dikosongkan.",
+  "expandingLink": "Membaca pautan itu…",
+  "linkUnreachable": "Apple tidak dapat dihubungi untuk membaca pautan itu. Semak sambungan anda dan cuba lagi.",
+  "splitTitle": "Ini akan mencipta lebih daripada satu panduan",
+  "splitBody": "Apple mengehadkan berapa banyak tempat yang boleh dibawa oleh satu pautan panduan. Wren akan mencipta {guides} panduan, dinomborkan supaya susunannya kekal, yang bersama-sama memuatkan {count} tempat.",
+  "splitConfirm": "Cipta {guides} panduan",
+  "splitProgress": "Panduan {done} daripada {total} telah dibuka. Ketik untuk mencipta yang seterusnya."
 }

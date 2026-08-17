@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'l10n/app_localizations.dart';
 import 'src/entitlement.dart';
 import 'src/file_source.dart';
+import 'src/guide_expand.dart';
 import 'src/guide_import.dart';
 import 'src/guide_link.dart';
 import 'src/ocr.dart';
@@ -111,6 +112,7 @@ class CapturePage extends StatefulWidget {
     this.store,
     this.resolver,
     this.files,
+    this.expander,
     this.initialPending,
     this.initialGuideName,
     this.initialOverlay = ScreenshotOverlay.none,
@@ -122,6 +124,7 @@ class CapturePage extends StatefulWidget {
   final UnlockStore? store;
   final PlaceResolver? resolver;
   final FileSource? files;
+  final LinkExpander? expander;
 
   @visibleForTesting
   final List<Pending>? initialPending;
@@ -146,7 +149,19 @@ class _CapturePageState extends State<CapturePage> {
   late final PlaceResolver _resolver = widget.resolver ?? MapKitResolver();
   late final UnlockStore _store = widget.store ?? StoreUnlockStore();
   late final FileSource _files = widget.files ?? DocumentFileSource();
+  late final LinkExpander _expander = widget.expander ?? HttpLinkExpander();
   late final List<Pending> _pending = [...?widget.initialPending];
+
+  /// Guide links still to be handed to Apple Maps.
+  ///
+  /// Maps takes one link at a time, so a list that needs splitting is opened
+  /// across several trips. Held here rather than rebuilt each time, so the
+  /// numbering in the guide names cannot drift if the list changes in between.
+  final List<String> _queued = [];
+
+  /// How many links the current batch started with, so progress can be counted
+  /// forwards rather than reported as a shrinking remainder.
+  int _queuedTotal = 0;
 
   Entitlement _entitlement = const Entitlement.free();
   String? _status;
@@ -257,6 +272,54 @@ class _CapturePageState extends State<CapturePage> {
         case comp.RedeemOutcome.untrusted:
           _status = l.compUntrusted;
       }
+    });
+  }
+
+  /// Empties the list, after asking.
+  ///
+  /// The confirmation says what is *not* affected as well as what is. "Clear"
+  /// beside a list of places the user has just published reads as though it
+  /// might reach into Apple Maps and delete the guide, and it does not.
+  Future<void> _clearList() async {
+    if (_pending.isEmpty) return;
+    final l = L.of(context);
+    final go = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          l.clearListTitle,
+          style: const TextStyle(fontFamily: Wren.serif),
+        ),
+        content: Text(
+          l.clearListBody(_pending.length),
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l.cancel, style: const TextStyle(color: Wren.muted)),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: FilledButton.styleFrom(
+              minimumSize: const Size(0, 44),
+              backgroundColor: Wren.clay,
+            ),
+            child: Text(l.clearListConfirm),
+          ),
+        ],
+      ),
+    );
+    if (go != true || !mounted) return;
+    setState(() {
+      _pending.clear();
+      // Everything derived from the list goes with it. A guide name left over
+      // from a cleared import would silently name the next, unrelated guide.
+      _guideName = null;
+      _region = null;
+      _showCarried = false;
+      _queued.clear();
+      _status = l.listCleared;
     });
   }
 
@@ -499,9 +562,28 @@ class _CapturePageState extends State<CapturePage> {
     );
     if (pasted == null || pasted.trim().isEmpty || !mounted) return;
 
+    // Apple's share sheet gives a short link with an opaque id and no payload,
+    // so it has to be expanded before there is anything to read. Told plainly
+    // that this is happening, because it reaches the network and is the one
+    // slow step in an otherwise instant flow.
+    var link = pasted.trim();
+    if (isShortGuideLink(link)) {
+      setState(() => _status = l.expandingLink);
+      try {
+        link = await _expander.expand(link);
+      } on LinkExpandFailed catch (e) {
+        if (!mounted) return;
+        setState(
+          () => _status = e.offline ? l.linkUnreachable : l.importGuideNotALink,
+        );
+        return;
+      }
+      if (!mounted) return;
+    }
+
     final ImportedGuide guide;
     try {
-      guide = importGuideLink(pasted);
+      guide = importGuideLink(link);
     } on GuideLinkFormat {
       // Deliberately not the parser's own message. It says things like "field
       // runs past the end", which is the right thing to have in a log and the
@@ -536,6 +618,33 @@ class _CapturePageState extends State<CapturePage> {
         l.importedGuideSummary(added),
         if (guide.unusable > 0) '· ${l.importedGuideUnusable(guide.unusable)}',
       ].join(' ');
+    });
+
+    await _nameCarriedPlaces();
+  }
+
+  /// Fills in the names of imported places, which the payload does not carry.
+  ///
+  /// Deliberately after the import has already been reported. The places are
+  /// usable without names — the identifier is all a guide link needs — so the
+  /// count appears immediately and the labels arrive when they arrive. Making
+  /// the user wait on a lookup for something cosmetic would be the wrong trade.
+  Future<void> _nameCarriedPlaces() async {
+    final nameless = _pending
+        .where((p) => p.origin == Origin.guide && (p.match?.name ?? '').isEmpty)
+        .toList();
+    if (nameless.isEmpty) return;
+
+    final found = await _resolver.lookup([
+      for (final p in nameless) p.match!.id,
+    ]);
+    if (found.isEmpty || !mounted) return;
+
+    setState(() {
+      for (final p in nameless) {
+        final match = found[p.match!.id];
+        if (match != null) p.match = match;
+      }
     });
   }
 
@@ -595,6 +704,14 @@ class _CapturePageState extends State<CapturePage> {
       _lookingUp = true;
       _totalCount = read.places.length;
       _readCount = 0;
+      // The parser has always returned this — a GeoJSON collection name, a KML
+      // document name — and this method quietly dropped it, so importing
+      // 8-places.geojson offered no guide name at all. Only taken when there is
+      // not already one from an imported guide, which is the stronger claim.
+      final title = read.title;
+      if (_guideName == null && title != null && title.isNotEmpty) {
+        _guideName = title;
+      }
     });
 
     var unmatched = 0, added = 0;
@@ -869,6 +986,15 @@ class _CapturePageState extends State<CapturePage> {
 
   Future<void> _publish() async {
     final l = L.of(context);
+
+    // A batch that had to be split is still being handed over, one link per
+    // trip to Maps. Finish it before building anything new, or the second half
+    // of a guide would be replaced by a fresh first half.
+    if (_queued.isNotEmpty) {
+      await _open(_queued.removeAt(0), l);
+      return;
+    }
+
     var keep = _pending.where((p) => p.publishable).toList();
     if (keep.isEmpty) return;
 
@@ -944,15 +1070,76 @@ class _CapturePageState extends State<CapturePage> {
       // replace it. Still editable — the trip may have outgrown the name.
       final name = await _askGuideName(places.length, initial: _guideName);
       if (name == null) return;
-      url = buildGuideLinks(name, places).first;
+
+      final links = buildGuideLinks(name, places);
+      if (links.length > 1) {
+        // This used to be `.first`, which published the first fifty places and
+        // threw the rest away without a word. An 82-place guide imported from
+        // Apple Maps would have lost thirty-two of them.
+        if (!await _confirmSplit(links.length, places.length)) return;
+        if (!mounted) return;
+      }
+      _queued
+        ..clear()
+        ..addAll(links);
+      _queuedTotal = links.length;
+      url = _queued.removeAt(0);
     }
 
+    await _open(url, l);
+  }
+
+  /// Hands one link to Apple Maps and says where that leaves things.
+  Future<void> _open(String url, L l) async {
     if (!await launchUrl(
       Uri.parse(url),
       mode: LaunchMode.externalApplication,
     )) {
       setState(() => _status = l.couldNotOpenMaps);
+      return;
     }
+    if (!mounted) return;
+    if (_queued.isNotEmpty) {
+      // Maps takes one link per trip, so the rest wait behind the same button.
+      setState(
+        () => _status = l.splitProgress(
+          _queuedTotal - _queued.length,
+          _queuedTotal,
+        ),
+      );
+    } else {
+      _queuedTotal = 0;
+    }
+  }
+
+  /// Explains why several guides are about to appear instead of one.
+  Future<bool> _confirmSplit(int guides, int places) async {
+    final l = L.of(context);
+    final go = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          l.splitTitle,
+          style: const TextStyle(fontFamily: Wren.serif),
+        ),
+        content: Text(
+          l.splitBody(guides, places),
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l.cancel, style: const TextStyle(color: Wren.muted)),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: FilledButton.styleFrom(minimumSize: const Size(0, 44)),
+            child: Text(l.splitConfirm(guides)),
+          ),
+        ],
+      ),
+    );
+    return go ?? false;
   }
 
   /// Which of the three sources to add from.
@@ -1034,15 +1221,21 @@ class _CapturePageState extends State<CapturePage> {
           ),
         ),
         actions: [
-          if (!_entitlement.unlimited)
-            PopupMenuButton<String>(
-              onSelected: (v) {
-                if (v == 'restore') _restoreFromMenu();
-              },
-              itemBuilder: (context) => [
+          // The menu is always present now. It used to appear only when the
+          // unlock had not been bought, which meant clearing the list would
+          // have been unreachable for anyone who had paid.
+          PopupMenuButton<String>(
+            onSelected: (v) {
+              if (v == 'restore') _restoreFromMenu();
+              if (v == 'clear') _clearList();
+            },
+            itemBuilder: (context) => [
+              if (_pending.isNotEmpty)
+                PopupMenuItem(value: 'clear', child: Text(l.clearList)),
+              if (!_entitlement.unlimited)
                 PopupMenuItem(value: 'restore', child: Text(l.restorePurchase)),
-              ],
-            ),
+            ],
+          ),
           const SizedBox(width: 4),
         ],
       ),
@@ -1120,11 +1313,20 @@ class _CapturePageState extends State<CapturePage> {
                           count: carried.length,
                           guideName: _guideName,
                           expanded: _showCarried,
+                          // Apple's payload carries no names, so until the
+                          // lookup fills them in there is nothing behind the
+                          // toggle. Offering it anyway would open onto a column
+                          // of blank cards.
+                          canExpand: carried.any(
+                            (p) =>
+                                (p.match?.name ?? '').isNotEmpty ||
+                                (p.match?.address ?? '').isNotEmpty,
+                          ),
                           onTap: () =>
                               setState(() => _showCarried = !_showCarried),
                         ),
                         const SizedBox(height: 10),
-                        if (_showCarried)
+                        if (_showCarried && carried.isNotEmpty)
                           for (final p in carried) ...[
                             _PlaceCard(
                               pending: p,
@@ -1196,12 +1398,17 @@ class _CarriedGroup extends StatelessWidget {
     required this.count,
     required this.guideName,
     required this.expanded,
+    required this.canExpand,
     required this.onTap,
   });
 
   final int count;
   final String? guideName;
   final bool expanded;
+
+  /// Whether there is anything behind the toggle yet.
+  final bool canExpand;
+
   final VoidCallback onTap;
 
   @override
@@ -1218,7 +1425,7 @@ class _CarriedGroup extends StatelessWidget {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
-        onTap: onTap,
+        onTap: canExpand ? onTap : null,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(14, 12, 10, 12),
           child: Row(
@@ -1245,10 +1452,11 @@ class _CarriedGroup extends StatelessWidget {
                   ],
                 ),
               ),
-              Icon(
-                expanded ? Icons.expand_less : Icons.expand_more,
-                color: Wren.muted,
-              ),
+              if (canExpand)
+                Icon(
+                  expanded ? Icons.expand_less : Icons.expand_more,
+                  color: Wren.muted,
+                ),
             ],
           ),
         ),
@@ -1322,7 +1530,15 @@ class _PlaceCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (resolved) ...[
-                        Text(match.name, style: t.titleMedium),
+                        // A carried place arrives with a muid and no name. If
+                        // the lookup filled one in, use it; failing that the
+                        // address is still something true. The group refuses to
+                        // expand when neither exists, so this never renders
+                        // blank.
+                        Text(
+                          match.name.isNotEmpty ? match.name : match.address,
+                          style: t.titleMedium,
+                        ),
                         // A place carried over from a guide has no address in
                         // the payload, so the line is left out rather than
                         // rendered blank.
@@ -1424,6 +1640,35 @@ class _Empty extends StatelessWidget {
             Text(l.emptyBody, style: t.bodyMedium, textAlign: TextAlign.center),
             const SizedBox(height: 18),
             Text(l.emptyNote, style: t.bodySmall, textAlign: TextAlign.center),
+            const SizedBox(height: 18),
+            // Named here rather than left to be found inside a menu. A file
+            // importer nobody knows the formats of is a file importer nobody
+            // tries, and the formats are the whole answer to "will mine work".
+            Container(
+              padding: const EdgeInsets.fromLTRB(14, 11, 14, 11),
+              decoration: BoxDecoration(
+                color: Wren.raised,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Wren.line),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(
+                    Icons.insert_drive_file_outlined,
+                    size: 15,
+                    color: Wren.muted,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      l.acceptedFormats,
+                      style: t.bodySmall?.copyWith(fontSize: 12.5),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

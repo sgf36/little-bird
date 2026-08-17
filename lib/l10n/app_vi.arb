@@ -90,5 +90,17 @@
   "lookingUpProgress": "Đang tìm {done} trong {total}…",
   "combineNeedsUnlock": "Cần mở khoá để tạo hướng dẫn đã gộp.",
   "unlockCombineTitle": "Thêm vào hướng dẫn bạn đã có",
-  "unlockCombineBody": "{count, plural, other{Wren sẽ tạo một hướng dẫn chứa cả {count} địa điểm đang có trong hướng dẫn của bạn và những địa điểm mới.}}"
+  "unlockCombineBody": "{count, plural, other{Wren sẽ tạo một hướng dẫn chứa cả {count} địa điểm đang có trong hướng dẫn của bạn và những địa điểm mới.}}",
+  "acceptedFormats": "Cũng đọc được danh sách xuất ra từ ứng dụng khác: CSV, KML, KMZ, GPX, GeoJSON hoặc Google Takeout.",
+  "clearList": "Xoá danh sách",
+  "clearListTitle": "Xoá danh sách",
+  "clearListBody": "{count, plural, other{Xoá {count} địa điểm khỏi Wren? Các hướng dẫn đã tạo trong Apple Maps không bị ảnh hưởng.}}",
+  "clearListConfirm": "Xoá hết",
+  "listCleared": "Đã xoá danh sách.",
+  "expandingLink": "Đang đọc liên kết đó…",
+  "linkUnreachable": "Không kết nối được với Apple để đọc liên kết đó. Kiểm tra kết nối rồi thử lại.",
+  "splitTitle": "Việc này sẽ tạo nhiều hướng dẫn",
+  "splitBody": "Apple giới hạn số địa điểm mà một liên kết hướng dẫn có thể chứa. Wren sẽ tạo {guides} hướng dẫn, được đánh số để giữ đúng thứ tự, cùng chứa {count} địa điểm.",
+  "splitConfirm": "Tạo {guides} hướng dẫn",
+  "splitProgress": "Đã mở hướng dẫn {done} trong {total}. Chạm để tạo cái tiếp theo."
 }

@@ -90,5 +90,17 @@
   "lookingUpProgress": "{done} van {total} opgezocht…",
   "combineNeedsUnlock": "De gecombineerde gids vereist de ontgrendeling.",
   "unlockCombineTitle": "Toevoegen aan een gids die je al hebt",
-  "unlockCombineBody": "{count, plural, =1{Wren maakt één gids met de plek die al in de jouwe staat en de nieuwe erbij.} other{Wren maakt één gids met de {count} plekken die al in de jouwe staan en de nieuwe erbij.}}"
+  "unlockCombineBody": "{count, plural, =1{Wren maakt één gids met de plek die al in de jouwe staat en de nieuwe erbij.} other{Wren maakt één gids met de {count} plekken die al in de jouwe staan en de nieuwe erbij.}}",
+  "acceptedFormats": "Leest ook een lijst die uit een andere app is geëxporteerd: CSV, KML, KMZ, GPX, GeoJSON of Google Takeout.",
+  "clearList": "Lijst wissen",
+  "clearListTitle": "Lijst wissen",
+  "clearListBody": "{count, plural, =1{De ene plek uit Wren verwijderen? Gidsen die al in Apple Kaarten zijn gemaakt, blijven ongemoeid.} other{Alle {count} plekken uit Wren verwijderen? Gidsen die al in Apple Kaarten zijn gemaakt, blijven ongemoeid.}}",
+  "clearListConfirm": "Verwijder",
+  "listCleared": "Lijst gewist.",
+  "expandingLink": "Die link lezen…",
+  "linkUnreachable": "Apple was niet bereikbaar om die link te lezen. Controleer je verbinding en probeer het opnieuw.",
+  "splitTitle": "Dit levert meer dan één gids op",
+  "splitBody": "Apple beperkt hoeveel plekken één gidslink kan bevatten. Wren maakt {guides} gidsen, genummerd zodat de volgorde blijft, met samen {count} plekken.",
+  "splitConfirm": "Maak {guides} gidsen",
+  "splitProgress": "Gids {done} van {total} geopend. Tik om de volgende te maken."
 }

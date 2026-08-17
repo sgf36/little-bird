@@ -425,4 +425,58 @@ class LEn extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'Also reads a list exported from another app: CSV, KML, KMZ, GPX, GeoJSON or Google Takeout.';
+
+  @override
+  String get clearList => 'Clear the list';
+
+  @override
+  String get clearListTitle => 'Clear the list';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Remove all $count places from Wren? Guides already made in Apple Maps are not affected.',
+      one:
+          'Remove the one place from Wren? Guides already made in Apple Maps are not affected.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Clear';
+
+  @override
+  String get listCleared => 'List cleared.';
+
+  @override
+  String get expandingLink => 'Reading that link…';
+
+  @override
+  String get linkUnreachable =>
+      'Could not reach Apple to read that link. Check your connection and try again.';
+
+  @override
+  String get splitTitle => 'This will make more than one guide';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Apple limits how many places one guide link can carry. Wren will make $guides guides, numbered so they stay in order, holding $count places between them.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'Make $guides guides';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'Guide $done of $total opened. Tap to make the next.';
+  }
 }

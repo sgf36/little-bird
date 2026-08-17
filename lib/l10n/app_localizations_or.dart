@@ -412,4 +412,58 @@ class LOr extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'ଅନ୍ୟ ଏକ ଆପ୍‌ରୁ ଏକ୍ସପୋର୍ଟ୍ କରାଯାଇଥିବା ତାଲିକା ମଧ୍ୟ ପଢ଼େ: CSV, KML, KMZ, GPX, GeoJSON କିମ୍ବା Google Takeout।';
+
+  @override
+  String get clearList => 'ତାଲିକା ଖାଲି କରନ୍ତୁ';
+
+  @override
+  String get clearListTitle => 'ତାଲିକା ଖାଲି କରନ୍ତୁ';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren‌ରୁ ସବୁ $countଟି ସ୍ଥାନ ହଟାଇବେ? Apple Maps‌ରେ ପୂର୍ବରୁ ତିଆରି ହୋଇଥିବା ଗାଇଡ୍‌ଗୁଡ଼ିକରେ କୌଣସି ପ୍ରଭାବ ପଡ଼େ ନାହିଁ।',
+      one:
+          'Wren‌ରୁ ସେହି ଗୋଟିଏ ସ୍ଥାନ ହଟାଇବେ? Apple Maps‌ରେ ପୂର୍ବରୁ ତିଆରି ହୋଇଥିବା ଗାଇଡ୍‌ଗୁଡ଼ିକରେ କୌଣସି ପ୍ରଭାବ ପଡ଼େ ନାହିଁ।',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'ହଟାନ୍ତୁ';
+
+  @override
+  String get listCleared => 'ତାଲିକା ଖାଲି ହେଲା।';
+
+  @override
+  String get expandingLink => 'ସେହି ଲିଙ୍କ୍ ପଢ଼ୁଛି…';
+
+  @override
+  String get linkUnreachable =>
+      'ସେହି ଲିଙ୍କ୍ ପଢ଼ିବା ପାଇଁ Apple ପାଖରେ ପହଞ୍ଚି ହେଲା ନାହିଁ। ଆପଣଙ୍କ ସଂଯୋଗ ଯାଞ୍ଚ କରି ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।';
+
+  @override
+  String get splitTitle => 'ଏଥିରୁ ଏକାଧିକ ଗାଇଡ୍ ତିଆରି ହେବ';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'ଗୋଟିଏ ଗାଇଡ୍ ଲିଙ୍କ୍‌ରେ କେତେଟି ସ୍ଥାନ ରହିପାରିବ ତାହା Apple ସୀମିତ ରଖେ। Wren $guidesଟି ଗାଇଡ୍ ତିଆରି କରିବ, କ୍ରମ ବଜାୟ ରହିବା ପାଇଁ ସେଗୁଡ଼ିକରେ ନମ୍ବର ରହିବ, ଏବଂ ସେ ସବୁରେ ମିଶି $countଟି ସ୍ଥାନ ରହିବ।';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return '$guidesଟି ଗାଇଡ୍ ତିଆରି କରନ୍ତୁ';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return '$totalରୁ $doneଟି ଗାଇଡ୍ ଖୋଲିଲା। ପରବର୍ତ୍ତୀଟି ତିଆରି କରିବାକୁ ଟ୍ୟାପ୍ କରନ୍ତୁ।';
+  }
 }

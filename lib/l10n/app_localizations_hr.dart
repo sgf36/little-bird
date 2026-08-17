@@ -428,4 +428,60 @@ class LHr extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'Čita i popis izvezen iz druge aplikacije: CSV, KML, KMZ, GPX, GeoJSON ili Google Takeout.';
+
+  @override
+  String get clearList => 'Očisti popis';
+
+  @override
+  String get clearListTitle => 'Očisti popis';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Ukloniti svih $count mjesta iz Wrena? Vodiči koji su već napravljeni u Apple Kartama ostaju nedirnuti.',
+      few:
+          'Ukloniti sva $count mjesta iz Wrena? Vodiči koji su već napravljeni u Apple Kartama ostaju nedirnuti.',
+      one:
+          'Ukloniti $count mjesto iz Wrena? Vodiči koji su već napravljeni u Apple Kartama ostaju nedirnuti.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Ukloni';
+
+  @override
+  String get listCleared => 'Popis je očišćen.';
+
+  @override
+  String get expandingLink => 'Čitanje linka…';
+
+  @override
+  String get linkUnreachable =>
+      'Appleu nije bilo moguće pristupiti da bi se link pročitao. Provjeri vezu i pokušaj ponovno.';
+
+  @override
+  String get splitTitle => 'Bit će više od jednog vodiča';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Apple ograničava koliko mjesta može stati u jedan link vodiča. Wren će zato napraviti nekoliko vodiča ($guides), numeriranih tako da ostane redoslijed, i rasporediti u njih sva mjesta ($count).';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'Napravi vodiče ($guides)';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'Vodič $done od $total otvoren. Dodirni za sljedeći.';
+  }
 }

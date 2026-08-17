@@ -428,4 +428,58 @@ class LEl extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'Διαβάζει και λίστα που έχεις εξαγάγει από άλλη εφαρμογή: CSV, KML, KMZ, GPX, GeoJSON ή Google Takeout.';
+
+  @override
+  String get clearList => 'Άδειασμα της λίστας';
+
+  @override
+  String get clearListTitle => 'Άδειασμα της λίστας';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Να αφαιρεθούν και τα $count μέρη από το Wren; Οι οδηγοί που έχουν ήδη φτιαχτεί στους Χάρτες της Apple δεν επηρεάζονται.',
+      one:
+          'Να αφαιρεθεί το ένα μέρος από το Wren; Οι οδηγοί που έχουν ήδη φτιαχτεί στους Χάρτες της Apple δεν επηρεάζονται.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Αφαίρεση';
+
+  @override
+  String get listCleared => 'Η λίστα άδειασε.';
+
+  @override
+  String get expandingLink => 'Ανάγνωση του συνδέσμου…';
+
+  @override
+  String get linkUnreachable =>
+      'Δεν ήταν δυνατή η σύνδεση με την Apple για την ανάγνωση του συνδέσμου. Έλεγξε τη σύνδεσή σου και δοκίμασε ξανά.';
+
+  @override
+  String get splitTitle => 'Αυτό θα φτιάξει πάνω από έναν οδηγό';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Η Apple περιορίζει πόσα μέρη χωράει ένας σύνδεσμος οδηγού. Το Wren θα φτιάξει $guides οδηγούς, αριθμημένους ώστε να μένουν στη σειρά, με $count μέρη συνολικά.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'Δημιουργία $guides οδηγών';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'Άνοιξε ο οδηγός $done από $total. Άγγιξε για να φτιάξεις τον επόμενο.';
+  }
 }

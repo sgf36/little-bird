@@ -412,4 +412,58 @@ class LFi extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'Lukee myös toisesta appista viedyn listan: CSV, KML, KMZ, GPX, GeoJSON tai Google Takeout.';
+
+  @override
+  String get clearList => 'Tyhjennä lista';
+
+  @override
+  String get clearListTitle => 'Tyhjennä lista';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Poistetaanko kaikki $count paikkaa Wrenistä? Apple Kartoissa jo tehdyt oppaat eivät muutu.',
+      one:
+          'Poistetaanko tämä yksi paikka Wrenistä? Apple Kartoissa jo tehdyt oppaat eivät muutu.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Poista';
+
+  @override
+  String get listCleared => 'Lista tyhjennetty.';
+
+  @override
+  String get expandingLink => 'Luetaan linkkiä…';
+
+  @override
+  String get linkUnreachable =>
+      'Appleen ei saatu yhteyttä linkin lukemista varten. Tarkista yhteytesi ja yritä uudelleen.';
+
+  @override
+  String get splitTitle => 'Tästä tulee useampi kuin yksi opas';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Apple rajoittaa, montako paikkaa yhteen opaslinkkiin mahtuu. Wren tekee $guides opasta, numeroituna niin että järjestys säilyy, ja niissä on yhteensä $count paikkaa.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'Luo $guides opasta';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'Opas $done / $total avattu. Napauta, niin luodaan seuraava.';
+  }
 }

@@ -412,4 +412,58 @@ class LGu extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'બીજી ઍપમાંથી એક્સપોર્ટ કરેલી યાદી પણ વાંચે છે: CSV, KML, KMZ, GPX, GeoJSON કે Google Takeout.';
+
+  @override
+  String get clearList => 'યાદી ખાલી કરો';
+
+  @override
+  String get clearListTitle => 'યાદી ખાલી કરો';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren માંથી બધી $count જગ્યાઓ દૂર કરવી છે? Apple Maps માં પહેલેથી બનેલી માર્ગદર્શિકાઓ પર કોઈ અસર થતી નથી.',
+      one:
+          'Wren માંથી એ એક જગ્યા દૂર કરવી છે? Apple Maps માં પહેલેથી બનેલી માર્ગદર્શિકાઓ પર કોઈ અસર થતી નથી.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'દૂર કરો';
+
+  @override
+  String get listCleared => 'યાદી ખાલી થઈ.';
+
+  @override
+  String get expandingLink => 'એ લિંક વાંચી રહ્યું છે…';
+
+  @override
+  String get linkUnreachable =>
+      'એ લિંક વાંચવા માટે Apple સુધી પહોંચી શકાયું નહીં. તમારું જોડાણ તપાસીને ફરી પ્રયાસ કરો.';
+
+  @override
+  String get splitTitle => 'આનાથી એકથી વધુ માર્ગદર્શિકા બનશે';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'એક માર્ગદર્શિકાની લિંક કેટલી જગ્યાઓ સમાવી શકે તેની મર્યાદા Apple રાખે છે. Wren $guides માર્ગદર્શિકા બનાવશે, ક્રમ જળવાય એ માટે તેમના પર નંબર હશે, અને તે બધીમાં મળીને $count જગ્યાઓ હશે.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return '$guides માર્ગદર્શિકા બનાવો';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return '$total માંથી $done માર્ગદર્શિકા ખૂલી. પછીની બનાવવા ટૅપ કરો.';
+  }
 }

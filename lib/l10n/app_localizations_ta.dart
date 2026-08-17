@@ -424,4 +424,58 @@ class LTa extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'மற்றொரு செயலியிலிருந்து ஏற்றுமதி செய்யப்பட்ட பட்டியலையும் படிக்கும்: CSV, KML, KMZ, GPX, GeoJSON அல்லது Google Takeout.';
+
+  @override
+  String get clearList => 'பட்டியலைக் காலி செய்யவும்';
+
+  @override
+  String get clearListTitle => 'பட்டியலைக் காலி செய்யவும்';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren-இலிருந்து $count இடங்கள் அனைத்தையும் நீக்கவா? Apple Maps-இல் ஏற்கெனவே உருவாக்கிய வழிகாட்டிகள் பாதிக்கப்படாது.',
+      one:
+          'Wren-இலிருந்து அந்த ஒரு இடத்தை நீக்கவா? Apple Maps-இல் ஏற்கெனவே உருவாக்கிய வழிகாட்டிகள் பாதிக்கப்படாது.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'நீக்கு';
+
+  @override
+  String get listCleared => 'பட்டியல் காலி செய்யப்பட்டது.';
+
+  @override
+  String get expandingLink => 'அந்த இணைப்பைப் படிக்கிறது…';
+
+  @override
+  String get linkUnreachable =>
+      'அந்த இணைப்பைப் படிக்க Apple-ஐ அடைய முடியவில்லை. உங்கள் இணைய இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String get splitTitle => 'இது ஒன்றுக்கும் மேற்பட்ட வழிகாட்டிகளை உருவாக்கும்';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'ஒரு வழிகாட்டி இணைப்பில் எத்தனை இடங்கள் இருக்கலாம் என்பதை Apple வரம்பிடுகிறது. Wren $guides வழிகாட்டிகளை உருவாக்கும்; வரிசை மாறாமல் இருக்க அவற்றுக்கு எண் இடப்படும், அவை அனைத்திலும் சேர்த்து $count இடங்கள் இருக்கும்.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return '$guides வழிகாட்டிகளை உருவாக்கு';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return '$total-இல் $done வழிகாட்டி திறக்கப்பட்டது. அடுத்ததை உருவாக்க தட்டவும்.';
+  }
 }

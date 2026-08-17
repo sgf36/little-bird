@@ -418,4 +418,58 @@ class LDa extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'Læser også en liste eksporteret fra en anden app: CSV, KML, KMZ, GPX, GeoJSON eller Google Takeout.';
+
+  @override
+  String get clearList => 'Ryd listen';
+
+  @override
+  String get clearListTitle => 'Ryd listen';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Fjern alle $count steder fra Wren? Guider, der allerede er lavet i Apple Kort, bliver ikke berørt.',
+      one:
+          'Fjern det ene sted fra Wren? Guider, der allerede er lavet i Apple Kort, bliver ikke berørt.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Fjern';
+
+  @override
+  String get listCleared => 'Listen er ryddet.';
+
+  @override
+  String get expandingLink => 'Læser linket…';
+
+  @override
+  String get linkUnreachable =>
+      'Kunne ikke nå Apple for at læse linket. Tjek din forbindelse, og prøv igen.';
+
+  @override
+  String get splitTitle => 'Det bliver mere end én guide';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Apple begrænser, hvor mange steder ét guidelink kan rumme. Wren laver $guides guider, nummererede så rækkefølgen holder, med $count steder tilsammen.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'Lav $guides guider';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'Guide $done af $total er åbnet. Tryk for at lave den næste.';
+  }
 }

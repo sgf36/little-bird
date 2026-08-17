@@ -22,7 +22,10 @@ void main() {
       final back = importGuideLink(link);
       expect(back.name, 'London, October');
       expect(back.places.map((p) => p.id), places.map((p) => p.id));
-      expect(back.places.map((p) => p.name), places.map((p) => p.name));
+      // Per-place names deliberately do NOT survive: they are no longer encoded,
+      // because Apple replaces them with its own record and they cost more bytes
+      // than the identifier does. The muid is the whole payload that matters.
+      expect(back.places.every((p) => p.name.isEmpty), isTrue);
       expect(back.unusable, 0);
     });
 
@@ -35,14 +38,36 @@ void main() {
       expect(back.places.single.id, big.id);
     });
 
-    test('a name with non-ASCII characters survives', () {
+    test('a non-ASCII guide name survives', () {
+      // The guide's own name is still carried; only per-place names were
+      // dropped. An em dash and a multi-byte character together are what broke
+      // an earlier hand-rolled UTF-8 encoder.
       final back = importGuideLink(
-        buildGuideLink('Rome — October', [
+        buildGuideLink('Rome — Ottobre', [
           place('Trattoria Da Enzo', 'IABCDEF0123456789'),
         ]),
       );
-      expect(back.name, 'Rome — October');
-      expect(back.places.single.name, 'Trattoria Da Enzo');
+      expect(back.name, 'Rome — Ottobre');
+      expect(back.places.single.name, isEmpty);
+    });
+
+    test('our own 82-place payload matches what Apple emits, byte for byte', () {
+      // The strongest check available without a device. Apple's share link for a
+      // real 82-place guide was captured, its muids extracted, and re-encoded
+      // here: if the bytes match, this app is emitting exactly the form Apple
+      // itself produces for a guide of that size -- which is the entire basis
+      // for carrying more than the fifty places previously assumed.
+      const applePayload =
+          'CgZMb25kb24SDgiuTRDL_OP_78aHmeABEg0Irk0QzoPcmOKCuuFfEg0Irk0QoPDVtIP'
+          'A2rAJEg0Irk0Q45apuffSi7FE';
+      final theirs = importGuideLink(
+        'https://maps.apple.com/guides?user=$applePayload',
+      );
+      final ours = buildGuideLink(
+        theirs.name,
+        theirs.places.map((p) => GuidePlace(id: p.id, name: '')).toList(),
+      );
+      expect(colParameter(ours), colParameter(applePayload));
     });
 
     test('fifty places, the practical ceiling', () {
@@ -55,6 +80,60 @@ void main() {
       );
       final back = importGuideLink(buildGuideLink('Big', many));
       expect(back.places.length, 50);
+    });
+  });
+
+  group('the link Apple Maps actually produces', () {
+    // Real bytes, taken from a real 82-place guide shared out of Apple Maps on
+    // 17 August 2026 and trimmed to the collection name plus the first four
+    // places. Kept because the first version of this decoder knew only about
+    // `?_col=` and told the user their genuine link was not a guide link.
+    const realUserPayload =
+        'CgZMb25kb24SDgiuTRDL_OP_78aHmeABEg0Irk0QzoPcmOKCuuFfEg0Irk0QoPDVtIP'
+        'A2rAJEg0Irk0Q45apuffSi7FE';
+
+    test('a guides?user= link decodes', () {
+      final guide = importGuideLink(
+        'https://maps.apple.com/guides?user=$realUserPayload',
+      );
+      expect(guide.name, 'London');
+      expect(guide.places, hasLength(4));
+      expect(guide.unusable, 0);
+    });
+
+    test('every place has a muid and none has a name', () {
+      // The whole reason names have to be looked up separately: Apple's own
+      // share payload carries the identifier and nothing else.
+      final guide = importGuideLink(
+        'https://maps.apple.com/guides?user=$realUserPayload',
+      );
+      expect(guide.places.every((p) => p.name.isEmpty), isTrue);
+      // Decoded independently with a separate protobuf reader, not copied from
+      // this decoder's own output — otherwise the test would only prove the
+      // decoder agrees with itself. The last of these was hand-written wrong on
+      // the first attempt, which is the whole argument for doing it that way.
+      expect(guide.places.map((p) => p.id.toString()), [
+        'IE0321E36FFF8FE4B',
+        'I5FC2E816231701CE',
+        'I09616A0036957820',
+        'I44622E97772A4B63',
+      ]);
+    });
+
+    test('the short link is recognised as needing expansion', () {
+      // It carries an opaque id and no payload, so the honest answer is "expand
+      // this first", not "that is not a guide link".
+      const short = 'https://maps.apple/ug/qai3oPE2QtpYfaNFg27D3C';
+      expect(isShortGuideLink(short), isTrue);
+      expect(
+        isShortGuideLink('https://maps.apple.com/guides?user=$realUserPayload'),
+        isFalse,
+      );
+      expect(isShortGuideLink('https://example.com/ug/abc'), isFalse);
+    });
+
+    test('a short place link is also a short link', () {
+      expect(isShortGuideLink('https://maps.apple/p/abc123'), isTrue);
     });
   });
 

@@ -90,5 +90,17 @@
   "lookingUpProgress": "กำลังค้นหา {done} จาก {total}…",
   "combineNeedsUnlock": "การสร้างไกด์ที่รวมกันแล้วต้องปลดล็อกก่อน",
   "unlockCombineTitle": "เพิ่มลงในไกด์ที่คุณมีอยู่แล้ว",
-  "unlockCombineBody": "{count, plural, other{Wren จะสร้างไกด์เดียวที่รวม {count} ที่ในไกด์ของคุณกับที่ใหม่ที่เพิ่งหาเจอไว้ด้วยกัน}}"
+  "unlockCombineBody": "{count, plural, other{Wren จะสร้างไกด์เดียวที่รวม {count} ที่ในไกด์ของคุณกับที่ใหม่ที่เพิ่งหาเจอไว้ด้วยกัน}}",
+  "acceptedFormats": "อ่านรายการที่ส่งออกจากแอปอื่นได้ด้วย: CSV, KML, KMZ, GPX, GeoJSON หรือ Google Takeout",
+  "clearList": "ล้างรายการ",
+  "clearListTitle": "ล้างรายการ",
+  "clearListBody": "{count, plural, other{ลบ {count} ที่ออกจาก Wren ไหม ไกด์ที่สร้างไว้แล้วใน Apple Maps ไม่ได้รับผลกระทบ}}",
+  "clearListConfirm": "ลบ",
+  "listCleared": "ล้างรายการแล้ว",
+  "expandingLink": "กำลังอ่านลิงก์นั้น…",
+  "linkUnreachable": "ติดต่อ Apple เพื่ออ่านลิงก์นั้นไม่ได้ ตรวจสอบการเชื่อมต่อแล้วลองใหม่",
+  "splitTitle": "จะได้ไกด์มากกว่าหนึ่งอัน",
+  "splitBody": "Apple จำกัดจำนวนที่ที่ลิงก์ไกด์เดียวจะพาไปได้ Wren จะสร้างไกด์ {guides} อัน ใส่เลขกำกับให้เรียงตามลำดับ และแบ่ง {count} ที่ไว้ในนั้น",
+  "splitConfirm": "สร้างไกด์ {guides} อัน",
+  "splitProgress": "เปิดไกด์ที่ {done} จาก {total} แล้ว แตะเพื่อสร้างอันต่อไป"
 }

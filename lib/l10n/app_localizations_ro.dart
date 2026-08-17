@@ -431,4 +431,60 @@ class LRo extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'Citește și o listă exportată din altă aplicație: CSV, KML, KMZ, GPX, GeoJSON sau Google Takeout.';
+
+  @override
+  String get clearList => 'Golește lista';
+
+  @override
+  String get clearListTitle => 'Golește lista';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Elimini toate cele $count de locuri din Wren? Ghidurile deja create în Apple Hărți nu sunt afectate.',
+      few:
+          'Elimini toate cele $count locuri din Wren? Ghidurile deja create în Apple Hărți nu sunt afectate.',
+      one:
+          'Elimini singurul loc din Wren? Ghidurile deja create în Apple Hărți nu sunt afectate.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Elimină';
+
+  @override
+  String get listCleared => 'Lista a fost golită.';
+
+  @override
+  String get expandingLink => 'Se citește linkul…';
+
+  @override
+  String get linkUnreachable =>
+      'Nu s-a putut contacta Apple pentru a citi acel link. Verifică-ți conexiunea și încearcă din nou.';
+
+  @override
+  String get splitTitle => 'Se vor crea mai multe ghiduri';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Apple limitează câte locuri poate duce un link de ghid. Wren va crea mai multe ghiduri ($guides), numerotate ca să rămână în ordine, și va împărți între ele toate locurile ($count).';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'Creează ghidurile ($guides)';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'Ghidul $done din $total a fost deschis. Atinge pentru a-l crea pe următorul.';
+  }
 }

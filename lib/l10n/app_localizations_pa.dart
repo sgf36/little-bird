@@ -424,4 +424,58 @@ class LPa extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'ਕਿਸੇ ਹੋਰ ਐਪ ਤੋਂ ਐਕਸਪੋਰਟ ਕੀਤੀ ਸੂਚੀ ਵੀ ਪੜ੍ਹਦਾ ਹੈ: CSV, KML, KMZ, GPX, GeoJSON ਜਾਂ Google Takeout।';
+
+  @override
+  String get clearList => 'ਸੂਚੀ ਖ਼ਾਲੀ ਕਰੋ';
+
+  @override
+  String get clearListTitle => 'ਸੂਚੀ ਖ਼ਾਲੀ ਕਰੋ';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren ਤੋਂ ਸਾਰੀਆਂ $count ਥਾਵਾਂ ਹਟਾ ਦੇਣੀਆਂ ਹਨ? Apple Maps ਵਿੱਚ ਪਹਿਲਾਂ ਬਣਾਈਆਂ ਗਾਈਡਾਂ ਉੱਤੇ ਕੋਈ ਅਸਰ ਨਹੀਂ ਪੈਂਦਾ।',
+      one:
+          'Wren ਤੋਂ ਉਹ ਇੱਕ ਥਾਂ ਹਟਾ ਦੇਣੀ ਹੈ? Apple Maps ਵਿੱਚ ਪਹਿਲਾਂ ਬਣਾਈਆਂ ਗਾਈਡਾਂ ਉੱਤੇ ਕੋਈ ਅਸਰ ਨਹੀਂ ਪੈਂਦਾ।',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'ਹਟਾਓ';
+
+  @override
+  String get listCleared => 'ਸੂਚੀ ਖ਼ਾਲੀ ਹੋ ਗਈ।';
+
+  @override
+  String get expandingLink => 'ਉਹ ਲਿੰਕ ਪੜ੍ਹ ਰਿਹਾ ਹੈ…';
+
+  @override
+  String get linkUnreachable =>
+      'ਉਹ ਲਿੰਕ ਪੜ੍ਹਨ ਲਈ Apple ਤੱਕ ਪਹੁੰਚ ਨਹੀਂ ਹੋ ਸਕੀ। ਆਪਣਾ ਕੁਨੈਕਸ਼ਨ ਵੇਖ ਕੇ ਫਿਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ।';
+
+  @override
+  String get splitTitle => 'ਇਸ ਨਾਲ ਇੱਕ ਤੋਂ ਵੱਧ ਗਾਈਡਾਂ ਬਣਨਗੀਆਂ';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'ਇੱਕ ਗਾਈਡ ਦੇ ਲਿੰਕ ਵਿੱਚ ਕਿੰਨੀਆਂ ਥਾਵਾਂ ਆ ਸਕਦੀਆਂ ਹਨ, Apple ਇਸਦੀ ਹੱਦ ਰੱਖਦਾ ਹੈ। Wren $guides ਗਾਈਡਾਂ ਬਣਾਏਗਾ, ਤਰਤੀਬ ਬਣੀ ਰਹੇ ਇਸ ਲਈ ਉਹਨਾਂ ਉੱਤੇ ਨੰਬਰ ਹੋਣਗੇ, ਅਤੇ ਉਹਨਾਂ ਸਾਰੀਆਂ ਵਿੱਚ ਮਿਲਾ ਕੇ $count ਥਾਵਾਂ ਹੋਣਗੀਆਂ।';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return '$guides ਗਾਈਡਾਂ ਬਣਾਓ';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return '$total ਵਿੱਚੋਂ $done ਗਾਈਡ ਖੁੱਲ੍ਹ ਗਈ। ਅਗਲੀ ਬਣਾਉਣ ਲਈ ਟੈਪ ਕਰੋ।';
+  }
 }

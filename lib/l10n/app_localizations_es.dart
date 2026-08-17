@@ -419,6 +419,60 @@ class LEs extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'También lee una lista exportada de otra app: CSV, KML, KMZ, GPX, GeoJSON o Google Takeout.';
+
+  @override
+  String get clearList => 'Vaciar la lista';
+
+  @override
+  String get clearListTitle => 'Vaciar la lista';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '¿Quitar de Wren los $count lugares? Las guías ya creadas en Mapas no se ven afectadas.',
+      one:
+          '¿Quitar de Wren el único lugar? Las guías ya creadas en Mapas no se ven afectadas.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Quitar';
+
+  @override
+  String get listCleared => 'Lista vaciada.';
+
+  @override
+  String get expandingLink => 'Leyendo ese enlace…';
+
+  @override
+  String get linkUnreachable =>
+      'No se ha podido conectar con Apple para leer ese enlace. Comprueba tu conexión e inténtalo de nuevo.';
+
+  @override
+  String get splitTitle => 'Esto creará más de una guía';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Apple limita cuántos lugares puede llevar el enlace de una guía. Wren creará $guides guías, numeradas para que queden en orden, con $count lugares entre todas.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'Crear $guides guías';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'Guía $done de $total abierta. Toca para crear la siguiente.';
+  }
 }
 
 /// The translations for Spanish Castilian, as used in Mexico (`es_MX`).
@@ -835,5 +889,59 @@ class LEsMx extends LEs {
           'Wren creará una sola guía con el lugar que ya está en la tuya y el nuevo.',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get acceptedFormats =>
+      'También lee una lista exportada de otra app: CSV, KML, KMZ, GPX, GeoJSON o Google Takeout.';
+
+  @override
+  String get clearList => 'Vaciar la lista';
+
+  @override
+  String get clearListTitle => 'Vaciar la lista';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '¿Quitar de Wren los $count lugares? Las guías que ya creaste en Mapas no se ven afectadas.',
+      one:
+          '¿Quitar de Wren el único lugar? Las guías que ya creaste en Mapas no se ven afectadas.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Quitar';
+
+  @override
+  String get listCleared => 'Lista vaciada.';
+
+  @override
+  String get expandingLink => 'Leyendo ese enlace…';
+
+  @override
+  String get linkUnreachable =>
+      'No se pudo conectar con Apple para leer ese enlace. Revisa tu conexión y vuelve a intentarlo.';
+
+  @override
+  String get splitTitle => 'Esto va a crear más de una guía';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Apple limita cuántos lugares puede llevar el enlace de una guía. Wren va a crear $guides guías, numeradas para que queden en orden, con $count lugares entre todas.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'Crear $guides guías';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'Guía $done de $total abierta. Toca para crear la siguiente.';
   }
 }

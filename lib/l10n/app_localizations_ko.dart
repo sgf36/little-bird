@@ -389,4 +389,55 @@ class LKo extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      '다른 앱에서 내보낸 목록도 읽습니다: CSV, KML, KMZ, GPX, GeoJSON, Google Takeout.';
+
+  @override
+  String get clearList => '목록 비우기';
+
+  @override
+  String get clearListTitle => '목록 비우기';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '장소 $count곳을 Wren에서 지울까요? 지도에 이미 만든 가이드는 영향을 받지 않습니다.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => '지우기';
+
+  @override
+  String get listCleared => '목록을 비웠습니다.';
+
+  @override
+  String get expandingLink => '링크를 읽는 중…';
+
+  @override
+  String get linkUnreachable =>
+      '그 링크를 읽기 위해 Apple에 연결하지 못했습니다. 연결 상태를 확인하고 다시 시도하세요.';
+
+  @override
+  String get splitTitle => '가이드가 여러 개로 나뉩니다';
+
+  @override
+  String splitBody(int guides, int count) {
+    return '한 가이드 링크에 담을 수 있는 장소 수는 Apple이 제한합니다. Wren이 가이드 $guides개를 만들어 순서가 유지되도록 번호를 붙이고, 그 안에 장소 $count곳을 나눠 담습니다.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return '가이드 $guides개 만들기';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return '가이드 $total개 중 $done개를 열었습니다. 탭하여 다음을 만드세요.';
+  }
 }

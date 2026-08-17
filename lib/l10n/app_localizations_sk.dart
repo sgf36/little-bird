@@ -440,4 +440,62 @@ class LSk extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'Prečíta aj zoznam vyexportovaný z inej aplikácie: CSV, KML, KMZ, GPX, GeoJSON alebo Google Takeout.';
+
+  @override
+  String get clearList => 'Vymazať zoznam';
+
+  @override
+  String get clearListTitle => 'Vymazať zoznam';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Odobrať všetkých $count miest z Wrenu? Sprievodcov už vytvorených v Mapách Apple sa to nedotkne.',
+      many:
+          'Odobrať $count miesta z Wrenu? Sprievodcov už vytvorených v Mapách Apple sa to nedotkne.',
+      few:
+          'Odobrať všetky $count miesta z Wrenu? Sprievodcov už vytvorených v Mapách Apple sa to nedotkne.',
+      one:
+          'Odobrať to jedno miesto z Wrenu? Sprievodcov už vytvorených v Mapách Apple sa to nedotkne.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Odobrať';
+
+  @override
+  String get listCleared => 'Zoznam vymazaný.';
+
+  @override
+  String get expandingLink => 'Načítava sa odkaz…';
+
+  @override
+  String get linkUnreachable =>
+      'Apple sa nepodarilo kontaktovať, takže odkaz sa nedal prečítať. Skontroluj pripojenie a skús to znova.';
+
+  @override
+  String get splitTitle => 'Vznikne viac než jeden sprievodca';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Apple obmedzuje, koľko miest sa zmestí do jedného odkazu na sprievodcu. Wren preto vytvorí viacero sprievodcov ($guides), číslovaných tak, aby zostalo ich poradie, a rozdelí do nich všetky miesta ($count).';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'Vytvoriť sprievodcov ($guides)';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'Sprievodca $done z $total otvorený. Klepnutím vytvoríš ďalšieho.';
+  }
 }

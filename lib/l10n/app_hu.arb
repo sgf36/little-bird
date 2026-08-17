@@ -90,5 +90,17 @@
   "lookingUpProgress": "{done} / {total} keresése…",
   "combineNeedsUnlock": "Az összevont útikalauz elkészítéséhez feloldás kell.",
   "unlockCombineTitle": "Hozzáadás a saját útikalauzodhoz",
-  "unlockCombineBody": "{count, plural, =1{A Wren egyetlen útikalauzt készít, amelyben a sajátodban már meglévő 1 hely és az új hely együtt szerepel.} other{A Wren egyetlen útikalauzt készít, amelyben a sajátodban már meglévő {count} hely és az új helyek együtt szerepelnek.}}"
+  "unlockCombineBody": "{count, plural, =1{A Wren egyetlen útikalauzt készít, amelyben a sajátodban már meglévő 1 hely és az új hely együtt szerepel.} other{A Wren egyetlen útikalauzt készít, amelyben a sajátodban már meglévő {count} hely és az új helyek együtt szerepelnek.}}",
+  "acceptedFormats": "Más appból exportált listát is beolvas: CSV, KML, KMZ, GPX, GeoJSON vagy Google Takeout.",
+  "clearList": "Lista kiürítése",
+  "clearListTitle": "Lista kiürítése",
+  "clearListBody": "{count, plural, =1{Eltávolítod azt az 1 helyet a Wrenből? Az Apple Térképekben már elkészült útikalauzokat ez nem érinti.} other{Eltávolítod mind a {count} helyet a Wrenből? Az Apple Térképekben már elkészült útikalauzokat ez nem érinti.}}",
+  "clearListConfirm": "Eltávolítás",
+  "listCleared": "A lista kiürítve.",
+  "expandingLink": "A hivatkozás beolvasása…",
+  "linkUnreachable": "Nem sikerült elérni az Apple-t a hivatkozás beolvasásához. Ellenőrizd a kapcsolatot, és próbáld újra.",
+  "splitTitle": "Ez több útikalauzt készít",
+  "splitBody": "Az Apple korlátozza, hogy egy útikalauz-hivatkozás hány helyet vihet. A Wren {guides} útikalauzt készít, megszámozva, hogy sorrendben maradjanak, és ezek együtt {count} helyet tartalmaznak.",
+  "splitConfirm": "{guides} útikalauz készítése",
+  "splitProgress": "{done} / {total} útikalauz megnyitva. Koppints a következő elkészítéséhez."
 }

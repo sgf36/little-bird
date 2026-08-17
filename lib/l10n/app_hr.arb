@@ -90,5 +90,17 @@
   "lookingUpProgress": "Traženje {done} od {total}…",
   "combineNeedsUnlock": "Spojeni vodič zahtijeva otključavanje.",
   "unlockCombineTitle": "Dodaj u vodič koji već imaš",
-  "unlockCombineBody": "{count, plural, one{Wren će napraviti jedan vodič koji sadrži {count} mjesto iz tvojeg, zajedno s novima.} few{Wren će napraviti jedan vodič koji sadrži {count} mjesta iz tvojeg, zajedno s novima.} other{Wren će napraviti jedan vodič koji sadrži {count} mjesta iz tvojeg, zajedno s novima.}}"
+  "unlockCombineBody": "{count, plural, one{Wren će napraviti jedan vodič koji sadrži {count} mjesto iz tvojeg, zajedno s novima.} few{Wren će napraviti jedan vodič koji sadrži {count} mjesta iz tvojeg, zajedno s novima.} other{Wren će napraviti jedan vodič koji sadrži {count} mjesta iz tvojeg, zajedno s novima.}}",
+  "acceptedFormats": "Čita i popis izvezen iz druge aplikacije: CSV, KML, KMZ, GPX, GeoJSON ili Google Takeout.",
+  "clearList": "Očisti popis",
+  "clearListTitle": "Očisti popis",
+  "clearListBody": "{count, plural, one{Ukloniti {count} mjesto iz Wrena? Vodiči koji su već napravljeni u Apple Kartama ostaju nedirnuti.} few{Ukloniti sva {count} mjesta iz Wrena? Vodiči koji su već napravljeni u Apple Kartama ostaju nedirnuti.} other{Ukloniti svih {count} mjesta iz Wrena? Vodiči koji su već napravljeni u Apple Kartama ostaju nedirnuti.}}",
+  "clearListConfirm": "Ukloni",
+  "listCleared": "Popis je očišćen.",
+  "expandingLink": "Čitanje linka…",
+  "linkUnreachable": "Appleu nije bilo moguće pristupiti da bi se link pročitao. Provjeri vezu i pokušaj ponovno.",
+  "splitTitle": "Bit će više od jednog vodiča",
+  "splitBody": "Apple ograničava koliko mjesta može stati u jedan link vodiča. Wren će zato napraviti nekoliko vodiča ({guides}), numeriranih tako da ostane redoslijed, i rasporediti u njih sva mjesta ({count}).",
+  "splitConfirm": "Napravi vodiče ({guides})",
+  "splitProgress": "Vodič {done} od {total} otvoren. Dodirni za sljedeći."
 }

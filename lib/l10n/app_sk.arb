@@ -90,5 +90,17 @@
   "lookingUpProgress": "Hľadanie {done} z {total}…",
   "combineNeedsUnlock": "Zlúčený sprievodca vyžaduje odomknutie.",
   "unlockCombineTitle": "Pridať do sprievodcu, ktorého už máš",
-  "unlockCombineBody": "{count, plural, one{Wren vytvorí jedného sprievodcu, v ktorom bude 1 miesto z tvojho a k tomu tie nové.} few{Wren vytvorí jedného sprievodcu, v ktorom budú {count} miesta z tvojho a k tomu tie nové.} many{Wren vytvorí jedného sprievodcu, v ktorom bude {count} miesta z tvojho a k tomu tie nové.} other{Wren vytvorí jedného sprievodcu, v ktorom bude {count} miest z tvojho a k tomu tie nové.}}"
+  "unlockCombineBody": "{count, plural, one{Wren vytvorí jedného sprievodcu, v ktorom bude 1 miesto z tvojho a k tomu tie nové.} few{Wren vytvorí jedného sprievodcu, v ktorom budú {count} miesta z tvojho a k tomu tie nové.} many{Wren vytvorí jedného sprievodcu, v ktorom bude {count} miesta z tvojho a k tomu tie nové.} other{Wren vytvorí jedného sprievodcu, v ktorom bude {count} miest z tvojho a k tomu tie nové.}}",
+  "acceptedFormats": "Prečíta aj zoznam vyexportovaný z inej aplikácie: CSV, KML, KMZ, GPX, GeoJSON alebo Google Takeout.",
+  "clearList": "Vymazať zoznam",
+  "clearListTitle": "Vymazať zoznam",
+  "clearListBody": "{count, plural, one{Odobrať to jedno miesto z Wrenu? Sprievodcov už vytvorených v Mapách Apple sa to nedotkne.} few{Odobrať všetky {count} miesta z Wrenu? Sprievodcov už vytvorených v Mapách Apple sa to nedotkne.} many{Odobrať {count} miesta z Wrenu? Sprievodcov už vytvorených v Mapách Apple sa to nedotkne.} other{Odobrať všetkých {count} miest z Wrenu? Sprievodcov už vytvorených v Mapách Apple sa to nedotkne.}}",
+  "clearListConfirm": "Odobrať",
+  "listCleared": "Zoznam vymazaný.",
+  "expandingLink": "Načítava sa odkaz…",
+  "linkUnreachable": "Apple sa nepodarilo kontaktovať, takže odkaz sa nedal prečítať. Skontroluj pripojenie a skús to znova.",
+  "splitTitle": "Vznikne viac než jeden sprievodca",
+  "splitBody": "Apple obmedzuje, koľko miest sa zmestí do jedného odkazu na sprievodcu. Wren preto vytvorí viacero sprievodcov ({guides}), číslovaných tak, aby zostalo ich poradie, a rozdelí do nich všetky miesta ({count}).",
+  "splitConfirm": "Vytvoriť sprievodcov ({guides})",
+  "splitProgress": "Sprievodca {done} z {total} otvorený. Klepnutím vytvoríš ďalšieho."
 }

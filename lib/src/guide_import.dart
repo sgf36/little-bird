@@ -1,10 +1,22 @@
 /// Reads an Apple Maps guide back out of a shared link.
 ///
-/// Apple's own "Copy Link" on a guide produces the same
-/// `maps.apple.com/guide?_col=…` URL that [buildGuideLink] writes — users
-/// describe it as "a crazy long URL", which is the payload rather than an
-/// opaque identifier. So the encoding is symmetric, and a guide someone shares
-/// can be decoded into the places it contains.
+/// **Three shapes, and the first version of this file only knew about one.**
+/// Sharing a guide from Apple Maps today gives a short link,
+/// `maps.apple/ug/<opaque id>`, which carries no payload and cannot be decoded
+/// at all. It 301-redirects to `maps.apple.com/guides?user=<payload>` — a
+/// different path and a different parameter from the
+/// `maps.apple.com/guide?_col=<payload>` that [buildGuideLink] writes. All three
+/// were wrongly assumed to be one thing, and the app told a user their perfectly
+/// good link was not a guide link.
+///
+/// Inside, `user` and `_col` are the same protobuf, so one reader serves both.
+/// Verified against a real 82-place guide.
+///
+/// **A `user` payload carries muids and nothing else** — no place names, no
+/// addresses. So a guide imported this way decodes into places that can be
+/// republished but cannot be *shown*, which is why [GuidePlace.name] may be
+/// empty here and why the caller has to look names up if it wants to display
+/// them.
 ///
 /// **What this does not do.** It does not append. The payload carries no guide
 /// identity, so there is no way to say "add to that one" — publishing again
@@ -52,7 +64,34 @@ class GuideLinkFormat implements Exception {
   String toString() => 'GuideLinkFormat: $message';
 }
 
-/// Pulls the `_col` parameter out of any shape of Apple Maps guide URL.
+/// The two parameters Apple puts a guide payload in.
+///
+/// `_col` is what [buildGuideLink] writes and what older shared links used.
+/// `user` is what Apple Maps produces today: sharing a guide gives a short
+/// `maps.apple/ug/…` link which redirects to `maps.apple.com/guides?user=…`.
+/// Same protobuf inside, different path and parameter — verified against a real
+/// 82-place guide, whose `user` payload decoded with this same reader.
+const _payloadParameters = ['_col', 'user'];
+
+/// True for the short link Apple's share sheet actually produces.
+///
+/// These carry no payload at all, only an opaque id, so they cannot be decoded —
+/// they have to be expanded by following the redirect first. Recognising them
+/// specifically is the difference between "that is not a guide link" (wrong, and
+/// what the user was told) and "let me expand that".
+bool isShortGuideLink(String input) {
+  final uri = Uri.tryParse(input.trim());
+  if (uri == null) return false;
+  final host = uri.host.toLowerCase();
+  if (host != 'maps.apple' && host != 'maps.apple.com') return false;
+  // /ug/<id> for a guide, /p/<id> for a place. Only the first is a guide, but
+  // both are short links and both need expanding before anything can be said
+  // about them.
+  final segments = uri.pathSegments;
+  return segments.length >= 2 && (segments[0] == 'ug' || segments[0] == 'p');
+}
+
+/// Pulls the payload out of any shape of Apple Maps guide URL.
 ///
 /// Accepts a bare payload too, so a user who pasted only the parameter is not
 /// told their link is invalid.
@@ -60,13 +99,18 @@ String? colParameter(String input) {
   final text = input.trim();
   if (text.isEmpty) return null;
   final uri = Uri.tryParse(text);
-  if (uri != null && uri.queryParameters.containsKey('_col')) {
-    return uri.queryParameters['_col'];
+  if (uri != null) {
+    for (final key in _payloadParameters) {
+      final value = uri.queryParameters[key];
+      if (value != null && value.isNotEmpty) return value;
+    }
   }
   // A link pasted out of a mail client can arrive percent-encoded twice, or
   // wrapped in angle brackets.
-  final match = RegExp(r'[?&]_col=([^&\s>]+)').firstMatch(text);
-  if (match != null) return Uri.decodeComponent(match.group(1)!);
+  for (final key in _payloadParameters) {
+    final match = RegExp('[?&]$key=([^&\\s>]+)').firstMatch(text);
+    if (match != null) return Uri.decodeComponent(match.group(1)!);
+  }
   if (uri == null || !uri.hasScheme) return text; // bare payload
   return null;
 }

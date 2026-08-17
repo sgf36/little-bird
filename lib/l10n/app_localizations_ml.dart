@@ -421,4 +421,58 @@ class LMl extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'മറ്റൊരു ആപ്പിൽനിന്ന് എക്‌സ്‌പോർട്ട് ചെയ്ത പട്ടികയും വായിക്കും: CSV, KML, KMZ, GPX, GeoJSON അല്ലെങ്കിൽ Google Takeout.';
+
+  @override
+  String get clearList => 'പട്ടിക മായ്ക്കുക';
+
+  @override
+  String get clearListTitle => 'പട്ടിക മായ്ക്കുക';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren‌ൽനിന്ന് $count സ്ഥലങ്ങളും നീക്കണോ? Apple Maps‌ൽ നേരത്തേ ഉണ്ടാക്കിയ ഗൈഡുകൾക്ക് ഒന്നും സംഭവിക്കില്ല.',
+      one:
+          'Wren‌ൽനിന്ന് ആ ഒരു സ്ഥലം നീക്കണോ? Apple Maps‌ൽ നേരത്തേ ഉണ്ടാക്കിയ ഗൈഡുകൾക്ക് ഒന്നും സംഭവിക്കില്ല.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'നീക്കുക';
+
+  @override
+  String get listCleared => 'പട്ടിക മായ്ച്ചു.';
+
+  @override
+  String get expandingLink => 'ആ ലിങ്ക് വായിക്കുന്നു…';
+
+  @override
+  String get linkUnreachable =>
+      'ആ ലിങ്ക് വായിക്കാൻ Apple‌ലേക്ക് എത്താനായില്ല. നിങ്ങളുടെ കണക്ഷൻ പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക.';
+
+  @override
+  String get splitTitle => 'ഇത് ഒന്നിലധികം ഗൈഡുകൾ ഉണ്ടാക്കും';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'ഒരു ഗൈഡ് ലിങ്കിൽ എത്ര സ്ഥലങ്ങൾ ഉൾക്കൊള്ളാം എന്നത് Apple പരിമിതപ്പെടുത്തുന്നു. Wren $guides ഗൈഡുകൾ ഉണ്ടാക്കും, ക്രമം നിലനിൽക്കാൻ അവയ്ക്ക് നമ്പർ ഇടും, അവയിലെല്ലാം ചേർന്ന് $count സ്ഥലങ്ങൾ ഉണ്ടാകും.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return '$guides ഗൈഡുകൾ ഉണ്ടാക്കുക';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return '$totalൽ $done ഗൈഡ് തുറന്നു. അടുത്തത് ഉണ്ടാക്കാൻ ടാപ്പ് ചെയ്യുക.';
+  }
 }

@@ -382,6 +382,56 @@ class LZh extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      '也能读别的应用导出的列表：CSV、KML、KMZ、GPX、GeoJSON 或 Google Takeout。';
+
+  @override
+  String get clearList => '清空列表';
+
+  @override
+  String get clearListTitle => '清空列表';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '要把这 $count 个地点从 Wren 里移除吗？已经在地图里做好的指南不受影响。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => '清除';
+
+  @override
+  String get listCleared => '列表已清空。';
+
+  @override
+  String get expandingLink => '正在读取那个链接…';
+
+  @override
+  String get linkUnreachable => '无法连接 Apple 来读取那个链接。检查你的网络连接，然后再试。';
+
+  @override
+  String get splitTitle => '这会生成多个指南';
+
+  @override
+  String splitBody(int guides, int count) {
+    return '一个指南链接能带多少个地点是 Apple 定的上限。Wren 会做 $guides 个指南，按顺序编号，一起收下这 $count 个地点。';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return '创建 $guides 个指南';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return '第 $done 个指南已打开，共 $total 个。轻点以创建下一个。';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -761,5 +811,55 @@ class LZhHant extends LZh {
       other: 'Wren 會新建一個指南，把你指南裡原有的 $count 個地點和新找到的地點收在一起。',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get acceptedFormats =>
+      '也能讀別的應用程式匯出的列表：CSV、KML、KMZ、GPX、GeoJSON 或 Google Takeout。';
+
+  @override
+  String get clearList => '清空列表';
+
+  @override
+  String get clearListTitle => '清空列表';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '要把這 $count 個地點從 Wren 裡移除嗎？已經在地圖裡做好的指南不受影響。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => '清除';
+
+  @override
+  String get listCleared => '列表已清空。';
+
+  @override
+  String get expandingLink => '正在讀取那個連結…';
+
+  @override
+  String get linkUnreachable => '無法連線 Apple 來讀取那個連結。檢查你的網路連線，然後再試一次。';
+
+  @override
+  String get splitTitle => '這會產生多個指南';
+
+  @override
+  String splitBody(int guides, int count) {
+    return '一個指南連結能帶多少個地點是 Apple 定的上限。Wren 會做 $guides 個指南，依順序編號，一起收下這 $count 個地點。';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return '製作 $guides 個指南';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return '第 $done 個指南已打開，共 $total 個。點一下來製作下一個。';
   }
 }

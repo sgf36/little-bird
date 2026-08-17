@@ -90,5 +90,17 @@
   "lookingUpProgress": "S'estan buscant {done} de {total}…",
   "combineNeedsUnlock": "Crear la guia combinada requereix el desbloqueig.",
   "unlockCombineTitle": "Afegir a una guia que ja tens",
-  "unlockCombineBody": "{count, plural, =1{El Wren crearà una sola guia amb el lloc que ja és a la teva i el nou.} other{El Wren crearà una sola guia amb els {count} llocs que ja són a la teva i els nous.}}"
+  "unlockCombineBody": "{count, plural, =1{El Wren crearà una sola guia amb el lloc que ja és a la teva i el nou.} other{El Wren crearà una sola guia amb els {count} llocs que ja són a la teva i els nous.}}",
+  "acceptedFormats": "També llegeix una llista exportada d'una altra app: CSV, KML, KMZ, GPX, GeoJSON o Google Takeout.",
+  "clearList": "Buidar la llista",
+  "clearListTitle": "Buidar la llista",
+  "clearListBody": "{count, plural, =1{Vols treure del Wren l'únic lloc? Les guies que ja has creat a Mapes no es veuen afectades.} other{Vols treure del Wren els {count} llocs? Les guies que ja has creat a Mapes no es veuen afectades.}}",
+  "clearListConfirm": "Treure",
+  "listCleared": "Llista buidada.",
+  "expandingLink": "S'està llegint l'enllaç…",
+  "linkUnreachable": "No s'ha pogut connectar amb Apple per llegir aquest enllaç. Comprova la connexió i torna-ho a provar.",
+  "splitTitle": "Això crearà més d'una guia",
+  "splitBody": "Apple limita quants llocs pot portar l'enllaç d'una guia. El Wren crearà {guides} guies, numerades perquè quedin en ordre, amb {count} llocs entre totes.",
+  "splitConfirm": "Crear {guides} guies",
+  "splitProgress": "Guia {done} de {total} oberta. Toca per crear la següent."
 }

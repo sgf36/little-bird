@@ -90,5 +90,17 @@
   "lookingUpProgress": "正在尋找第 {done} 個，共 {total} 個…",
   "combineNeedsUnlock": "製作合併後的指南需要解鎖。",
   "unlockCombineTitle": "加入你已有的指南",
-  "unlockCombineBody": "{count, plural, other{Wren 會新建一個指南，把你指南裡原有的 {count} 個地點和新找到的地點收在一起。}}"
+  "unlockCombineBody": "{count, plural, other{Wren 會新建一個指南，把你指南裡原有的 {count} 個地點和新找到的地點收在一起。}}",
+  "acceptedFormats": "也能讀別的應用程式匯出的列表：CSV、KML、KMZ、GPX、GeoJSON 或 Google Takeout。",
+  "clearList": "清空列表",
+  "clearListTitle": "清空列表",
+  "clearListBody": "{count, plural, other{要把這 {count} 個地點從 Wren 裡移除嗎？已經在地圖裡做好的指南不受影響。}}",
+  "clearListConfirm": "清除",
+  "listCleared": "列表已清空。",
+  "expandingLink": "正在讀取那個連結…",
+  "linkUnreachable": "無法連線 Apple 來讀取那個連結。檢查你的網路連線，然後再試一次。",
+  "splitTitle": "這會產生多個指南",
+  "splitBody": "一個指南連結能帶多少個地點是 Apple 定的上限。Wren 會做 {guides} 個指南，依順序編號，一起收下這 {count} 個地點。",
+  "splitConfirm": "製作 {guides} 個指南",
+  "splitProgress": "第 {done} 個指南已打開，共 {total} 個。點一下來製作下一個。"
 }

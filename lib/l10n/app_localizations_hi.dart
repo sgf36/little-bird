@@ -416,4 +416,58 @@ class LHi extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'किसी दूसरे ऐप से एक्सपोर्ट की गई सूची भी पढ़ता है: CSV, KML, KMZ, GPX, GeoJSON या Google Takeout।';
+
+  @override
+  String get clearList => 'सूची खाली करें';
+
+  @override
+  String get clearListTitle => 'सूची खाली करें';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren से सभी $count जगहें हटा दें? Apple Maps में पहले बनाई गई गाइड पर कोई असर नहीं पड़ता।',
+      one:
+          'Wren से वह एक जगह हटा दें? Apple Maps में पहले बनाई गई गाइड पर कोई असर नहीं पड़ता।',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'हटाएँ';
+
+  @override
+  String get listCleared => 'सूची खाली हो गई।';
+
+  @override
+  String get expandingLink => 'वह लिंक पढ़ा जा रहा है…';
+
+  @override
+  String get linkUnreachable =>
+      'उस लिंक को पढ़ने के लिए Apple तक नहीं पहुँचा जा सका। अपना कनेक्शन जाँचकर फिर कोशिश कीजिए।';
+
+  @override
+  String get splitTitle => 'इससे एक से ज़्यादा गाइड बनेंगी';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Apple यह सीमित रखता है कि एक गाइड लिंक में कितनी जगहें आ सकती हैं। Wren $guides गाइड बनाएगा, क्रम बना रहे इसलिए उन पर नंबर होंगे, और उन सबमें मिलाकर $count जगहें होंगी।';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return '$guides गाइड बनाएँ';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return '$total में से $done गाइड खुल गई। अगली बनाने के लिए टैप करें।';
+  }
 }

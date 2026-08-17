@@ -1,13 +1,17 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:wren/src/guide_import.dart';
 import 'package:wren/src/guide_link.dart';
 
-// The expected URLs below are not guesses. They were generated during the
+// _verifiedFourPlaceLink is not a guess. It was generated during the
 // feasibility work, opened on an iPhone, and confirmed to populate a guide in
-// Apple Maps with the right places in it. Byte-for-byte equality against them
-// is therefore a real assertion about behaviour, not a change-detector.
+// Apple Maps with the right places in it, so byte-for-byte equality against it
+// is a real assertion about behaviour rather than a change-detector.
 //
-// If one of these ever fails, the encoder has drifted away from a payload that
-// is known to work on a real device.
+// It verifies buildLegacyColLink. The DEFAULT form is now `guides?user=` with
+// per-place names omitted, which is what Apple Maps itself emits -- proven by
+// reproducing a real 82-place share payload byte-for-byte in
+// guide_import_test.dart -- but which has not itself been opened from this app
+// on a device. That check is outstanding and worth doing once.
 
 const _dishoom = 'I43FA2531C5B5D635'; // Dishoom Shoreditch
 const _wrightBros = 'I655EEDD5976A0811'; // Wright Brothers, Borough Market
@@ -55,8 +59,12 @@ void main() {
   });
 
   group('buildGuideLink', () {
-    test('reproduces a link confirmed working on device', () {
-      final link = buildGuideLink('Reel Finds B', [
+    test('the legacy form still reproduces a link verified on device', () {
+      // buildLegacyColLink, not buildGuideLink: the default form changed to the
+      // one Apple itself emits, and this assertion is the only device-verified
+      // fact in the file. Kept pointed at the function it actually verifies
+      // rather than deleted to make the new form look tidy.
+      final link = buildLegacyColLink('Reel Finds B', [
         GuidePlace(id: PlaceId.parse(_dishoom), name: 'Dishoom Shoreditch'),
         GuidePlace(id: PlaceId.parse(_wrightBros), name: 'Borough Market'),
         GuidePlace(
@@ -78,9 +86,10 @@ void main() {
           name: "Sant'Eustachio Il Caffè",
         ),
       ]);
-      expect(link, startsWith('https://maps.apple.com/guide?_col='));
-      // The payload must survive a base64 round trip without mangling the è.
-      expect(link, isNot(contains('Caff?')));
+      // The guide NAME still travels; only per-place names were dropped, and
+      // this one is non-ASCII, so it must survive the base64 round trip.
+      expect(link, startsWith('https://maps.apple.com/guides?user='));
+      expect(link, isNot(contains('Rom?')));
     });
 
     test('refuses an empty guide', () {
@@ -107,25 +116,54 @@ void main() {
       expect(links.single, isNot(contains('1/1')));
     });
 
-    test('splits a long list and labels each batch', () {
+    test('a guide the size of a real one stays a single link', () {
+      // 82 places, which is the size of an actual shared guide this was tested
+      // against. Under the old encoding it split into two; the whole point of
+      // dropping per-place names is that it no longer does.
       final places = List.generate(
-        120,
+        82,
+        (i) => GuidePlace(id: PlaceId.parse(_dishoom), name: 'P$i'),
+      );
+      final links = buildGuideLinks('London', places);
+      expect(links, hasLength(1));
+      expect(links.single.length, lessThan(2500));
+    });
+
+    test('splits only when the URL genuinely will not fit', () {
+      final places = List.generate(
+        400,
         (i) => GuidePlace(id: PlaceId.parse(_dishoom), name: 'P$i'),
       );
       final links = buildGuideLinks('Big trip', places);
-      expect(links, hasLength(3)); // 50 + 50 + 20
+      expect(links.length, greaterThan(1));
       for (final l in links) {
-        expect(l, startsWith('https://maps.apple.com/guide?_col='));
+        expect(l, startsWith('https://maps.apple.com/guides?user='));
+        // Every batch must be independently valid; an oversized one would have
+        // thrown from buildGuideLink rather than arriving here.
+        expect(l.length, lessThanOrEqualTo(maxUrlChars));
       }
+      // The batch number lives inside the payload, not in the URL text, so it
+      // has to be decoded to be checked. Asserting on the URL passed only
+      // because 'contains' found nothing and nothing was expected.
+      expect(importGuideLink(links.first).name, 'Big trip (1/${links.length})');
     });
 
-    test('every batch stays within the limit', () {
+    test('no place is lost in a split', () {
+      // The failure this guards against shipped once: publish took only the
+      // first link, so an 82-place guide silently lost thirty-two places.
       final places = List.generate(
-        201,
-        (i) => GuidePlace(id: PlaceId.parse(_dishoom), name: 'P$i'),
+        400,
+        (i) => GuidePlace(
+          id: PlaceId.parse((BigInt.from(i + 1) << 40).toRadixString(16)),
+          name: 'P$i',
+        ),
       );
-      // Would throw from buildGuideLink if any batch were oversized.
-      expect(buildGuideLinks('Long', places), hasLength(5));
+      final links = buildGuideLinks('Everything', places);
+      final seen = <PlaceId>{};
+      for (final link in links) {
+        seen.addAll(importGuideLink(link).places.map((p) => p.id));
+      }
+      expect(seen, hasLength(places.length));
     });
   });
 

@@ -90,5 +90,17 @@
   "lookingUpProgress": "Wyszukiwanie {done} z {total}…",
   "combineNeedsUnlock": "Połączony przewodnik wymaga odblokowania.",
   "unlockCombineTitle": "Dodaj do przewodnika, który już masz",
-  "unlockCombineBody": "{count, plural, one{Wren utworzy jeden przewodnik, w którym będzie 1 miejsce z twojego i te nowe.} few{Wren utworzy jeden przewodnik, w którym będą {count} miejsca z twojego i te nowe.} many{Wren utworzy jeden przewodnik, w którym będzie {count} miejsc z twojego i te nowe.} other{Wren utworzy jeden przewodnik, w którym będzie {count} miejsca z twojego i te nowe.}}"
+  "unlockCombineBody": "{count, plural, one{Wren utworzy jeden przewodnik, w którym będzie 1 miejsce z twojego i te nowe.} few{Wren utworzy jeden przewodnik, w którym będą {count} miejsca z twojego i te nowe.} many{Wren utworzy jeden przewodnik, w którym będzie {count} miejsc z twojego i te nowe.} other{Wren utworzy jeden przewodnik, w którym będzie {count} miejsca z twojego i te nowe.}}",
+  "acceptedFormats": "Odczytuje też listę wyeksportowaną z innej aplikacji: CSV, KML, KMZ, GPX, GeoJSON lub Google Takeout.",
+  "clearList": "Wyczyść listę",
+  "clearListTitle": "Wyczyść listę",
+  "clearListBody": "{count, plural, one{Usunąć to jedno miejsce z Wrena? Przewodniki już utworzone w Mapach Apple pozostaną bez zmian.} few{Usunąć wszystkie {count} miejsca z Wrena? Przewodniki już utworzone w Mapach Apple pozostaną bez zmian.} many{Usunąć wszystkie {count} miejsc z Wrena? Przewodniki już utworzone w Mapach Apple pozostaną bez zmian.} other{Usunąć wszystkie {count} miejsca z Wrena? Przewodniki już utworzone w Mapach Apple pozostaną bez zmian.}}",
+  "clearListConfirm": "Usuń",
+  "listCleared": "Lista wyczyszczona.",
+  "expandingLink": "Odczytywanie łącza…",
+  "linkUnreachable": "Nie udało się połączyć z Apple, aby odczytać to łącze. Sprawdź połączenie i spróbuj ponownie.",
+  "splitTitle": "Powstanie więcej niż jeden przewodnik",
+  "splitBody": "Apple ogranicza, ile miejsc może pomieścić jedno łącze do przewodnika. Wren utworzy więc kilka przewodników ({guides}), ponumerowanych tak, by kolejność się zachowała, i rozłoży w nich wszystkie miejsca ({count}).",
+  "splitConfirm": "Utwórz przewodniki ({guides})",
+  "splitProgress": "Przewodnik {done} z {total} otwarty. Dotknij, aby utworzyć następny."
 }

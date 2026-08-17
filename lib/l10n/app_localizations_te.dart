@@ -418,4 +418,58 @@ class LTe extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'మరో యాప్ నుంచి ఎక్స్‌పోర్ట్ చేసిన జాబితాను కూడా చదువుతుంది: CSV, KML, KMZ, GPX, GeoJSON లేదా Google Takeout.';
+
+  @override
+  String get clearList => 'జాబితాను ఖాళీ చేయండి';
+
+  @override
+  String get clearListTitle => 'జాబితాను ఖాళీ చేయండి';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren నుంచి $count ప్రదేశాలన్నింటినీ తీసేయాలా? Apple Maps‌లో ఇప్పటికే తయారుచేసిన గైడ్‌లపై ఎలాంటి ప్రభావం ఉండదు.',
+      one:
+          'Wren నుంచి ఆ ఒక ప్రదేశాన్ని తీసేయాలా? Apple Maps‌లో ఇప్పటికే తయారుచేసిన గైడ్‌లపై ఎలాంటి ప్రభావం ఉండదు.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'తీసేయండి';
+
+  @override
+  String get listCleared => 'జాబితా ఖాళీ అయింది.';
+
+  @override
+  String get expandingLink => 'ఆ లింక్‌ను చదువుతోంది…';
+
+  @override
+  String get linkUnreachable =>
+      'ఆ లింక్‌ను చదవడానికి Apple‌ను చేరుకోలేకపోయాం. మీ కనెక్షన్ చూసి మళ్లీ ప్రయత్నించండి.';
+
+  @override
+  String get splitTitle => 'ఇది ఒకటి కంటే ఎక్కువ గైడ్‌లు తయారుచేస్తుంది';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'ఒక గైడ్ లింక్‌లో ఎన్ని ప్రదేశాలు ఉండగలవో Apple పరిమితం చేస్తుంది. Wren $guides గైడ్‌లు తయారుచేస్తుంది, వరుస చెడకుండా వాటికి నంబర్లు ఉంటాయి, అన్నింటిలో కలిపి $count ప్రదేశాలు ఉంటాయి.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return '$guides గైడ్‌లు తయారుచేయండి';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return '$totalలో $done గైడ్ తెరిచాం. తర్వాతది తయారుచేయడానికి నొక్కండి.';
+  }
 }

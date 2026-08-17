@@ -18,7 +18,7 @@ PlaceMatch match(String name, String hex) => PlaceMatch(
 /// Deterministic stand-in for MapKit. The real one is unavailable in a test,
 /// and its failure path leaves a spinner running, which `pumpAndSettle` can
 /// never settle.
-class FakeResolver implements PlaceResolver {
+class FakeResolver extends PlaceResolver {
   final List<PlaceMatch> results;
   FakeResolver([this.results = const []]);
 

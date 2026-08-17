@@ -394,4 +394,56 @@ class LTh extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'อ่านรายการที่ส่งออกจากแอปอื่นได้ด้วย: CSV, KML, KMZ, GPX, GeoJSON หรือ Google Takeout';
+
+  @override
+  String get clearList => 'ล้างรายการ';
+
+  @override
+  String get clearListTitle => 'ล้างรายการ';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'ลบ $count ที่ออกจาก Wren ไหม ไกด์ที่สร้างไว้แล้วใน Apple Maps ไม่ได้รับผลกระทบ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'ลบ';
+
+  @override
+  String get listCleared => 'ล้างรายการแล้ว';
+
+  @override
+  String get expandingLink => 'กำลังอ่านลิงก์นั้น…';
+
+  @override
+  String get linkUnreachable =>
+      'ติดต่อ Apple เพื่ออ่านลิงก์นั้นไม่ได้ ตรวจสอบการเชื่อมต่อแล้วลองใหม่';
+
+  @override
+  String get splitTitle => 'จะได้ไกด์มากกว่าหนึ่งอัน';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Apple จำกัดจำนวนที่ที่ลิงก์ไกด์เดียวจะพาไปได้ Wren จะสร้างไกด์ $guides อัน ใส่เลขกำกับให้เรียงตามลำดับ และแบ่ง $count ที่ไว้ในนั้น';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'สร้างไกด์ $guides อัน';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'เปิดไกด์ที่ $done จาก $total แล้ว แตะเพื่อสร้างอันต่อไป';
+  }
 }

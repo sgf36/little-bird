@@ -12,7 +12,7 @@ import 'unresolved_test.dart' show match;
 /// Answers each query with its own place, which the shared FakeResolver cannot
 /// do — it returns one fixed match, and the list's duplicate check would then
 /// collapse a whole imported file into a single row.
-class QueryResolver implements PlaceResolver {
+class QueryResolver extends PlaceResolver {
   QueryResolver(this.answers);
 
   /// Matched on the query *containing* the key, because a file row's query is
@@ -23,6 +23,16 @@ class QueryResolver implements PlaceResolver {
   /// was searched for, not just what came back.
   final asked = <String>[];
   final regions = <Region?>[];
+
+  /// Names to hand back for bare identifiers, standing in for the iOS 18 lookup
+  /// that fills in an imported guide's blanks.
+  final names = <PlaceId, PlaceMatch>{};
+
+  @override
+  Future<Map<PlaceId, PlaceMatch>> lookup(List<PlaceId> ids) async => {
+    for (final id in ids)
+      if (names.containsKey(id)) id: names[id]!,
+  };
 
   @override
   Future<Region?> locate(String query) async =>
@@ -127,8 +137,40 @@ void main() {
       expect(find.text('Dishoom'), findsNothing);
     });
 
-    testWidgets('the group expands and collapses again', (tester) async {
+    testWidgets('a group with no names does not offer to expand', (
+      tester,
+    ) async {
+      // Apple's payload carries identifiers only, so until the lookup answers
+      // there is nothing behind the toggle. Opening onto blank cards would look
+      // like a bug, so the toggle is not offered.
       await pump(tester);
+      await paste(tester, link);
+
+      await tester.tap(find.text('3 places already in this guide'));
+      await tester.pumpAndSettle();
+      expect(find.text('Dishoom'), findsNothing);
+      expect(find.byIcon(Icons.expand_more), findsNothing);
+    });
+
+    testWidgets('the group expands and collapses once names arrive', (
+      tester,
+    ) async {
+      final resolver = QueryResolver(const {});
+      resolver.names.addAll({
+        PlaceId.parse('I43FA2531C5B5D635'): match(
+          'Dishoom',
+          'I43FA2531C5B5D635',
+        ),
+        PlaceId.parse('I655EEDD5976A0811'): match(
+          'Wright Brothers',
+          'I655EEDD5976A0811',
+        ),
+        PlaceId.parse('I94FE63725FB590E2'): match(
+          "Elliot's",
+          'I94FE63725FB590E2',
+        ),
+      });
+      await pump(tester, resolver: resolver);
       await paste(tester, link);
 
       await tester.tap(find.text('3 places already in this guide'));
@@ -445,7 +487,9 @@ Den,35.6700,139.7100,Jingumae
       await addFrom(tester, 'From a file');
 
       expect(find.textContaining('could not read that file'), findsOne);
-      expect(find.textContaining('GeoJSON'), findsOne);
+      // Two, now: the refusal message and the hint on the empty screen, which
+      // names the formats so they are discoverable before anyone tries a file.
+      expect(find.textContaining('GeoJSON'), findsNWidgets(2));
     });
 
     testWidgets('backing out of the picker is not an error', (tester) async {

@@ -90,5 +90,17 @@
   "lookingUpProgress": "{total}개 중 {done}개 찾는 중…",
   "combineNeedsUnlock": "합친 가이드를 만들려면 잠금 해제가 필요합니다.",
   "unlockCombineTitle": "이미 가지고 있는 가이드에 추가",
-  "unlockCombineBody": "{count, plural, other{Wren이 기존 가이드에 있던 {count}곳과 새로 찾은 곳을 함께 담아 가이드 하나를 만듭니다.}}"
+  "unlockCombineBody": "{count, plural, other{Wren이 기존 가이드에 있던 {count}곳과 새로 찾은 곳을 함께 담아 가이드 하나를 만듭니다.}}",
+  "acceptedFormats": "다른 앱에서 내보낸 목록도 읽습니다: CSV, KML, KMZ, GPX, GeoJSON, Google Takeout.",
+  "clearList": "목록 비우기",
+  "clearListTitle": "목록 비우기",
+  "clearListBody": "{count, plural, other{장소 {count}곳을 Wren에서 지울까요? 지도에 이미 만든 가이드는 영향을 받지 않습니다.}}",
+  "clearListConfirm": "지우기",
+  "listCleared": "목록을 비웠습니다.",
+  "expandingLink": "링크를 읽는 중…",
+  "linkUnreachable": "그 링크를 읽기 위해 Apple에 연결하지 못했습니다. 연결 상태를 확인하고 다시 시도하세요.",
+  "splitTitle": "가이드가 여러 개로 나뉩니다",
+  "splitBody": "한 가이드 링크에 담을 수 있는 장소 수는 Apple이 제한합니다. Wren이 가이드 {guides}개를 만들어 순서가 유지되도록 번호를 붙이고, 그 안에 장소 {count}곳을 나눠 담습니다.",
+  "splitConfirm": "가이드 {guides}개 만들기",
+  "splitProgress": "가이드 {total}개 중 {done}개를 열었습니다. 탭하여 다음을 만드세요."
 }

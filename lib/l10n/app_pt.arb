@@ -90,5 +90,17 @@
   "lookingUpProgress": "Buscando {done} de {total}…",
   "combineNeedsUnlock": "Criar o guia combinado precisa do desbloqueio.",
   "unlockCombineTitle": "Adicionar a um guia que você já tem",
-  "unlockCombineBody": "{count, plural, =1{O Wren vai criar um único guia com o lugar que já está no seu e com o novo.} other{O Wren vai criar um único guia com os {count} lugares que já estão no seu e com os novos.}}"
+  "unlockCombineBody": "{count, plural, =1{O Wren vai criar um único guia com o lugar que já está no seu e com o novo.} other{O Wren vai criar um único guia com os {count} lugares que já estão no seu e com os novos.}}",
+  "acceptedFormats": "Também lê uma lista exportada de outro app: CSV, KML, KMZ, GPX, GeoJSON ou Google Takeout.",
+  "clearList": "Limpar a lista",
+  "clearListTitle": "Limpar a lista",
+  "clearListBody": "{count, plural, =1{Remover do Wren o único lugar? Os guias que você já criou no Mapas não são afetados.} other{Remover do Wren todos os {count} lugares? Os guias que você já criou no Mapas não são afetados.}}",
+  "clearListConfirm": "Remover",
+  "listCleared": "Lista limpa.",
+  "expandingLink": "Lendo esse link…",
+  "linkUnreachable": "Não foi possível conectar à Apple para ler esse link. Verifique sua conexão e tente de novo.",
+  "splitTitle": "Isso vai criar mais de um guia",
+  "splitBody": "A Apple limita quantos lugares o link de um guia pode levar. O Wren vai criar {guides} guias, numerados para ficarem em ordem, com {count} lugares entre eles.",
+  "splitConfirm": "Criar {guides} guias",
+  "splitProgress": "Guia {done} de {total} aberto. Toque para criar o próximo."
 }

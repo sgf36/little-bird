@@ -90,5 +90,17 @@
   "lookingUpProgress": "{total}件中{done}件を検索中…",
   "combineNeedsUnlock": "まとめたガイドの作成にはロック解除が必要です。",
   "unlockCombineTitle": "すでにあるガイドに追加",
-  "unlockCombineBody": "{count, plural, other{Wrenが、お持ちのガイドにある{count}件の場所と新しく見つけた場所をまとめて、1つのガイドを作ります。}}"
+  "unlockCombineBody": "{count, plural, other{Wrenが、お持ちのガイドにある{count}件の場所と新しく見つけた場所をまとめて、1つのガイドを作ります。}}",
+  "acceptedFormats": "他のアプリから書き出したリストも読み取れます：CSV、KML、KMZ、GPX、GeoJSON、Google Takeout。",
+  "clearList": "リストを空にする",
+  "clearListTitle": "リストを空にする",
+  "clearListBody": "{count, plural, other{{count}件の場所をWrenから削除しますか？マップですでに作ったガイドには影響しません。}}",
+  "clearListConfirm": "消去",
+  "listCleared": "リストを空にしました。",
+  "expandingLink": "リンクを読み取り中…",
+  "linkUnreachable": "リンクを読み取るためにAppleに接続できませんでした。接続を確認してもう一度お試しください。",
+  "splitTitle": "ガイドは複数に分かれます",
+  "splitBody": "1つのガイドのリンクに入れられる場所の数はAppleによって制限されています。Wrenが{guides}個のガイドを作り、順番が保たれるよう番号を付けて、合わせて{count}件の場所を収めます。",
+  "splitConfirm": "{guides}個のガイドを作成",
+  "splitProgress": "{total}個中{done}個目のガイドを開きました。タップして次を作成します。"
 }

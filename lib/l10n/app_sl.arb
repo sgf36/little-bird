@@ -90,5 +90,17 @@
   "lookingUpProgress": "Iskanje {done} od {total}…",
   "combineNeedsUnlock": "Za združeni vodnik je potreben odklep.",
   "unlockCombineTitle": "Dodaj v vodnik, ki ga že imaš",
-  "unlockCombineBody": "{count, plural, one{Wren bo ustvaril en vodnik, ki bo vseboval {count} kraj iz tvojega, skupaj z novimi.} two{Wren bo ustvaril en vodnik, ki bo vseboval {count} kraja iz tvojega, skupaj z novimi.} few{Wren bo ustvaril en vodnik, ki bo vseboval {count} kraje iz tvojega, skupaj z novimi.} other{Wren bo ustvaril en vodnik, ki bo vseboval {count} krajev iz tvojega, skupaj z novimi.}}"
+  "unlockCombineBody": "{count, plural, one{Wren bo ustvaril en vodnik, ki bo vseboval {count} kraj iz tvojega, skupaj z novimi.} two{Wren bo ustvaril en vodnik, ki bo vseboval {count} kraja iz tvojega, skupaj z novimi.} few{Wren bo ustvaril en vodnik, ki bo vseboval {count} kraje iz tvojega, skupaj z novimi.} other{Wren bo ustvaril en vodnik, ki bo vseboval {count} krajev iz tvojega, skupaj z novimi.}}",
+  "acceptedFormats": "Prebere tudi seznam, izvožen iz druge aplikacije: CSV, KML, KMZ, GPX, GeoJSON ali Google Takeout.",
+  "clearList": "Počisti seznam",
+  "clearListTitle": "Počisti seznam",
+  "clearListBody": "{count, plural, one{Odstraniti {count} kraj iz Wrena? Na vodnike, ki so že narejeni v Apple Zemljevidih, to ne vpliva.} two{Odstraniti {count} kraja iz Wrena? Na vodnike, ki so že narejeni v Apple Zemljevidih, to ne vpliva.} few{Odstraniti vse {count} kraje iz Wrena? Na vodnike, ki so že narejeni v Apple Zemljevidih, to ne vpliva.} other{Odstraniti vseh {count} krajev iz Wrena? Na vodnike, ki so že narejeni v Apple Zemljevidih, to ne vpliva.}}",
+  "clearListConfirm": "Odstrani",
+  "listCleared": "Seznam je počiščen.",
+  "expandingLink": "Branje povezave…",
+  "linkUnreachable": "Apple ni bil dosegljiv, zato povezave ni bilo mogoče prebrati. Preveri omrežno povezavo in poskusi znova.",
+  "splitTitle": "Nastalo bo več vodnikov",
+  "splitBody": "Apple omejuje, koliko krajev zmore ena povezava do vodnika. Wren bo zato ustvaril več vodnikov ({guides}), številčenih tako, da ostane vrstni red, in med njih razporedil vse kraje ({count}).",
+  "splitConfirm": "Ustvari vodnike ({guides})",
+  "splitProgress": "Vodnik {done} od {total} odprt. Tapni za naslednjega."
 }

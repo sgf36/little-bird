@@ -445,4 +445,62 @@ class LUk extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'Також читає список, експортований з іншого застосунку: CSV, KML, KMZ, GPX, GeoJSON або Google Takeout.';
+
+  @override
+  String get clearList => 'Очистити список';
+
+  @override
+  String get clearListTitle => 'Очистити список';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Прибрати всі $count місця з Wren? Путівників, уже створених в Apple Картах, це не торкнеться.',
+      many:
+          'Прибрати всі $count місць з Wren? Путівників, уже створених в Apple Картах, це не торкнеться.',
+      few:
+          'Прибрати всі $count місця з Wren? Путівників, уже створених в Apple Картах, це не торкнеться.',
+      one:
+          'Прибрати $count місце з Wren? Путівників, уже створених в Apple Картах, це не торкнеться.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Прибрати';
+
+  @override
+  String get listCleared => 'Список очищено.';
+
+  @override
+  String get expandingLink => 'Читаю посилання…';
+
+  @override
+  String get linkUnreachable =>
+      'Не вдалося зв\'язатися з Apple, щоб прочитати це посилання. Перевір з\'єднання й спробуй знову.';
+
+  @override
+  String get splitTitle => 'Вийде більше ніж один путівник';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Apple обмежує, скільки місць вміщає одне посилання на путівник. Тому Wren створить кілька путівників ($guides) з номерами, щоб порядок зберігся, і розподілить між ними всі місця ($count).';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'Створити путівники ($guides)';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'Путівник $done з $total відкрито. Торкнись, щоб зробити наступний.';
+  }
 }

@@ -421,6 +421,60 @@ class LFr extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'Lit aussi une liste exportée depuis une autre app : CSV, KML, KMZ, GPX, GeoJSON ou Google Takeout.';
+
+  @override
+  String get clearList => 'Vider la liste';
+
+  @override
+  String get clearListTitle => 'Vider la liste';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Retirer de Wren les $count lieux ? Les guides déjà créés dans Plans ne sont pas affectés.',
+      one:
+          'Retirer de Wren le seul lieu enregistré ? Les guides déjà créés dans Plans ne sont pas affectés.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Retirer';
+
+  @override
+  String get listCleared => 'Liste vidée.';
+
+  @override
+  String get expandingLink => 'Lecture du lien…';
+
+  @override
+  String get linkUnreachable =>
+      'Impossible de joindre Apple pour lire ce lien. Vérifiez votre connexion et réessayez.';
+
+  @override
+  String get splitTitle => 'Cela créera plusieurs guides';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Apple limite le nombre de lieux qu\'un lien de guide peut contenir. Wren créera $guides guides, numérotés pour rester dans l\'ordre, contenant en tout $count lieux.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'Créer $guides guides';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'Guide $done sur $total ouvert. Touchez pour créer le suivant.';
+  }
 }
 
 /// The translations for French, as used in Canada (`fr_CA`).
@@ -839,5 +893,59 @@ class LFrCa extends LFr {
           'Wren créera un seul guide regroupant le lieu déjà présent dans le vôtre et le nouveau.',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get acceptedFormats =>
+      'Lit aussi une liste exportée depuis une autre app : CSV, KML, KMZ, GPX, GeoJSON ou Google Takeout.';
+
+  @override
+  String get clearList => 'Vider la liste';
+
+  @override
+  String get clearListTitle => 'Vider la liste';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Retirer de Wren les $count lieux? Les guides déjà créés dans Plans ne sont pas touchés.',
+      one:
+          'Retirer de Wren le seul lieu enregistré? Les guides déjà créés dans Plans ne sont pas touchés.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Retirer';
+
+  @override
+  String get listCleared => 'Liste vidée.';
+
+  @override
+  String get expandingLink => 'Lecture du lien…';
+
+  @override
+  String get linkUnreachable =>
+      'Impossible de joindre Apple pour lire ce lien. Vérifiez votre connexion et réessayez.';
+
+  @override
+  String get splitTitle => 'Cela va créer plus d\'un guide';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Apple limite le nombre de lieux qu\'un lien de guide peut contenir. Wren va créer $guides guides, numérotés pour rester dans l\'ordre, contenant en tout $count lieux.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'Créer $guides guides';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'Guide $done sur $total ouvert. Touchez pour créer le prochain.';
   }
 }

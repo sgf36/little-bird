@@ -388,4 +388,55 @@ class LJa extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      '他のアプリから書き出したリストも読み取れます：CSV、KML、KMZ、GPX、GeoJSON、Google Takeout。';
+
+  @override
+  String get clearList => 'リストを空にする';
+
+  @override
+  String get clearListTitle => 'リストを空にする';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count件の場所をWrenから削除しますか？マップですでに作ったガイドには影響しません。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => '消去';
+
+  @override
+  String get listCleared => 'リストを空にしました。';
+
+  @override
+  String get expandingLink => 'リンクを読み取り中…';
+
+  @override
+  String get linkUnreachable =>
+      'リンクを読み取るためにAppleに接続できませんでした。接続を確認してもう一度お試しください。';
+
+  @override
+  String get splitTitle => 'ガイドは複数に分かれます';
+
+  @override
+  String splitBody(int guides, int count) {
+    return '1つのガイドのリンクに入れられる場所の数はAppleによって制限されています。Wrenが$guides個のガイドを作り、順番が保たれるよう番号を付けて、合わせて$count件の場所を収めます。';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return '$guides個のガイドを作成';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return '$total個中$done個目のガイドを開きました。タップして次を作成します。';
+  }
 }

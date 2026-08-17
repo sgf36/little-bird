@@ -90,5 +90,17 @@
   "lookingUpProgress": "Slår {done} af {total} op…",
   "combineNeedsUnlock": "Den samlede guide kræver, at du låser op.",
   "unlockCombineTitle": "Føj til en guide, du allerede har",
-  "unlockCombineBody": "{count, plural, =1{Wren laver én guide med det sted, der allerede er i din, sammen med det nye.} other{Wren laver én guide med de {count} steder, der allerede er i din, sammen med de nye.}}"
+  "unlockCombineBody": "{count, plural, =1{Wren laver én guide med det sted, der allerede er i din, sammen med det nye.} other{Wren laver én guide med de {count} steder, der allerede er i din, sammen med de nye.}}",
+  "acceptedFormats": "Læser også en liste eksporteret fra en anden app: CSV, KML, KMZ, GPX, GeoJSON eller Google Takeout.",
+  "clearList": "Ryd listen",
+  "clearListTitle": "Ryd listen",
+  "clearListBody": "{count, plural, =1{Fjern det ene sted fra Wren? Guider, der allerede er lavet i Apple Kort, bliver ikke berørt.} other{Fjern alle {count} steder fra Wren? Guider, der allerede er lavet i Apple Kort, bliver ikke berørt.}}",
+  "clearListConfirm": "Fjern",
+  "listCleared": "Listen er ryddet.",
+  "expandingLink": "Læser linket…",
+  "linkUnreachable": "Kunne ikke nå Apple for at læse linket. Tjek din forbindelse, og prøv igen.",
+  "splitTitle": "Det bliver mere end én guide",
+  "splitBody": "Apple begrænser, hvor mange steder ét guidelink kan rumme. Wren laver {guides} guider, nummererede så rækkefølgen holder, med {count} steder tilsammen.",
+  "splitConfirm": "Lav {guides} guider",
+  "splitProgress": "Guide {done} af {total} er åbnet. Tryk for at lave den næste."
 }

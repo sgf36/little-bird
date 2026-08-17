@@ -443,4 +443,62 @@ class LSl extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'Prebere tudi seznam, izvožen iz druge aplikacije: CSV, KML, KMZ, GPX, GeoJSON ali Google Takeout.';
+
+  @override
+  String get clearList => 'Počisti seznam';
+
+  @override
+  String get clearListTitle => 'Počisti seznam';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Odstraniti vseh $count krajev iz Wrena? Na vodnike, ki so že narejeni v Apple Zemljevidih, to ne vpliva.',
+      few:
+          'Odstraniti vse $count kraje iz Wrena? Na vodnike, ki so že narejeni v Apple Zemljevidih, to ne vpliva.',
+      two:
+          'Odstraniti $count kraja iz Wrena? Na vodnike, ki so že narejeni v Apple Zemljevidih, to ne vpliva.',
+      one:
+          'Odstraniti $count kraj iz Wrena? Na vodnike, ki so že narejeni v Apple Zemljevidih, to ne vpliva.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Odstrani';
+
+  @override
+  String get listCleared => 'Seznam je počiščen.';
+
+  @override
+  String get expandingLink => 'Branje povezave…';
+
+  @override
+  String get linkUnreachable =>
+      'Apple ni bil dosegljiv, zato povezave ni bilo mogoče prebrati. Preveri omrežno povezavo in poskusi znova.';
+
+  @override
+  String get splitTitle => 'Nastalo bo več vodnikov';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Apple omejuje, koliko krajev zmore ena povezava do vodnika. Wren bo zato ustvaril več vodnikov ($guides), številčenih tako, da ostane vrstni red, in med njih razporedil vse kraje ($count).';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'Ustvari vodnike ($guides)';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'Vodnik $done od $total odprt. Tapni za naslednjega.';
+  }
 }

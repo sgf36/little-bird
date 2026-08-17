@@ -90,5 +90,17 @@
   "lookingUpProgress": "{done} von {total} werden gesucht…",
   "combineNeedsUnlock": "Der zusammengeführte Guide erfordert die Freischaltung.",
   "unlockCombineTitle": "Zu einem Guide hinzufügen, den du schon hast",
-  "unlockCombineBody": "{count, plural, =1{Wren erstellt einen einzigen Guide mit dem Ort, der schon in deinem ist, und dem neuen.} other{Wren erstellt einen einzigen Guide mit den {count} Orten, die schon in deinem sind, und den neuen.}}"
+  "unlockCombineBody": "{count, plural, =1{Wren erstellt einen einzigen Guide mit dem Ort, der schon in deinem ist, und dem neuen.} other{Wren erstellt einen einzigen Guide mit den {count} Orten, die schon in deinem sind, und den neuen.}}",
+  "acceptedFormats": "Liest auch eine Liste, die aus einer anderen App exportiert wurde: CSV, KML, KMZ, GPX, GeoJSON oder Google Takeout.",
+  "clearList": "Liste leeren",
+  "clearListTitle": "Liste leeren",
+  "clearListBody": "{count, plural, =1{Den einen Ort aus Wren entfernen? Bereits in Apple Karten erstellte Guides bleiben unberührt.} other{Alle {count} Orte aus Wren entfernen? Bereits in Apple Karten erstellte Guides bleiben unberührt.}}",
+  "clearListConfirm": "Entfernen",
+  "listCleared": "Liste geleert.",
+  "expandingLink": "Der Link wird gelesen…",
+  "linkUnreachable": "Apple war nicht erreichbar, um diesen Link zu lesen. Prüf deine Verbindung und versuch es erneut.",
+  "splitTitle": "Daraus werden mehrere Guides",
+  "splitBody": "Apple begrenzt, wie viele Orte ein Guide-Link tragen kann. Wren erstellt {guides} Guides, nummeriert, damit die Reihenfolge bleibt, mit {count} Orten insgesamt.",
+  "splitConfirm": "{guides} Guides erstellen",
+  "splitProgress": "Guide {done} von {total} geöffnet. Tippen, um den nächsten zu erstellen."
 }

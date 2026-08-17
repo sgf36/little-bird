@@ -419,4 +419,58 @@ class LMr extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'दुसऱ्या ॲपमधून एक्सपोर्ट केलेली यादीही वाचतो: CSV, KML, KMZ, GPX, GeoJSON किंवा Google Takeout.';
+
+  @override
+  String get clearList => 'यादी रिकामी करा';
+
+  @override
+  String get clearListTitle => 'यादी रिकामी करा';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren मधून सगळी $count ठिकाणं काढून टाकायची? Apple Maps मध्ये आधीच तयार केलेल्या मार्गदर्शिकांवर काहीही परिणाम होत नाही.',
+      one:
+          'Wren मधून ते एक ठिकाण काढून टाकायचं? Apple Maps मध्ये आधीच तयार केलेल्या मार्गदर्शिकांवर काहीही परिणाम होत नाही.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'काढा';
+
+  @override
+  String get listCleared => 'यादी रिकामी झाली.';
+
+  @override
+  String get expandingLink => 'ती लिंक वाचत आहे…';
+
+  @override
+  String get linkUnreachable =>
+      'ती लिंक वाचण्यासाठी Apple शी संपर्क होऊ शकला नाही. तुमचं कनेक्शन तपासून पुन्हा प्रयत्न करा.';
+
+  @override
+  String get splitTitle => 'यातून एकापेक्षा जास्त मार्गदर्शिका तयार होतील';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'एका मार्गदर्शिकेच्या लिंकमध्ये किती ठिकाणं येऊ शकतात यावर Apple मर्यादा ठेवतं. Wren $guides मार्गदर्शिका तयार करेल, क्रम टिकावा म्हणून त्यांना क्रमांक दिले जातील, आणि त्या सगळ्यांत मिळून $count ठिकाणं असतील.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return '$guides मार्गदर्शिका तयार करा';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return '$total पैकी $done मार्गदर्शिका उघडली. पुढची तयार करण्यासाठी टॅप करा.';
+  }
 }

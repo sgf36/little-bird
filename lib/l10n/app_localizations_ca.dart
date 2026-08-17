@@ -422,4 +422,58 @@ class LCa extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'També llegeix una llista exportada d\'una altra app: CSV, KML, KMZ, GPX, GeoJSON o Google Takeout.';
+
+  @override
+  String get clearList => 'Buidar la llista';
+
+  @override
+  String get clearListTitle => 'Buidar la llista';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Vols treure del Wren els $count llocs? Les guies que ja has creat a Mapes no es veuen afectades.',
+      one:
+          'Vols treure del Wren l\'únic lloc? Les guies que ja has creat a Mapes no es veuen afectades.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Treure';
+
+  @override
+  String get listCleared => 'Llista buidada.';
+
+  @override
+  String get expandingLink => 'S\'està llegint l\'enllaç…';
+
+  @override
+  String get linkUnreachable =>
+      'No s\'ha pogut connectar amb Apple per llegir aquest enllaç. Comprova la connexió i torna-ho a provar.';
+
+  @override
+  String get splitTitle => 'Això crearà més d\'una guia';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Apple limita quants llocs pot portar l\'enllaç d\'una guia. El Wren crearà $guides guies, numerades perquè quedin en ordre, amb $count llocs entre totes.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'Crear $guides guies';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'Guia $done de $total oberta. Toca per crear la següent.';
+  }
 }

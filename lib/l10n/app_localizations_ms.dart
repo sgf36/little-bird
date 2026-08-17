@@ -403,4 +403,56 @@ class LMs extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'Juga membaca senarai yang dieksport daripada aplikasi lain: CSV, KML, KMZ, GPX, GeoJSON atau Google Takeout.';
+
+  @override
+  String get clearList => 'Kosongkan senarai';
+
+  @override
+  String get clearListTitle => 'Kosongkan senarai';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Buang $count tempat daripada Wren? Panduan yang sudah dicipta dalam Apple Maps tidak terjejas.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Buang';
+
+  @override
+  String get listCleared => 'Senarai telah dikosongkan.';
+
+  @override
+  String get expandingLink => 'Membaca pautan itu…';
+
+  @override
+  String get linkUnreachable =>
+      'Apple tidak dapat dihubungi untuk membaca pautan itu. Semak sambungan anda dan cuba lagi.';
+
+  @override
+  String get splitTitle => 'Ini akan mencipta lebih daripada satu panduan';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Apple mengehadkan berapa banyak tempat yang boleh dibawa oleh satu pautan panduan. Wren akan mencipta $guides panduan, dinomborkan supaya susunannya kekal, yang bersama-sama memuatkan $count tempat.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'Cipta $guides panduan';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'Panduan $done daripada $total telah dibuka. Ketik untuk mencipta yang seterusnya.';
+  }
 }

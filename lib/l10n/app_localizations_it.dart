@@ -420,4 +420,58 @@ class LIt extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'Legge anche un elenco esportato da un\'altra app: CSV, KML, KMZ, GPX, GeoJSON o Google Takeout.';
+
+  @override
+  String get clearList => 'Svuota l\'elenco';
+
+  @override
+  String get clearListTitle => 'Svuota l\'elenco';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Rimuovere da Wren tutti i $count luoghi? Le guide già create in Mappe non vengono toccate.',
+      one:
+          'Rimuovere da Wren l\'unico luogo? Le guide già create in Mappe non vengono toccate.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Rimuovi';
+
+  @override
+  String get listCleared => 'Elenco svuotato.';
+
+  @override
+  String get expandingLink => 'Lettura del link…';
+
+  @override
+  String get linkUnreachable =>
+      'Impossibile raggiungere Apple per leggere quel link. Controlla la connessione e riprova.';
+
+  @override
+  String get splitTitle => 'Verrà creata più di una guida';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Apple limita quanti luoghi può contenere il link di una guida. Wren creerà $guides guide, numerate per restare in ordine, con $count luoghi in tutto.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'Crea $guides guide';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'Guida $done di $total aperta. Tocca per creare la prossima.';
+  }
 }

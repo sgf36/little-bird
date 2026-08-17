@@ -410,4 +410,58 @@ class LTr extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'Başka bir uygulamadan aktarılan listeleri de okur: CSV, KML, KMZ, GPX, GeoJSON ya da Google Takeout.';
+
+  @override
+  String get clearList => 'Listeyi boşalt';
+
+  @override
+  String get clearListTitle => 'Listeyi boşalt';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count mekânın tümü Wren\'den kaldırılsın mı? Apple Harita\'da oluşturduğun rehberler etkilenmez.',
+      one:
+          'O 1 mekân Wren\'den kaldırılsın mı? Apple Harita\'da oluşturduğun rehberler etkilenmez.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Kaldır';
+
+  @override
+  String get listCleared => 'Liste boşaltıldı.';
+
+  @override
+  String get expandingLink => 'O bağlantı okunuyor…';
+
+  @override
+  String get linkUnreachable =>
+      'O bağlantıyı okumak için Apple\'a ulaşılamadı. İnternet bağlantını kontrol edip yeniden dene.';
+
+  @override
+  String get splitTitle => 'Bu, birden fazla rehber oluşturacak';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Bir rehber bağlantısının taşıyabileceği mekân sayısını Apple sınırlıyor. Wren, sırası korunsun diye numaralandırılmış $guides rehber oluşturacak ve $count mekânı bunlara bölüştürecek.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return '$guides rehber oluştur';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return '$total rehberin $done tanesi açıldı. Sonrakini oluşturmak için dokun.';
+  }
 }

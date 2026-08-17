@@ -90,5 +90,17 @@
   "lookingUpProgress": "{total} میں سے {done} تلاش کر رہا ہے…",
   "combineNeedsUnlock": "مشترکہ گائیڈ بنانے کے لیے ان لاک درکار ہے۔",
   "unlockCombineTitle": "اپنی پہلے سے موجود گائیڈ میں شامل کریں",
-  "unlockCombineBody": "{count, plural, one{Wren ایک ہی گائیڈ بنائے گا، جس میں آپ کی گائیڈ کی 1 جگہ اور نئی جگہ، دونوں ہوں گی۔} other{Wren ایک ہی گائیڈ بنائے گا، جس میں آپ کی گائیڈ کی {count} جگہیں اور نئی جگہیں، دونوں ہوں گی۔}}"
+  "unlockCombineBody": "{count, plural, one{Wren ایک ہی گائیڈ بنائے گا، جس میں آپ کی گائیڈ کی 1 جگہ اور نئی جگہ، دونوں ہوں گی۔} other{Wren ایک ہی گائیڈ بنائے گا، جس میں آپ کی گائیڈ کی {count} جگہیں اور نئی جگہیں، دونوں ہوں گی۔}}",
+  "acceptedFormats": "کسی دوسری ایپ سے ایکسپورٹ کی گئی فہرست بھی پڑھتا ہے: CSV، KML، KMZ، GPX، GeoJSON یا Google Takeout۔",
+  "clearList": "فہرست خالی کریں",
+  "clearListTitle": "فہرست خالی کریں",
+  "clearListBody": "{count, plural, one{Wren سے وہ ایک جگہ ہٹا دیں؟ Apple Maps میں پہلے بنائی گئی گائیڈز پر کوئی اثر نہیں پڑتا۔} other{Wren سے تمام {count} جگہیں ہٹا دیں؟ Apple Maps میں پہلے بنائی گئی گائیڈز پر کوئی اثر نہیں پڑتا۔}}",
+  "clearListConfirm": "ہٹائیں",
+  "listCleared": "فہرست خالی ہو گئی۔",
+  "expandingLink": "وہ لنک پڑھا جا رہا ہے…",
+  "linkUnreachable": "وہ لنک پڑھنے کے لیے Apple تک نہیں پہنچا جا سکا۔ اپنا کنکشن دیکھ کر دوبارہ کوشش کیجیے۔",
+  "splitTitle": "اس سے ایک سے زیادہ گائیڈز بنیں گی",
+  "splitBody": "ایک گائیڈ کے لنک میں کتنی جگہیں آ سکتی ہیں، Apple اسے محدود رکھتا ہے۔ Wren {guides} گائیڈز بنائے گا، ترتیب برقرار رہے اس لیے ان پر نمبر ہوں گے، اور ان سب میں مل کر {count} جگہیں ہوں گی۔",
+  "splitConfirm": "{guides} گائیڈز بنائیں",
+  "splitProgress": "{total} میں سے {done} گائیڈ کھل گئی۔ اگلی بنانے کے لیے ٹیپ کریں۔"
 }

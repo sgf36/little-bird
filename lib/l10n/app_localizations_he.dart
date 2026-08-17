@@ -433,4 +433,60 @@ class LHe extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'קורא גם רשימה שמייצאים מאפליקציה אחרת: CSV, KML, KMZ, GPX, GeoJSON או Google Takeout.';
+
+  @override
+  String get clearList => 'ניקוי הרשימה';
+
+  @override
+  String get clearListTitle => 'ניקוי הרשימה';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'להסיר את כל $count המקומות מהרשימה? מדריכים שכבר נוצרו במפות של Apple נשארים כמו שהם.',
+      two:
+          'להסיר את שני המקומות מהרשימה? מדריכים שכבר נוצרו במפות של Apple נשארים כמו שהם.',
+      one:
+          'להסיר את המקום היחיד מהרשימה? מדריכים שכבר נוצרו במפות של Apple נשארים כמו שהם.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'הסרה';
+
+  @override
+  String get listCleared => 'הרשימה נוקתה.';
+
+  @override
+  String get expandingLink => 'קורא את הקישור…';
+
+  @override
+  String get linkUnreachable =>
+      'לא ניתן היה להגיע ל־Apple כדי לקרוא את הקישור. יש לבדוק את החיבור ולנסות שוב.';
+
+  @override
+  String get splitTitle => 'ייווצר יותר ממדריך אחד';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'המפות של Apple מגבילות כמה מקומות יכול לשאת קישור אחד של מדריך. ייווצרו $guides מדריכים, ממוספרים כדי לשמור על הסדר, ובהם $count מקומות יחד.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'יצירת $guides מדריכים';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'מדריך $done מתוך $total נפתח. יש להקיש כדי ליצור את הבא.';
+  }
 }

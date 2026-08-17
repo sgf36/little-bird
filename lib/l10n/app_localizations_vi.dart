@@ -398,4 +398,56 @@ class LVi extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'Cũng đọc được danh sách xuất ra từ ứng dụng khác: CSV, KML, KMZ, GPX, GeoJSON hoặc Google Takeout.';
+
+  @override
+  String get clearList => 'Xoá danh sách';
+
+  @override
+  String get clearListTitle => 'Xoá danh sách';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Xoá $count địa điểm khỏi Wren? Các hướng dẫn đã tạo trong Apple Maps không bị ảnh hưởng.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Xoá hết';
+
+  @override
+  String get listCleared => 'Đã xoá danh sách.';
+
+  @override
+  String get expandingLink => 'Đang đọc liên kết đó…';
+
+  @override
+  String get linkUnreachable =>
+      'Không kết nối được với Apple để đọc liên kết đó. Kiểm tra kết nối rồi thử lại.';
+
+  @override
+  String get splitTitle => 'Việc này sẽ tạo nhiều hướng dẫn';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Apple giới hạn số địa điểm mà một liên kết hướng dẫn có thể chứa. Wren sẽ tạo $guides hướng dẫn, được đánh số để giữ đúng thứ tự, cùng chứa $count địa điểm.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'Tạo $guides hướng dẫn';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'Đã mở hướng dẫn $done trong $total. Chạm để tạo cái tiếp theo.';
+  }
 }

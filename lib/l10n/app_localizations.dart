@@ -728,6 +728,78 @@ abstract class L {
   /// In en, this message translates to:
   /// **'{count, plural, =1{Wren will make one guide holding the place already in yours together with the new one.} other{Wren will make one guide holding the {count} places already in yours together with the new ones.}}'**
   String unlockCombineBody(int count);
+
+  /// Shown on the empty main screen so the file formats are discoverable without opening a menu. The format names are file types and stay in Latin letters.
+  ///
+  /// In en, this message translates to:
+  /// **'Also reads a list exported from another app: CSV, KML, KMZ, GPX, GeoJSON or Google Takeout.'**
+  String get acceptedFormats;
+
+  /// Menu item that removes every place from the app's list.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear the list'**
+  String get clearList;
+
+  /// Title of the confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear the list'**
+  String get clearListTitle;
+
+  /// Confirmation before clearing. The second sentence matters: clearing the app's list does not delete anything from Apple Maps, and users reasonably fear that it might.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Remove the one place from Wren? Guides already made in Apple Maps are not affected.} other{Remove all {count} places from Wren? Guides already made in Apple Maps are not affected.}}'**
+  String clearListBody(int count);
+
+  /// The button that does it. Short, and not the same word as the menu item so the dialog does not read as an echo.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clearListConfirm;
+
+  /// Confirmation after clearing.
+  ///
+  /// In en, this message translates to:
+  /// **'List cleared.'**
+  String get listCleared;
+
+  /// Shown while a short Apple Maps link is being expanded, which is a network request and so not instant.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading that link…'**
+  String get expandingLink;
+
+  /// The short link could not be expanded because the network was unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach Apple to read that link. Check your connection and try again.'**
+  String get linkUnreachable;
+
+  /// Title of the dialog shown when there are more places than one Apple Maps guide link can carry.
+  ///
+  /// In en, this message translates to:
+  /// **'This will make more than one guide'**
+  String get splitTitle;
+
+  /// Explains why several guides appear instead of one. A limit in Apple Maps, not in this app.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple limits how many places one guide link can carry. Wren will make {guides} guides, numbered so they stay in order, holding {count} places between them.'**
+  String splitBody(int guides, int count);
+
+  /// Confirming button on the dialog above.
+  ///
+  /// In en, this message translates to:
+  /// **'Make {guides} guides'**
+  String splitConfirm(int guides);
+
+  /// Shown after each guide is handed to Apple Maps, because Maps can only be given one at a time and the user has to come back to Wren in between.
+  ///
+  /// In en, this message translates to:
+  /// **'Guide {done} of {total} opened. Tap to make the next.'**
+  String splitProgress(int done, int total);
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

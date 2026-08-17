@@ -77,6 +77,19 @@ abstract class PlaceResolver {
   /// Turns a phrase like "London" into somewhere on the map, or null if it is
   /// not a place. Used to confirm where a batch of screenshots is talking about.
   Future<Region?> locate(String query);
+
+  /// Names and addresses for places we have only identifiers for.
+  ///
+  /// A guide shared out of Apple Maps carries muids and nothing else, so an
+  /// imported guide would otherwise show a row of blanks. iOS 18 can fetch a
+  /// place from its identifier, which is the only way to put a name back.
+  ///
+  /// Returns what it could find, keyed by id. A place missing from the result is
+  /// a place Apple would not tell us about, which is not an error — it can still
+  /// be republished, since the identifier is all a guide link needs.
+  ///
+  /// Defaults to finding nothing, so a stub or a test resolver need not care.
+  Future<Map<PlaceId, PlaceMatch>> lookup(List<PlaceId> ids) async => const {};
 }
 
 /// Resolution through MapKit on the device.
@@ -85,7 +98,7 @@ abstract class PlaceResolver {
 /// Apple Maps guide link needs, so this is the whole resolution story in one
 /// call. Results with no identifier or no category are dropped natively: those
 /// are geographic areas rather than businesses, and cannot go in a guide.
-class MapKitResolver implements PlaceResolver {
+class MapKitResolver extends PlaceResolver {
   static const _channel = MethodChannel('littlebird/places');
 
   /// MapKit throttles bursts with MKError 4, so lookups are spaced out.
@@ -109,6 +122,34 @@ class MapKitResolver implements PlaceResolver {
       return null;
     } on PlatformException {
       return null;
+    }
+  }
+
+  @override
+  Future<Map<PlaceId, PlaceMatch>> lookup(List<PlaceId> ids) async {
+    if (ids.isEmpty) return const {};
+    try {
+      final raw = await _channel.invokeMethod<List<Object?>>('lookup', {
+        'ids': ids.map((i) => i.toString()).toList(),
+      });
+      if (raw == null) return const {};
+      final out = <PlaceId, PlaceMatch>{};
+      for (final m in raw.whereType<Map<Object?, Object?>>()) {
+        try {
+          final match = PlaceMatch.fromMap(m);
+          out[match.id] = match;
+        } on FormatException {
+          // One unreadable id must not cost the whole batch its names.
+          continue;
+        }
+      }
+      return out;
+    } on MissingPluginException {
+      return const {};
+    } on PlatformException {
+      // Names are a nicety here; the places are republishable without them, so
+      // a failure is silent rather than an error the user must dismiss.
+      return const {};
     }
   }
 
@@ -156,7 +197,7 @@ class MapKitResolver implements PlaceResolver {
 
 /// Returns fixed, device-verified places regardless of the query, for tests and
 /// for running the app on a platform with no MapKit.
-class StubResolver implements PlaceResolver {
+class StubResolver extends PlaceResolver {
   static const _fixtures = [
     ('I43FA2531C5B5D635', 'Dishoom Shoreditch', '7 Boundary St, London E2 7JE'),
     ('I655EEDD5976A0811', 'Wright Brothers', '11 Stoney St, London SE1 9AD'),

@@ -154,6 +154,15 @@ public class PlacesPlugin: NSObject, FlutterPlugin {
                      result: @escaping FlutterResult) {
     switch call.method {
     case "search": break
+    case "lookup":
+      guard let args = call.arguments as? [String: Any],
+            let ids = args["ids"] as? [String] else {
+        result(FlutterError(code: "bad_args",
+                            message: "expected an 'ids' array", details: nil))
+        return
+      }
+      PlacesPlugin.lookup(ids: ids, result: result)
+      return
     case "geocode":
       guard let args = call.arguments as? [String: Any],
             let query = args["query"] as? String, !query.isEmpty else {
@@ -239,6 +248,51 @@ public class PlacesPlugin: NSObject, FlutterPlugin {
       }
       result(out)
     }
+  }
+
+  /// Fetches places from their identifiers alone.
+  ///
+  /// A guide shared out of Apple Maps carries muids and nothing else — no names,
+  /// no addresses — so an imported guide would show a list of blank rows without
+  /// this. `MKMapItemRequest(mapItemIdentifier:)` is the only route back from an
+  /// identifier to a place, and it is iOS 18 and up, which this app now requires
+  /// anyway because the identifier itself is.
+  ///
+  /// Failures are per-place and silent. A place Apple will not describe can still
+  /// be republished, since the identifier is all a guide link needs, so losing a
+  /// name is a cosmetic loss and not worth an error.
+  private static func lookup(ids: [String],
+                             result: @escaping FlutterResult) {
+    let group = DispatchGroup()
+    let lock = NSLock()
+    var found: [[String: Any]] = []
+
+    for raw in ids {
+      guard let identifier = MKMapItem.Identifier(rawValue: raw) else { continue }
+      group.enter()
+      MKMapItemRequest(mapItemIdentifier: identifier).getMapItem { item, _ in
+        defer { group.leave() }
+        guard let item = item, let itemId = item.identifier?.rawValue
+        else { return }
+        let coord = item.placemark.coordinate
+        lock.lock()
+        found.append([
+          "placeId": itemId,
+          "name": item.name ?? "",
+          "address": item.placemark.title ?? "",
+          // A guide place has no category from this route, and the Dart side
+          // uses category only to reject non-businesses from a SEARCH. These
+          // came out of a guide the user already keeps, so they are not being
+          // filtered — but the field is non-null there, so give it something.
+          "category": "Guide",
+          "lat": coord.latitude,
+          "lon": coord.longitude,
+        ])
+        lock.unlock()
+      }
+    }
+
+    group.notify(queue: .main) { result(found) }
   }
 
   /// Turns a place-context phrase ("London", "Mexico City") into a coordinate,

@@ -452,4 +452,66 @@ class LAr extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'يقرأ أيضاً قائمة مُصدَّرة من تطبيق آخر: CSV أو KML أو KMZ أو GPX أو GeoJSON أو Google Takeout.';
+
+  @override
+  String get clearList => 'إفراغ القائمة';
+
+  @override
+  String get clearListTitle => 'إفراغ القائمة';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'إزالة $count مكان من Wren؟ الأدلة التي أنشأتها في خرائط Apple لن تتأثر.',
+      many:
+          'إزالة $count مكاناً من Wren؟ الأدلة التي أنشأتها في خرائط Apple لن تتأثر.',
+      few:
+          'إزالة $count أماكن من Wren؟ الأدلة التي أنشأتها في خرائط Apple لن تتأثر.',
+      two:
+          'إزالة المكانين من Wren؟ الأدلة التي أنشأتها في خرائط Apple لن تتأثر.',
+      one:
+          'إزالة المكان الواحد من Wren؟ الأدلة التي أنشأتها في خرائط Apple لن تتأثر.',
+      zero:
+          'إزالة الأماكن من Wren؟ الأدلة التي أنشأتها في خرائط Apple لن تتأثر.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'إزالة';
+
+  @override
+  String get listCleared => 'تم إفراغ القائمة.';
+
+  @override
+  String get expandingLink => 'جارٍ قراءة ذلك الرابط…';
+
+  @override
+  String get linkUnreachable =>
+      'تعذّر الوصول إلى Apple لقراءة ذلك الرابط. تحقق من اتصالك ثم أعد المحاولة.';
+
+  @override
+  String get splitTitle => 'سيؤدي هذا إلى إنشاء أكثر من دليل';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'تحدّ Apple من عدد الأماكن التي يمكن أن يحملها رابط دليل واحد. سيُنشئ Wren $guides من الأدلة، مرقّمة لتبقى بالترتيب، تضم $count من الأماكن بينها.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'إنشاء $guides من الأدلة';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'فُتح الدليل $done من $total. المس لإنشاء التالي.';
+  }
 }

@@ -66,7 +66,7 @@ Pending _place(int i, {Origin origin = Origin.screenshot}) => Pending(
 /// but it is a network call: it rate-limits, it can fail, and a screenshot run
 /// that half-fails produces images nobody notices are wrong until the store
 /// page is live.
-class _SceneResolver implements PlaceResolver {
+class _SceneResolver extends PlaceResolver {
   @override
   Future<Region?> locate(String query) async => Region(
     name: 'London',

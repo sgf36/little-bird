@@ -90,5 +90,17 @@
   "lookingUpProgress": "Hledání {done} z {total}…",
   "combineNeedsUnlock": "Sloučený průvodce vyžaduje odemknutí.",
   "unlockCombineTitle": "Přidat do průvodce, kterého už máš",
-  "unlockCombineBody": "{count, plural, one{Wren vytvoří jednoho průvodce, ve kterém bude 1 místo z tvého a k tomu ta nová.} few{Wren vytvoří jednoho průvodce, ve kterém budou {count} místa z tvého a k tomu ta nová.} many{Wren vytvoří jednoho průvodce, ve kterém bude {count} místa z tvého a k tomu ta nová.} other{Wren vytvoří jednoho průvodce, ve kterém bude {count} míst z tvého a k tomu ta nová.}}"
+  "unlockCombineBody": "{count, plural, one{Wren vytvoří jednoho průvodce, ve kterém bude 1 místo z tvého a k tomu ta nová.} few{Wren vytvoří jednoho průvodce, ve kterém budou {count} místa z tvého a k tomu ta nová.} many{Wren vytvoří jednoho průvodce, ve kterém bude {count} místa z tvého a k tomu ta nová.} other{Wren vytvoří jednoho průvodce, ve kterém bude {count} míst z tvého a k tomu ta nová.}}",
+  "acceptedFormats": "Přečte i seznam vyexportovaný z jiné aplikace: CSV, KML, KMZ, GPX, GeoJSON nebo Google Takeout.",
+  "clearList": "Vymazat seznam",
+  "clearListTitle": "Vymazat seznam",
+  "clearListBody": "{count, plural, one{Odebrat to jedno místo z Wrenu? Průvodců už vytvořených v Mapách Apple se to nedotkne.} few{Odebrat všechna {count} místa z Wrenu? Průvodců už vytvořených v Mapách Apple se to nedotkne.} many{Odebrat {count} místa z Wrenu? Průvodců už vytvořených v Mapách Apple se to nedotkne.} other{Odebrat všech {count} míst z Wrenu? Průvodců už vytvořených v Mapách Apple se to nedotkne.}}",
+  "clearListConfirm": "Odebrat",
+  "listCleared": "Seznam vymazán.",
+  "expandingLink": "Načítání odkazu…",
+  "linkUnreachable": "Apple se nepodařilo kontaktovat, takže odkaz nešlo přečíst. Zkontroluj připojení a zkus to znovu.",
+  "splitTitle": "Vznikne víc než jeden průvodce",
+  "splitBody": "Apple omezuje, kolik míst se vejde do jednoho odkazu na průvodce. Wren proto vytvoří několik průvodců ({guides}), číslovaných tak, aby zůstalo jejich pořadí, a rozdělí do nich všechna místa ({count}).",
+  "splitConfirm": "Vytvořit průvodce ({guides})",
+  "splitProgress": "Průvodce {done} z {total} otevřen. Klepnutím vytvoříš dalšího."
 }

@@ -420,4 +420,58 @@ class LNl extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'Leest ook een lijst die uit een andere app is geëxporteerd: CSV, KML, KMZ, GPX, GeoJSON of Google Takeout.';
+
+  @override
+  String get clearList => 'Lijst wissen';
+
+  @override
+  String get clearListTitle => 'Lijst wissen';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Alle $count plekken uit Wren verwijderen? Gidsen die al in Apple Kaarten zijn gemaakt, blijven ongemoeid.',
+      one:
+          'De ene plek uit Wren verwijderen? Gidsen die al in Apple Kaarten zijn gemaakt, blijven ongemoeid.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Verwijder';
+
+  @override
+  String get listCleared => 'Lijst gewist.';
+
+  @override
+  String get expandingLink => 'Die link lezen…';
+
+  @override
+  String get linkUnreachable =>
+      'Apple was niet bereikbaar om die link te lezen. Controleer je verbinding en probeer het opnieuw.';
+
+  @override
+  String get splitTitle => 'Dit levert meer dan één gids op';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Apple beperkt hoeveel plekken één gidslink kan bevatten. Wren maakt $guides gidsen, genummerd zodat de volgorde blijft, met samen $count plekken.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'Maak $guides gidsen';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'Gids $done van $total geopend. Tik om de volgende te maken.';
+  }
 }

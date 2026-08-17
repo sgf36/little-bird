@@ -441,4 +441,62 @@ class LPl extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'Odczytuje też listę wyeksportowaną z innej aplikacji: CSV, KML, KMZ, GPX, GeoJSON lub Google Takeout.';
+
+  @override
+  String get clearList => 'Wyczyść listę';
+
+  @override
+  String get clearListTitle => 'Wyczyść listę';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Usunąć wszystkie $count miejsca z Wrena? Przewodniki już utworzone w Mapach Apple pozostaną bez zmian.',
+      many:
+          'Usunąć wszystkie $count miejsc z Wrena? Przewodniki już utworzone w Mapach Apple pozostaną bez zmian.',
+      few:
+          'Usunąć wszystkie $count miejsca z Wrena? Przewodniki już utworzone w Mapach Apple pozostaną bez zmian.',
+      one:
+          'Usunąć to jedno miejsce z Wrena? Przewodniki już utworzone w Mapach Apple pozostaną bez zmian.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Usuń';
+
+  @override
+  String get listCleared => 'Lista wyczyszczona.';
+
+  @override
+  String get expandingLink => 'Odczytywanie łącza…';
+
+  @override
+  String get linkUnreachable =>
+      'Nie udało się połączyć z Apple, aby odczytać to łącze. Sprawdź połączenie i spróbuj ponownie.';
+
+  @override
+  String get splitTitle => 'Powstanie więcej niż jeden przewodnik';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Apple ogranicza, ile miejsc może pomieścić jedno łącze do przewodnika. Wren utworzy więc kilka przewodników ($guides), ponumerowanych tak, by kolejność się zachowała, i rozłoży w nich wszystkie miejsca ($count).';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return 'Utwórz przewodniki ($guides)';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return 'Przewodnik $done z $total otwarty. Dotknij, aby utworzyć następny.';
+  }
 }

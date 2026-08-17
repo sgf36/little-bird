@@ -90,5 +90,17 @@
   "lookingUpProgress": "Se caută {done} din {total}…",
   "combineNeedsUnlock": "Ghidul combinat necesită deblocarea.",
   "unlockCombineTitle": "Adaugă într-un ghid pe care îl ai deja",
-  "unlockCombineBody": "{count, plural, =1{Wren va crea un singur ghid care va conține locul deja aflat în al tău, împreună cu cel nou.} few{Wren va crea un singur ghid care va conține cele {count} locuri deja aflate în al tău, împreună cu cele noi.} other{Wren va crea un singur ghid care va conține cele {count} de locuri deja aflate în al tău, împreună cu cele noi.}}"
+  "unlockCombineBody": "{count, plural, =1{Wren va crea un singur ghid care va conține locul deja aflat în al tău, împreună cu cel nou.} few{Wren va crea un singur ghid care va conține cele {count} locuri deja aflate în al tău, împreună cu cele noi.} other{Wren va crea un singur ghid care va conține cele {count} de locuri deja aflate în al tău, împreună cu cele noi.}}",
+  "acceptedFormats": "Citește și o listă exportată din altă aplicație: CSV, KML, KMZ, GPX, GeoJSON sau Google Takeout.",
+  "clearList": "Golește lista",
+  "clearListTitle": "Golește lista",
+  "clearListBody": "{count, plural, =1{Elimini singurul loc din Wren? Ghidurile deja create în Apple Hărți nu sunt afectate.} few{Elimini toate cele {count} locuri din Wren? Ghidurile deja create în Apple Hărți nu sunt afectate.} other{Elimini toate cele {count} de locuri din Wren? Ghidurile deja create în Apple Hărți nu sunt afectate.}}",
+  "clearListConfirm": "Elimină",
+  "listCleared": "Lista a fost golită.",
+  "expandingLink": "Se citește linkul…",
+  "linkUnreachable": "Nu s-a putut contacta Apple pentru a citi acel link. Verifică-ți conexiunea și încearcă din nou.",
+  "splitTitle": "Se vor crea mai multe ghiduri",
+  "splitBody": "Apple limitează câte locuri poate duce un link de ghid. Wren va crea mai multe ghiduri ({guides}), numerotate ca să rămână în ordine, și va împărți între ele toate locurile ({count}).",
+  "splitConfirm": "Creează ghidurile ({guides})",
+  "splitProgress": "Ghidul {done} din {total} a fost deschis. Atinge pentru a-l crea pe următorul."
 }

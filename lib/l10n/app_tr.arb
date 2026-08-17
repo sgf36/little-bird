@@ -90,5 +90,17 @@
   "lookingUpProgress": "{total} mekânın {done} tanesi aranıyor…",
   "combineNeedsUnlock": "Birleşik rehberi oluşturmak için kilidi açman gerekiyor.",
   "unlockCombineTitle": "Zaten sahip olduğun bir rehbere ekle",
-  "unlockCombineBody": "{count, plural, =1{Wren, rehberindeki 1 mekânı yeni mekânla birlikte tek bir rehberde toplayacak.} other{Wren, rehberindeki {count} mekânı yeni mekânlarla birlikte tek bir rehberde toplayacak.}}"
+  "unlockCombineBody": "{count, plural, =1{Wren, rehberindeki 1 mekânı yeni mekânla birlikte tek bir rehberde toplayacak.} other{Wren, rehberindeki {count} mekânı yeni mekânlarla birlikte tek bir rehberde toplayacak.}}",
+  "acceptedFormats": "Başka bir uygulamadan aktarılan listeleri de okur: CSV, KML, KMZ, GPX, GeoJSON ya da Google Takeout.",
+  "clearList": "Listeyi boşalt",
+  "clearListTitle": "Listeyi boşalt",
+  "clearListBody": "{count, plural, =1{O 1 mekân Wren'den kaldırılsın mı? Apple Harita'da oluşturduğun rehberler etkilenmez.} other{{count} mekânın tümü Wren'den kaldırılsın mı? Apple Harita'da oluşturduğun rehberler etkilenmez.}}",
+  "clearListConfirm": "Kaldır",
+  "listCleared": "Liste boşaltıldı.",
+  "expandingLink": "O bağlantı okunuyor…",
+  "linkUnreachable": "O bağlantıyı okumak için Apple'a ulaşılamadı. İnternet bağlantını kontrol edip yeniden dene.",
+  "splitTitle": "Bu, birden fazla rehber oluşturacak",
+  "splitBody": "Bir rehber bağlantısının taşıyabileceği mekân sayısını Apple sınırlıyor. Wren, sırası korunsun diye numaralandırılmış {guides} rehber oluşturacak ve {count} mekânı bunlara bölüştürecek.",
+  "splitConfirm": "{guides} rehber oluştur",
+  "splitProgress": "{total} rehberin {done} tanesi açıldı. Sonrakini oluşturmak için dokun."
 }

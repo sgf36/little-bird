@@ -415,4 +415,58 @@ class LHu extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get acceptedFormats =>
+      'Más appból exportált listát is beolvas: CSV, KML, KMZ, GPX, GeoJSON vagy Google Takeout.';
+
+  @override
+  String get clearList => 'Lista kiürítése';
+
+  @override
+  String get clearListTitle => 'Lista kiürítése';
+
+  @override
+  String clearListBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Eltávolítod mind a $count helyet a Wrenből? Az Apple Térképekben már elkészült útikalauzokat ez nem érinti.',
+      one:
+          'Eltávolítod azt az 1 helyet a Wrenből? Az Apple Térképekben már elkészült útikalauzokat ez nem érinti.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clearListConfirm => 'Eltávolítás';
+
+  @override
+  String get listCleared => 'A lista kiürítve.';
+
+  @override
+  String get expandingLink => 'A hivatkozás beolvasása…';
+
+  @override
+  String get linkUnreachable =>
+      'Nem sikerült elérni az Apple-t a hivatkozás beolvasásához. Ellenőrizd a kapcsolatot, és próbáld újra.';
+
+  @override
+  String get splitTitle => 'Ez több útikalauzt készít';
+
+  @override
+  String splitBody(int guides, int count) {
+    return 'Az Apple korlátozza, hogy egy útikalauz-hivatkozás hány helyet vihet. A Wren $guides útikalauzt készít, megszámozva, hogy sorrendben maradjanak, és ezek együtt $count helyet tartalmaznak.';
+  }
+
+  @override
+  String splitConfirm(int guides) {
+    return '$guides útikalauz készítése';
+  }
+
+  @override
+  String splitProgress(int done, int total) {
+    return '$done / $total útikalauz megnyitva. Koppints a következő elkészítéséhez.';
+  }
 }

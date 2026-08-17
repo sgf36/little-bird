@@ -90,5 +90,17 @@
   "lookingUpProgress": "Etsitään {done} / {total}…",
   "combineNeedsUnlock": "Yhdistetyn oppaan luominen edellyttää avaamista.",
   "unlockCombineTitle": "Lisää oppaaseen, joka sinulla jo on",
-  "unlockCombineBody": "{count, plural, one{Wren luo yhden oppaan, joka sisältää sekä oppaassasi jo olevan paikan että uuden.} other{Wren luo yhden oppaan, joka sisältää sekä ne {count} paikkaa, jotka oppaassasi jo ovat, että uudet.}}"
+  "unlockCombineBody": "{count, plural, one{Wren luo yhden oppaan, joka sisältää sekä oppaassasi jo olevan paikan että uuden.} other{Wren luo yhden oppaan, joka sisältää sekä ne {count} paikkaa, jotka oppaassasi jo ovat, että uudet.}}",
+  "acceptedFormats": "Lukee myös toisesta appista viedyn listan: CSV, KML, KMZ, GPX, GeoJSON tai Google Takeout.",
+  "clearList": "Tyhjennä lista",
+  "clearListTitle": "Tyhjennä lista",
+  "clearListBody": "{count, plural, one{Poistetaanko tämä yksi paikka Wrenistä? Apple Kartoissa jo tehdyt oppaat eivät muutu.} other{Poistetaanko kaikki {count} paikkaa Wrenistä? Apple Kartoissa jo tehdyt oppaat eivät muutu.}}",
+  "clearListConfirm": "Poista",
+  "listCleared": "Lista tyhjennetty.",
+  "expandingLink": "Luetaan linkkiä…",
+  "linkUnreachable": "Appleen ei saatu yhteyttä linkin lukemista varten. Tarkista yhteytesi ja yritä uudelleen.",
+  "splitTitle": "Tästä tulee useampi kuin yksi opas",
+  "splitBody": "Apple rajoittaa, montako paikkaa yhteen opaslinkkiin mahtuu. Wren tekee {guides} opasta, numeroituna niin että järjestys säilyy, ja niissä on yhteensä {count} paikkaa.",
+  "splitConfirm": "Luo {guides} opasta",
+  "splitProgress": "Opas {done} / {total} avattu. Napauta, niin luodaan seuraava."
 }

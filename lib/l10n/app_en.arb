@@ -333,5 +333,63 @@
   "@unlockCombineBody": {
     "description": "What the purchase buys, on the sheet above. Describes the combined guide, and 'yours' means the guide the user already keeps in Apple Maps.",
     "placeholders": { "count": { "type": "int" } }
+  },
+
+  "acceptedFormats": "Also reads a list exported from another app: CSV, KML, KMZ, GPX, GeoJSON or Google Takeout.",
+  "@acceptedFormats": {
+    "description": "Shown on the empty main screen so the file formats are discoverable without opening a menu. The format names are file types and stay in Latin letters."
+  },
+
+  "clearList": "Clear the list",
+  "@clearList": {
+    "description": "Menu item that removes every place from the app's list."
+  },
+  "clearListTitle": "Clear the list",
+  "@clearListTitle": { "description": "Title of the confirmation dialog." },
+  "clearListBody": "{count, plural, =1{Remove the one place from Wren? Guides already made in Apple Maps are not affected.} other{Remove all {count} places from Wren? Guides already made in Apple Maps are not affected.}}",
+  "@clearListBody": {
+    "description": "Confirmation before clearing. The second sentence matters: clearing the app's list does not delete anything from Apple Maps, and users reasonably fear that it might.",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "clearListConfirm": "Clear",
+  "@clearListConfirm": {
+    "description": "The button that does it. Short, and not the same word as the menu item so the dialog does not read as an echo."
+  },
+  "listCleared": "List cleared.",
+  "@listCleared": { "description": "Confirmation after clearing." },
+
+  "expandingLink": "Reading that link…",
+  "@expandingLink": {
+    "description": "Shown while a short Apple Maps link is being expanded, which is a network request and so not instant."
+  },
+  "linkUnreachable": "Could not reach Apple to read that link. Check your connection and try again.",
+  "@linkUnreachable": {
+    "description": "The short link could not be expanded because the network was unavailable."
+  },
+
+  "splitTitle": "This will make more than one guide",
+  "@splitTitle": {
+    "description": "Title of the dialog shown when there are more places than one Apple Maps guide link can carry."
+  },
+  "splitBody": "Apple limits how many places one guide link can carry. Wren will make {guides} guides, numbered so they stay in order, holding {count} places between them.",
+  "@splitBody": {
+    "description": "Explains why several guides appear instead of one. A limit in Apple Maps, not in this app.",
+    "placeholders": {
+      "guides": { "type": "int" },
+      "count": { "type": "int" }
+    }
+  },
+  "splitConfirm": "Make {guides} guides",
+  "@splitConfirm": {
+    "description": "Confirming button on the dialog above.",
+    "placeholders": { "guides": { "type": "int" } }
+  },
+  "splitProgress": "Guide {done} of {total} opened. Tap to make the next.",
+  "@splitProgress": {
+    "description": "Shown after each guide is handed to Apple Maps, because Maps can only be given one at a time and the user has to come back to Wren in between.",
+    "placeholders": {
+      "done": { "type": "int" },
+      "total": { "type": "int" }
+    }
   }
 }
