@@ -17,6 +17,8 @@ library;
 
 import 'dart:io';
 
+import 'package:flutter/foundation.dart' show visibleForTesting;
+
 class LinkExpandFailed implements Exception {
   final String message;
 
@@ -37,10 +39,16 @@ abstract class LinkExpander {
 }
 
 class HttpLinkExpander implements LinkExpander {
-  HttpLinkExpander({Duration? timeout})
+  HttpLinkExpander({Duration? timeout, this.allowAnyHost = false})
     : timeout = timeout ?? const Duration(seconds: 12);
 
   final Duration timeout;
+
+  /// Only for the test that stands a fake Apple in front of this on loopback.
+  /// The host guard is the reason a pasted link cannot turn this app into a
+  /// fetch-anything tool, so it is off by default and named plainly.
+  @visibleForTesting
+  final bool allowAnyHost;
 
   /// Apple's short-link hosts. Checked before any request is made, so a pasted
   /// link cannot make this app fetch an arbitrary URL.
@@ -49,14 +57,22 @@ class HttpLinkExpander implements LinkExpander {
   @override
   Future<String> expand(String shortLink) async {
     final uri = Uri.tryParse(shortLink.trim());
-    if (uri == null || !_allowedHosts.contains(uri.host.toLowerCase())) {
+    if (uri == null ||
+        (!allowAnyHost && !_allowedHosts.contains(uri.host.toLowerCase()))) {
       throw LinkExpandFailed('not an Apple Maps link');
     }
 
     final client = HttpClient()..connectionTimeout = timeout;
     try {
-      final request = await client.headUrl(uri).timeout(timeout);
-      // The point of the exercise: read the header, do not chase it.
+      // GET, not HEAD. Apple's short-link service answers HEAD with **404** and
+      // GET with the 301 — verified against two real links. Using HEAD made a
+      // perfectly good guide link report "that link did not redirect", which the
+      // UI turned into "not an Apple Maps guide link", sending the user off to
+      // look for a different link that does not exist.
+      //
+      // Nothing is downloaded by this: the redirect carries Content-Length 0 and
+      // the body is drained without being read, because followRedirects is off.
+      final request = await client.getUrl(uri).timeout(timeout);
       request.followRedirects = false;
       request.headers.set(HttpHeaders.userAgentHeader, 'Wren');
       final response = await request.close().timeout(timeout);
