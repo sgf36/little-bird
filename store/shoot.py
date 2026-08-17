@@ -457,27 +457,40 @@ def shoot_app(udid, out_dir, language, locale, settle, app_tmp, first=False):
     taken = []
     for scene in SCENES:
         out = out_dir / f"{scene}.png"
-        run("xcrun", "simctl", "terminate", udid, BUNDLE, check=False,
-            quiet=True)
-        named = name_scene(app_tmp, scene)
-        env = {"SIMCTL_CHILD_WREN_SCENE": scene}
-        cmd = ["xcrun", "simctl", "launch", udid, BUNDLE,
-               "-AppleLanguages", f"({language})", "-AppleLocale", locale]
-        if VERBOSE:
-            say(f"$ SIMCTL_CHILD_WREN_SCENE={scene} {' '.join(cmd)}", indent=2)
-        r = subprocess.run(cmd, capture_output=True, text=True,
-                           env={**_environ(), **env})
-        if r.returncode != 0:
-            sys.exit(f"launch failed for {scene}: {r.stderr.strip()}")
-        if VERBOSE and r.stdout.strip():
-            say(f"out| {r.stdout.strip()[:160]}", indent=3)
-        _sleep(settle)
-        run("xcrun", "simctl", "io", udid, "screenshot", "--type=png", str(out))
+        # Up to three goes, each waiting longer. A frame taken before the app
+        # has drawn is white, and on the run of 17 August 2026 exactly two of
+        # sixty came out that way while the same scenes rendered in the other
+        # eight languages. That is a race, not a broken scene, and failing a
+        # forty-six-minute run over it wastes the other fifty-eight images.
+        for attempt in range(3):
+            run("xcrun", "simctl", "terminate", udid, BUNDLE, check=False,
+                quiet=True)
+            named = name_scene(app_tmp, scene)
+            env = {"SIMCTL_CHILD_WREN_SCENE": scene}
+            cmd = ["xcrun", "simctl", "launch", udid, BUNDLE,
+                   "-AppleLanguages", f"({language})", "-AppleLocale", locale]
+            if VERBOSE:
+                say(f"$ SIMCTL_CHILD_WREN_SCENE={scene} {' '.join(cmd)}",
+                    indent=2)
+            r = subprocess.run(cmd, capture_output=True, text=True,
+                               env={**_environ(), **env})
+            if r.returncode != 0:
+                sys.exit(f"launch failed for {scene}: {r.stderr.strip()}")
+            if VERBOSE and r.stdout.strip():
+                say(f"out| {r.stdout.strip()[:160]}", indent=3)
+            _sleep(settle * (attempt + 1))
+            run("xcrun", "simctl", "io", udid, "screenshot", "--type=png",
+                str(out))
+            flat = uniformity(out)
+            if flat <= 0.92:
+                break
+            say(f"{scene} came out {flat:.0%} one colour — the app had not "
+                f"drawn. Retaking with {settle * (attempt + 2):.0f}s to settle.",
+                indent=1)
         taken.append(out)
 
-        # Every frame gets a verdict as it is taken, rather than sixty-four of
-        # them at the end. Flatness is the tell for a scene that did not draw.
-        flat = uniformity(out)
+        # Every frame gets a verdict as it is taken, rather than sixty of them
+        # at the end. Flatness is the tell for a scene that did not draw.
         size = png_size(out)
         say(f"{scene}  {size[0]}x{size[1]}  {flat:.0%} one colour"
             f"{'  scene file written' if named else '  NO scene file'}",
