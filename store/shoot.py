@@ -16,7 +16,10 @@ The three things this script is careful about, each learned the hard way:
   * **Size is verified, not assumed.** Simulator names move between Xcode
     versions, so rather than trusting "iPhone 16 Plus" to be 1290x2796 it takes
     a screenshot and reads the dimensions out of the PNG header. A wrong device
-    fails here rather than at upload with IMAGE_INCORRECT_DIMENSIONS.
+    fails here rather than at upload with IMAGE_INCORRECT_DIMENSIONS. This is
+    not hypothetical: **Xcode 26 ships no 6.7-inch iPhone at all**, so the size
+    the App Store still demands cannot be produced natively any more and the
+    images are downscaled from 1320x2868 instead. See [boot_simulator].
   * **A blank or duplicated frame fails the run.** The specific disaster is a
     run that photographs the home screen six times because the app crashed on
     launch, verifies nothing, uploads, and reports success. Every image is
@@ -139,13 +142,7 @@ def png_size(path):
 
 
 def iphones():
-    """Every available iPhone simulator, most promising first.
-
-    Enumerated rather than hardcoded. Xcode's simulator lineup changes with every
-    release, and a fixed list of names silently matched nothing on macos-26 —
-    which produced "no simulator shoots 1290x2796" without saying that no
-    candidate had even been found.
-    """
+    """Every available iPhone simulator, most promising first."""
     r = run("xcrun", "simctl", "list", "devices", "available", "-j", quiet=True)
     try:
         data = json.loads(r.stdout)
@@ -156,55 +153,152 @@ def iphones():
         if "iOS" not in runtime:
             continue
         for d in devices:
-            if not d.get("isAvailable", True):
+            if not d.get("isAvailable", True) or "iPhone" not in d.get("name", ""):
                 continue
-            name = d.get("name", "")
-            if "iPhone" not in name:
-                continue
-            found.append((name, d["udid"]))
-    # Bigger phones first, then newest-looking names, so the right size is
-    # usually the first probe rather than the twentieth.
+            found.append((d["name"], d["udid"]))
     found.sort(key=lambda nu: (
-        0 if any(p in nu[0] for p in PREFERRED) else 1, nu[0]), reverse=False)
+        0 if any(x in nu[0] for x in PREFERRED) else 1, nu[0]))
     return found
 
 
-def boot_simulator():
-    """Boots a device whose screenshots are a size the App Store accepts.
+def creatable_sixty_sevens():
+    """Device TYPES Xcode knows that might shoot 6.7-inch, even if none exists.
 
-    The size is measured from a real screenshot rather than inferred from the
-    device name, because the name is not a promise and a wrong size fails at
-    upload with IMAGE_INCORRECT_DIMENSIONS and nothing to say which file.
+    The runner pre-creates a handful of devices; Xcode usually knows more types
+    than it instantiates. Worth trying before resorting to scaling, because a
+    native screenshot beats a resampled one.
+    """
+    r = run("xcrun", "simctl", "list", "devicetypes", "-j", quiet=True)
+    try:
+        types = json.loads(r.stdout).get("devicetypes") or []
+    except json.JSONDecodeError:
+        return []
+    wanted = ("iPhone 16 Plus", "iPhone 15 Plus", "iPhone 14 Plus",
+              "iPhone 15 Pro Max", "iPhone 14 Pro Max", "iPhone 16 Pro Max")
+    out = []
+    for name in wanted:
+        for t in types:
+            if t.get("name") == name:
+                out.append((name, t["identifier"]))
+                break
+    return out
+
+
+def newest_runtime():
+    r = run("xcrun", "simctl", "list", "runtimes", "-j", quiet=True)
+    try:
+        runtimes = json.loads(r.stdout).get("runtimes") or []
+    except json.JSONDecodeError:
+        return None
+    ios = [rt for rt in runtimes
+           if rt.get("isAvailable") and "iOS" in rt.get("name", "")]
+    return ios[-1]["identifier"] if ios else None
+
+
+def measure(udid):
+    """Boot a device and report what its screenshots actually measure."""
+    run("xcrun", "simctl", "boot", udid, check=False, quiet=True)
+    run("xcrun", "simctl", "bootstatus", udid, "-b", check=False, quiet=True)
+    probe = SHOTS / "_probe.png"
+    probe.parent.mkdir(parents=True, exist_ok=True)
+    run("xcrun", "simctl", "io", udid, "screenshot", "--type=png", str(probe),
+        check=False, quiet=True)
+    size = png_size(probe) if probe.exists() else None
+    probe.unlink(missing_ok=True)
+    return size
+
+
+def boot_simulator():
+    """A simulator to shoot on, and the size the images must end up.
+
+    Three routes, best result first:
+
+      1. A device that already shoots a size the App Store accepts.
+      2. A 6.7-inch device TYPE Xcode knows, created on the spot.
+      3. The largest device available, with the images scaled afterwards.
+
+    Route 3 exists because Xcode 26 ships **no** 6.7-inch iPhone at all — the
+    lineup measures 1320x2868, 1260x2736, 1206x2622 and 1170x2532 — while the
+    App Store's largest iPhone slot is still APP_IPHONE_67 at 1290x2796,
+    confirmed against the live API on 17 August 2026. No device satisfies it any
+    more, so something has to be resampled, and a 1320x2868 downscale is the
+    closest available: 0.24% of aspect drift, which is invisible.
     """
     candidates = iphones()
     if not candidates:
         sys.exit("no iPhone simulators are available on this runner")
-    print(f"{len(candidates)} iPhone simulators available; probing for "
+    print(f"{len(candidates)} iPhone simulators available; want "
           f"{' or '.join(f'{w}x{h}' for w, h in WANT)}")
 
-    tried = []
+    tried, seen = [], set()
     for name, udid in candidates:
-        run("xcrun", "simctl", "boot", udid, check=False, quiet=True)
-        run("xcrun", "simctl", "bootstatus", udid, "-b", check=False, quiet=True)
-        probe = SHOTS / "_probe.png"
-        probe.parent.mkdir(parents=True, exist_ok=True)
-        run("xcrun", "simctl", "io", udid, "screenshot", "--type=png",
-            str(probe), check=False, quiet=True)
-        size = png_size(probe) if probe.exists() else None
-        probe.unlink(missing_ok=True)
+        if name in seen:
+            continue
+        seen.add(name)
+        size = measure(udid)
         tried.append((name, size))
         if size in WANT:
-            print(f"simulator: {name} ({udid}) at {size[0]}x{size[1]}")
-            return udid, size
-        print(f"  {name} shoots {size} — not it")
+            print(f"native: {name} at {size[0]}x{size[1]}")
+            return udid, size, size
         run("xcrun", "simctl", "shutdown", udid, check=False, quiet=True)
 
-    print("\nevery available iPhone and what it shoots:")
+    print("\nno device shoots it natively:")
     for name, size in tried:
-        print(f"  {name:<28} {size}")
-    sys.exit(
-        f"none of them shoots {' or '.join(f'{w}x{h}' for w, h in WANT)}, "
-        f"which the App Store's APP_IPHONE_67 slot requires.")
+        print(f"  {name:<24} {size}")
+
+    runtime = newest_runtime()
+    for name, identifier in creatable_sixty_sevens():
+        if runtime is None:
+            break
+        print(f"\ncreating {name} to try for a native size...")
+        made = run("xcrun", "simctl", "create", "wren-shots", identifier,
+                   runtime, check=False, quiet=True)
+        udid = made.stdout.strip()
+        if not udid:
+            print(f"  could not create {name}")
+            continue
+        size = measure(udid)
+        if size in WANT:
+            print(f"native: {name} at {size[0]}x{size[1]} (created)")
+            return udid, size, size
+        print(f"  {name} shoots {size} - not it")
+        run("xcrun", "simctl", "shutdown", udid, check=False, quiet=True)
+        run("xcrun", "simctl", "delete", udid, check=False, quiet=True)
+
+    biggest = max((t for t in tried if t[1]), key=lambda t: t[1][0] * t[1][1],
+                  default=None)
+    if biggest is None:
+        sys.exit("no simulator produced a screenshot at all")
+    name, native = biggest
+    udid = next(u for n, u in candidates if n == name)
+    target = min(WANT, key=lambda w: abs(w[0] / w[1] - native[0] / native[1]))
+    drift = abs((native[0] / native[1]) - (target[0] / target[1]))
+    drift = drift / (target[0] / target[1])
+    if drift > 0.01:
+        sys.exit(
+            f"the closest device is {name} at {native[0]}x{native[1]}, which is "
+            f"{drift:.1%} off {target[0]}x{target[1]} in aspect ratio. Scaling "
+            f"that would visibly distort or letterbox the images, and a padded "
+            f"store screenshot looks like a mistake, so this stops here.")
+    print(f"\nscaling: {name} shoots {native[0]}x{native[1]}; images will be "
+          f"resampled to {target[0]}x{target[1]} ({drift:.2%} aspect drift)")
+    measure(udid)
+    return udid, native, target
+
+
+def scale_to(path, target):
+    """Resample one screenshot to the size the App Store wants.
+
+    LANCZOS, and only ever downwards - upscaling invents detail a reviewer can
+    see. Overwritten in place, because a directory holding two sizes is a
+    directory something uploads the wrong one from.
+    """
+    from PIL import Image
+    with Image.open(path) as im:
+        if im.size == tuple(target):
+            return
+        out = im.convert("RGB").resize(tuple(target), Image.LANCZOS)
+    out.save(path, "PNG", optimize=True)
 
 
 def set_language(udid, language, locale):
@@ -391,8 +485,8 @@ def main():
     if not app.exists():
         sys.exit(f"no app at {app}")
 
-    udid, size = boot_simulator()
-    print(f"all screenshots will be {size[0]}x{size[1]}")
+    udid, native, target = boot_simulator()
+    print(f"all screenshots will be {target[0]}x{target[1]}")
     run("xcrun", "simctl", "install", udid, str(app))
     clean_status_bar(udid)
 
@@ -415,7 +509,10 @@ def main():
             else:
                 skipped_maps.append(asc)
 
-        if not verify(paths, asc, size):
+        if native != target:
+            for shot in paths:
+                scale_to(shot, target)
+        if not verify(paths, asc, target):
             failures.append(asc)
 
     print()
