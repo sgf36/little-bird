@@ -133,12 +133,18 @@ Also probably the explanation for the original "60 places fails" observation:
 sixty copies of one muid parses as sixty places but renders eight distinct ones
 and a page a ninth the size. That test was measuring muid validity, not count.
 
-**Still outstanding: one device check.** The server parses the lean payload; the
-server is not the Maps app, and a coordinate-only payload renders fine on the web
-and opens empty on a phone — which is how this project was misled once already.
-Five tappable links are in the artifact handed to Spencer. If the lean encoding
-misbehaves, `buildLegacyVerifiedLink` is the exact byte sequence confirmed on a
-device, and the cap goes back to 50.
+**Confirmed on a device**, 17 August 2026. Five links were opened on an iPhone:
+5 places lean opened with all five and every field filled in by Apple; 5 places
+with our own names opened identically, so the names were doing nothing; 82 lean
+opened as 80; 150 lean opened as 148; 160 gave Apple's "Coming Soon" page. The
+device boundary is exactly where the bisection put it, so the cap stands at 150.
+
+One thing that fell out of it: **Apple silently drops a place whose muid it no
+longer serves.** Both large tests came back exactly two short, from a set drawn
+from one real 82-place guide — so two of those places are dead records. Nothing
+in this app can prevent that; the payload is right and Apple has nothing to
+resolve. A republished guide can therefore be smaller than the one it replaces,
+and the missing places were already unreachable in Maps.
 
 ## Two things that will bite whoever picks this up
 

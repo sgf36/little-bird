@@ -81,6 +81,12 @@ class GuidePlace {
 /// figure this file used to carry was never a limit on places at all: it was the
 /// cost of encoding a name with every one of them.
 ///
+/// **Confirmed on a device**, 17 August 2026, which is what the server could not
+/// settle: a 5-place lean link opened with all five places, names, addresses and
+/// categories filled in from Apple's own record; a 150-place lean link opened
+/// with 148; a 160-place one opened Apple's "Coming Soon" page. The device
+/// boundary is exactly where the bisection put it.
+///
 /// 3,400 leaves margin for a long guide name and for percent-encoding expanding
 /// more than expected.
 const int maxUrlChars = 3400;
@@ -151,10 +157,17 @@ List<int> _vintBig(int field, BigInt value) => [
 /// is more than the identifier itself. Dropping them takes an 82-place link from
 /// 4,430 characters to 1,806.
 ///
-/// It also makes this function's output **byte-identical** to what Apple Maps
-/// itself puts in a share link, checked against a real 82-place guide. That is
-/// the strongest evidence available off-device that a link of this shape holds
-/// far more than the fifty places previously assumed.
+/// Confirmed on a device: a link built this way opens with every place present
+/// and with the name, address, category, opening hours and photo all supplied by
+/// Apple. Sending our own names changed nothing, which is what makes them
+/// decoration rather than data.
+///
+/// **Apple silently drops a place whose muid it no longer serves.** An 82-place
+/// payload built from a real guide opened as 80, and a 150-place one as 148 —
+/// consistently two short, on a set drawn from one real guide. Nothing here can
+/// prevent it: the payload is correct and Apple simply has no record to resolve.
+/// Worth knowing because a republished guide can come back smaller than the one
+/// it replaced, and the missing places were already unreachable.
 List<int> _encodeLocation(GuidePlace place, {required bool withNames}) => [
   ..._vint(1, _lspAppleMaps),
   ..._vintBig(2, place.id.value),
