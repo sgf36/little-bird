@@ -270,4 +270,153 @@ class LMr extends L {
   @override
   String get compUntrusted =>
       'त्या उत्तराची खात्री करता आली नाही, त्यामुळे काहीही अनलॉक झालं नाही.';
+
+  @override
+  String get addPlaces => 'जोडा';
+
+  @override
+  String get fromFile => 'फाइलमधून';
+
+  @override
+  String get fromExistingGuide => 'आधीच्या मार्गदर्शिकेतून';
+
+  @override
+  String get importGuideTitle => 'आधीच्या मार्गदर्शिकेत जोडा';
+
+  @override
+  String get importGuideBody =>
+      'Apple Maps मध्ये मार्गदर्शिका उघडून ती शेअर करा, नंतर “लिंक कॉपी करा” निवडा. ती खाली पेस्ट करा, Wren त्यात आधीपासून असलेली ठिकाणं वाचून घेईल.';
+
+  @override
+  String get guideLinkLabel => 'मार्गदर्शिकेची लिंक';
+
+  @override
+  String get readGuide => 'मार्गदर्शिका वाचा';
+
+  @override
+  String get importGuideNotALink =>
+      'ही Apple Maps मार्गदर्शिकेची लिंक नाही. मार्गदर्शिका Maps मध्ये उघडा, शेअर करा, नंतर “लिंक कॉपी करा” निवडा.';
+
+  @override
+  String get importGuideNothing =>
+      'त्या मार्गदर्शिकेत Wren जोडू शकेल असं काहीच नाही.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'त्या मार्गदर्शिकेतून $count ठिकाणं वाचली',
+      one: 'त्या मार्गदर्शिकेतून १ ठिकाण वाचलं',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'त्यातली $count ठिकाणं नव्या मार्गदर्शिकेत नेता येत नाहीत',
+      one: 'त्यातलं १ ठिकाण नव्या मार्गदर्शिकेत नेता येत नाही',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ठिकाणं आधीपासून या मार्गदर्शिकेत',
+      one: '१ ठिकाण आधीपासून या मार्गदर्शिकेत',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return '“$name” मधून';
+  }
+
+  @override
+  String get republishTitle => 'Maps नवी मार्गदर्शिका तयार करतं';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'आधीपासून असलेल्या मार्गदर्शिकेत भर घालण्याचा कोणताही मार्ग Apple देत नाही, म्हणून Wren सगळी $count ठिकाणं असलेली नवी मार्गदर्शिका तयार करेल.',
+      one:
+          'आधीपासून असलेल्या मार्गदर्शिकेत भर घालण्याचा कोणताही मार्ग Apple देत नाही, म्हणून Wren १ ठिकाण असलेली नवी मार्गदर्शिका तयार करेल.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete =>
+      'नवी मार्गदर्शिका ठेवा आणि जुनी काढून टाका.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren ही ठिकाणं जपून ठेवतो, म्हणून काही चुकलं तर मार्गदर्शिका पुन्हा तयार करता येते.';
+
+  @override
+  String get makeCombinedGuide => 'एकत्रित मार्गदर्शिका तयार करा';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'त्या फाइलमधून $count ठिकाणं वाचली',
+      one: 'त्या फाइलमधून १ ठिकाण वाचलं',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ओळींमध्ये नाव नव्हतं',
+      one: '१ ओळीत नाव नव्हतं',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'त्या फाइलमध्ये एकही ठिकाण नाही.';
+
+  @override
+  String get fileUnreadable =>
+      'Wren ती फाइल वाचू शकला नाही. तो CSV, KML, KMZ, GPX, GeoJSON आणि Google Takeout एक्सपोर्ट वाचतो.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return '$total पैकी $done शोधत आहे…';
+  }
+
+  @override
+  String get combineNeedsUnlock =>
+      'एकत्रित मार्गदर्शिका तयार करण्यासाठी अनलॉक आवश्यक आहे.';
+
+  @override
+  String get unlockCombineTitle => 'तुमच्या आधीच्या मार्गदर्शिकेत जोडा';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren एकच मार्गदर्शिका तयार करेल, ज्यात तुमच्या मार्गदर्शिकेतली $count ठिकाणं आणि नवी ठिकाणं, दोन्ही असतील.',
+      one:
+          'Wren एकच मार्गदर्शिका तयार करेल, ज्यात तुमच्या मार्गदर्शिकेतलं १ ठिकाण आणि नवं ठिकाण, दोन्ही असतील.',
+    );
+    return '$_temp0';
+  }
 }

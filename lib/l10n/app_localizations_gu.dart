@@ -263,4 +263,153 @@ class LGu extends L {
   @override
   String get compUntrusted =>
       'એ જવાબની ખાતરી થઈ શકી નહીં, એટલે કશું અનલૉક થયું નથી.';
+
+  @override
+  String get addPlaces => 'ઉમેરો';
+
+  @override
+  String get fromFile => 'ફાઇલમાંથી';
+
+  @override
+  String get fromExistingGuide => 'હયાત માર્ગદર્શિકામાંથી';
+
+  @override
+  String get importGuideTitle => 'હયાત માર્ગદર્શિકામાં ઉમેરો';
+
+  @override
+  String get importGuideBody =>
+      'Apple Maps માં માર્ગદર્શિકા ખોલીને શેર કરો, પછી “લિંક કૉપિ કરો” પસંદ કરો. તેને નીચે પેસ્ટ કરો, Wren તેમાં પહેલેથી હોય તે જગ્યાઓ વાંચી લેશે.';
+
+  @override
+  String get guideLinkLabel => 'માર્ગદર્શિકાની લિંક';
+
+  @override
+  String get readGuide => 'માર્ગદર્શિકા વાંચો';
+
+  @override
+  String get importGuideNotALink =>
+      'આ Apple Maps માર્ગદર્શિકાની લિંક નથી. માર્ગદર્શિકા Maps માં ખોલો, શેર કરો, પછી “લિંક કૉપિ કરો” પસંદ કરો.';
+
+  @override
+  String get importGuideNothing =>
+      'એ માર્ગદર્શિકામાં Wren ઉમેરી શકે એવું કશું નથી.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'એ માર્ગદર્શિકામાંથી $count જગ્યાઓ વંચાઈ',
+      one: 'એ માર્ગદર્શિકામાંથી ૧ જગ્યા વંચાઈ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'તેમાંની $count જગ્યાઓ નવી માર્ગદર્શિકામાં લઈ જઈ શકાતી નથી',
+      one: 'તેમાંની ૧ જગ્યા નવી માર્ગદર્શિકામાં લઈ જઈ શકાતી નથી',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count જગ્યાઓ પહેલેથી આ માર્ગદર્શિકામાં',
+      one: '૧ જગ્યા પહેલેથી આ માર્ગદર્શિકામાં',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return '“$name” માંથી';
+  }
+
+  @override
+  String get republishTitle => 'Maps નવી માર્ગદર્શિકા બનાવે છે';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'પહેલેથી હોય તે માર્ગદર્શિકામાં ઉમેરવાનો કોઈ રસ્તો Apple આપતું નથી, એટલે Wren બધી $count જગ્યાઓ વાળી નવી માર્ગદર્શિકા બનાવશે.',
+      one:
+          'પહેલેથી હોય તે માર્ગદર્શિકામાં ઉમેરવાનો કોઈ રસ્તો Apple આપતું નથી, એટલે Wren ૧ જગ્યા વાળી નવી માર્ગદર્શિકા બનાવશે.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete =>
+      'નવી માર્ગદર્શિકા રાખો અને જૂની ભૂંસી નાખો.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren આ જગ્યાઓ સાચવી રાખે છે, એટલે કંઈ ખોટું થાય તો માર્ગદર્શિકા ફરી બનાવી શકાય.';
+
+  @override
+  String get makeCombinedGuide => 'સંયુક્ત માર્ગદર્શિકા બનાવો';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'એ ફાઇલમાંથી $count જગ્યાઓ વંચાઈ',
+      one: 'એ ફાઇલમાંથી ૧ જગ્યા વંચાઈ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count પંક્તિઓમાં નામ નહોતું',
+      one: '૧ પંક્તિમાં નામ નહોતું',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'એ ફાઇલમાં કોઈ જગ્યા નથી.';
+
+  @override
+  String get fileUnreadable =>
+      'Wren એ ફાઇલ વાંચી શક્યું નહીં. તે CSV, KML, KMZ, GPX, GeoJSON અને Google Takeout એક્સપોર્ટ વાંચે છે.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return '$total માંથી $done શોધી રહ્યું છે…';
+  }
+
+  @override
+  String get combineNeedsUnlock =>
+      'સંયુક્ત માર્ગદર્શિકા બનાવવા માટે અનલૉક જરૂરી છે.';
+
+  @override
+  String get unlockCombineTitle => 'તમારી હયાત માર્ગદર્શિકામાં ઉમેરો';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren એક જ માર્ગદર્શિકા બનાવશે, જેમાં તમારી માર્ગદર્શિકાની $count જગ્યાઓ અને નવી જગ્યાઓ, બંને હશે.',
+      one:
+          'Wren એક જ માર્ગદર્શિકા બનાવશે, જેમાં તમારી માર્ગદર્શિકાની ૧ જગ્યા અને નવી જગ્યા, બંને હશે.',
+    );
+    return '$_temp0';
+  }
 }

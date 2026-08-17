@@ -273,4 +273,152 @@ class LMl extends L {
   @override
   String get compUntrusted =>
       'ആ മറുപടി ഉറപ്പാക്കാനായില്ല, അതിനാൽ ഒന്നും അൺലോക്ക് ആയിട്ടില്ല.';
+
+  @override
+  String get addPlaces => 'ചേർക്കുക';
+
+  @override
+  String get fromFile => 'ഒരു ഫയലിൽനിന്ന്';
+
+  @override
+  String get fromExistingGuide => 'നിലവിലുള്ള ഗൈഡിൽനിന്ന്';
+
+  @override
+  String get importGuideTitle => 'നിലവിലുള്ള ഗൈഡിൽ ചേർക്കുക';
+
+  @override
+  String get importGuideBody =>
+      'Apple Maps‌ൽ ഗൈഡ് തുറന്ന് പങ്കിടുക, പിന്നെ ലിങ്ക് പകർത്തുക എന്നത് തിരഞ്ഞെടുക്കുക. അത് താഴെ ഒട്ടിച്ചാൽ, അതിൽ നേരത്തേയുള്ള സ്ഥലങ്ങൾ Wren വായിക്കും.';
+
+  @override
+  String get guideLinkLabel => 'ഗൈഡിന്റെ ലിങ്ക്';
+
+  @override
+  String get readGuide => 'ഗൈഡ് വായിക്കുക';
+
+  @override
+  String get importGuideNotALink =>
+      'അത് Apple Maps ഗൈഡിന്റെ ലിങ്ക് അല്ല. Maps‌ൽ ഗൈഡ് തുറന്ന് പങ്കിട്ട്, പിന്നെ ലിങ്ക് പകർത്തുക എന്നത് തിരഞ്ഞെടുക്കുക.';
+
+  @override
+  String get importGuideNothing =>
+      'ആ ഗൈഡിൽ Wren‌ന് ചേർക്കാനാവുന്നത് ഒന്നുമില്ല.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ആ ഗൈഡിൽനിന്ന് $count സ്ഥലങ്ങൾ വായിച്ചു',
+      one: 'ആ ഗൈഡിൽനിന്ന് 1 സ്ഥലം വായിച്ചു',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'അതിലെ $count സ്ഥലങ്ങൾ പുതിയതിലേക്ക് കൊണ്ടുപോകാനാവില്ല',
+      one: 'അതിലെ 1 സ്ഥലം പുതിയതിലേക്ക് കൊണ്ടുപോകാനാവില്ല',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count സ്ഥലങ്ങൾ ഈ ഗൈഡിൽ നേരത്തേതന്നെയുണ്ട്',
+      one: '1 സ്ഥലം ഈ ഗൈഡിൽ നേരത്തേതന്നെയുണ്ട്',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return '“$name” ഗൈഡിൽനിന്ന്';
+  }
+
+  @override
+  String get republishTitle => 'Maps പുതിയ ഗൈഡ് ഉണ്ടാക്കും';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'നിലവിലുള്ള ഗൈഡിൽ ചേർക്കാൻ Apple വഴിയൊന്നും തരുന്നില്ല, അതിനാൽ $count സ്ഥലങ്ങളും ഉൾപ്പെടുന്ന പുതിയൊന്ന് Wren ഉണ്ടാക്കും.',
+      one:
+          'നിലവിലുള്ള ഗൈഡിൽ ചേർക്കാൻ Apple വഴിയൊന്നും തരുന്നില്ല, അതിനാൽ ആ 1 സ്ഥലം ഉൾപ്പെടുന്ന പുതിയൊന്ന് Wren ഉണ്ടാക്കും.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => 'പുതിയ ഗൈഡ് വെച്ചിട്ട് പഴയത് നീക്കുക.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'ഈ സ്ഥലങ്ങൾ Wren സൂക്ഷിക്കും, അതിനാൽ എന്തെങ്കിലും പിഴച്ചാൽ ഗൈഡ് വീണ്ടും ഉണ്ടാക്കാം.';
+
+  @override
+  String get makeCombinedGuide => 'കൂട്ടിച്ചേർത്ത ഗൈഡ് ഉണ്ടാക്കുക';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ആ ഫയലിൽനിന്ന് $count സ്ഥലങ്ങൾ വായിച്ചു',
+      one: 'ആ ഫയലിൽനിന്ന് 1 സ്ഥലം വായിച്ചു',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count വരികളിൽ പേരില്ലായിരുന്നു',
+      one: '1 വരിയിൽ പേരില്ലായിരുന്നു',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'ആ ഫയലിൽ സ്ഥലങ്ങളില്ല.';
+
+  @override
+  String get fileUnreadable =>
+      'ആ ഫയൽ Wren‌ന് വായിക്കാനായില്ല. ഇത് CSV, KML, KMZ, GPX, GeoJSON, Google Takeout ഫയലുകൾ വായിക്കും.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return '$totalൽ $done തിരയുന്നു…';
+  }
+
+  @override
+  String get combineNeedsUnlock =>
+      'കൂട്ടിച്ചേർത്ത ഗൈഡ് ഉണ്ടാക്കാൻ അൺലോക്ക് വേണം.';
+
+  @override
+  String get unlockCombineTitle => 'നിലവിലുള്ള നിങ്ങളുടെ ഗൈഡിൽ ചേർക്കുക';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'നിങ്ങളുടെ ഗൈഡിൽ നേരത്തേയുള്ള $count സ്ഥലങ്ങളും പുതിയ സ്ഥലങ്ങളും ഒന്നിച്ചുള്ള ഒരേയൊരു ഗൈഡ് Wren ഉണ്ടാക്കും.',
+      one:
+          'നിങ്ങളുടെ ഗൈഡിൽ നേരത്തേയുള്ള 1 സ്ഥലവും പുതിയ സ്ഥലവും ഒന്നിച്ചുള്ള ഒരേയൊരു ഗൈഡ് Wren ഉണ്ടാക്കും.',
+    );
+    return '$_temp0';
+  }
 }

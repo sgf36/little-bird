@@ -16,7 +16,9 @@ void main() {
         find.textContaining('Screenshot what people tell you about'),
         findsOneWidget,
       );
-      expect(find.text('Add screenshots'), findsOneWidget);
+      // "Add", not "Add screenshots": screenshots are now one of three sources,
+      // alongside a file and an existing guide, so the button opens a menu.
+      expect(find.text('Add'), findsOneWidget);
 
       final publish = tester.widget<FilledButton>(
         find.ancestor(

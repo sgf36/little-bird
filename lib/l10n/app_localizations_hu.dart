@@ -266,4 +266,153 @@ class LHu extends L {
   @override
   String get compUntrusted =>
       'A válasz nem volt ellenőrizhető, ezért semmi nem oldódott fel.';
+
+  @override
+  String get addPlaces => 'Hozzáadás';
+
+  @override
+  String get fromFile => 'Fájlból';
+
+  @override
+  String get fromExistingGuide => 'Meglévő útikalauzból';
+
+  @override
+  String get importGuideTitle => 'Hozzáadás meglévő útikalauzhoz';
+
+  @override
+  String get importGuideBody =>
+      'Az Apple Térképekben nyisd meg az útikalauzt és oszd meg, majd válaszd a Hivatkozás másolása lehetőséget. Illeszd be alább, és a Wren kiolvassa a benne lévő helyeket.';
+
+  @override
+  String get guideLinkLabel => 'Útikalauz hivatkozása';
+
+  @override
+  String get readGuide => 'Útikalauz beolvasása';
+
+  @override
+  String get importGuideNotALink =>
+      'Ez nem Apple Térképek útikalauz-hivatkozás. Nyisd meg az útikalauzt a Térképekben, oszd meg, majd válaszd a Hivatkozás másolása lehetőséget.';
+
+  @override
+  String get importGuideNothing =>
+      'Abban az útikalauzban nincs semmi, amit a Wren hozzá tudna adni.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hely beolvasva abból az útikalauzból',
+      one: '1 hely beolvasva abból az útikalauzból',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hely nem vihető át belőle',
+      one: '1 hely nem vihető át belőle',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hely már szerepel ebben az útikalauzban',
+      one: '1 hely már szerepel ebben az útikalauzban',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return '„$name” útikalauzból';
+  }
+
+  @override
+  String get republishTitle => 'A Térképek új útikalauzt készít';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Az Apple nem ad módot arra, hogy egy meglévő útikalauzhoz helyeket adjunk, ezért a Wren új útikalauzt készít, amelyben mindegyik hely szerepel, összesen $count.',
+      one:
+          'Az Apple nem ad módot arra, hogy egy meglévő útikalauzhoz helyet adjunk, ezért a Wren új útikalauzt készít, amelyben az az 1 hely szerepel.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete =>
+      'Tartsd meg az új útikalauzt, a régit pedig töröld.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'A Wren megőrzi ezeket a helyeket, így ha valami félresikerül, újra elkészítheted az útikalauzt.';
+
+  @override
+  String get makeCombinedGuide => 'Az összevont útikalauz elkészítése';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hely beolvasva abból a fájlból',
+      one: '1 hely beolvasva abból a fájlból',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sorban nem volt név',
+      one: '1 sorban nem volt név',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'Nincs hely abban a fájlban.';
+
+  @override
+  String get fileUnreadable =>
+      'A Wren nem tudta beolvasni azt a fájlt. CSV-, KML-, KMZ-, GPX-, GeoJSON- és Google Takeout-fájlokat olvas.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return '$done / $total keresése…';
+  }
+
+  @override
+  String get combineNeedsUnlock =>
+      'Az összevont útikalauz elkészítéséhez feloldás kell.';
+
+  @override
+  String get unlockCombineTitle => 'Hozzáadás a saját útikalauzodhoz';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'A Wren egyetlen útikalauzt készít, amelyben a sajátodban már meglévő $count hely és az új helyek együtt szerepelnek.',
+      one:
+          'A Wren egyetlen útikalauzt készít, amelyben a sajátodban már meglévő 1 hely és az új hely együtt szerepel.',
+    );
+    return '$_temp0';
+  }
 }

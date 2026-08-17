@@ -272,4 +272,160 @@ class LHr extends L {
   @override
   String get compUntrusted =>
       'Taj odgovor nije bilo moguće provjeriti pa ništa nije otključano.';
+
+  @override
+  String get addPlaces => 'Dodaj';
+
+  @override
+  String get fromFile => 'Iz datoteke';
+
+  @override
+  String get fromExistingGuide => 'Iz postojećeg vodiča';
+
+  @override
+  String get importGuideTitle => 'Dodaj u postojeći vodič';
+
+  @override
+  String get importGuideBody =>
+      'U Apple Kartama otvori vodič, podijeli ga i odaberi Kopiraj link. Zalijepi ga niže i Wren će pročitati mjesta koja su već u njemu.';
+
+  @override
+  String get guideLinkLabel => 'Link do vodiča';
+
+  @override
+  String get readGuide => 'Pročitaj vodič';
+
+  @override
+  String get importGuideNotALink =>
+      'To nije link vodiča Apple Karata. Otvori vodič u Kartama, podijeli ga i odaberi Kopiraj link.';
+
+  @override
+  String get importGuideNothing =>
+      'U tom vodiču nema ničega što bi Wren mogao prenijeti.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Pročitano $count mjesta iz tog vodiča',
+      few: 'Pročitana $count mjesta iz tog vodiča',
+      one: 'Pročitano $count mjesto iz tog vodiča',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mjesta iz njega nije moguće prenijeti',
+      few: '$count mjesta iz njega nije moguće prenijeti',
+      one: '$count mjesto iz njega nije moguće prenijeti',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mjesta već u ovom vodiču',
+      few: '$count mjesta već u ovom vodiču',
+      one: '$count mjesto već u ovom vodiču',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return 'Iz „$name”';
+  }
+
+  @override
+  String get republishTitle => 'Karte prave novi vodič';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Apple ne omogućuje dodavanje u vodič koji već postoji, pa će Wren napraviti novi koji sadrži svih $count mjesta.',
+      few:
+          'Apple ne omogućuje dodavanje u vodič koji već postoji, pa će Wren napraviti novi koji sadrži sva $count mjesta.',
+      one:
+          'Apple ne omogućuje dodavanje u vodič koji već postoji, pa će Wren napraviti novi koji sadrži to $count mjesto.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => 'Zadrži novi vodič i izbriši stari.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren zadržava ova mjesta, pa vodič možeš napraviti ponovno ako nešto krene po zlu.';
+
+  @override
+  String get makeCombinedGuide => 'Napravi spojeni vodič';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Pročitano $count mjesta iz te datoteke',
+      few: 'Pročitana $count mjesta iz te datoteke',
+      one: 'Pročitano $count mjesto iz te datoteke',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count redaka nije imalo ime',
+      few: '$count retka nisu imala ime',
+      one: '$count redak nije imao ime',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'U toj datoteci nema nijednog mjesta.';
+
+  @override
+  String get fileUnreadable =>
+      'Wren nije mogao pročitati tu datoteku. Čita izvoze u formatima CSV, KML, KMZ, GPX, GeoJSON i Google Takeout.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return 'Traženje $done od $total…';
+  }
+
+  @override
+  String get combineNeedsUnlock => 'Spojeni vodič zahtijeva otključavanje.';
+
+  @override
+  String get unlockCombineTitle => 'Dodaj u vodič koji već imaš';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren će napraviti jedan vodič koji sadrži $count mjesta iz tvojeg, zajedno s novima.',
+      few:
+          'Wren će napraviti jedan vodič koji sadrži $count mjesta iz tvojeg, zajedno s novima.',
+      one:
+          'Wren će napraviti jedan vodič koji sadrži $count mjesto iz tvojeg, zajedno s novima.',
+    );
+    return '$_temp0';
+  }
 }

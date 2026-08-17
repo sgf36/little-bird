@@ -274,4 +274,161 @@ class LRo extends L {
   @override
   String get compUntrusted =>
       'Răspunsul nu a putut fi verificat, așa că nu s-a deblocat nimic.';
+
+  @override
+  String get addPlaces => 'Adaugă';
+
+  @override
+  String get fromFile => 'Dintr-un fișier';
+
+  @override
+  String get fromExistingGuide => 'Dintr-un ghid existent';
+
+  @override
+  String get importGuideTitle => 'Adaugă într-un ghid existent';
+
+  @override
+  String get importGuideBody =>
+      'În Apple Hărți, deschide ghidul și partajează-l, apoi alege Copiază linkul. Lipește-l mai jos și Wren va citi locurile pe care le conține deja.';
+
+  @override
+  String get guideLinkLabel => 'Linkul ghidului';
+
+  @override
+  String get readGuide => 'Citește ghidul';
+
+  @override
+  String get importGuideNotALink =>
+      'Acesta nu este un link de ghid Apple Hărți. Deschide ghidul în Hărți, partajează-l, apoi alege Copiază linkul.';
+
+  @override
+  String get importGuideNothing =>
+      'Acel ghid nu conține nimic ce Wren ar putea prelua.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'S-au citit $count de locuri din acel ghid',
+      few: 'S-au citit $count locuri din acel ghid',
+      one: 'S-a citit 1 loc din acel ghid',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de locuri din el nu pot fi preluate',
+      few: '$count locuri din el nu pot fi preluate',
+      one: '1 loc din el nu poate fi preluat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de locuri deja în acest ghid',
+      few: '$count locuri deja în acest ghid',
+      one: '1 loc deja în acest ghid',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return 'Din „$name”';
+  }
+
+  @override
+  String get republishTitle => 'Hărți creează un ghid nou';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Apple nu permite adăugarea de locuri într-un ghid care există deja, așa că Wren va crea unul nou, cu toate cele $count de locuri.',
+      few:
+          'Apple nu permite adăugarea de locuri într-un ghid care există deja, așa că Wren va crea unul nou, cu toate cele $count locuri.',
+      one:
+          'Apple nu permite adăugarea de locuri într-un ghid care există deja, așa că Wren va crea unul nou, cu acel 1 loc.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete =>
+      'Păstrează ghidul nou și șterge-l pe cel vechi.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren păstrează aceste locuri, așa că poți crea ghidul din nou dacă ceva nu merge bine.';
+
+  @override
+  String get makeCombinedGuide => 'Creează ghidul combinat';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'S-au citit $count de locuri din acel fișier',
+      few: 'S-au citit $count locuri din acel fișier',
+      one: 'S-a citit 1 loc din acel fișier',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de rânduri nu aveau nume',
+      few: '$count rânduri nu aveau nume',
+      one: '1 rând nu avea nume',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'Niciun loc în acel fișier.';
+
+  @override
+  String get fileUnreadable =>
+      'Wren nu a putut citi acel fișier. Citește exporturi CSV, KML, KMZ, GPX, GeoJSON și Google Takeout.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return 'Se caută $done din $total…';
+  }
+
+  @override
+  String get combineNeedsUnlock => 'Ghidul combinat necesită deblocarea.';
+
+  @override
+  String get unlockCombineTitle => 'Adaugă într-un ghid pe care îl ai deja';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren va crea un singur ghid care va conține cele $count de locuri deja aflate în al tău, împreună cu cele noi.',
+      few:
+          'Wren va crea un singur ghid care va conține cele $count locuri deja aflate în al tău, împreună cu cele noi.',
+      one:
+          'Wren va crea un singur ghid care va conține locul deja aflat în al tău, împreună cu cel nou.',
+    );
+    return '$_temp0';
+  }
 }

@@ -1,6 +1,7 @@
 import Flutter
 import MapKit
 import UIKit
+import UniformTypeIdentifiers
 import Vision
 
 @main
@@ -27,6 +28,9 @@ import Vision
     }
     if let registrar = registrar(forPlugin: "IdentityPlugin") {
       IdentityPlugin.register(with: registrar)
+    }
+    if let registrar = registrar(forPlugin: "FilesPlugin") {
+      FilesPlugin.register(with: registrar)
     }
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -329,5 +333,112 @@ class IdentityPlugin: NSObject, FlutterPlugin {
     ]
     SecItemDelete(attributes as CFDictionary)
     return SecItemAdd(attributes as CFDictionary, nil) == errSecSuccess
+  }
+}
+
+/// The document picker, for importing a list exported from another app.
+///
+/// Returns raw bytes rather than a decoded string. Dart decides what they are,
+/// because a KMZ is a zip and a CSV out of Excel is often UTF-16 — decisions
+/// that are cheap while the bytes are intact and impossible to undo once a
+/// wrong decode has turned the file into rubbish.
+///
+/// The picker is asked for `.item` rather than a list of content types. Exported
+/// place files are a moving target — GeoJSON has no registered type, `.kmz` is
+/// declared by Google Earth and so is absent on a phone without it, and a type
+/// the system does not know silently greys out the file the user came to pick.
+/// Sniffing the content in Dart is the check that actually holds; refusing at
+/// the picker would only refuse files this app can read.
+class FilesPlugin: NSObject, FlutterPlugin, UIDocumentPickerDelegate,
+                   UIAdaptivePresentationControllerDelegate {
+  private var pending: FlutterResult?
+
+  public static func register(with registrar: FlutterPluginRegistrar) {
+    let channel = FlutterMethodChannel(name: "littlebird/files",
+                                       binaryMessenger: registrar.messenger())
+    // Held by the registrar for the life of the engine, so the delegate
+    // survives until the user finishes with the picker.
+    registrar.addMethodCallDelegate(FilesPlugin(), channel: channel)
+  }
+
+  public func handle(_ call: FlutterMethodCall,
+                     result: @escaping FlutterResult) {
+    guard call.method == "pick" else {
+      result(FlutterMethodNotImplemented)
+      return
+    }
+    // A second picker while one is open would leave the first result unanswered
+    // and hang that call for ever.
+    if pending != nil {
+      result(FlutterError(code: "busy",
+                          message: "a file is already being chosen", details: nil))
+      return
+    }
+    guard let host = FilesPlugin.topViewController() else {
+      result(FlutterError(code: "no_window",
+                          message: "no view controller to present from", details: nil))
+      return
+    }
+
+    pending = result
+    let picker = UIDocumentPickerViewController(
+      forOpeningContentTypes: [UTType.item], asCopy: true)
+    picker.allowsMultipleSelection = false
+    picker.delegate = self
+    // Swiping the sheet away calls neither delegate method on its own, and the
+    // Dart side would await for ever.
+    picker.presentationController?.delegate = self
+    host.present(picker, animated: true)
+  }
+
+  public func documentPicker(_ controller: UIDocumentPickerViewController,
+                             didPickDocumentsAt urls: [URL]) {
+    guard let result = pending else { return }
+    pending = nil
+    guard let url = urls.first else {
+      result(nil)
+      return
+    }
+    // asCopy: true put the file in this app's temporary directory, so it is
+    // readable without a security-scoped resource — but it is worth removing,
+    // since an imported archive can be large.
+    defer { try? FileManager.default.removeItem(at: url) }
+    do {
+      let data = try Data(contentsOf: url)
+      result([
+        "name": url.lastPathComponent,
+        "bytes": FlutterStandardTypedData(bytes: data),
+      ])
+    } catch {
+      result(FlutterError(code: "unreadable",
+                          message: error.localizedDescription, details: nil))
+    }
+  }
+
+  public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+    finishCancelled()
+  }
+
+  public func presentationControllerDidDismiss(_ controller: UIPresentationController) {
+    finishCancelled()
+  }
+
+  /// Nil, not an error: backing out of the picker is a normal thing to do and
+  /// must not put a failure message on screen.
+  private func finishCancelled() {
+    guard let result = pending else { return }
+    pending = nil
+    result(nil)
+  }
+
+  private static func topViewController() -> UIViewController? {
+    let scene = UIApplication.shared.connectedScenes
+      .compactMap { $0 as? UIWindowScene }
+      .first { $0.activationState == .foregroundActive }
+      ?? UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.first
+    var top = scene?.windows.first { $0.isKeyWindow }?.rootViewController
+      ?? scene?.windows.first?.rootViewController
+    while let presented = top?.presentedViewController { top = presented }
+    return top
   }
 }

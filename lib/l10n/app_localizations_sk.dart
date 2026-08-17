@@ -274,4 +274,170 @@ class LSk extends L {
   @override
   String get compUntrusted =>
       'Odpoveď sa nepodarilo overiť, takže sa nič neodomklo.';
+
+  @override
+  String get addPlaces => 'Pridať';
+
+  @override
+  String get fromFile => 'Zo súboru';
+
+  @override
+  String get fromExistingGuide => 'Z existujúceho sprievodcu';
+
+  @override
+  String get importGuideTitle => 'Pridať do existujúceho sprievodcu';
+
+  @override
+  String get importGuideBody =>
+      'V Mapách Apple otvor sprievodcu, zdieľaj ho a vyber Kopírovať odkaz. Vlož ho nižšie a Wren prečíta miesta, ktoré už obsahuje.';
+
+  @override
+  String get guideLinkLabel => 'Odkaz na sprievodcu';
+
+  @override
+  String get readGuide => 'Prečítať sprievodcu';
+
+  @override
+  String get importGuideNotALink =>
+      'To nie je odkaz na sprievodcu z Máp Apple. Otvor sprievodcu v Mapách, zdieľaj ho a vyber Kopírovať odkaz.';
+
+  @override
+  String get importGuideNothing =>
+      'V tomto sprievodcovi nie je nič, čo by Wren mohol preniesť.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Z tohto sprievodcu prečítaných $count miest',
+      many: 'Z tohto sprievodcu prečítané $count miesta',
+      few: 'Z tohto sprievodcu prečítané $count miesta',
+      one: 'Z tohto sprievodcu prečítané 1 miesto',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count miest sa z neho nedá preniesť',
+      many: '$count miesta sa z neho nedá preniesť',
+      few: '$count miesta sa z neho nedajú preniesť',
+      one: '1 miesto sa z neho nedá preniesť',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count miest už v tomto sprievodcovi',
+      many: '$count miesta už v tomto sprievodcovi',
+      few: '$count miesta už v tomto sprievodcovi',
+      one: '1 miesto už v tomto sprievodcovi',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return 'Z „$name“';
+  }
+
+  @override
+  String get republishTitle => 'Mapy vytvoria nového sprievodcu';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Apple neumožňuje pridávať miesta do sprievodcu, ktorý už existuje, takže Wren vytvorí nového — so všetkými $count miestami.',
+      many:
+          'Apple neumožňuje pridávať miesta do sprievodcu, ktorý už existuje, takže Wren vytvorí nového — so všetkými $count miestami.',
+      few:
+          'Apple neumožňuje pridávať miesta do sprievodcu, ktorý už existuje, takže Wren vytvorí nového — so všetkými $count miestami.',
+      one:
+          'Apple neumožňuje pridávať miesta do sprievodcu, ktorý už existuje, takže Wren vytvorí nového — s tým 1 miestom.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete =>
+      'Nového sprievodcu si nechaj a toho starého vymaž.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren si tieto miesta nechá, takže ak sa niečo pokazí, môžeš sprievodcu vytvoriť znova.';
+
+  @override
+  String get makeCombinedGuide => 'Vytvoriť zlúčeného sprievodcu';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Z tohto súboru prečítaných $count miest',
+      many: 'Z tohto súboru prečítané $count miesta',
+      few: 'Z tohto súboru prečítané $count miesta',
+      one: 'Z tohto súboru prečítané 1 miesto',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count riadkov nemalo názov',
+      many: '$count riadka nemalo názov',
+      few: '$count riadky nemali názov',
+      one: '1 riadok nemal názov',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'V tomto súbore nie sú žiadne miesta.';
+
+  @override
+  String get fileUnreadable =>
+      'Wren nedokázal ten súbor prečítať. Číta exporty CSV, KML, KMZ, GPX, GeoJSON a Google Takeout.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return 'Hľadanie $done z $total…';
+  }
+
+  @override
+  String get combineNeedsUnlock => 'Zlúčený sprievodca vyžaduje odomknutie.';
+
+  @override
+  String get unlockCombineTitle => 'Pridať do sprievodcu, ktorého už máš';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren vytvorí jedného sprievodcu, v ktorom bude $count miest z tvojho a k tomu tie nové.',
+      many:
+          'Wren vytvorí jedného sprievodcu, v ktorom bude $count miesta z tvojho a k tomu tie nové.',
+      few:
+          'Wren vytvorí jedného sprievodcu, v ktorom budú $count miesta z tvojho a k tomu tie nové.',
+      one:
+          'Wren vytvorí jedného sprievodcu, v ktorom bude 1 miesto z tvojho a k tomu tie nové.',
+    );
+    return '$_temp0';
+  }
 }

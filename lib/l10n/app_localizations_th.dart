@@ -257,4 +257,141 @@ class LTh extends L {
 
   @override
   String get compUntrusted => 'ยืนยันคำตอบนั้นไม่ได้ จึงไม่มีการปลดล็อกอะไร';
+
+  @override
+  String get addPlaces => 'เพิ่ม';
+
+  @override
+  String get fromFile => 'จากไฟล์';
+
+  @override
+  String get fromExistingGuide => 'จากไกด์ที่มีอยู่';
+
+  @override
+  String get importGuideTitle => 'เพิ่มลงในไกด์ที่มีอยู่';
+
+  @override
+  String get importGuideBody =>
+      'ใน Apple Maps เปิดไกด์นั้นแล้วแชร์ จากนั้นเลือก “คัดลอกลิงก์” วางลงข้างล่างนี้ แล้ว Wren จะอ่านที่ที่อยู่ในไกด์นั้นให้';
+
+  @override
+  String get guideLinkLabel => 'ลิงก์ไกด์';
+
+  @override
+  String get readGuide => 'อ่านไกด์';
+
+  @override
+  String get importGuideNotALink =>
+      'นั่นไม่ใช่ลิงก์ไกด์ของ Apple Maps เปิดไกด์ใน Apple Maps แล้วแชร์ จากนั้นเลือก “คัดลอกลิงก์”';
+
+  @override
+  String get importGuideNothing => 'ไกด์นั้นไม่มีอะไรที่ Wren เพิ่มได้';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'อ่านได้ $count ที่จากไกด์นั้น',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ที่ในนั้นย้ายมาไม่ได้',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ที่อยู่ในไกด์นี้แล้ว',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return 'จาก “$name”';
+  }
+
+  @override
+  String get republishTitle => 'Apple Maps จะสร้างไกด์ใหม่';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Apple ไม่มีวิธีเพิ่มที่ลงในไกด์ที่มีอยู่แล้ว ดังนั้น Wren จะสร้างไกด์ใหม่ที่มีทั้ง $count ที่',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => 'เก็บไกด์ใหม่ไว้ แล้วลบไกด์เดิม';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren เก็บที่เหล่านี้ไว้ ถ้ามีอะไรผิดพลาด คุณสร้างไกด์ใหม่อีกครั้งได้';
+
+  @override
+  String get makeCombinedGuide => 'สร้างไกด์ที่รวมกันแล้ว';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'อ่านได้ $count ที่จากไฟล์นั้น',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count แถวไม่มีชื่อ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'ไม่มีที่ในไฟล์นั้น';
+
+  @override
+  String get fileUnreadable =>
+      'Wren อ่านไฟล์นั้นไม่ได้ โดยอ่านไฟล์ที่ส่งออกแบบ CSV, KML, KMZ, GPX, GeoJSON และ Google Takeout ได้';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return 'กำลังค้นหา $done จาก $total…';
+  }
+
+  @override
+  String get combineNeedsUnlock => 'การสร้างไกด์ที่รวมกันแล้วต้องปลดล็อกก่อน';
+
+  @override
+  String get unlockCombineTitle => 'เพิ่มลงในไกด์ที่คุณมีอยู่แล้ว';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren จะสร้างไกด์เดียวที่รวม $count ที่ในไกด์ของคุณกับที่ใหม่ที่เพิ่งหาเจอไว้ด้วยกัน',
+    );
+    return '$_temp0';
+  }
 }

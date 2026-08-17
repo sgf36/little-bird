@@ -263,4 +263,150 @@ class LBn extends L {
 
   @override
   String get compUntrusted => 'উত্তরটি যাচাই করা গেল না, তাই কিছুই আনলক হয়নি।';
+
+  @override
+  String get addPlaces => 'যোগ করুন';
+
+  @override
+  String get fromFile => 'ফাইল থেকে';
+
+  @override
+  String get fromExistingGuide => 'আগের কোনো গাইড থেকে';
+
+  @override
+  String get importGuideTitle => 'আগের কোনো গাইডে যোগ করুন';
+
+  @override
+  String get importGuideBody =>
+      'Apple Maps-এ গাইডটি খুলে শেয়ার করুন, তারপর “লিঙ্ক কপি করুন” বেছে নিন। সেটি নিচে পেস্ট করুন, Wren তাতে আগে থেকেই থাকা জায়গাগুলো পড়ে নেবে।';
+
+  @override
+  String get guideLinkLabel => 'গাইডের লিঙ্ক';
+
+  @override
+  String get readGuide => 'গাইড পড়ুন';
+
+  @override
+  String get importGuideNotALink =>
+      'এটি Apple Maps গাইডের লিঙ্ক নয়। Maps-এ গাইডটি খুলে শেয়ার করুন, তারপর “লিঙ্ক কপি করুন” বেছে নিন।';
+
+  @override
+  String get importGuideNothing => 'ওই গাইডে Wren যোগ করতে পারে এমন কিছু নেই।';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ওই গাইড থেকে $countটি জায়গা পড়া হয়েছে',
+      one: 'ওই গাইড থেকে ১টি জায়গা পড়া হয়েছে',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'তার মধ্যে $countটি জায়গা নতুন গাইডে নেওয়া যাবে না',
+      one: 'তার মধ্যে ১টি জায়গা নতুন গাইডে নেওয়া যাবে না',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countটি জায়গা আগে থেকেই এই গাইডে',
+      one: '১টি জায়গা আগে থেকেই এই গাইডে',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return '“$name” থেকে';
+  }
+
+  @override
+  String get republishTitle => 'Maps নতুন গাইড তৈরি করে';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'আগে থেকে থাকা গাইডে যোগ করার কোনো উপায় Apple দেয় না, তাই Wren $countটি জায়গা একসঙ্গে নিয়ে নতুন একটি গাইড তৈরি করবে।',
+      one:
+          'আগে থেকে থাকা গাইডে যোগ করার কোনো উপায় Apple দেয় না, তাই Wren ১টি জায়গা নিয়ে নতুন একটি গাইড তৈরি করবে।',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => 'নতুন গাইডটি রাখুন আর পুরোনোটি মুছে দিন।';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren এই জায়গাগুলো রেখে দেয়, তাই কিছু ভুল হলে গাইডটি আবার তৈরি করা যায়।';
+
+  @override
+  String get makeCombinedGuide => 'সম্মিলিত গাইড তৈরি করুন';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ওই ফাইল থেকে $countটি জায়গা পড়া হয়েছে',
+      one: 'ওই ফাইল থেকে ১টি জায়গা পড়া হয়েছে',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countটি সারিতে নাম ছিল না',
+      one: '১টি সারিতে নাম ছিল না',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'ওই ফাইলে কোনো জায়গা নেই।';
+
+  @override
+  String get fileUnreadable =>
+      'Wren ওই ফাইলটি পড়তে পারল না। এটি CSV, KML, KMZ, GPX, GeoJSON আর Google Takeout এক্সপোর্ট পড়ে।';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return '$totalটির মধ্যে $doneটি খোঁজা হচ্ছে…';
+  }
+
+  @override
+  String get combineNeedsUnlock => 'সম্মিলিত গাইড তৈরি করতে আনলক দরকার।';
+
+  @override
+  String get unlockCombineTitle => 'আপনার আগের কোনো গাইডে যোগ করুন';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren একটিই গাইড তৈরি করবে, যাতে আপনার গাইডের $countটি জায়গা আর নতুন জায়গাগুলো একসঙ্গে থাকবে।',
+      one:
+          'Wren একটিই গাইড তৈরি করবে, যাতে আপনার গাইডের ১টি জায়গা আর নতুন জায়গাটি একসঙ্গে থাকবে।',
+    );
+    return '$_temp0';
+  }
 }

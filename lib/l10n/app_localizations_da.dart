@@ -271,4 +271,151 @@ class LDa extends L {
   @override
   String get compUntrusted =>
       'Svaret kunne ikke bekræftes, så der blev ikke låst op for noget.';
+
+  @override
+  String get addPlaces => 'Tilføj';
+
+  @override
+  String get fromFile => 'Fra en fil';
+
+  @override
+  String get fromExistingGuide => 'Fra en eksisterende guide';
+
+  @override
+  String get importGuideTitle => 'Føj til en eksisterende guide';
+
+  @override
+  String get importGuideBody =>
+      'Åbn guiden i Apple Kort, del den, og vælg »Kopier link«. Indsæt linket nedenfor, så læser Wren de steder, den allerede indeholder.';
+
+  @override
+  String get guideLinkLabel => 'Link til guiden';
+
+  @override
+  String get readGuide => 'Læs guide';
+
+  @override
+  String get importGuideNotALink =>
+      'Det er ikke et link til en guide i Apple Kort. Åbn guiden i Kort, del den, og vælg »Kopier link«.';
+
+  @override
+  String get importGuideNothing =>
+      'Den guide indeholder ikke noget, Wren kan tage med over.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Læste $count steder fra den guide',
+      one: 'Læste 1 sted fra den guide',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count steder i den kan ikke føres med over',
+      one: '1 sted i den kan ikke føres med over',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count steder er allerede i denne guide',
+      one: '1 sted er allerede i denne guide',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return 'Fra »$name«';
+  }
+
+  @override
+  String get republishTitle => 'Kort laver en ny guide';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Apple giver ingen mulighed for at føje til en guide, der allerede findes, så Wren laver en ny med alle $count steder i.',
+      one:
+          'Apple giver ingen mulighed for at føje til en guide, der allerede findes, så Wren laver en ny med det ene sted i.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => 'Behold den nye guide, og slet den gamle.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren beholder disse steder, så du kan lave guiden igen, hvis noget går galt.';
+
+  @override
+  String get makeCombinedGuide => 'Lav den samlede guide';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Læste $count steder fra den fil',
+      one: 'Læste 1 sted fra den fil',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rækker havde intet navn',
+      one: '1 række havde intet navn',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'Ingen steder i den fil.';
+
+  @override
+  String get fileUnreadable =>
+      'Wren kunne ikke læse den fil. Den læser CSV, KML, KMZ, GPX, GeoJSON og eksporter fra Google Takeout.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return 'Slår $done af $total op…';
+  }
+
+  @override
+  String get combineNeedsUnlock => 'Den samlede guide kræver, at du låser op.';
+
+  @override
+  String get unlockCombineTitle => 'Føj til en guide, du allerede har';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren laver én guide med de $count steder, der allerede er i din, sammen med de nye.',
+      one:
+          'Wren laver én guide med det sted, der allerede er i din, sammen med det nye.',
+    );
+    return '$_temp0';
+  }
 }

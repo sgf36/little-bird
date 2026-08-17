@@ -280,4 +280,152 @@ class LEl extends L {
   @override
   String get compUntrusted =>
       'Δεν ήταν δυνατή η επαλήθευση της απάντησης, οπότε δεν ξεκλείδωσε τίποτα.';
+
+  @override
+  String get addPlaces => 'Προσθήκη';
+
+  @override
+  String get fromFile => 'Από αρχείο';
+
+  @override
+  String get fromExistingGuide => 'Από υπάρχοντα οδηγό';
+
+  @override
+  String get importGuideTitle => 'Προσθήκη σε υπάρχοντα οδηγό';
+
+  @override
+  String get importGuideBody =>
+      'Άνοιξε τον οδηγό στους Χάρτες της Apple, κοινοποίησέ τον και διάλεξε «Αντιγραφή συνδέσμου». Επικόλλησέ τον παρακάτω και το Wren θα διαβάσει τα μέρη που έχει ήδη μέσα.';
+
+  @override
+  String get guideLinkLabel => 'Σύνδεσμος οδηγού';
+
+  @override
+  String get readGuide => 'Ανάγνωση οδηγού';
+
+  @override
+  String get importGuideNotALink =>
+      'Αυτός δεν είναι σύνδεσμος οδηγού των Χαρτών της Apple. Άνοιξε τον οδηγό στους Χάρτες, κοινοποίησέ τον και διάλεξε «Αντιγραφή συνδέσμου».';
+
+  @override
+  String get importGuideNothing =>
+      'Αυτός ο οδηγός δεν έχει μέσα κάτι που να μπορεί να πάρει μαζί του το Wren.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Διαβάστηκαν $count μέρη από αυτόν τον οδηγό',
+      one: 'Διαβάστηκε 1 μέρος από αυτόν τον οδηγό',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count μέρη μέσα δεν μπορούν να μεταφερθούν',
+      one: '1 μέρος μέσα δεν μπορεί να μεταφερθεί',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count μέρη υπάρχουν ήδη σε αυτόν τον οδηγό',
+      one: '1 μέρος υπάρχει ήδη σε αυτόν τον οδηγό',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return 'Από «$name»';
+  }
+
+  @override
+  String get republishTitle => 'Οι Χάρτες φτιάχνουν νέο οδηγό';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Η Apple δεν δίνει τρόπο να προστεθεί κάτι σε οδηγό που υπάρχει ήδη, οπότε το Wren θα φτιάξει νέον με όλα τα $count μέρη μέσα.',
+      one:
+          'Η Apple δεν δίνει τρόπο να προστεθεί κάτι σε οδηγό που υπάρχει ήδη, οπότε το Wren θα φτιάξει νέον με το ένα μέρος μέσα.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => 'Κράτα τον νέο οδηγό και σβήσε τον παλιό.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Το Wren κρατά αυτά τα μέρη, άρα μπορείς να φτιάξεις τον οδηγό ξανά αν πάει κάτι στραβά.';
+
+  @override
+  String get makeCombinedGuide => 'Δημιουργία του ενιαίου οδηγού';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Διαβάστηκαν $count μέρη από αυτό το αρχείο',
+      one: 'Διαβάστηκε 1 μέρος από αυτό το αρχείο',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count γραμμές δεν είχαν όνομα',
+      one: '1 γραμμή δεν είχε όνομα',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'Κανένα μέρος σε αυτό το αρχείο.';
+
+  @override
+  String get fileUnreadable =>
+      'Το Wren δεν μπόρεσε να διαβάσει αυτό το αρχείο. Διαβάζει CSV, KML, KMZ, GPX, GeoJSON και εξαγωγές από το Google Takeout.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return 'Αναζήτηση $done από $total…';
+  }
+
+  @override
+  String get combineNeedsUnlock =>
+      'Η δημιουργία του ενιαίου οδηγού χρειάζεται το ξεκλείδωμα.';
+
+  @override
+  String get unlockCombineTitle => 'Προσθήκη σε οδηγό που έχεις ήδη';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Το Wren θα φτιάξει έναν μόνο οδηγό με τα $count μέρη που έχεις ήδη στον δικό σου και τα νέα μαζί.',
+      one:
+          'Το Wren θα φτιάξει έναν μόνο οδηγό με το μέρος που έχεις ήδη στον δικό σου και το νέο μαζί.',
+    );
+    return '$_temp0';
+  }
 }

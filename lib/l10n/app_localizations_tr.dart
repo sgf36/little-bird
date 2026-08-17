@@ -262,4 +262,152 @@ class LTr extends L {
   @override
   String get compUntrusted =>
       'Bu yanıt doğrulanamadı, bu yüzden hiçbir şeyin kilidi açılmadı.';
+
+  @override
+  String get addPlaces => 'Ekle';
+
+  @override
+  String get fromFile => 'Bir dosyadan';
+
+  @override
+  String get fromExistingGuide => 'Var olan bir rehberden';
+
+  @override
+  String get importGuideTitle => 'Var olan bir rehbere ekle';
+
+  @override
+  String get importGuideBody =>
+      'Apple Harita\'da rehberi aç ve paylaş, ardından Bağlantıyı Kopyala\'yı seç. Aşağıya yapıştır, Wren de içinde zaten bulunan mekânları okur.';
+
+  @override
+  String get guideLinkLabel => 'Rehber bağlantısı';
+
+  @override
+  String get readGuide => 'Rehberi oku';
+
+  @override
+  String get importGuideNotALink =>
+      'Bu bir Apple Harita rehber bağlantısı değil. Rehberi Harita\'da aç, paylaş, ardından Bağlantıyı Kopyala\'yı seç.';
+
+  @override
+  String get importGuideNothing =>
+      'O rehberde Wren\'in ekleyebileceği bir şey yok.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'O rehberden $count mekân okundu',
+      one: 'O rehberden 1 mekân okundu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'İçindeki $count mekân aktarılamıyor',
+      one: 'İçindeki 1 mekân aktarılamıyor',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mekân bu rehberde zaten var',
+      one: '1 mekân bu rehberde zaten var',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return '“$name” rehberinden';
+  }
+
+  @override
+  String get republishTitle => 'Harita yeni bir rehber oluşturur';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Apple, var olan bir rehbere ekleme yapmanın yolunu vermiyor; bu yüzden Wren $count mekânın tümünü içeren yeni bir rehber oluşturacak.',
+      one:
+          'Apple, var olan bir rehbere ekleme yapmanın yolunu vermiyor; bu yüzden Wren o 1 mekânı içeren yeni bir rehber oluşturacak.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => 'Yeni rehberi sakla, eskisini sil.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren bu mekânları saklar, böylece bir şey ters giderse rehberi yeniden oluşturabilirsin.';
+
+  @override
+  String get makeCombinedGuide => 'Birleşik rehberi oluştur';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'O dosyadan $count mekân okundu',
+      one: 'O dosyadan 1 mekân okundu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count satırda ad yoktu',
+      one: '1 satırda ad yoktu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'O dosyada mekân yok.';
+
+  @override
+  String get fileUnreadable =>
+      'Wren o dosyayı okuyamadı. CSV, KML, KMZ, GPX, GeoJSON ve Google Takeout dosyalarını okur.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return '$total mekânın $done tanesi aranıyor…';
+  }
+
+  @override
+  String get combineNeedsUnlock =>
+      'Birleşik rehberi oluşturmak için kilidi açman gerekiyor.';
+
+  @override
+  String get unlockCombineTitle => 'Zaten sahip olduğun bir rehbere ekle';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren, rehberindeki $count mekânı yeni mekânlarla birlikte tek bir rehberde toplayacak.',
+      one:
+          'Wren, rehberindeki 1 mekânı yeni mekânla birlikte tek bir rehberde toplayacak.',
+    );
+    return '$_temp0';
+  }
 }

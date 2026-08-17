@@ -264,4 +264,152 @@ class LFi extends L {
   @override
   String get compUntrusted =>
       'Vastausta ei voitu varmentaa, joten mitään ei avattu.';
+
+  @override
+  String get addPlaces => 'Lisää';
+
+  @override
+  String get fromFile => 'Tiedostosta';
+
+  @override
+  String get fromExistingGuide => 'Olemassa olevasta oppaasta';
+
+  @override
+  String get importGuideTitle => 'Lisää olemassa olevaan oppaaseen';
+
+  @override
+  String get importGuideBody =>
+      'Avaa opas Apple Kartoissa, jaa se ja valitse ”Kopioi linkki”. Liitä linkki alle, niin Wren lukee paikat, jotka oppaassa jo ovat.';
+
+  @override
+  String get guideLinkLabel => 'Oppaan linkki';
+
+  @override
+  String get readGuide => 'Lue opas';
+
+  @override
+  String get importGuideNotALink =>
+      'Tämä ei ole Apple Kartat -oppaan linkki. Avaa opas Kartoissa, jaa se ja valitse ”Kopioi linkki”.';
+
+  @override
+  String get importGuideNothing =>
+      'Oppaassa ei ole yhtään paikkaa, jonka Wren voisi ottaa mukaan.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Luettiin $count paikkaa oppaasta',
+      one: 'Luettiin 1 paikka oppaasta',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count paikkaa oppaasta ei voi ottaa mukaan',
+      one: '1 paikkaa oppaasta ei voi ottaa mukaan',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count paikkaa on jo tässä oppaassa',
+      one: '1 paikka on jo tässä oppaassa',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return 'Oppaasta ”$name”';
+  }
+
+  @override
+  String get republishTitle => 'Kartat luo uuden oppaan';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Apple ei tarjoa tapaa lisätä paikkoja valmiiseen oppaaseen, joten Wren luo uuden, jossa on kaikki $count paikkaa.',
+      one:
+          'Apple ei tarjoa tapaa lisätä paikkoja valmiiseen oppaaseen, joten Wren luo uuden, jossa on tämä yksi paikka.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => 'Pidä uusi opas ja poista vanha.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren pitää nämä paikat tallessa, joten voit luoda oppaan uudelleen, jos jokin menee vikaan.';
+
+  @override
+  String get makeCombinedGuide => 'Luo yhdistetty opas';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Luettiin $count paikkaa tiedostosta',
+      one: 'Luettiin 1 paikka tiedostosta',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count riviltä puuttui nimi',
+      one: '1 riviltä puuttui nimi',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'Tiedostossa ei ole paikkoja.';
+
+  @override
+  String get fileUnreadable =>
+      'Wren ei voinut lukea tiedostoa. Se lukee CSV-, KML-, KMZ-, GPX- ja GeoJSON-tiedostoja sekä Google Takeout -vientejä.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return 'Etsitään $done / $total…';
+  }
+
+  @override
+  String get combineNeedsUnlock =>
+      'Yhdistetyn oppaan luominen edellyttää avaamista.';
+
+  @override
+  String get unlockCombineTitle => 'Lisää oppaaseen, joka sinulla jo on';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren luo yhden oppaan, joka sisältää sekä ne $count paikkaa, jotka oppaassasi jo ovat, että uudet.',
+      one:
+          'Wren luo yhden oppaan, joka sisältää sekä oppaassasi jo olevan paikan että uuden.',
+    );
+    return '$_temp0';
+  }
 }

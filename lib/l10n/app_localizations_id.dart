@@ -265,4 +265,142 @@ class LId extends L {
   @override
   String get compUntrusted =>
       'Balasan itu tidak bisa diverifikasi, jadi tidak ada yang dibuka.';
+
+  @override
+  String get addPlaces => 'Tambah';
+
+  @override
+  String get fromFile => 'Dari file';
+
+  @override
+  String get fromExistingGuide => 'Dari panduan yang sudah ada';
+
+  @override
+  String get importGuideTitle => 'Tambahkan ke panduan yang sudah ada';
+
+  @override
+  String get importGuideBody =>
+      'Di Apple Maps, buka panduannya dan bagikan, lalu pilih “Salin Tautan”. Tempelkan di bawah, dan Wren akan membaca tempat-tempat yang sudah ada di dalamnya.';
+
+  @override
+  String get guideLinkLabel => 'Tautan panduan';
+
+  @override
+  String get readGuide => 'Baca panduan';
+
+  @override
+  String get importGuideNotALink =>
+      'Itu bukan tautan panduan Apple Maps. Buka panduannya di Maps, bagikan, lalu pilih “Salin Tautan”.';
+
+  @override
+  String get importGuideNothing =>
+      'Panduan itu tidak berisi apa pun yang bisa ditambahkan Wren.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tempat terbaca dari panduan itu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tempat di dalamnya tidak bisa dipindahkan',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tempat sudah ada di panduan ini',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return 'Dari “$name”';
+  }
+
+  @override
+  String get republishTitle => 'Maps membuat panduan baru';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Apple tidak menyediakan cara untuk menambah tempat ke panduan yang sudah ada, jadi Wren akan membuat panduan baru yang berisi $count tempat itu.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => 'Simpan panduan baru dan hapus yang lama.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren menyimpan tempat-tempat ini, jadi kalau ada yang tidak beres, kamu bisa membuat panduannya lagi.';
+
+  @override
+  String get makeCombinedGuide => 'Buat panduan gabungan';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tempat terbaca dari file itu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count baris tidak punya nama',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'Tidak ada tempat di file itu.';
+
+  @override
+  String get fileUnreadable =>
+      'Wren tidak bisa membaca file itu. Wren membaca ekspor CSV, KML, KMZ, GPX, GeoJSON dan Google Takeout.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return 'Mencari $done dari $total…';
+  }
+
+  @override
+  String get combineNeedsUnlock => 'Panduan gabungan perlu dibuka dulu.';
+
+  @override
+  String get unlockCombineTitle => 'Tambahkan ke panduan yang sudah kamu punya';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren akan membuat satu panduan yang berisi $count tempat yang sudah ada di panduanmu sekaligus tempat-tempat yang baru.',
+    );
+    return '$_temp0';
+  }
 }

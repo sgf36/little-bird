@@ -277,4 +277,151 @@ class LPa extends L {
   @override
   String get compUntrusted =>
       'ਉਸ ਜਵਾਬ ਦੀ ਪੁਸ਼ਟੀ ਨਹੀਂ ਹੋ ਸਕੀ, ਇਸ ਲਈ ਕੁਝ ਵੀ ਅਨਲਾਕ ਨਹੀਂ ਹੋਇਆ।';
+
+  @override
+  String get addPlaces => 'ਜੋੜੋ';
+
+  @override
+  String get fromFile => 'ਫ਼ਾਈਲ ਤੋਂ';
+
+  @override
+  String get fromExistingGuide => 'ਪਹਿਲਾਂ ਤੋਂ ਮੌਜੂਦ ਗਾਈਡ ਤੋਂ';
+
+  @override
+  String get importGuideTitle => 'ਪਹਿਲਾਂ ਤੋਂ ਮੌਜੂਦ ਗਾਈਡ ਵਿੱਚ ਜੋੜੋ';
+
+  @override
+  String get importGuideBody =>
+      'Apple Maps ਵਿੱਚ ਗਾਈਡ ਖੋਲ੍ਹ ਕੇ ਸਾਂਝੀ ਕਰੋ, ਫਿਰ “ਲਿੰਕ ਕਾਪੀ ਕਰੋ” ਚੁਣੋ। ਉਸਨੂੰ ਹੇਠਾਂ ਪੇਸਟ ਕਰੋ, Wren ਉਸ ਵਿੱਚ ਪਹਿਲਾਂ ਤੋਂ ਮੌਜੂਦ ਥਾਵਾਂ ਪੜ੍ਹ ਲਵੇਗਾ।';
+
+  @override
+  String get guideLinkLabel => 'ਗਾਈਡ ਦਾ ਲਿੰਕ';
+
+  @override
+  String get readGuide => 'ਗਾਈਡ ਪੜ੍ਹੋ';
+
+  @override
+  String get importGuideNotALink =>
+      'ਇਹ Apple Maps ਗਾਈਡ ਦਾ ਲਿੰਕ ਨਹੀਂ ਹੈ। ਗਾਈਡ ਨੂੰ Maps ਵਿੱਚ ਖੋਲ੍ਹੋ, ਸਾਂਝੀ ਕਰੋ, ਫਿਰ “ਲਿੰਕ ਕਾਪੀ ਕਰੋ” ਚੁਣੋ।';
+
+  @override
+  String get importGuideNothing =>
+      'ਉਸ ਗਾਈਡ ਵਿੱਚ ਅਜਿਹਾ ਕੁਝ ਨਹੀਂ ਜੋ Wren ਜੋੜ ਸਕੇ।';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ਉਸ ਗਾਈਡ ਤੋਂ $count ਥਾਵਾਂ ਪੜ੍ਹੀਆਂ',
+      one: 'ਉਸ ਗਾਈਡ ਤੋਂ 1 ਥਾਂ ਪੜ੍ਹੀ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ਉਸ ਵਿੱਚੋਂ $count ਥਾਵਾਂ ਨਵੀਂ ਗਾਈਡ ਵਿੱਚ ਨਹੀਂ ਲਿਜਾਈਆਂ ਜਾ ਸਕਦੀਆਂ',
+      one: 'ਉਸ ਵਿੱਚੋਂ 1 ਥਾਂ ਨਵੀਂ ਗਾਈਡ ਵਿੱਚ ਨਹੀਂ ਲਿਜਾਈ ਜਾ ਸਕਦੀ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ਥਾਵਾਂ ਪਹਿਲਾਂ ਹੀ ਇਸ ਗਾਈਡ ਵਿੱਚ',
+      one: '1 ਥਾਂ ਪਹਿਲਾਂ ਹੀ ਇਸ ਗਾਈਡ ਵਿੱਚ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return '“$name” ਤੋਂ';
+  }
+
+  @override
+  String get republishTitle => 'Maps ਨਵੀਂ ਗਾਈਡ ਬਣਾਉਂਦਾ ਹੈ';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'ਪਹਿਲਾਂ ਤੋਂ ਮੌਜੂਦ ਗਾਈਡ ਵਿੱਚ ਕੁਝ ਜੋੜਨ ਦਾ ਕੋਈ ਰਾਹ Apple ਨਹੀਂ ਦਿੰਦਾ, ਇਸ ਲਈ Wren ਸਾਰੀਆਂ $count ਥਾਵਾਂ ਵਾਲੀ ਨਵੀਂ ਗਾਈਡ ਬਣਾਏਗਾ।',
+      one:
+          'ਪਹਿਲਾਂ ਤੋਂ ਮੌਜੂਦ ਗਾਈਡ ਵਿੱਚ ਕੁਝ ਜੋੜਨ ਦਾ ਕੋਈ ਰਾਹ Apple ਨਹੀਂ ਦਿੰਦਾ, ਇਸ ਲਈ Wren 1 ਥਾਂ ਵਾਲੀ ਨਵੀਂ ਗਾਈਡ ਬਣਾਏਗਾ।',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => 'ਨਵੀਂ ਗਾਈਡ ਰੱਖੋ ਅਤੇ ਪੁਰਾਣੀ ਮਿਟਾ ਦਿਓ।';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren ਇਹ ਥਾਵਾਂ ਸੰਭਾਲ ਰੱਖਦਾ ਹੈ, ਇਸ ਲਈ ਕੁਝ ਗ਼ਲਤ ਹੋ ਜਾਵੇ ਤਾਂ ਗਾਈਡ ਦੁਬਾਰਾ ਬਣਾਈ ਜਾ ਸਕਦੀ ਹੈ।';
+
+  @override
+  String get makeCombinedGuide => 'ਰਲਾਈ ਹੋਈ ਗਾਈਡ ਬਣਾਓ';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ਉਸ ਫ਼ਾਈਲ ਤੋਂ $count ਥਾਵਾਂ ਪੜ੍ਹੀਆਂ',
+      one: 'ਉਸ ਫ਼ਾਈਲ ਤੋਂ 1 ਥਾਂ ਪੜ੍ਹੀ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ਕਤਾਰਾਂ ਵਿੱਚ ਨਾਂ ਨਹੀਂ ਸੀ',
+      one: '1 ਕਤਾਰ ਵਿੱਚ ਨਾਂ ਨਹੀਂ ਸੀ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'ਉਸ ਫ਼ਾਈਲ ਵਿੱਚ ਕੋਈ ਥਾਂ ਨਹੀਂ।';
+
+  @override
+  String get fileUnreadable =>
+      'Wren ਉਹ ਫ਼ਾਈਲ ਨਹੀਂ ਪੜ੍ਹ ਸਕਿਆ। ਇਹ CSV, KML, KMZ, GPX, GeoJSON ਅਤੇ Google Takeout ਐਕਸਪੋਰਟ ਪੜ੍ਹਦਾ ਹੈ।';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return '$total ਵਿੱਚੋਂ $done ਲੱਭ ਰਿਹਾ ਹੈ…';
+  }
+
+  @override
+  String get combineNeedsUnlock => 'ਰਲਾਈ ਹੋਈ ਗਾਈਡ ਬਣਾਉਣ ਲਈ ਅਨਲਾਕ ਚਾਹੀਦਾ ਹੈ।';
+
+  @override
+  String get unlockCombineTitle => 'ਆਪਣੀ ਪਹਿਲਾਂ ਤੋਂ ਮੌਜੂਦ ਗਾਈਡ ਵਿੱਚ ਜੋੜੋ';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren ਇੱਕੋ ਗਾਈਡ ਬਣਾਏਗਾ, ਜਿਸ ਵਿੱਚ ਤੁਹਾਡੀ ਗਾਈਡ ਦੀਆਂ $count ਥਾਵਾਂ ਅਤੇ ਨਵੀਆਂ ਥਾਵਾਂ, ਦੋਵੇਂ ਹੋਣਗੀਆਂ।',
+      one:
+          'Wren ਇੱਕੋ ਗਾਈਡ ਬਣਾਏਗਾ, ਜਿਸ ਵਿੱਚ ਤੁਹਾਡੀ ਗਾਈਡ ਦੀ 1 ਥਾਂ ਅਤੇ ਨਵੀਂ ਥਾਂ, ਦੋਵੇਂ ਹੋਣਗੀਆਂ।',
+    );
+    return '$_temp0';
+  }
 }

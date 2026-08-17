@@ -276,4 +276,169 @@ class LPl extends L {
   @override
   String get compUntrusted =>
       'Nie udało się zweryfikować odpowiedzi, więc nic nie zostało odblokowane.';
+
+  @override
+  String get addPlaces => 'Dodaj';
+
+  @override
+  String get fromFile => 'Z pliku';
+
+  @override
+  String get fromExistingGuide => 'Z istniejącego przewodnika';
+
+  @override
+  String get importGuideTitle => 'Dodaj do istniejącego przewodnika';
+
+  @override
+  String get importGuideBody =>
+      'W Mapach Apple otwórz przewodnik, udostępnij go i wybierz Kopiuj łącze. Wklej je poniżej, a Wren odczyta miejsca, które już w nim są.';
+
+  @override
+  String get guideLinkLabel => 'Łącze do przewodnika';
+
+  @override
+  String get readGuide => 'Odczytaj przewodnik';
+
+  @override
+  String get importGuideNotALink =>
+      'To nie jest łącze do przewodnika Map Apple. Otwórz przewodnik w Mapach, udostępnij go i wybierz Kopiuj łącze.';
+
+  @override
+  String get importGuideNothing =>
+      'W tym przewodniku nie ma nic, co Wren mógłby przenieść.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Odczytano $count miejsca z tego przewodnika',
+      many: 'Odczytano $count miejsc z tego przewodnika',
+      few: 'Odczytano $count miejsca z tego przewodnika',
+      one: 'Odczytano 1 miejsce z tego przewodnika',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count miejsca nie trafi do nowego przewodnika',
+      many: '$count miejsc nie trafi do nowego przewodnika',
+      few: '$count miejsca nie trafią do nowego przewodnika',
+      one: '1 miejsce nie trafi do nowego przewodnika',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count miejsca już w tym przewodniku',
+      many: '$count miejsc już w tym przewodniku',
+      few: '$count miejsca już w tym przewodniku',
+      one: '1 miejsce już w tym przewodniku',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return 'Z „$name”';
+  }
+
+  @override
+  String get republishTitle => 'Mapy tworzą nowy przewodnik';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Apple nie pozwala dodawać miejsc do przewodnika, który już istnieje, więc Wren utworzy nowy — z $count miejsca.',
+      many:
+          'Apple nie pozwala dodawać miejsc do przewodnika, który już istnieje, więc Wren utworzy nowy — ze wszystkimi $count miejscami.',
+      few:
+          'Apple nie pozwala dodawać miejsc do przewodnika, który już istnieje, więc Wren utworzy nowy — ze wszystkimi $count miejscami.',
+      one:
+          'Apple nie pozwala dodawać miejsc do przewodnika, który już istnieje, więc Wren utworzy nowy — z tym 1 miejscem.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => 'Zachowaj nowy przewodnik i usuń stary.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren zachowuje te miejsca, więc jeśli coś pójdzie nie tak, możesz utworzyć przewodnik ponownie.';
+
+  @override
+  String get makeCombinedGuide => 'Utwórz połączony przewodnik';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Odczytano $count miejsca z tego pliku',
+      many: 'Odczytano $count miejsc z tego pliku',
+      few: 'Odczytano $count miejsca z tego pliku',
+      one: 'Odczytano 1 miejsce z tego pliku',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count wiersza nie miało nazwy',
+      many: '$count wierszy nie miało nazwy',
+      few: '$count wiersze nie miały nazwy',
+      one: '1 wiersz nie miał nazwy',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'Brak miejsc w tym pliku.';
+
+  @override
+  String get fileUnreadable =>
+      'Wren nie mógł odczytać tego pliku. Odczytuje eksporty CSV, KML, KMZ, GPX, GeoJSON i Google Takeout.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return 'Wyszukiwanie $done z $total…';
+  }
+
+  @override
+  String get combineNeedsUnlock => 'Połączony przewodnik wymaga odblokowania.';
+
+  @override
+  String get unlockCombineTitle => 'Dodaj do przewodnika, który już masz';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren utworzy jeden przewodnik, w którym będzie $count miejsca z twojego i te nowe.',
+      many:
+          'Wren utworzy jeden przewodnik, w którym będzie $count miejsc z twojego i te nowe.',
+      few:
+          'Wren utworzy jeden przewodnik, w którym będą $count miejsca z twojego i te nowe.',
+      one:
+          'Wren utworzy jeden przewodnik, w którym będzie 1 miejsce z twojego i te nowe.',
+    );
+    return '$_temp0';
+  }
 }

@@ -272,4 +272,153 @@ class LKn extends L {
   @override
   String get compUntrusted =>
       'ಆ ಉತ್ತರವನ್ನು ಪರಿಶೀಲಿಸಲಾಗಲಿಲ್ಲ, ಹಾಗಾಗಿ ಏನೂ ಅನ್‌ಲಾಕ್ ಆಗಿಲ್ಲ.';
+
+  @override
+  String get addPlaces => 'ಸೇರಿಸಿ';
+
+  @override
+  String get fromFile => 'ಫೈಲ್‌ನಿಂದ';
+
+  @override
+  String get fromExistingGuide => 'ಈಗಾಗಲೇ ಇರುವ ಮಾರ್ಗದರ್ಶಿಯಿಂದ';
+
+  @override
+  String get importGuideTitle => 'ಈಗಾಗಲೇ ಇರುವ ಮಾರ್ಗದರ್ಶಿಗೆ ಸೇರಿಸಿ';
+
+  @override
+  String get importGuideBody =>
+      'Apple Maps‌ನಲ್ಲಿ ಮಾರ್ಗದರ್ಶಿಯನ್ನು ತೆರೆದು ಹಂಚಿಕೊಳ್ಳಿ, ನಂತರ ಲಿಂಕ್ ನಕಲಿಸಿ ಎಂಬುದನ್ನು ಆಯ್ಕೆ ಮಾಡಿ. ಅದನ್ನು ಕೆಳಗೆ ಅಂಟಿಸಿದರೆ, ಅದರಲ್ಲಿ ಈಗಾಗಲೇ ಇರುವ ಸ್ಥಳಗಳನ್ನು Wren ಓದುತ್ತದೆ.';
+
+  @override
+  String get guideLinkLabel => 'ಮಾರ್ಗದರ್ಶಿಯ ಲಿಂಕ್';
+
+  @override
+  String get readGuide => 'ಮಾರ್ಗದರ್ಶಿ ಓದಿ';
+
+  @override
+  String get importGuideNotALink =>
+      'ಅದು Apple Maps ಮಾರ್ಗದರ್ಶಿಯ ಲಿಂಕ್ ಅಲ್ಲ. Maps‌ನಲ್ಲಿ ಮಾರ್ಗದರ್ಶಿಯನ್ನು ತೆರೆದು ಹಂಚಿಕೊಳ್ಳಿ, ನಂತರ ಲಿಂಕ್ ನಕಲಿಸಿ ಎಂಬುದನ್ನು ಆಯ್ಕೆ ಮಾಡಿ.';
+
+  @override
+  String get importGuideNothing =>
+      'ಆ ಮಾರ್ಗದರ್ಶಿಯಲ್ಲಿ Wren ಸೇರಿಸಬಹುದಾದದ್ದು ಏನೂ ಇಲ್ಲ.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ಆ ಮಾರ್ಗದರ್ಶಿಯಿಂದ $count ಸ್ಥಳಗಳನ್ನು ಓದಲಾಯಿತು',
+      one: 'ಆ ಮಾರ್ಗದರ್ಶಿಯಿಂದ 1 ಸ್ಥಳ ಓದಲಾಯಿತು',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ಅದರಲ್ಲಿನ $count ಸ್ಥಳಗಳನ್ನು ಸಾಗಿಸಲಾಗದು',
+      one: 'ಅದರಲ್ಲಿನ 1 ಸ್ಥಳವನ್ನು ಸಾಗಿಸಲಾಗದು',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ಸ್ಥಳಗಳು ಈಗಾಗಲೇ ಈ ಮಾರ್ಗದರ್ಶಿಯಲ್ಲಿವೆ',
+      one: '1 ಸ್ಥಳ ಈಗಾಗಲೇ ಈ ಮಾರ್ಗದರ್ಶಿಯಲ್ಲಿದೆ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return '“$name” ಮಾರ್ಗದರ್ಶಿಯಿಂದ';
+  }
+
+  @override
+  String get republishTitle => 'Maps ಹೊಸ ಮಾರ್ಗದರ್ಶಿ ರಚಿಸುತ್ತದೆ';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'ಈಗಾಗಲೇ ಇರುವ ಮಾರ್ಗದರ್ಶಿಗೆ ಸೇರಿಸಲು Apple ದಾರಿ ಕೊಡುವುದಿಲ್ಲ, ಹಾಗಾಗಿ $count ಸ್ಥಳಗಳನ್ನೂ ಒಳಗೊಂಡ ಹೊಸದನ್ನು Wren ರಚಿಸುತ್ತದೆ.',
+      one:
+          'ಈಗಾಗಲೇ ಇರುವ ಮಾರ್ಗದರ್ಶಿಗೆ ಸೇರಿಸಲು Apple ದಾರಿ ಕೊಡುವುದಿಲ್ಲ, ಹಾಗಾಗಿ ಆ 1 ಸ್ಥಳವನ್ನು ಒಳಗೊಂಡ ಹೊಸದನ್ನು Wren ರಚಿಸುತ್ತದೆ.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete =>
+      'ಹೊಸ ಮಾರ್ಗದರ್ಶಿಯನ್ನು ಇಟ್ಟುಕೊಂಡು ಹಳೆಯದನ್ನು ಅಳಿಸಿ.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'ಈ ಸ್ಥಳಗಳನ್ನು Wren ಉಳಿಸಿಕೊಳ್ಳುತ್ತದೆ, ಹಾಗಾಗಿ ಏನಾದರೂ ತಪ್ಪಾದರೆ ಮಾರ್ಗದರ್ಶಿಯನ್ನು ಮತ್ತೆ ರಚಿಸಬಹುದು.';
+
+  @override
+  String get makeCombinedGuide => 'ಒಗ್ಗೂಡಿಸಿದ ಮಾರ್ಗದರ್ಶಿ ರಚಿಸಿ';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ಆ ಫೈಲ್‌ನಿಂದ $count ಸ್ಥಳಗಳನ್ನು ಓದಲಾಯಿತು',
+      one: 'ಆ ಫೈಲ್‌ನಿಂದ 1 ಸ್ಥಳ ಓದಲಾಯಿತು',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ಸಾಲುಗಳಲ್ಲಿ ಹೆಸರಿರಲಿಲ್ಲ',
+      one: '1 ಸಾಲಿನಲ್ಲಿ ಹೆಸರಿರಲಿಲ್ಲ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'ಆ ಫೈಲ್‌ನಲ್ಲಿ ಸ್ಥಳಗಳಿಲ್ಲ.';
+
+  @override
+  String get fileUnreadable =>
+      'ಆ ಫೈಲ್ ಅನ್ನು Wren ಓದಲಾಗಲಿಲ್ಲ. ಇದು CSV, KML, KMZ, GPX, GeoJSON ಮತ್ತು Google Takeout ಫೈಲ್‌ಗಳನ್ನು ಓದುತ್ತದೆ.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return '$totalರಲ್ಲಿ $done ಹುಡುಕುತ್ತಿದೆ…';
+  }
+
+  @override
+  String get combineNeedsUnlock =>
+      'ಒಗ್ಗೂಡಿಸಿದ ಮಾರ್ಗದರ್ಶಿ ರಚಿಸಲು ಅನ್‌ಲಾಕ್ ಬೇಕು.';
+
+  @override
+  String get unlockCombineTitle => 'ಈಗಾಗಲೇ ಇರುವ ನಿಮ್ಮ ಮಾರ್ಗದರ್ಶಿಗೆ ಸೇರಿಸಿ';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'ನಿಮ್ಮ ಮಾರ್ಗದರ್ಶಿಯಲ್ಲಿ ಈಗಾಗಲೇ ಇರುವ $count ಸ್ಥಳಗಳನ್ನೂ ಹೊಸ ಸ್ಥಳಗಳನ್ನೂ ಒಳಗೊಂಡ ಒಂದೇ ಮಾರ್ಗದರ್ಶಿಯನ್ನು Wren ರಚಿಸುತ್ತದೆ.',
+      one:
+          'ನಿಮ್ಮ ಮಾರ್ಗದರ್ಶಿಯಲ್ಲಿ ಈಗಾಗಲೇ ಇರುವ 1 ಸ್ಥಳವನ್ನೂ ಹೊಸ ಸ್ಥಳವನ್ನೂ ಒಳಗೊಂಡ ಒಂದೇ ಮಾರ್ಗದರ್ಶಿಯನ್ನು Wren ರಚಿಸುತ್ತದೆ.',
+    );
+    return '$_temp0';
+  }
 }

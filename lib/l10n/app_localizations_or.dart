@@ -265,4 +265,151 @@ class LOr extends L {
   @override
   String get compUntrusted =>
       'ସେହି ଉତ୍ତର ଯାଞ୍ଚ ହୋଇପାରିଲା ନାହିଁ, ତେଣୁ କିଛି ଅନଲକ୍ ହେଲା ନାହିଁ।';
+
+  @override
+  String get addPlaces => 'ଯୋଡ଼ନ୍ତୁ';
+
+  @override
+  String get fromFile => 'ଏକ ଫାଇଲ୍‌ରୁ';
+
+  @override
+  String get fromExistingGuide => 'ପୂର୍ବରୁ ଥିବା ଗାଇଡ୍‌ରୁ';
+
+  @override
+  String get importGuideTitle => 'ପୂର୍ବରୁ ଥିବା ଗାଇଡ୍‌ରେ ଯୋଡ଼ନ୍ତୁ';
+
+  @override
+  String get importGuideBody =>
+      'Apple Maps‌ରେ ଗାଇଡ୍ ଖୋଲି ଶେୟାର୍ କରନ୍ତୁ, ତା\'ପରେ ଲିଙ୍କ୍ କପି କରନ୍ତୁ ବିକଳ୍ପଟି ବାଛନ୍ତୁ। ତାହା ତଳେ ପେଷ୍ଟ କଲେ, ଏଥିରେ ପୂର୍ବରୁ ଥିବା ସ୍ଥାନଗୁଡ଼ିକୁ Wren ପଢ଼ିଦେବ।';
+
+  @override
+  String get guideLinkLabel => 'ଗାଇଡ୍‌ର ଲିଙ୍କ୍';
+
+  @override
+  String get readGuide => 'ଗାଇଡ୍ ପଢ଼ନ୍ତୁ';
+
+  @override
+  String get importGuideNotALink =>
+      'ଏହା Apple Maps ଗାଇଡ୍‌ର ଲିଙ୍କ୍ ନୁହେଁ। Maps‌ରେ ଗାଇଡ୍ ଖୋଲି ଶେୟାର୍ କରନ୍ତୁ, ତା\'ପରେ ଲିଙ୍କ୍ କପି କରନ୍ତୁ ବିକଳ୍ପଟି ବାଛନ୍ତୁ।';
+
+  @override
+  String get importGuideNothing =>
+      'ସେହି ଗାଇଡ୍‌ରେ Wren ଯୋଡ଼ିପାରିବ ଏପରି କିଛି ନାହିଁ।';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ସେହି ଗାଇଡ୍‌ରୁ $countଟି ସ୍ଥାନ ପଢ଼ାଗଲା',
+      one: 'ସେହି ଗାଇଡ୍‌ରୁ 1ଟି ସ୍ଥାନ ପଢ଼ାଗଲା',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ଏଥିରେ $countଟି ସ୍ଥାନ ନୂଆ ଗାଇଡ୍‌କୁ ନେଇ ହେବ ନାହିଁ',
+      one: 'ଏଥିରେ 1ଟି ସ୍ଥାନ ନୂଆ ଗାଇଡ୍‌କୁ ନେଇ ହେବ ନାହିଁ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countଟି ସ୍ଥାନ ପୂର୍ବରୁ ଏହି ଗାଇଡ୍‌ରେ ଅଛି',
+      one: '1ଟି ସ୍ଥାନ ପୂର୍ବରୁ ଏହି ଗାଇଡ୍‌ରେ ଅଛି',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return '“$name” ଗାଇଡ୍‌ରୁ';
+  }
+
+  @override
+  String get republishTitle => 'Maps ନୂଆ ଗୋଟିଏ ଗାଇଡ୍ ତିଆରି କରେ';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'ପୂର୍ବରୁ ଥିବା ଗାଇଡ୍‌ରେ ଯୋଡ଼ିବାର କୌଣସି ଉପାୟ Apple ଦିଏ ନାହିଁ, ତେଣୁ ସବୁ $countଟି ସ୍ଥାନକୁ ନେଇ Wren ନୂଆ ଗୋଟିଏ ତିଆରି କରିବ।',
+      one:
+          'ପୂର୍ବରୁ ଥିବା ଗାଇଡ୍‌ରେ ଯୋଡ଼ିବାର କୌଣସି ଉପାୟ Apple ଦିଏ ନାହିଁ, ତେଣୁ ସେହି 1ଟି ସ୍ଥାନକୁ ନେଇ Wren ନୂଆ ଗୋଟିଏ ତିଆରି କରିବ।',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => 'ନୂଆ ଗାଇଡ୍ ରଖି ପୁରୁଣାଟି ଡିଲିଟ୍ କରନ୍ତୁ।';
+
+  @override
+  String get republishKeepsPlaces =>
+      'ଏହି ସ୍ଥାନଗୁଡ଼ିକ Wren ରଖିଥାଏ, ତେଣୁ କିଛି ଭୁଲ ହେଲେ ଗାଇଡ୍‌କୁ ପୁଣି ତିଆରି କରିପାରିବେ।';
+
+  @override
+  String get makeCombinedGuide => 'ମିଳିତ ଗାଇଡ୍ ତିଆରି କରନ୍ତୁ';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ସେହି ଫାଇଲ୍‌ରୁ $countଟି ସ୍ଥାନ ପଢ଼ାଗଲା',
+      one: 'ସେହି ଫାଇଲ୍‌ରୁ 1ଟି ସ୍ଥାନ ପଢ଼ାଗଲା',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countଟି ଧାଡ଼ିରେ ନାମ ନଥିଲା',
+      one: '1ଟି ଧାଡ଼ିରେ ନାମ ନଥିଲା',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'ସେହି ଫାଇଲ୍‌ରେ କୌଣସି ସ୍ଥାନ ନାହିଁ।';
+
+  @override
+  String get fileUnreadable =>
+      'ସେହି ଫାଇଲ୍ Wren ପଢ଼ି ପାରିଲା ନାହିଁ। ଏହା CSV, KML, KMZ, GPX, GeoJSON ଏବଂ Google Takeout ଫାଇଲ୍ ପଢ଼େ।';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return '$totalରୁ $done ଖୋଜୁଛି…';
+  }
+
+  @override
+  String get combineNeedsUnlock => 'ମିଳିତ ଗାଇଡ୍ ତିଆରି କରିବାକୁ ଅନଲକ୍ ଦରକାର।';
+
+  @override
+  String get unlockCombineTitle => 'ପୂର୍ବରୁ ଥିବା ଆପଣଙ୍କ ଗାଇଡ୍‌ରେ ଯୋଡ଼ନ୍ତୁ';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'ଆପଣଙ୍କ ଗାଇଡ୍‌ରେ ପୂର୍ବରୁ ଥିବା $countଟି ସ୍ଥାନ ଓ ନୂଆ ସ୍ଥାନଗୁଡ଼ିକୁ ଏକାଠି ନେଇ Wren ଗୋଟିଏ ହିଁ ଗାଇଡ୍ ତିଆରି କରିବ।',
+      one:
+          'ଆପଣଙ୍କ ଗାଇଡ୍‌ରେ ପୂର୍ବରୁ ଥିବା 1ଟି ସ୍ଥାନ ଓ ନୂଆ ସ୍ଥାନକୁ ଏକାଠି ନେଇ Wren ଗୋଟିଏ ହିଁ ଗାଇଡ୍ ତିଆରି କରିବ।',
+    );
+    return '$_temp0';
+  }
 }

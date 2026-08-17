@@ -253,4 +253,140 @@ class LKo extends L {
 
   @override
   String get compUntrusted => '응답을 확인할 수 없어 잠금을 해제하지 않았습니다.';
+
+  @override
+  String get addPlaces => '추가';
+
+  @override
+  String get fromFile => '파일에서';
+
+  @override
+  String get fromExistingGuide => '이미 있는 가이드에서';
+
+  @override
+  String get importGuideTitle => '이미 있는 가이드에 추가';
+
+  @override
+  String get importGuideBody =>
+      '지도에서 그 가이드를 열어 공유한 다음 “링크 복사”를 선택하세요. 아래에 붙여넣으면 Wren이 그 가이드에 담긴 장소를 읽습니다.';
+
+  @override
+  String get guideLinkLabel => '가이드 링크';
+
+  @override
+  String get readGuide => '가이드 읽기';
+
+  @override
+  String get importGuideNotALink =>
+      '지도 가이드 링크가 아닙니다. 지도에서 가이드를 열어 공유한 다음 “링크 복사”를 선택하세요.';
+
+  @override
+  String get importGuideNothing => '그 가이드에는 Wren이 추가할 수 있는 것이 없습니다.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '그 가이드에서 $count곳을 읽었습니다',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '그중 $count곳은 옮길 수 없습니다',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count곳은 이미 이 가이드에 있습니다',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return '“$name”에서';
+  }
+
+  @override
+  String get republishTitle => '지도는 새 가이드를 만듭니다';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Apple은 이미 있는 가이드에 추가하는 방법을 제공하지 않으므로, Wren이 장소 $count곳을 담은 새 가이드를 만듭니다.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => '새 가이드는 남기고 예전 가이드는 삭제하세요.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren이 이 장소들을 보관하므로, 잘못되면 가이드를 다시 만들 수 있습니다.';
+
+  @override
+  String get makeCombinedGuide => '합친 가이드 만들기';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '그 파일에서 $count곳을 읽었습니다',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count개 행에 이름이 없었습니다',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => '그 파일에는 장소가 없습니다.';
+
+  @override
+  String get fileUnreadable =>
+      'Wren이 그 파일을 읽지 못했습니다. CSV, KML, KMZ, GPX, GeoJSON, Google Takeout 내보내기를 읽을 수 있습니다.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return '$total개 중 $done개 찾는 중…';
+  }
+
+  @override
+  String get combineNeedsUnlock => '합친 가이드를 만들려면 잠금 해제가 필요합니다.';
+
+  @override
+  String get unlockCombineTitle => '이미 가지고 있는 가이드에 추가';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Wren이 기존 가이드에 있던 $count곳과 새로 찾은 곳을 함께 담아 가이드 하나를 만듭니다.',
+    );
+    return '$_temp0';
+  }
 }

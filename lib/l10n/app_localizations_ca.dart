@@ -273,4 +273,153 @@ class LCa extends L {
   @override
   String get compUntrusted =>
       'No s\'ha pogut verificar la resposta, així que no s\'ha desbloquejat res.';
+
+  @override
+  String get addPlaces => 'Afegir';
+
+  @override
+  String get fromFile => 'Des d\'un fitxer';
+
+  @override
+  String get fromExistingGuide => 'Des d\'una guia existent';
+
+  @override
+  String get importGuideTitle => 'Afegir a una guia existent';
+
+  @override
+  String get importGuideBody =>
+      'A Mapes, obre la guia i comparteix-la; després tria Copiar l\'enllaç. Enganxa\'l aquí sota i el Wren llegirà els llocs que ja conté.';
+
+  @override
+  String get guideLinkLabel => 'Enllaç de la guia';
+
+  @override
+  String get readGuide => 'Llegir la guia';
+
+  @override
+  String get importGuideNotALink =>
+      'Aquest no és l\'enllaç d\'una guia de Mapes. Obre la guia a Mapes, comparteix-la i tria Copiar l\'enllaç.';
+
+  @override
+  String get importGuideNothing =>
+      'Aquesta guia no té cap lloc que el Wren pugui fer servir.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count llocs llegits d\'aquesta guia',
+      one: '1 lloc llegit d\'aquesta guia',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count llocs no es poden passar a la guia nova',
+      one: '1 lloc no es pot passar a la guia nova',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count llocs ja són en aquesta guia',
+      one: '1 lloc ja és en aquesta guia',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return 'De «$name»';
+  }
+
+  @override
+  String get republishTitle => 'Mapes crea una guia nova';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Apple no permet afegir llocs a una guia que ja existeix, així que el Wren en crearà una de nova amb els $count llocs.',
+      one:
+          'Apple no permet afegir llocs a una guia que ja existeix, així que el Wren en crearà una de nova amb aquest lloc.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete =>
+      'Queda\'t la guia nova i esborra l\'antiga.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'El Wren conserva aquests llocs, així que pots tornar a crear la guia si alguna cosa va malament.';
+
+  @override
+  String get makeCombinedGuide => 'Crear la guia combinada';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count llocs llegits d\'aquest fitxer',
+      one: '1 lloc llegit d\'aquest fitxer',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count files sense nom',
+      one: '1 fila sense nom',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'No hi ha cap lloc en aquest fitxer.';
+
+  @override
+  String get fileUnreadable =>
+      'El Wren no ha pogut llegir aquest fitxer. Llegeix exportacions en CSV, KML, KMZ, GPX, GeoJSON i Google Takeout.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return 'S\'estan buscant $done de $total…';
+  }
+
+  @override
+  String get combineNeedsUnlock =>
+      'Crear la guia combinada requereix el desbloqueig.';
+
+  @override
+  String get unlockCombineTitle => 'Afegir a una guia que ja tens';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'El Wren crearà una sola guia amb els $count llocs que ja són a la teva i els nous.',
+      one:
+          'El Wren crearà una sola guia amb el lloc que ja és a la teva i el nou.',
+    );
+    return '$_temp0';
+  }
 }

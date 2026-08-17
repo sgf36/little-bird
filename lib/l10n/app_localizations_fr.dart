@@ -272,6 +272,155 @@ class LFr extends L {
   @override
   String get compUntrusted =>
       'Cette réponse n\'a pas pu être vérifiée, rien n\'a été débloqué.';
+
+  @override
+  String get addPlaces => 'Ajouter';
+
+  @override
+  String get fromFile => 'Depuis un fichier';
+
+  @override
+  String get fromExistingGuide => 'Depuis un guide existant';
+
+  @override
+  String get importGuideTitle => 'Ajouter à un guide existant';
+
+  @override
+  String get importGuideBody =>
+      'Dans Plans, ouvrez le guide et partagez-le, puis choisissez Copier le lien. Collez-le ci-dessous et Wren lira les lieux qu\'il contient déjà.';
+
+  @override
+  String get guideLinkLabel => 'Lien du guide';
+
+  @override
+  String get readGuide => 'Lire le guide';
+
+  @override
+  String get importGuideNotALink =>
+      'Ce n\'est pas le lien d\'un guide Plans. Ouvrez le guide dans Plans, partagez-le, puis choisissez Copier le lien.';
+
+  @override
+  String get importGuideNothing =>
+      'Ce guide ne contient aucun lieu que Wren puisse reprendre.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lieux lus dans ce guide',
+      one: '1 lieu lu dans ce guide',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lieux ne peuvent pas être repris',
+      one: '1 lieu ne peut pas être repris',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lieux déjà dans ce guide',
+      one: '1 lieu déjà dans ce guide',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return 'Depuis « $name »';
+  }
+
+  @override
+  String get republishTitle => 'Plans crée un nouveau guide';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Apple ne permet pas d\'ajouter des lieux à un guide existant. Wren en crée donc un nouveau, contenant les $count lieux.',
+      one:
+          'Apple ne permet pas d\'ajouter des lieux à un guide existant. Wren en crée donc un nouveau, contenant ce seul lieu.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete =>
+      'Conservez le nouveau guide et supprimez l\'ancien.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren garde ces lieux, vous pourrez donc recréer le guide en cas de problème.';
+
+  @override
+  String get makeCombinedGuide => 'Créer le guide combiné';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lieux lus dans ce fichier',
+      one: '1 lieu lu dans ce fichier',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lignes sans nom',
+      one: '1 ligne sans nom',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'Aucun lieu dans ce fichier.';
+
+  @override
+  String get fileUnreadable =>
+      'Wren n\'a pas pu lire ce fichier. Il lit les exports CSV, KML, KMZ, GPX, GeoJSON et Google Takeout.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return 'Recherche de $done sur $total…';
+  }
+
+  @override
+  String get combineNeedsUnlock =>
+      'La création du guide combiné nécessite le déblocage.';
+
+  @override
+  String get unlockCombineTitle => 'Ajouter à un guide que vous avez déjà';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren créera un seul guide contenant les $count lieux déjà présents dans le vôtre et les nouveaux.',
+      one:
+          'Wren créera un seul guide contenant le lieu déjà présent dans le vôtre et le nouveau.',
+    );
+    return '$_temp0';
+  }
 }
 
 /// The translations for French, as used in Canada (`fr_CA`).
@@ -542,4 +691,153 @@ class LFrCa extends LFr {
   @override
   String get compUntrusted =>
       'Cette réponse n\'a pas pu être vérifiée, rien n\'a été débloqué.';
+
+  @override
+  String get addPlaces => 'Ajouter';
+
+  @override
+  String get fromFile => 'Depuis un fichier';
+
+  @override
+  String get fromExistingGuide => 'Depuis un guide existant';
+
+  @override
+  String get importGuideTitle => 'Ajouter à un guide existant';
+
+  @override
+  String get importGuideBody =>
+      'Dans Plans, ouvrez le guide et partagez-le, puis choisissez Copier le lien. Collez-le ci-dessous et Wren lira les lieux qu\'il contient déjà.';
+
+  @override
+  String get guideLinkLabel => 'Lien du guide';
+
+  @override
+  String get readGuide => 'Lire le guide';
+
+  @override
+  String get importGuideNotALink =>
+      'Ce n\'est pas le lien d\'un guide Plans. Ouvrez le guide dans Plans, partagez-le, puis choisissez Copier le lien.';
+
+  @override
+  String get importGuideNothing =>
+      'Ce guide ne contient aucun lieu que Wren puisse reprendre.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lieux lus dans ce guide',
+      one: '1 lieu lu dans ce guide',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lieux ne peuvent pas être repris',
+      one: '1 lieu ne peut pas être repris',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lieux déjà dans ce guide',
+      one: '1 lieu déjà dans ce guide',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return 'Depuis « $name »';
+  }
+
+  @override
+  String get republishTitle => 'Plans crée un nouveau guide';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Apple ne permet pas d\'ajouter des lieux à un guide existant. Wren en crée donc un nouveau, contenant les $count lieux.',
+      one:
+          'Apple ne permet pas d\'ajouter des lieux à un guide existant. Wren en crée donc un nouveau, contenant ce seul lieu.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete =>
+      'Gardez le nouveau guide et supprimez l\'ancien.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren garde ces lieux, vous pourrez donc recréer le guide en cas de problème.';
+
+  @override
+  String get makeCombinedGuide => 'Créer le guide combiné';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lieux lus dans ce fichier',
+      one: '1 lieu lu dans ce fichier',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lignes sans nom',
+      one: '1 ligne sans nom',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'Aucun lieu dans ce fichier.';
+
+  @override
+  String get fileUnreadable =>
+      'Wren n\'a pas pu lire ce fichier. Il lit les exportations CSV, KML, KMZ, GPX, GeoJSON et Google Takeout.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return 'Recherche de $done sur $total…';
+  }
+
+  @override
+  String get combineNeedsUnlock =>
+      'La création du guide combiné demande le déblocage.';
+
+  @override
+  String get unlockCombineTitle => 'Ajouter à un guide que vous avez déjà';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren créera un seul guide regroupant les $count lieux déjà présents dans le vôtre et les nouveaux.',
+      one:
+          'Wren créera un seul guide regroupant le lieu déjà présent dans le vôtre et le nouveau.',
+    );
+    return '$_temp0';
+  }
 }

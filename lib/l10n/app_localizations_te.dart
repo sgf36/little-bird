@@ -270,4 +270,152 @@ class LTe extends L {
   @override
   String get compUntrusted =>
       'ఆ సమాధానాన్ని ధృవీకరించలేకపోయాం, కాబట్టి ఏమీ అన్‌లాక్ కాలేదు.';
+
+  @override
+  String get addPlaces => 'జోడించండి';
+
+  @override
+  String get fromFile => 'ఫైల్ నుంచి';
+
+  @override
+  String get fromExistingGuide => 'ఇప్పటికే ఉన్న గైడ్ నుంచి';
+
+  @override
+  String get importGuideTitle => 'ఇప్పటికే ఉన్న గైడ్‌లో జోడించండి';
+
+  @override
+  String get importGuideBody =>
+      'Apple Maps‌లో గైడ్‌ను తెరిచి షేర్ చేయండి, తర్వాత లింక్‌ను కాపీ చేయండి అనే ఎంపికను ఎంచుకోండి. దాన్ని కింద పేస్ట్ చేస్తే, అందులో ఇప్పటికే ఉన్న ప్రదేశాలను Wren చదువుతుంది.';
+
+  @override
+  String get guideLinkLabel => 'గైడ్ లింక్';
+
+  @override
+  String get readGuide => 'గైడ్ చదవండి';
+
+  @override
+  String get importGuideNotALink =>
+      'అది Apple Maps గైడ్ లింక్ కాదు. Maps‌లో గైడ్‌ను తెరిచి షేర్ చేయండి, తర్వాత లింక్‌ను కాపీ చేయండి అనే ఎంపికను ఎంచుకోండి.';
+
+  @override
+  String get importGuideNothing => 'ఆ గైడ్‌లో Wren జోడించగలిగేది ఏదీ లేదు.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ఆ గైడ్ నుంచి $count ప్రదేశాలు చదివాం',
+      one: 'ఆ గైడ్ నుంచి 1 ప్రదేశం చదివాం',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'అందులోని $count ప్రదేశాలను తీసుకెళ్లడం కుదరదు',
+      one: 'అందులోని 1 ప్రదేశాన్ని తీసుకెళ్లడం కుదరదు',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ప్రదేశాలు ఇప్పటికే ఈ గైడ్‌లో ఉన్నాయి',
+      one: '1 ప్రదేశం ఇప్పటికే ఈ గైడ్‌లో ఉంది',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return '“$name” గైడ్ నుంచి';
+  }
+
+  @override
+  String get republishTitle => 'Maps కొత్త గైడ్ తయారుచేస్తుంది';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'ఇప్పటికే ఉన్న గైడ్‌లో జోడించే మార్గం Apple ఇవ్వదు, కాబట్టి $count ప్రదేశాలన్నింటితో Wren కొత్తది తయారుచేస్తుంది.',
+      one:
+          'ఇప్పటికే ఉన్న గైడ్‌లో జోడించే మార్గం Apple ఇవ్వదు, కాబట్టి ఆ 1 ప్రదేశంతో Wren కొత్తది తయారుచేస్తుంది.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete =>
+      'కొత్త గైడ్‌ను ఉంచుకుని పాతదాన్ని తొలగించండి.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'ఈ ప్రదేశాలను Wren ఉంచుకుంటుంది, కాబట్టి ఏదైనా తప్పు జరిగితే గైడ్‌ను మళ్లీ తయారుచేయవచ్చు.';
+
+  @override
+  String get makeCombinedGuide => 'కలిపిన గైడ్ తయారుచేయండి';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ఆ ఫైల్ నుంచి $count ప్రదేశాలు చదివాం',
+      one: 'ఆ ఫైల్ నుంచి 1 ప్రదేశం చదివాం',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count వరుసల్లో పేరు లేదు',
+      one: '1 వరుసలో పేరు లేదు',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'ఆ ఫైల్‌లో ప్రదేశాలు లేవు.';
+
+  @override
+  String get fileUnreadable =>
+      'ఆ ఫైల్‌ను Wren చదవలేకపోయింది. ఇది CSV, KML, KMZ, GPX, GeoJSON మరియు Google Takeout ఫైల్‌లను చదువుతుంది.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return '$totalలో $done వెతుకుతోంది…';
+  }
+
+  @override
+  String get combineNeedsUnlock =>
+      'కలిపిన గైడ్ తయారుచేయడానికి అన్‌లాక్ కావాలి.';
+
+  @override
+  String get unlockCombineTitle => 'ఇప్పటికే ఉన్న మీ గైడ్‌లో జోడించండి';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'మీ గైడ్‌లో ఇప్పటికే ఉన్న $count ప్రదేశాలను, కొత్త ప్రదేశాలను కలిపి Wren ఒకే గైడ్ తయారుచేస్తుంది.',
+      one:
+          'మీ గైడ్‌లో ఇప్పటికే ఉన్న 1 ప్రదేశాన్ని, కొత్త ప్రదేశాన్ని కలిపి Wren ఒకే గైడ్ తయారుచేస్తుంది.',
+    );
+    return '$_temp0';
+  }
 }

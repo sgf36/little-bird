@@ -1,24 +1,49 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'l10n/app_localizations.dart';
 import 'src/entitlement.dart';
+import 'src/file_source.dart';
+import 'src/guide_import.dart';
 import 'src/guide_link.dart';
 import 'src/ocr.dart';
+import 'src/place_files.dart';
 import 'src/place_search_sheet.dart';
 import 'src/region_hint.dart';
 import 'src/resolver.dart';
 import 'src/comp_unlock.dart' as comp;
+import 'src/screenshots.dart';
 import 'src/splash.dart';
 import 'src/store_unlock.dart';
 import 'src/theme.dart';
 import 'src/wren_mark.dart';
 
-void main() => runApp(const WrenApp());
+/// True only in the build made for taking store screenshots.
+///
+/// A compile-time constant, so the normal build contains none of the scene
+/// fixtures — tree shaking removes them — and a shipped app cannot be talked
+/// into showing a fake list of places by any runtime input.
+const _shots = bool.fromEnvironment('WREN_SHOTS');
+
+void main() {
+  if (_shots) {
+    // Named by SIMCTL_CHILD_WREN_SCENE on the simctl launch, so one build
+    // covers every scene and every language.
+    final scene = Platform.environment['WREN_SCENE'] ?? '';
+    runApp(WrenApp(home: sceneFor(scene) ?? UnknownScene(scene)));
+    return;
+  }
+  runApp(const WrenApp());
+}
 
 class WrenApp extends StatelessWidget {
-  const WrenApp({super.key});
+  const WrenApp({super.key, this.home});
+
+  /// Replaced only by the screenshot build. Normally the splash gate.
+  final Widget? home;
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -30,19 +55,30 @@ class WrenApp extends StatelessWidget {
     // whole of adding a language — there is no second place to keep in step.
     localizationsDelegates: L.localizationsDelegates,
     supportedLocales: L.supportedLocales,
-    home: const SplashGate(child: CapturePage()),
+    // No splash in the screenshot build: it animates, and a screenshot taken
+    // during it catches the mark half-faded.
+    home: home ?? const SplashGate(child: CapturePage()),
   );
 }
 
-/// One thing read off a screenshot, matched or not.
+/// Where a place in the list came from.
+///
+/// Worth distinguishing because it changes three things: whether the row shows
+/// what was read (a place taken from Apple's own guide has no reading to
+/// second-guess), whether it counts against the free limit, and whether it can
+/// be truncated when someone publishes free — places the user already had must
+/// never be dropped to fit a cap.
+enum Origin { screenshot, file, guide }
+
+/// One thing on the list, matched or not.
 ///
 /// Unmatched readings are kept rather than dropped. Previously a name the map
 /// did not recognise vanished with only a count to show for it, which threw
 /// away the one record of what the user had actually seen — and left them no
 /// way to fix it.
 class Pending {
-  /// What OCR read. Never edited: it is the evidence, and the only trace of
-  /// what the screenshot said.
+  /// What OCR read, or what the imported file called it. Never edited: it is
+  /// the evidence, and the only trace of what the source said.
   final String readAs;
 
   /// What it resolved to, or null while it is still unidentified.
@@ -50,12 +86,23 @@ class Pending {
 
   bool keep;
 
-  Pending(this.readAs, this.match, {this.keep = true});
+  final Origin origin;
+
+  Pending(
+    this.readAs,
+    this.match, {
+    this.keep = true,
+    this.origin = Origin.screenshot,
+  });
 
   bool get resolved => match != null;
 
   /// Only a resolved place can go in a guide — an Apple place id is required.
   bool get publishable => resolved && keep;
+
+  /// Whether this place is one the user is being charged for. A place carried
+  /// over from a guide they already own is not.
+  bool get billable => origin != Origin.guide;
 }
 
 class CapturePage extends StatefulWidget {
@@ -63,16 +110,32 @@ class CapturePage extends StatefulWidget {
     super.key,
     this.store,
     this.resolver,
+    this.files,
     this.initialPending,
+    this.initialGuideName,
+    this.initialOverlay = ScreenshotOverlay.none,
   });
 
-  /// Injectable so the paywall and the list can be tested without StoreKit or
-  /// MapKit, neither of which exists off-device.
+  /// Injectable so the paywall, the list and the importers can be tested
+  /// without StoreKit, MapKit or a document picker, none of which exists
+  /// off-device.
   final UnlockStore? store;
   final PlaceResolver? resolver;
+  final FileSource? files;
 
   @visibleForTesting
   final List<Pending>? initialPending;
+
+  /// The guide imported places came from, when the list starts with some.
+  @visibleForTesting
+  final String? initialGuideName;
+
+  /// Opens one of the app's own overlays as soon as the first frame is up.
+  ///
+  /// Only for the store-screenshot build. It calls the same methods a tap
+  /// calls, deliberately: a screenshot harness that rebuilt these dialogs to
+  /// look right would keep looking right after the real ones changed.
+  final ScreenshotOverlay initialOverlay;
 
   @override
   State<CapturePage> createState() => _CapturePageState();
@@ -82,6 +145,7 @@ class _CapturePageState extends State<CapturePage> {
   final _picker = ImagePicker();
   late final PlaceResolver _resolver = widget.resolver ?? MapKitResolver();
   late final UnlockStore _store = widget.store ?? StoreUnlockStore();
+  late final FileSource _files = widget.files ?? DocumentFileSource();
   late final List<Pending> _pending = [...?widget.initialPending];
 
   Entitlement _entitlement = const Entitlement.free();
@@ -90,6 +154,18 @@ class _CapturePageState extends State<CapturePage> {
   int _readCount = 0;
   int _totalCount = 0;
   Region? _region;
+
+  /// The guide the carried-over places came from, if any. Kept so the combined
+  /// guide can be offered the same name.
+  late String? _guideName = widget.initialGuideName;
+
+  /// Whether the carried-over places are showing. Collapsed by default: they
+  /// are context, and a guide of forty would bury the two places just added.
+  bool _showCarried = false;
+
+  /// Distinguishes the two things that report progress the same way — reading
+  /// screenshots and matching names against the map.
+  bool _lookingUp = false;
 
   @override
   void initState() {
@@ -104,6 +180,24 @@ class _CapturePageState extends State<CapturePage> {
         setState(() => _entitlement = const Entitlement.unlocked());
       }
     });
+
+    if (widget.initialOverlay != ScreenshotOverlay.none) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        switch (widget.initialOverlay) {
+          case ScreenshotOverlay.none:
+            break;
+          case ScreenshotOverlay.region:
+            _confirmRegion('Borough Market, London');
+          case ScreenshotOverlay.paywall:
+            _offerUnlock(_pending.where((p) => p.publishable).length);
+          case ScreenshotOverlay.search:
+            if (_pending.isNotEmpty) _editPlace(0);
+          case ScreenshotOverlay.addMenu:
+            _addPlaces();
+        }
+      });
+    }
   }
 
   /// Reached by long-pressing the title. Nothing on screen advertises it, and
@@ -353,9 +447,217 @@ class _CapturePageState extends State<CapturePage> {
     }
   }
 
-  Future<String?> _askGuideName(int count) async {
+  /// Reads the places out of a guide the user already has, so new ones can be
+  /// added to them.
+  ///
+  /// Only reads. Publishing later makes a *new* guide holding both sets, because
+  /// Apple offers no way to add to an existing one from outside Maps — a
+  /// limitation the user is told about at the point it matters, in [_publish],
+  /// rather than discovered afterwards.
+  Future<void> _importGuide() async {
     final l = L.of(context);
     final controller = TextEditingController();
+    final pasted = await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          l.importGuideTitle,
+          style: const TextStyle(fontFamily: Wren.serif),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              l.importGuideBody,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: controller,
+              autofocus: true,
+              autocorrect: false,
+              enableSuggestions: false,
+              maxLines: 2,
+              keyboardType: TextInputType.url,
+              decoration: InputDecoration(labelText: l.guideLinkLabel),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l.cancel, style: const TextStyle(color: Wren.muted)),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, controller.text),
+            style: FilledButton.styleFrom(minimumSize: const Size(0, 44)),
+            child: Text(l.readGuide),
+          ),
+        ],
+      ),
+    );
+    if (pasted == null || pasted.trim().isEmpty || !mounted) return;
+
+    final ImportedGuide guide;
+    try {
+      guide = importGuideLink(pasted);
+    } on GuideLinkFormat {
+      // Deliberately not the parser's own message. It says things like "field
+      // runs past the end", which is the right thing to have in a log and the
+      // wrong thing to put in front of someone who pasted the wrong text.
+      setState(() => _status = l.importGuideNotALink);
+      return;
+    }
+
+    if (guide.places.isEmpty) {
+      setState(() => _status = l.importGuideNothing);
+      return;
+    }
+
+    setState(() {
+      var added = 0;
+      for (final p in guide.places) {
+        if (_pending.any((o) => o.match?.id == p.id)) continue;
+        _pending.add(
+          Pending(
+            p.name,
+            // Apple's own name and id, straight out of the guide. There is no
+            // address in the payload; the row shows the name alone rather than
+            // an empty line where one should be.
+            PlaceMatch(id: p.id, name: p.name, address: ''),
+            origin: Origin.guide,
+          ),
+        );
+        added++;
+      }
+      if (guide.name.isNotEmpty) _guideName = guide.name;
+      _status = [
+        l.importedGuideSummary(added),
+        if (guide.unusable > 0) '· ${l.importedGuideUnusable(guide.unusable)}',
+      ].join(' ');
+    });
+  }
+
+  /// Imports a list exported from another app.
+  ///
+  /// The file gives names and, usually, coordinates — never Apple place ids, so
+  /// every row still goes through the same map lookup an OCR reading does. The
+  /// coordinate is worth having anyway: it aims each search individually, which
+  /// is better than the one region a batch of screenshots shares, and it is why
+  /// a file of places spread across three cities imports correctly.
+  Future<void> _importFile() async {
+    final l = L.of(context);
+    setState(() {
+      _busy = true;
+      _status = null;
+    });
+
+    final PlaceFileResult read;
+    try {
+      final picked = await _files.pick();
+      if (picked == null || !mounted) {
+        setState(() => _busy = false);
+        return;
+      }
+      read = readPlaceFile(picked.text, filename: picked.name);
+    } on PlaceFileFormat {
+      // Same reasoning as the guide link: the parser's complaint is precise and
+      // useless here. What helps is knowing which formats work.
+      setState(() {
+        _busy = false;
+        _status = l.fileUnreadable;
+      });
+      return;
+    } on FileSourceUnavailable catch (e) {
+      setState(() {
+        _busy = false;
+        _status = e.unsupported ? l.fileUnreadable : e.message;
+      });
+      return;
+    } catch (e) {
+      setState(() {
+        _busy = false;
+        _status = '$e';
+      });
+      return;
+    }
+
+    if (read.places.isEmpty) {
+      setState(() {
+        _busy = false;
+        _status = l.fileNoPlaces;
+      });
+      return;
+    }
+
+    setState(() {
+      _lookingUp = true;
+      _totalCount = read.places.length;
+      _readCount = 0;
+    });
+
+    var unmatched = 0, added = 0;
+    for (final place in read.places) {
+      List<PlaceMatch> matches;
+      try {
+        matches = usable(
+          await _resolver.resolve(place.query, region: _regionFor(place)),
+        );
+      } on ResolverUnavailable catch (e) {
+        setState(() {
+          _busy = false;
+          _lookingUp = false;
+          _status = e.throttled
+              ? l.rateLimitedDuringImport(added)
+              : e.unsupported
+              ? l.lookupUnavailable
+              : e.message;
+        });
+        return;
+      }
+      if (!mounted) return;
+      setState(() => _readCount++);
+
+      if (matches.isEmpty) {
+        unmatched++;
+        _pending.add(
+          Pending(place.name, null, keep: false, origin: Origin.file),
+        );
+        continue;
+      }
+      if (!_pending.any((p) => p.match?.id == matches.first.id)) {
+        _pending.add(Pending(place.name, matches.first, origin: Origin.file));
+        added++;
+      }
+    }
+
+    setState(() {
+      _busy = false;
+      _lookingUp = false;
+      _status = [
+        l.fileImportSummary(added),
+        if (unmatched > 0) '· ${l.importSummaryNeedLook(unmatched)}',
+        if (read.skipped > 0) '· ${l.fileImportSkipped(read.skipped)}',
+      ].join(' ');
+    });
+  }
+
+  /// Where to centre the search for one row of a file.
+  ///
+  /// The file's own coordinate wins when it has one: a per-place centre is
+  /// strictly better than the batch region, and a file may span countries. The
+  /// name is left empty so nothing invented is appended to the query — only the
+  /// coordinate is a fact here.
+  Region? _regionFor(FilePlace place) {
+    final lat = place.lat, lon = place.lon;
+    if (lat == null || lon == null) return _region;
+    return Region(name: '', lat: lat, lon: lon);
+  }
+
+  Future<String?> _askGuideName(int count, {String? initial}) async {
+    final l = L.of(context);
+    final controller = TextEditingController(text: initial ?? '');
     return showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
@@ -405,10 +707,19 @@ class _CapturePageState extends State<CapturePage> {
     );
   }
 
-  Future<_UnlockChoice> _offerUnlock(int selected) async {
+  /// The purchase sheet, in one of its two jobs.
+  ///
+  /// [carried] is how many places came out of a guide the user already keeps.
+  /// When there are any, the sheet is selling the combined guide rather than the
+  /// size cap, and it deliberately does **not** offer "save the first three
+  /// instead": that option exists to trim what Wren found, and applying it here
+  /// would publish a guide missing places the user already had. There is no
+  /// smaller version of combining to fall back to.
+  Future<_UnlockChoice> _offerUnlock(int selected, {int carried = 0}) async {
     final l = L.of(context);
     final price = await _store.price() ?? unlimitedFallbackPrice;
     if (!mounted) return _UnlockChoice.cancel;
+    final combining = carried > 0;
     final over = _entitlement.overBy(selected);
     final choice = await showModalBottomSheet<_UnlockChoice>(
       context: context,
@@ -424,12 +735,14 @@ class _CapturePageState extends State<CapturePage> {
               const WrenMark(size: 44),
               const SizedBox(height: 16),
               Text(
-                l.guidesOfAnySize,
+                combining ? l.unlockCombineTitle : l.guidesOfAnySize,
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               const SizedBox(height: 10),
               Text(
-                l.unlockExplain(freePlaceLimit, selected, over),
+                combining
+                    ? l.unlockCombineBody(carried)
+                    : l.unlockExplain(freePlaceLimit, selected, over),
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 6),
@@ -444,12 +757,14 @@ class _CapturePageState extends State<CapturePage> {
                 // the storefront, so it is never reformatted here.
                 child: Text(l.unlockFor(price)),
               ),
-              const SizedBox(height: 10),
-              OutlinedButton(
-                onPressed: () =>
-                    Navigator.pop(context, _UnlockChoice.publishFree),
-                child: Text(l.saveFirstInstead(freePlaceLimit)),
-              ),
+              if (!combining) ...[
+                const SizedBox(height: 10),
+                OutlinedButton(
+                  onPressed: () =>
+                      Navigator.pop(context, _UnlockChoice.publishFree),
+                  child: Text(l.saveFirstInstead(freePlaceLimit)),
+                ),
+              ],
               const SizedBox(height: 2),
               Center(
                 child: TextButton(
@@ -499,16 +814,93 @@ class _CapturePageState extends State<CapturePage> {
     });
   }
 
+  /// Warns that a combined guide is a new guide, before one is made.
+  ///
+  /// Apple's guide link carries no guide identity, so there is nothing to add
+  /// to — publishing always creates. Saying so beforehand is the difference
+  /// between an understood limitation and an apparent duplicate.
+  Future<bool> _confirmRepublish(int total) async {
+    final l = L.of(context);
+    final go = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          l.republishTitle,
+          style: const TextStyle(fontFamily: Wren.serif),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              l.republishBody(total),
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              l.republishThenDelete,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 14),
+            // The list is not cleared after publishing, so a guide deleted in
+            // error can be made again in one tap. Worth saying, because
+            // "delete the old one" is otherwise a frightening instruction.
+            Text(
+              l.republishKeepsPlaces,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l.cancel, style: const TextStyle(color: Wren.muted)),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: FilledButton.styleFrom(minimumSize: const Size(0, 44)),
+            child: Text(l.makeCombinedGuide),
+          ),
+        ],
+      ),
+    );
+    return go ?? false;
+  }
+
   Future<void> _publish() async {
     final l = L.of(context);
     var keep = _pending.where((p) => p.publishable).toList();
     if (keep.isEmpty) return;
 
-    switch (_entitlement.check(keep.length)) {
+    // Places carried over from an existing guide are not counted against the
+    // size cap — the cap limits what Wren found, and counting them would make
+    // importing a guide of twenty trip a limit built for three. Combining is
+    // gated on its own instead, below, because it is the paid feature rather
+    // than a bigger version of the free one.
+    final billable = keep.where((p) => p.billable).length;
+    final carried = keep.length - billable;
+
+    // Nothing new, so there is nothing to add and republishing the guide
+    // unchanged would only leave a duplicate in Maps. Checked before the
+    // paywall, not after: offering the purchase first and finding this out
+    // afterwards would have taken the money and made the duplicate anyway.
+    if (billable == 0) {
+      setState(() => _status = l.importGuideNothing);
+      return;
+    }
+
+    // Combining needs the unlock, whatever the counts. Checked before the size
+    // cap so someone with two carried places and one new is asked about the
+    // thing they are actually doing.
+    final block = carried > 0 && !_entitlement.unlimited
+        ? PublishBlock.needsUnlock
+        : _entitlement.check(billable);
+
+    switch (block) {
       case PublishBlock.nothingSelected:
         return;
       case PublishBlock.needsUnlock:
-        switch (await _offerUnlock(keep.length)) {
+        switch (await _offerUnlock(billable, carried: carried)) {
           case _UnlockChoice.buy:
             if (await _store.buy()) {
               setState(() => _entitlement = const Entitlement.unlocked());
@@ -524,7 +916,12 @@ class _CapturePageState extends State<CapturePage> {
               return;
             }
           case _UnlockChoice.publishFree:
-            keep = keep.take(freePlaceLimit).toList();
+            // Only reachable when nothing was carried over — the sheet does not
+            // offer this while combining, because trimming to the cap would
+            // drop places out of a guide the user already had. Asserted rather
+            // than assumed, since the two paths meet here.
+            assert(carried == 0);
+            keep = keep.where((p) => p.billable).take(freePlaceLimit).toList();
           case _UnlockChoice.cancel:
             return;
         }
@@ -538,10 +935,14 @@ class _CapturePageState extends State<CapturePage> {
         .toList();
 
     final String url;
-    if (places.length == 1) {
+    if (places.length == 1 && carried == 0) {
       url = buildPlaceLink(places.single.id);
     } else {
-      final name = await _askGuideName(places.length);
+      if (carried > 0 && !await _confirmRepublish(places.length)) return;
+      if (!mounted) return;
+      // Offered the old guide's name, since the combined guide is meant to
+      // replace it. Still editable — the trip may have outgrown the name.
+      final name = await _askGuideName(places.length, initial: _guideName);
       if (name == null) return;
       url = buildGuideLinks(name, places).first;
     }
@@ -554,12 +955,63 @@ class _CapturePageState extends State<CapturePage> {
     }
   }
 
+  /// Which of the three sources to add from.
+  Future<void> _addPlaces() async {
+    final l = L.of(context);
+    final choice = await showModalBottomSheet<_AddSource>(
+      context: context,
+      showDragHandle: true,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.add_photo_alternate_outlined),
+              title: Text(l.addScreenshots),
+              onTap: () => Navigator.pop(context, _AddSource.screenshots),
+            ),
+            ListTile(
+              leading: const Icon(Icons.insert_drive_file_outlined),
+              title: Text(l.fromFile),
+              onTap: () => Navigator.pop(context, _AddSource.file),
+            ),
+            ListTile(
+              leading: const Icon(Icons.bookmark_border),
+              title: Text(l.fromExistingGuide),
+              onTap: () => Navigator.pop(context, _AddSource.guide),
+            ),
+            const SizedBox(height: 8),
+          ],
+        ),
+      ),
+    );
+    if (choice == null || !mounted) return;
+    switch (choice) {
+      case _AddSource.screenshots:
+        await _importScreenshots();
+      case _AddSource.file:
+        await _importFile();
+      case _AddSource.guide:
+        await _importGuide();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = L.of(context);
     final keeping = _pending.where((p) => p.publishable).length;
     final unresolved = _pending.where((p) => !p.resolved).length;
-    final over = _entitlement.overBy(keeping);
+    // The free limit applies to what Wren found, not to what the user already
+    // had, so the banner counts the same thing the paywall does.
+    final over = _entitlement.overBy(
+      _pending.where((p) => p.publishable && p.billable).length,
+    );
+
+    // Carried-over places sit in one collapsed group. Two lists over one index
+    // arithmetic: the group is a single row when closed and n rows when open,
+    // and offsetting an itemBuilder by that is how off-by-one bugs get in.
+    final carried = _pending.where((p) => p.origin == Origin.guide).toList();
+    final fresh = _pending.where((p) => p.origin != Origin.guide).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -600,7 +1052,9 @@ class _CapturePageState extends State<CapturePage> {
             _Banner(
               accent: Wren.gold,
               child: Text(
-                l.readingProgress(_readCount, _totalCount),
+                _lookingUp
+                    ? l.lookingUpProgress(_readCount, _totalCount)
+                    : l.readingProgress(_readCount, _totalCount),
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
@@ -644,19 +1098,52 @@ class _CapturePageState extends State<CapturePage> {
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
+          // Said as soon as a guide has been read in, not at the end. Finding
+          // out after choosing places and naming the guide would be a worse way
+          // to learn it.
+          if (carried.isNotEmpty && !_entitlement.unlimited)
+            _Banner(
+              accent: Wren.clay,
+              child: Text(
+                l.combineNeedsUnlock,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ),
           Expanded(
             child: _pending.isEmpty
                 ? const _Empty()
-                : ListView.separated(
+                : ListView(
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                    itemCount: _pending.length,
-                    separatorBuilder: (_, _) => const SizedBox(height: 10),
-                    itemBuilder: (context, i) => _PlaceCard(
-                      pending: _pending[i],
-                      onChanged: (v) =>
-                          setState(() => _pending[i].keep = v ?? true),
-                      onEdit: () => _editPlace(i),
-                    ),
+                    children: [
+                      if (carried.isNotEmpty) ...[
+                        _CarriedGroup(
+                          count: carried.length,
+                          guideName: _guideName,
+                          expanded: _showCarried,
+                          onTap: () =>
+                              setState(() => _showCarried = !_showCarried),
+                        ),
+                        const SizedBox(height: 10),
+                        if (_showCarried)
+                          for (final p in carried) ...[
+                            _PlaceCard(
+                              pending: p,
+                              onChanged: (v) =>
+                                  setState(() => p.keep = v ?? true),
+                              onEdit: () => _editPlace(_pending.indexOf(p)),
+                            ),
+                            const SizedBox(height: 10),
+                          ],
+                      ],
+                      for (final p in fresh) ...[
+                        _PlaceCard(
+                          pending: p,
+                          onChanged: (v) => setState(() => p.keep = v ?? true),
+                          onEdit: () => _editPlace(_pending.indexOf(p)),
+                        ),
+                        const SizedBox(height: 10),
+                      ],
+                    ],
                   ),
           ),
           SafeArea(
@@ -667,12 +1154,9 @@ class _CapturePageState extends State<CapturePage> {
                 children: [
                   Expanded(
                     child: OutlinedButton.icon(
-                      onPressed: _busy ? null : _importScreenshots,
-                      icon: const Icon(
-                        Icons.add_photo_alternate_outlined,
-                        size: 20,
-                      ),
-                      label: Text(_busy ? l.readingShort : l.addScreenshots),
+                      onPressed: _busy ? null : _addPlaces,
+                      icon: const Icon(Icons.add, size: 20),
+                      label: Text(_busy ? l.readingShort : l.addPlaces),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -696,6 +1180,82 @@ class _CapturePageState extends State<CapturePage> {
 }
 
 enum _UnlockChoice { buy, restore, publishFree, cancel }
+
+enum _AddSource { screenshots, file, guide }
+
+/// Which overlay the store-screenshot build should open on launch.
+enum ScreenshotOverlay { none, region, paywall, search, addMenu }
+
+/// The collapsed group holding places carried over from an existing guide.
+///
+/// Collapsed by default, and it is the reason the group exists: importing a
+/// guide of forty places would otherwise bury the two just added under a list
+/// the user has already seen in Maps. Open, it is an ordinary list of cards.
+class _CarriedGroup extends StatelessWidget {
+  const _CarriedGroup({
+    required this.count,
+    required this.guideName,
+    required this.expanded,
+    required this.onTap,
+  });
+
+  final int count;
+  final String? guideName;
+  final bool expanded;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = L.of(context);
+    final t = Theme.of(context).textTheme;
+    final name = guideName;
+
+    return Material(
+      color: Wren.raised,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: const BorderSide(color: Wren.line),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(14, 12, 10, 12),
+          child: Row(
+            children: [
+              const Icon(Icons.bookmark_border, size: 18, color: Wren.muted),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l.alreadyInGuide(count),
+                      style: t.titleMedium?.copyWith(fontSize: 16),
+                    ),
+                    if (name != null && name.isNotEmpty) ...[
+                      const SizedBox(height: 3),
+                      Text(
+                        l.fromGuideNamed(name),
+                        style: t.bodySmall,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              Icon(
+                expanded ? Icons.expand_less : Icons.expand_more,
+                color: Wren.muted,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class _Banner extends StatelessWidget {
   const _Banner({required this.child, required this.accent});
@@ -763,8 +1323,13 @@ class _PlaceCard extends StatelessWidget {
                     children: [
                       if (resolved) ...[
                         Text(match.name, style: t.titleMedium),
-                        const SizedBox(height: 3),
-                        Text(match.address, style: t.bodySmall),
+                        // A place carried over from a guide has no address in
+                        // the payload, so the line is left out rather than
+                        // rendered blank.
+                        if (match.address.isNotEmpty) ...[
+                          const SizedBox(height: 3),
+                          Text(match.address, style: t.bodySmall),
+                        ],
                       ] else ...[
                         Row(
                           children: [
@@ -788,29 +1353,33 @@ class _PlaceCard extends StatelessWidget {
                         const SizedBox(height: 3),
                         Text(l.tapToSearchForIt, style: t.bodySmall),
                       ],
-                      // Always shown, matched or not. It is what the screenshot
-                      // said, and the only way to tell a right match from a
-                      // confident wrong one.
-                      const SizedBox(height: 7),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Icon(
-                            Icons.text_fields,
-                            size: 13,
-                            color: Wren.muted,
-                          ),
-                          const SizedBox(width: 5),
-                          Expanded(
-                            child: Text(
-                              l.readAs(pending.readAs),
-                              style: t.bodySmall?.copyWith(fontSize: 12.5),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
+                      // Shown for anything Wren had to interpret, matched or
+                      // not: it is the only way to tell a right match from a
+                      // confident wrong one. Omitted for a place carried over
+                      // from a guide, where the name came from Apple's own
+                      // record and repeating it says nothing.
+                      if (pending.origin != Origin.guide) ...[
+                        const SizedBox(height: 7),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(
+                              Icons.text_fields,
+                              size: 13,
+                              color: Wren.muted,
                             ),
-                          ),
-                        ],
-                      ),
+                            const SizedBox(width: 5),
+                            Expanded(
+                              child: Text(
+                                l.readAs(pending.readAs),
+                                style: t.bodySmall?.copyWith(fontSize: 12.5),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ],
                   ),
                 ),

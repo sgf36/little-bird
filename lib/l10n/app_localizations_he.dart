@@ -279,4 +279,158 @@ class LHe extends L {
 
   @override
   String get compUntrusted => 'לא ניתן היה לאמת את התשובה, ולכן לא נפתח דבר.';
+
+  @override
+  String get addPlaces => 'הוספה';
+
+  @override
+  String get fromFile => 'מקובץ';
+
+  @override
+  String get fromExistingGuide => 'ממדריך קיים';
+
+  @override
+  String get importGuideTitle => 'הוספה למדריך קיים';
+
+  @override
+  String get importGuideBody =>
+      'במפות של Apple יש לפתוח את המדריך, לשתף אותו ולבחור „העתקת קישור”. יש להדביק את הקישור למטה, ואז Wren יקרא את המקומות שכבר יש בו.';
+
+  @override
+  String get guideLinkLabel => 'קישור למדריך';
+
+  @override
+  String get readGuide => 'קריאת המדריך';
+
+  @override
+  String get importGuideNotALink =>
+      'זה לא קישור למדריך במפות של Apple. יש לפתוח את המדריך במפות, לשתף אותו ולבחור „העתקת קישור”.';
+
+  @override
+  String get importGuideNothing => 'במדריך הזה אין מקומות שאפשר לצרף.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'נקראו $count מקומות מהמדריך הזה',
+      two: 'נקראו שני מקומות מהמדריך הזה',
+      one: 'נקרא מקום אחד מהמדריך הזה',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count מקומות מתוכו לא יעברו למדריך החדש',
+      two: 'שני מקומות מתוכו לא יעברו למדריך החדש',
+      one: 'מקום אחד מתוכו לא יעבור למדריך החדש',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count מקומות כבר במדריך הזה',
+      two: 'שני מקומות כבר במדריך הזה',
+      one: 'מקום אחד כבר במדריך הזה',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return 'מתוך „$name”';
+  }
+
+  @override
+  String get republishTitle => 'המפות יוצרות מדריך חדש';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'המפות של Apple לא מאפשרות להוסיף מקומות למדריך שכבר קיים, ולכן Wren ייצור מדריך חדש עם כל $count המקומות.',
+      two:
+          'המפות של Apple לא מאפשרות להוסיף מקומות למדריך שכבר קיים, ולכן Wren ייצור מדריך חדש עם שני המקומות.',
+      one:
+          'המפות של Apple לא מאפשרות להוסיף מקומות למדריך שכבר קיים, ולכן Wren ייצור מדריך חדש עם המקום הזה.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => 'יש לשמור את המדריך החדש ולמחוק את הישן.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'המקומות האלה נשמרים ב־Wren, כך שאפשר ליצור את המדריך שוב אם משהו משתבש.';
+
+  @override
+  String get makeCombinedGuide => 'יצירת המדריך המשולב';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'נקראו $count מקומות מהקובץ הזה',
+      two: 'נקראו שני מקומות מהקובץ הזה',
+      one: 'נקרא מקום אחד מהקובץ הזה',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ב־$count שורות לא היה שם',
+      two: 'בשתי שורות לא היה שם',
+      one: 'בשורה אחת לא היה שם',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'אין מקומות בקובץ הזה.';
+
+  @override
+  String get fileUnreadable =>
+      'לא ניתן היה לקרוא את הקובץ הזה. Wren קורא קובצי CSV, KML, KMZ, GPX, GeoJSON וייצוא מ־Google Takeout.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return 'מחפש $done מתוך $total…';
+  }
+
+  @override
+  String get combineNeedsUnlock => 'יצירת המדריך המשולב דורשת פתיחה.';
+
+  @override
+  String get unlockCombineTitle => 'הוספה למדריך שכבר יש לך';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'ייווצר מדריך אחד שיכיל את $count המקומות שכבר יש במדריך שלך יחד עם החדשים.',
+      two:
+          'ייווצר מדריך אחד שיכיל את שני המקומות שכבר יש במדריך שלך יחד עם החדשים.',
+      one: 'ייווצר מדריך אחד שיכיל את המקום שכבר יש במדריך שלך יחד עם החדש.',
+    );
+    return '$_temp0';
+  }
 }

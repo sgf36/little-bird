@@ -278,4 +278,169 @@ class LSl extends L {
   @override
   String get compUntrusted =>
       'Tega odgovora ni bilo mogoče preveriti, zato ni bilo nič odklenjeno.';
+
+  @override
+  String get addPlaces => 'Dodaj';
+
+  @override
+  String get fromFile => 'Iz datoteke';
+
+  @override
+  String get fromExistingGuide => 'Iz obstoječega vodnika';
+
+  @override
+  String get importGuideTitle => 'Dodaj v obstoječi vodnik';
+
+  @override
+  String get importGuideBody =>
+      'V Apple Zemljevidih odpri vodnik, deli ga in izberi Kopiraj povezavo. Prilepi jo spodaj in Wren bo prebral kraje, ki so že v njem.';
+
+  @override
+  String get guideLinkLabel => 'Povezava do vodnika';
+
+  @override
+  String get readGuide => 'Preberi vodnik';
+
+  @override
+  String get importGuideNotALink =>
+      'To ni povezava do vodnika v Apple Zemljevidih. Odpri vodnik v Zemljevidih, deli ga in izberi Kopiraj povezavo.';
+
+  @override
+  String get importGuideNothing =>
+      'V tem vodniku ni ničesar, kar bi Wren lahko prenesel.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Iz tega vodnika prebranih $count krajev',
+      few: 'Iz tega vodnika prebrani $count kraji',
+      two: 'Iz tega vodnika prebrana $count kraja',
+      one: 'Iz tega vodnika prebran $count kraj',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ni mogoče prenesti $count krajev iz njega',
+      few: 'Ni mogoče prenesti $count krajev iz njega',
+      two: 'Ni mogoče prenesti $count krajev iz njega',
+      one: 'Ni mogoče prenesti $count kraja iz njega',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count krajev je že v tem vodniku',
+      few: '$count kraji so že v tem vodniku',
+      two: '$count kraja sta že v tem vodniku',
+      one: '$count kraj je že v tem vodniku',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return 'Iz »$name«';
+  }
+
+  @override
+  String get republishTitle => 'Zemljevidi ustvarijo nov vodnik';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Apple ne omogoča dodajanja v vodnik, ki že obstaja, zato bo Wren ustvaril nov, ki bo vseboval vseh $count krajev.',
+      few:
+          'Apple ne omogoča dodajanja v vodnik, ki že obstaja, zato bo Wren ustvaril nov, ki bo vseboval vse $count kraje.',
+      two:
+          'Apple ne omogoča dodajanja v vodnik, ki že obstaja, zato bo Wren ustvaril nov, ki bo vseboval oba $count kraja.',
+      one:
+          'Apple ne omogoča dodajanja v vodnik, ki že obstaja, zato bo Wren ustvaril nov, ki bo vseboval $count kraj.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => 'Nov vodnik obdrži, starega pa izbriši.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren te kraje obdrži, tako da lahko vodnik ustvariš znova, če gre kaj narobe.';
+
+  @override
+  String get makeCombinedGuide => 'Ustvari združeni vodnik';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Iz te datoteke prebranih $count krajev',
+      few: 'Iz te datoteke prebrani $count kraji',
+      two: 'Iz te datoteke prebrana $count kraja',
+      one: 'Iz te datoteke prebran $count kraj',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count vrstic ni imelo imena',
+      few: '$count vrstice niso imele imena',
+      two: '$count vrstici nista imeli imena',
+      one: '$count vrstica ni imela imena',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'V tej datoteki ni krajev.';
+
+  @override
+  String get fileUnreadable =>
+      'Wren te datoteke ni mogel prebrati. Bere izvoze v oblikah CSV, KML, KMZ, GPX, GeoJSON in Google Takeout.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return 'Iskanje $done od $total…';
+  }
+
+  @override
+  String get combineNeedsUnlock => 'Za združeni vodnik je potreben odklep.';
+
+  @override
+  String get unlockCombineTitle => 'Dodaj v vodnik, ki ga že imaš';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren bo ustvaril en vodnik, ki bo vseboval $count krajev iz tvojega, skupaj z novimi.',
+      few:
+          'Wren bo ustvaril en vodnik, ki bo vseboval $count kraje iz tvojega, skupaj z novimi.',
+      two:
+          'Wren bo ustvaril en vodnik, ki bo vseboval $count kraja iz tvojega, skupaj z novimi.',
+      one:
+          'Wren bo ustvaril en vodnik, ki bo vseboval $count kraj iz tvojega, skupaj z novimi.',
+    );
+    return '$_temp0';
+  }
 }

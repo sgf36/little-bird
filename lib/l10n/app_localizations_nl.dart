@@ -272,4 +272,152 @@ class LNl extends L {
   @override
   String get compUntrusted =>
       'Dat antwoord kon niet worden geverifieerd, er is niets ontgrendeld.';
+
+  @override
+  String get addPlaces => 'Toevoegen';
+
+  @override
+  String get fromFile => 'Uit een bestand';
+
+  @override
+  String get fromExistingGuide => 'Uit een bestaande gids';
+
+  @override
+  String get importGuideTitle => 'Aan een bestaande gids toevoegen';
+
+  @override
+  String get importGuideBody =>
+      'Open de gids in Apple Kaarten, deel hem en kies ‘Kopieer link’. Plak de link hieronder, dan leest Wren de plekken die er al in staan.';
+
+  @override
+  String get guideLinkLabel => 'Link naar de gids';
+
+  @override
+  String get readGuide => 'Gids lezen';
+
+  @override
+  String get importGuideNotALink =>
+      'Dat is geen link naar een gids in Apple Kaarten. Open de gids in Kaarten, deel hem en kies ‘Kopieer link’.';
+
+  @override
+  String get importGuideNothing =>
+      'In die gids staat niets wat Wren kan overnemen.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count plekken uit die gids gelezen',
+      one: '1 plek uit die gids gelezen',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count plekken daarin kunnen niet worden overgenomen',
+      one: '1 plek daarin kan niet worden overgenomen',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count plekken staan al in deze gids',
+      one: '1 plek staat al in deze gids',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return 'Uit ‘$name’';
+  }
+
+  @override
+  String get republishTitle => 'Kaarten maakt een nieuwe gids';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Apple biedt geen manier om een bestaande gids uit te breiden, dus maakt Wren een nieuwe met alle $count plekken erin.',
+      one:
+          'Apple biedt geen manier om een bestaande gids uit te breiden, dus maakt Wren een nieuwe met die ene plek erin.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => 'Houd de nieuwe gids en verwijder de oude.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren bewaart deze plekken, dus je kunt de gids opnieuw maken als er iets misgaat.';
+
+  @override
+  String get makeCombinedGuide => 'Gecombineerde gids maken';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count plekken uit dat bestand gelezen',
+      one: '1 plek uit dat bestand gelezen',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rijen hadden geen naam',
+      one: '1 rij had geen naam',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'Geen plekken in dat bestand.';
+
+  @override
+  String get fileUnreadable =>
+      'Wren kon dat bestand niet lezen. Het leest CSV, KML, KMZ, GPX, GeoJSON en exports uit Google Takeout.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return '$done van $total opgezocht…';
+  }
+
+  @override
+  String get combineNeedsUnlock =>
+      'De gecombineerde gids vereist de ontgrendeling.';
+
+  @override
+  String get unlockCombineTitle => 'Toevoegen aan een gids die je al hebt';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren maakt één gids met de $count plekken die al in de jouwe staan en de nieuwe erbij.',
+      one:
+          'Wren maakt één gids met de plek die al in de jouwe staat en de nieuwe erbij.',
+    );
+    return '$_temp0';
+  }
 }

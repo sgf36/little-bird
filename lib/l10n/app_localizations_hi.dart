@@ -269,4 +269,151 @@ class LHi extends L {
   @override
   String get compUntrusted =>
       'उस जवाब की पुष्टि नहीं हो सकी, इसलिए कुछ भी अनलॉक नहीं हुआ।';
+
+  @override
+  String get addPlaces => 'जोड़ें';
+
+  @override
+  String get fromFile => 'फ़ाइल से';
+
+  @override
+  String get fromExistingGuide => 'पहले से मौजूद गाइड से';
+
+  @override
+  String get importGuideTitle => 'पहले से मौजूद गाइड में जोड़ें';
+
+  @override
+  String get importGuideBody =>
+      'Apple Maps में गाइड खोलिए और उसे शेयर कीजिए, फिर “लिंक कॉपी करें” चुनिए। उसे नीचे पेस्ट कीजिए और Wren उसमें पहले से मौजूद जगहें पढ़ लेगा।';
+
+  @override
+  String get guideLinkLabel => 'गाइड का लिंक';
+
+  @override
+  String get readGuide => 'गाइड पढ़ें';
+
+  @override
+  String get importGuideNotALink =>
+      'यह Apple Maps गाइड का लिंक नहीं है। गाइड को Maps में खोलिए, उसे शेयर कीजिए, फिर “लिंक कॉपी करें” चुनिए।';
+
+  @override
+  String get importGuideNothing =>
+      'उस गाइड में ऐसा कुछ नहीं है जिसे Wren जोड़ सके।';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'उस गाइड से $count जगहें पढ़ीं',
+      one: 'उस गाइड से 1 जगह पढ़ी',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'उसमें की $count जगहें नई गाइड में नहीं जा सकतीं',
+      one: 'उसमें की 1 जगह नई गाइड में नहीं जा सकती',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count जगहें पहले से इस गाइड में',
+      one: '1 जगह पहले से इस गाइड में',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return '“$name” से';
+  }
+
+  @override
+  String get republishTitle => 'Maps नई गाइड बनाता है';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Apple पहले से मौजूद गाइड में जोड़ने का कोई रास्ता नहीं देता, इसलिए Wren सभी $count जगहों वाली नई गाइड बनाएगा।',
+      one:
+          'Apple पहले से मौजूद गाइड में जोड़ने का कोई रास्ता नहीं देता, इसलिए Wren 1 जगह वाली नई गाइड बनाएगा।',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => 'नई गाइड रखिए और पुरानी हटा दीजिए।';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren इन जगहों को रखता है, इसलिए कुछ गलत हो जाए तो गाइड फिर बना सकते हैं।';
+
+  @override
+  String get makeCombinedGuide => 'संयुक्त गाइड बनाएँ';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'उस फ़ाइल से $count जगहें पढ़ीं',
+      one: 'उस फ़ाइल से 1 जगह पढ़ी',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count पंक्तियों में नाम नहीं था',
+      one: '1 पंक्ति में नाम नहीं था',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'उस फ़ाइल में कोई जगह नहीं।';
+
+  @override
+  String get fileUnreadable =>
+      'Wren वह फ़ाइल नहीं पढ़ सका। वह CSV, KML, KMZ, GPX, GeoJSON और Google Takeout एक्सपोर्ट पढ़ता है।';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return '$total में से $done खोजे जा रहे हैं…';
+  }
+
+  @override
+  String get combineNeedsUnlock => 'संयुक्त गाइड बनाने के लिए अनलॉक चाहिए।';
+
+  @override
+  String get unlockCombineTitle => 'अपनी पहले से मौजूद गाइड में जोड़ें';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren एक ही गाइड बनाएगा, जिसमें आपकी गाइड की $count जगहें और नई जगहें, दोनों होंगी।',
+      one:
+          'Wren एक ही गाइड बनाएगा, जिसमें आपकी गाइड की 1 जगह और नई जगह, दोनों होंगी।',
+    );
+    return '$_temp0';
+  }
 }

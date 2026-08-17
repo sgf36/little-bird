@@ -202,7 +202,13 @@ class LIt extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'Nulla di leggibile in $count screenshot';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Nulla di leggibile in $count screenshot',
+      one: 'Nulla di leggibile in quello screenshot',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -265,4 +271,153 @@ class LIt extends L {
   @override
   String get compUntrusted =>
       'Non è stato possibile verificare la risposta, quindi non è stato sbloccato nulla.';
+
+  @override
+  String get addPlaces => 'Aggiungi';
+
+  @override
+  String get fromFile => 'Da un file';
+
+  @override
+  String get fromExistingGuide => 'Da una guida esistente';
+
+  @override
+  String get importGuideTitle => 'Aggiungi a una guida esistente';
+
+  @override
+  String get importGuideBody =>
+      'In Mappe, apri la guida e condividila, poi scegli Copia link. Incollalo qui sotto e Wren leggerà i luoghi che contiene già.';
+
+  @override
+  String get guideLinkLabel => 'Link della guida';
+
+  @override
+  String get readGuide => 'Leggi la guida';
+
+  @override
+  String get importGuideNotALink =>
+      'Questo non è il link di una guida di Mappe. Apri la guida in Mappe, condividila, poi scegli Copia link.';
+
+  @override
+  String get importGuideNothing =>
+      'Quella guida non contiene nessun luogo che Wren possa usare.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count luoghi letti da quella guida',
+      one: '1 luogo letto da quella guida',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count luoghi non possono essere trasferiti',
+      one: '1 luogo non può essere trasferito',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count luoghi sono già in questa guida',
+      one: '1 luogo è già in questa guida',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return 'Da «$name»';
+  }
+
+  @override
+  String get republishTitle => 'Mappe crea una nuova guida';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Apple non permette di aggiungere luoghi a una guida che esiste già, quindi Wren ne crea una nuova con tutti i $count luoghi.',
+      one:
+          'Apple non permette di aggiungere luoghi a una guida che esiste già, quindi Wren ne crea una nuova con quel luogo.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete =>
+      'Tieni la nuova guida ed elimina quella vecchia.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren conserva questi luoghi, così puoi ricreare la guida se qualcosa va storto.';
+
+  @override
+  String get makeCombinedGuide => 'Crea la guida combinata';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count luoghi letti da quel file',
+      one: '1 luogo letto da quel file',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count righe senza nome',
+      one: '1 riga senza nome',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'Nessun luogo in quel file.';
+
+  @override
+  String get fileUnreadable =>
+      'Wren non è riuscito a leggere quel file. Legge le esportazioni CSV, KML, KMZ, GPX, GeoJSON e Google Takeout.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return 'Ricerca di $done su $total…';
+  }
+
+  @override
+  String get combineNeedsUnlock =>
+      'Creare la guida combinata richiede lo sblocco.';
+
+  @override
+  String get unlockCombineTitle => 'Aggiungi a una guida che hai già';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren creerà una sola guida con i $count luoghi già presenti nella tua e quelli nuovi.',
+      one:
+          'Wren creerà una sola guida con il luogo già presente nella tua e quello nuovo.',
+    );
+    return '$_temp0';
+  }
 }

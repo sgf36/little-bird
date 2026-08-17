@@ -270,4 +270,186 @@ class LAr extends L {
 
   @override
   String get compUntrusted => 'تعذّر التحقق من هذا الرد، لذا لم يُفتح أي شيء.';
+
+  @override
+  String get addPlaces => 'إضافة';
+
+  @override
+  String get fromFile => 'من ملف';
+
+  @override
+  String get fromExistingGuide => 'من دليل موجود';
+
+  @override
+  String get importGuideTitle => 'الإضافة إلى دليل موجود';
+
+  @override
+  String get importGuideBody =>
+      'في خرائط Apple، افتح الدليل وشاركه، ثم اختر ”نسخ الرابط“. الصقه أدناه وسيقرأ Wren الأماكن التي يضمها بالفعل.';
+
+  @override
+  String get guideLinkLabel => 'رابط الدليل';
+
+  @override
+  String get readGuide => 'قراءة الدليل';
+
+  @override
+  String get importGuideNotALink =>
+      'هذا ليس رابط دليل من خرائط Apple. افتح الدليل في الخرائط وشاركه، ثم اختر ”نسخ الرابط“.';
+
+  @override
+  String get importGuideNothing =>
+      'هذا الدليل لا يضم شيئاً يمكن لـ Wren إضافته.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'قُرئ $count مكان من ذلك الدليل',
+      many: 'قُرئ $count مكاناً من ذلك الدليل',
+      few: 'قُرئت $count أماكن من ذلك الدليل',
+      two: 'قُرئ مكانان من ذلك الدليل',
+      one: 'قُرئ مكان واحد من ذلك الدليل',
+      zero: 'لم يُقرأ أي مكان من ذلك الدليل',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'يتعذّر نقل $count مكان منه',
+      many: 'يتعذّر نقل $count مكاناً منه',
+      few: 'يتعذّر نقل $count أماكن منه',
+      two: 'يتعذّر نقل مكانين منه',
+      one: 'يتعذّر نقل مكان واحد منه',
+      zero: 'لا يوجد فيه ما يتعذّر نقله',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مكان بالفعل في هذا الدليل',
+      many: '$count مكاناً بالفعل في هذا الدليل',
+      few: '$count أماكن بالفعل في هذا الدليل',
+      two: 'مكانان بالفعل في هذا الدليل',
+      one: 'مكان واحد بالفعل في هذا الدليل',
+      zero: 'لا أماكن في هذا الدليل',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return 'من ”$name“';
+  }
+
+  @override
+  String get republishTitle => 'الخرائط تُنشئ دليلاً جديداً';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'لا توفّر Apple أي طريقة للإضافة إلى دليل موجود، لذا سيُنشئ Wren دليلاً جديداً يضم $count مكان معاً.',
+      many:
+          'لا توفّر Apple أي طريقة للإضافة إلى دليل موجود، لذا سيُنشئ Wren دليلاً جديداً يضم $count مكاناً معاً.',
+      few:
+          'لا توفّر Apple أي طريقة للإضافة إلى دليل موجود، لذا سيُنشئ Wren دليلاً جديداً يضم $count أماكن معاً.',
+      two:
+          'لا توفّر Apple أي طريقة للإضافة إلى دليل موجود، لذا سيُنشئ Wren دليلاً جديداً يضم المكانين معاً.',
+      one:
+          'لا توفّر Apple أي طريقة للإضافة إلى دليل موجود، لذا سيُنشئ Wren دليلاً جديداً يضم المكان الواحد.',
+      zero:
+          'لا توفّر Apple أي طريقة للإضافة إلى دليل موجود، لذا سيُنشئ Wren دليلاً جديداً.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => 'احتفظ بالدليل الجديد واحذف القديم.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'يحتفظ Wren بهذه الأماكن، فيمكنك إنشاء الدليل مرة أخرى إذا حدث أي خطأ.';
+
+  @override
+  String get makeCombinedGuide => 'إنشاء الدليل المجمّع';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'قُرئ $count مكان من ذلك الملف',
+      many: 'قُرئ $count مكاناً من ذلك الملف',
+      few: 'قُرئت $count أماكن من ذلك الملف',
+      two: 'قُرئ مكانان من ذلك الملف',
+      one: 'قُرئ مكان واحد من ذلك الملف',
+      zero: 'لم يُقرأ أي مكان من ذلك الملف',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count صف بلا اسم',
+      many: '$count صفاً بلا اسم',
+      few: '$count صفوف بلا اسم',
+      two: 'صفان بلا اسم',
+      one: 'صف واحد بلا اسم',
+      zero: 'لا صف بلا اسم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'لا أماكن في ذلك الملف.';
+
+  @override
+  String get fileUnreadable =>
+      'تعذّر على Wren قراءة ذلك الملف. يقرأ صيغ CSV و KML و KMZ و GPX و GeoJSON وملفات Google Takeout المُصدَّرة.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return 'جارٍ البحث عن $done من $total…';
+  }
+
+  @override
+  String get combineNeedsUnlock => 'إنشاء الدليل المجمّع يحتاج إلى الفتح.';
+
+  @override
+  String get unlockCombineTitle => 'الإضافة إلى دليل تملكه بالفعل';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'سيُنشئ Wren دليلاً واحداً يضم $count مكان موجود في دليلك مع الأماكن الجديدة.',
+      many:
+          'سيُنشئ Wren دليلاً واحداً يضم $count مكاناً موجوداً في دليلك مع الأماكن الجديدة.',
+      few:
+          'سيُنشئ Wren دليلاً واحداً يضم $count أماكن موجودة في دليلك مع الأماكن الجديدة.',
+      two:
+          'سيُنشئ Wren دليلاً واحداً يضم المكانين الموجودين في دليلك مع الأماكن الجديدة.',
+      one:
+          'سيُنشئ Wren دليلاً واحداً يضم المكان الموجود في دليلك مع المكان الجديد.',
+      zero: 'سيُنشئ Wren دليلاً واحداً يضم الأماكن الجديدة.',
+    );
+    return '$_temp0';
+  }
 }

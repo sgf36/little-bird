@@ -249,6 +249,139 @@ class LZh extends L {
 
   @override
   String get compUntrusted => '无法验证服务器的回复，所以没有解锁任何内容。';
+
+  @override
+  String get addPlaces => '添加';
+
+  @override
+  String get fromFile => '从文件';
+
+  @override
+  String get fromExistingGuide => '从已有的指南';
+
+  @override
+  String get importGuideTitle => '添加到已有的指南';
+
+  @override
+  String get importGuideBody =>
+      '在地图里打开那个指南并共享，然后选择“拷贝链接”。粘贴到下面，Wren 会读出它已经收着的地点。';
+
+  @override
+  String get guideLinkLabel => '指南链接';
+
+  @override
+  String get readGuide => '读取指南';
+
+  @override
+  String get importGuideNotALink => '这不是地图指南的链接。在地图里打开指南并共享，然后选择“拷贝链接”。';
+
+  @override
+  String get importGuideNothing => '那个指南里没有 Wren 能添加的东西。';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '从那个指南读出 $count 个地点',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '其中 $count 个地点无法转移过来',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个地点已经在这个指南里',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return '来自“$name”';
+  }
+
+  @override
+  String get republishTitle => '地图会新建一个指南';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Apple 没有提供往已有指南里添加地点的办法，所以 Wren 会新建一个，收下这 $count 个地点。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => '留下新指南，删掉旧的。';
+
+  @override
+  String get republishKeepsPlaces => 'Wren 会保留这些地点，万一出了问题，你可以再做一次指南。';
+
+  @override
+  String get makeCombinedGuide => '创建合并后的指南';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '从那个文件读出 $count 个地点',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '有 $count 行没有名字',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => '那个文件里没有地点。';
+
+  @override
+  String get fileUnreadable =>
+      'Wren 读不了那个文件。它能读 CSV、KML、KMZ、GPX、GeoJSON 和 Google Takeout 导出的文件。';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return '正在查找第 $done 个，共 $total 个…';
+  }
+
+  @override
+  String get combineNeedsUnlock => '创建合并后的指南需要解锁。';
+
+  @override
+  String get unlockCombineTitle => '添加到你已有的指南';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Wren 会新建一个指南，把你指南里原有的 $count 个地点和新找到的地点收在一起。',
+    );
+    return '$_temp0';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -496,4 +629,137 @@ class LZhHant extends LZh {
 
   @override
   String get compUntrusted => '無法驗證伺服器的回覆，所以沒有解鎖任何內容。';
+
+  @override
+  String get addPlaces => '加入';
+
+  @override
+  String get fromFile => '從檔案';
+
+  @override
+  String get fromExistingGuide => '從已有的指南';
+
+  @override
+  String get importGuideTitle => '加入已有的指南';
+
+  @override
+  String get importGuideBody =>
+      '在地圖裡打開那個指南並分享，然後選擇「拷貝連結」。貼到下面，Wren 會讀出它已經收著的地點。';
+
+  @override
+  String get guideLinkLabel => '指南連結';
+
+  @override
+  String get readGuide => '讀取指南';
+
+  @override
+  String get importGuideNotALink => '這不是地圖指南的連結。在地圖裡打開指南並分享，然後選擇「拷貝連結」。';
+
+  @override
+  String get importGuideNothing => '那個指南裡沒有 Wren 能加入的東西。';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '從那個指南讀出 $count 個地點',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '其中 $count 個地點無法移過去',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個地點已經在這個指南裡',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return '來自「$name」';
+  }
+
+  @override
+  String get republishTitle => '地圖會新建一個指南';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Apple 沒有提供往已有指南加入地點的方法，所以 Wren 會新建一個，收下這 $count 個地點。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => '留下新的指南，刪掉舊的。';
+
+  @override
+  String get republishKeepsPlaces => 'Wren 會保留這些地點，萬一出了問題，你可以再做一次指南。';
+
+  @override
+  String get makeCombinedGuide => '製作合併後的指南';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '從那個檔案讀出 $count 個地點',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '有 $count 列沒有名字',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => '那個檔案裡沒有地點。';
+
+  @override
+  String get fileUnreadable =>
+      'Wren 讀不了那個檔案。它能讀 CSV、KML、KMZ、GPX、GeoJSON 和 Google Takeout 匯出的檔案。';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return '正在尋找第 $done 個，共 $total 個…';
+  }
+
+  @override
+  String get combineNeedsUnlock => '製作合併後的指南需要解鎖。';
+
+  @override
+  String get unlockCombineTitle => '加入你已有的指南';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Wren 會新建一個指南，把你指南裡原有的 $count 個地點和新找到的地點收在一起。',
+    );
+    return '$_temp0';
+  }
 }

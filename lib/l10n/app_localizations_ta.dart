@@ -274,4 +274,154 @@ class LTa extends L {
   @override
   String get compUntrusted =>
       'அந்தப் பதிலைச் சரிபார்க்க முடியவில்லை, எனவே எதுவும் திறக்கப்படவில்லை.';
+
+  @override
+  String get addPlaces => 'சேர்';
+
+  @override
+  String get fromFile => 'ஒரு கோப்பிலிருந்து';
+
+  @override
+  String get fromExistingGuide => 'ஏற்கெனவே உள்ள வழிகாட்டியிலிருந்து';
+
+  @override
+  String get importGuideTitle => 'ஏற்கெனவே உள்ள வழிகாட்டியில் சேர்க்கவும்';
+
+  @override
+  String get importGuideBody =>
+      'Apple Maps-இல் வழிகாட்டியைத் திறந்து பங்கிடுங்கள், பிறகு இணைப்பை நகலெடு என்பதைத் தேர்ந்தெடுங்கள். அதைக் கீழே ஒட்டினால், அதில் ஏற்கெனவே உள்ள இடங்களை Wren படித்துக்கொள்ளும்.';
+
+  @override
+  String get guideLinkLabel => 'வழிகாட்டியின் இணைப்பு';
+
+  @override
+  String get readGuide => 'வழிகாட்டியைப் படி';
+
+  @override
+  String get importGuideNotALink =>
+      'அது Apple Maps வழிகாட்டியின் இணைப்பு அல்ல. Maps-இல் வழிகாட்டியைத் திறந்து பங்கிட்டு, பிறகு இணைப்பை நகலெடு என்பதைத் தேர்ந்தெடுங்கள்.';
+
+  @override
+  String get importGuideNothing =>
+      'அந்த வழிகாட்டியில் Wren சேர்க்கக்கூடியது எதுவும் இல்லை.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'அந்த வழிகாட்டியிலிருந்து $count இடங்கள் படிக்கப்பட்டன',
+      one: 'அந்த வழிகாட்டியிலிருந்து 1 இடம் படிக்கப்பட்டது',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'அதில் உள்ள $count இடங்களை எடுத்துச் செல்ல முடியாது',
+      one: 'அதில் உள்ள 1 இடத்தை எடுத்துச் செல்ல முடியாது',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count இடங்கள் ஏற்கெனவே இந்த வழிகாட்டியில் உள்ளன',
+      one: '1 இடம் ஏற்கெனவே இந்த வழிகாட்டியில் உள்ளது',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return '“$name” வழிகாட்டியிலிருந்து';
+  }
+
+  @override
+  String get republishTitle => 'Maps புதிய வழிகாட்டி ஒன்றை உருவாக்கும்';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'ஏற்கெனவே உள்ள வழிகாட்டியில் சேர்க்க Apple வழி தருவதில்லை, எனவே $count இடங்களையும் கொண்ட புதிய ஒன்றை Wren உருவாக்கும்.',
+      one:
+          'ஏற்கெனவே உள்ள வழிகாட்டியில் சேர்க்க Apple வழி தருவதில்லை, எனவே அந்த 1 இடத்தைக் கொண்ட புதிய ஒன்றை Wren உருவாக்கும்.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete =>
+      'புதிய வழிகாட்டியை வைத்துக்கொண்டு பழையதை நீக்குங்கள்.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'இந்த இடங்களை Wren வைத்திருக்கும், எனவே எதுவும் தவறாகப் போனால் வழிகாட்டியை மீண்டும் உருவாக்கலாம்.';
+
+  @override
+  String get makeCombinedGuide => 'ஒன்றிணைந்த வழிகாட்டியை உருவாக்கு';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'அந்தக் கோப்பிலிருந்து $count இடங்கள் படிக்கப்பட்டன',
+      one: 'அந்தக் கோப்பிலிருந்து 1 இடம் படிக்கப்பட்டது',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count வரிசைகளில் பெயர் இல்லை',
+      one: '1 வரிசையில் பெயர் இல்லை',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'அந்தக் கோப்பில் இடங்கள் இல்லை.';
+
+  @override
+  String get fileUnreadable =>
+      'அந்தக் கோப்பை Wren படிக்க முடியவில்லை. CSV, KML, KMZ, GPX, GeoJSON மற்றும் Google Takeout கோப்புகளைப் படிக்கும்.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return '$total-இல் $done தேடுகிறது…';
+  }
+
+  @override
+  String get combineNeedsUnlock =>
+      'ஒன்றிணைந்த வழிகாட்டியை உருவாக்க திறக்க வேண்டும்.';
+
+  @override
+  String get unlockCombineTitle =>
+      'ஏற்கெனவே உள்ள உங்கள் வழிகாட்டியில் சேர்க்கவும்';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'உங்கள் வழிகாட்டியில் ஏற்கெனவே உள்ள $count இடங்களையும் புதிய இடங்களையும் ஒன்றாகக் கொண்ட ஒரே வழிகாட்டியை Wren உருவாக்கும்.',
+      one:
+          'உங்கள் வழிகாட்டியில் ஏற்கெனவே உள்ள 1 இடத்தையும் புதிய இடத்தையும் ஒன்றாகக் கொண்ட ஒரே வழிகாட்டியை Wren உருவாக்கும்.',
+    );
+    return '$_temp0';
+  }
 }

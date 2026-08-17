@@ -261,4 +261,141 @@ class LVi extends L {
   @override
   String get compUntrusted =>
       'Không xác minh được phản hồi đó nên không có gì được mở khoá.';
+
+  @override
+  String get addPlaces => 'Thêm';
+
+  @override
+  String get fromFile => 'Từ một tệp';
+
+  @override
+  String get fromExistingGuide => 'Từ một hướng dẫn có sẵn';
+
+  @override
+  String get importGuideTitle => 'Thêm vào một hướng dẫn có sẵn';
+
+  @override
+  String get importGuideBody =>
+      'Trong Apple Maps, mở hướng dẫn đó và chia sẻ, rồi chọn “Sao chép liên kết”. Dán vào bên dưới và Wren sẽ đọc những địa điểm đang có trong đó.';
+
+  @override
+  String get guideLinkLabel => 'Liên kết hướng dẫn';
+
+  @override
+  String get readGuide => 'Đọc hướng dẫn';
+
+  @override
+  String get importGuideNotALink =>
+      'Đó không phải liên kết hướng dẫn của Apple Maps. Mở hướng dẫn trong Maps, chia sẻ, rồi chọn “Sao chép liên kết”.';
+
+  @override
+  String get importGuideNothing => 'Hướng dẫn đó không có gì để Wren thêm vào.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Đã đọc $count địa điểm từ hướng dẫn đó',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count địa điểm trong đó không chuyển sang được',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count địa điểm đã có trong hướng dẫn này',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return 'Từ “$name”';
+  }
+
+  @override
+  String get republishTitle => 'Maps tạo một hướng dẫn mới';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Apple không có cách nào để thêm vào một hướng dẫn đã tồn tại, nên Wren sẽ tạo một hướng dẫn mới chứa cả $count địa điểm.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => 'Giữ hướng dẫn mới và xoá hướng dẫn cũ.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren giữ lại những địa điểm này, nên nếu có gì không ổn, bạn có thể tạo lại hướng dẫn.';
+
+  @override
+  String get makeCombinedGuide => 'Tạo hướng dẫn đã gộp';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Đã đọc $count địa điểm từ tệp đó',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hàng không có tên',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'Không có địa điểm nào trong tệp đó.';
+
+  @override
+  String get fileUnreadable =>
+      'Wren không đọc được tệp đó. Wren đọc các tệp xuất CSV, KML, KMZ, GPX, GeoJSON và Google Takeout.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return 'Đang tìm $done trong $total…';
+  }
+
+  @override
+  String get combineNeedsUnlock => 'Cần mở khoá để tạo hướng dẫn đã gộp.';
+
+  @override
+  String get unlockCombineTitle => 'Thêm vào hướng dẫn bạn đã có';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren sẽ tạo một hướng dẫn chứa cả $count địa điểm đang có trong hướng dẫn của bạn và những địa điểm mới.',
+    );
+    return '$_temp0';
+  }
 }

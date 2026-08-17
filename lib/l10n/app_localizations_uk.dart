@@ -279,4 +279,170 @@ class LUk extends L {
   @override
   String get compUntrusted =>
       'Не вдалося перевірити відповідь, тож нічого не розблоковано.';
+
+  @override
+  String get addPlaces => 'Додати';
+
+  @override
+  String get fromFile => 'З файлу';
+
+  @override
+  String get fromExistingGuide => 'З наявного путівника';
+
+  @override
+  String get importGuideTitle => 'Додати до наявного путівника';
+
+  @override
+  String get importGuideBody =>
+      'Відкрий путівник в Apple Картах, натисни «Оприлюднити» й вибери «Скопіювати посилання». Встав його нижче, і Wren прочитає місця, які в ньому вже є.';
+
+  @override
+  String get guideLinkLabel => 'Посилання на путівник';
+
+  @override
+  String get readGuide => 'Прочитати путівник';
+
+  @override
+  String get importGuideNotALink =>
+      'Це не посилання на путівник Apple Карт. Відкрий путівник у Картах, натисни «Оприлюднити» й вибери «Скопіювати посилання».';
+
+  @override
+  String get importGuideNothing =>
+      'У цьому путівнику немає нічого, що Wren міг би перенести.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'З цього путівника прочитано $count місця',
+      many: 'З цього путівника прочитано $count місць',
+      few: 'З цього путівника прочитано $count місця',
+      one: 'З цього путівника прочитано $count місце',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count місця з нього не можна перенести',
+      many: '$count місць з нього не можна перенести',
+      few: '$count місця з нього не можна перенести',
+      one: '$count місце з нього не можна перенести',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count місця вже в цьому путівнику',
+      many: '$count місць вже в цьому путівнику',
+      few: '$count місця вже в цьому путівнику',
+      one: '$count місце вже в цьому путівнику',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return 'З «$name»';
+  }
+
+  @override
+  String get republishTitle => 'Карти створять новий путівник';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Apple не дає змоги додавати місця до вже наявного путівника, тому Wren створить новий — у ньому буде $count місця.',
+      many:
+          'Apple не дає змоги додавати місця до вже наявного путівника, тому Wren створить новий — у ньому будуть усі $count місць.',
+      few:
+          'Apple не дає змоги додавати місця до вже наявного путівника, тому Wren створить новий — у ньому будуть усі $count місця.',
+      one:
+          'Apple не дає змоги додавати місця до вже наявного путівника, тому Wren створить новий — у ньому буде $count місце.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete => 'Залиш новий путівник, а старий видали.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren зберігає ці місця, тож путівник можна створити заново, якщо щось піде не так.';
+
+  @override
+  String get makeCombinedGuide => 'Створити об\'єднаний путівник';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'З цього файлу прочитано $count місця',
+      many: 'З цього файлу прочитано $count місць',
+      few: 'З цього файлу прочитано $count місця',
+      one: 'З цього файлу прочитано $count місце',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'У $count рядка не було назви',
+      many: 'У $count рядках не було назви',
+      few: 'У $count рядках не було назви',
+      one: 'У $count рядку не було назви',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'У цьому файлі немає місць.';
+
+  @override
+  String get fileUnreadable =>
+      'Wren не зміг прочитати цей файл. Він читає CSV, KML, KMZ, GPX, GeoJSON і вивантаження Google Takeout.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return 'Шукаю $done з $total…';
+  }
+
+  @override
+  String get combineNeedsUnlock =>
+      'Об\'єднаний путівник потребує розблокування.';
+
+  @override
+  String get unlockCombineTitle => 'Додати до путівника, який у тебе вже є';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren створить один путівник, де будуть і $count місця з твого, і нові.',
+      many:
+          'Wren створить один путівник, де будуть і $count місць з твого, і нові.',
+      few:
+          'Wren створить один путівник, де будуть і $count місця з твого, і нові.',
+      one:
+          'Wren створить один путівник, де будуть і $count місце з твого, і нові.',
+    );
+    return '$_temp0';
+  }
 }

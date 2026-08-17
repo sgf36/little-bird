@@ -277,4 +277,152 @@ class LEn extends L {
   @override
   String get compUntrusted =>
       'That reply could not be verified, so nothing was unlocked.';
+
+  @override
+  String get addPlaces => 'Add';
+
+  @override
+  String get fromFile => 'From a file';
+
+  @override
+  String get fromExistingGuide => 'From an existing guide';
+
+  @override
+  String get importGuideTitle => 'Add to an existing guide';
+
+  @override
+  String get importGuideBody =>
+      'In Apple Maps, open the guide and share it, then choose Copy Link. Paste it below and Wren will read the places it already holds.';
+
+  @override
+  String get guideLinkLabel => 'Guide link';
+
+  @override
+  String get readGuide => 'Read guide';
+
+  @override
+  String get importGuideNotALink =>
+      'That is not an Apple Maps guide link. Open the guide in Maps, share it, then choose Copy Link.';
+
+  @override
+  String get importGuideNothing => 'That guide holds nothing Wren can add to.';
+
+  @override
+  String importedGuideSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Read $count places from that guide',
+      one: 'Read 1 place from that guide',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importedGuideUnusable(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count places in it cannot be carried over',
+      one: '1 place in it cannot be carried over',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String alreadyInGuide(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count places already in this guide',
+      one: '1 place already in this guide',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fromGuideNamed(String name) {
+    return 'From “$name”';
+  }
+
+  @override
+  String get republishTitle => 'Maps makes a new guide';
+
+  @override
+  String republishBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Apple gives no way to add to a guide that already exists, so Wren will make a new one holding all $count places.',
+      one:
+          'Apple gives no way to add to a guide that already exists, so Wren will make a new one holding the 1 place.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get republishThenDelete =>
+      'Keep the new guide and delete the old one.';
+
+  @override
+  String get republishKeepsPlaces =>
+      'Wren keeps these places, so you can make the guide again if anything goes wrong.';
+
+  @override
+  String get makeCombinedGuide => 'Make the combined guide';
+
+  @override
+  String fileImportSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Read $count places from that file',
+      one: 'Read 1 place from that file',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String fileImportSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rows had no name',
+      one: '1 row had no name',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get fileNoPlaces => 'No places in that file.';
+
+  @override
+  String get fileUnreadable =>
+      'Wren could not read that file. It reads CSV, KML, KMZ, GPX, GeoJSON and Google Takeout exports.';
+
+  @override
+  String lookingUpProgress(int done, int total) {
+    return 'Looking up $done of $total…';
+  }
+
+  @override
+  String get combineNeedsUnlock =>
+      'Making the combined guide needs the unlock.';
+
+  @override
+  String get unlockCombineTitle => 'Add to a guide you already have';
+
+  @override
+  String unlockCombineBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Wren will make one guide holding the $count places already in yours together with the new ones.',
+      one:
+          'Wren will make one guide holding the place already in yours together with the new one.',
+    );
+    return '$_temp0';
+  }
 }

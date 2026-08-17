@@ -121,7 +121,9 @@ class MapKitResolver implements PlaceResolver {
     try {
       final raw = await _channel.invokeMethod<List<Object?>>('search', {
         'query': name,
-        if (region != null) 'cityHint': region.name,
+        // A region imported from a file carries a coordinate and no name, and
+        // an empty hint would be appended to the query as a trailing space.
+        if (region != null && region.name.isNotEmpty) 'cityHint': region.name,
         if (region != null) 'lat': region.lat,
         if (region != null) 'lon': region.lon,
         // A city-sized net when we know where we are; a loose one when we do

@@ -4,8 +4,16 @@
     python store/push_screenshots.py --locale en-GB   # one locale
     python store/push_screenshots.py --all            # every locale with a set
 
-Screenshots live in store/screenshots/<slot>/NN-name.png and are uploaded in
-filename order, which is the order they appear on the product page.
+Screenshots are uploaded in filename order, which is the order they appear on
+the product page. A locale's own set is looked for first:
+
+    store/screenshots/<locale>/<slot>/NN-name.png   # made by shoot.py
+    store/screenshots/<slot>/NN-name.png            # the shared fallback
+
+A locale with no set of its own inherits the primary language's on Apple's side,
+so the fallback is only uploaded when it is explicitly asked for — pushing it to
+every locale would replace ten localised sets with an English one, which is
+worse than leaving them empty.
 
 The upload is three steps and the middle one must NOT carry the API token:
 reserve with POST /appScreenshots, PUT each chunk with only the headers Apple's
@@ -17,6 +25,7 @@ weeks after the fact.
 import argparse
 import hashlib
 import json
+import os
 import pathlib
 import sys
 import time
@@ -25,9 +34,16 @@ import urllib.request
 
 import jwt
 
-KEY_ID, ISSUER = "4CU796U485", "65aee88f-46c4-4daf-8238-5dc37263d06b"
-KEY = (pathlib.Path(r"C:\Users\SpencerFields\OneDrive - Spencer Fields"
-                    r"\Apps\Claude MacOS\signing") / "AuthKey_4CU796U485.p8")
+# Defaults are the author's machine; CI overrides all three by environment,
+# because the key there comes out of a repository secret and this repo is public
+# so it can never be a file in the tree.
+KEY_ID = os.environ.get("WREN_ASC_KEY_ID", "4CU796U485")
+ISSUER = os.environ.get("WREN_ASC_ISSUER",
+                        "65aee88f-46c4-4daf-8238-5dc37263d06b")
+KEY = pathlib.Path(os.environ.get(
+    "WREN_ASC_KEY",
+    r"C:\Users\SpencerFields\OneDrive - Spencer Fields"
+    r"\Apps\Claude MacOS\signing\AuthKey_4CU796U485.p8"))
 APP = "6802053382"
 HERE = pathlib.Path(__file__).resolve().parent
 SHOTS = HERE / "screenshots"
@@ -155,42 +171,72 @@ def upload_one(set_id, path):
     return False, "still not COMPLETE after two minutes"
 
 
+def sets_for(locale):
+    """This locale's own screenshots, or the shared set if it has none."""
+    own = sorted((SHOTS / locale / SLOT).glob("*.png"))
+    if own:
+        return own, f"{locale}/{SLOT}"
+    return sorted((SHOTS / SLOT).glob("*.png")), SLOT
+
+
+def localised():
+    """Every locale with a directory of its own, in name order."""
+    return sorted(d.name for d in SHOTS.iterdir()
+                  if d.is_dir() and (d / SLOT).is_dir()
+                  and any((d / SLOT).glob("*.png")))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--locale", default="en-GB")
-    ap.add_argument("--all", action="store_true")
+    ap.add_argument("--all", action="store_true",
+                    help="every locale that has a set of its own")
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--limit", type=int, default=0,
                     help="upload only the first N, for a trial run")
     args = ap.parse_args()
 
-    files = sorted((SHOTS / SLOT).glob("*.png"))
-    if not files:
-        sys.exit(f"no screenshots in {SHOTS / SLOT}")
-
-    print(f"{len(files)} screenshots in {SLOT}:")
-    for f in files:
-        print(f"  {f.name:<34} {png_size(f)}  {f.stat().st_size / 1024:,.0f} KB")
+    have = localised()
     if args.check:
+        # Sizes for every set on disk, because a wrong one fails at upload with
+        # IMAGE_INCORRECT_DIMENSIONS and says nothing about which file it was.
+        for where in (have or [None]):
+            files, label = sets_for(where) if where else sets_for(args.locale)
+            print(f"\n{label}: {len(files)} screenshots")
+            for f in files:
+                print(f"  {f.name:<24} {png_size(f)}"
+                      f"  {f.stat().st_size / 1024:,.0f} KB")
+        if not have:
+            print(f"\nno per-locale sets — run store/shoot.py to make them")
         return
-
-    if args.limit:
-        files = files[:args.limit]
 
     st, vers = call("GET", f"apps/{APP}/appStoreVersions?limit=1")
     vid = expect(st, vers, "appStoreVersions")[0]["id"]
     st, locs = call("GET", f"appStoreVersions/{vid}"
                            "/appStoreVersionLocalizations?limit=200")
     every = expect(st, locs, "appStoreVersionLocalizations")
-    wanted = (every if args.all else
+    # --all means every locale that has its own screenshots, not every locale on
+    # the version. The others inherit the primary language's set, and giving them
+    # an explicit copy of it would only make ten more things to keep in step.
+    wanted = ([l for l in every if l["attributes"]["locale"] in have]
+              if args.all else
               [l for l in every
                if l["attributes"]["locale"] == args.locale])
     if not wanted:
-        sys.exit(f"locale {args.locale} not found on this version")
+        sys.exit(f"nothing to upload — "
+                 + (f"no version locale matches any of {have}" if args.all
+                    else f"locale {args.locale} not found on this version"))
 
     failures = 0
     for loc in wanted:
         code = loc["attributes"]["locale"]
+        files, label = sets_for(code)
+        if not files:
+            print(f"{code}: no screenshots on disk — skipped")
+            continue
+        if args.limit:
+            files = files[:args.limit]
+        print(f"{code}: {len(files)} from {label}")
         st, sets = call("GET", f"appStoreVersionLocalizations/{loc['id']}"
                                "/appScreenshotSets")
         existing = next((s for s in sets.get("data", [])

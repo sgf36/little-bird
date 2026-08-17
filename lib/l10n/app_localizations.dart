@@ -572,6 +572,162 @@ abstract class L {
   /// In en, this message translates to:
   /// **'That reply could not be verified, so nothing was unlocked.'**
   String get compUntrusted;
+
+  /// Button that opens a menu of the three ways places can be added: screenshots, a file, or an existing guide. Kept to one word because it sits beside a longer button.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get addPlaces;
+
+  /// Menu item for importing a list exported from another app.
+  ///
+  /// In en, this message translates to:
+  /// **'From a file'**
+  String get fromFile;
+
+  /// Menu item for reading the places out of a guide the user already has in Apple Maps.
+  ///
+  /// In en, this message translates to:
+  /// **'From an existing guide'**
+  String get fromExistingGuide;
+
+  /// Title of the dialog where a shared Apple Maps guide link is pasted.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to an existing guide'**
+  String get importGuideTitle;
+
+  /// Instructions for finding the guide link. 'Copy Link' is the wording Apple Maps itself uses on the share sheet, so use whatever Apple Maps says in this language.
+  ///
+  /// In en, this message translates to:
+  /// **'In Apple Maps, open the guide and share it, then choose Copy Link. Paste it below and Wren will read the places it already holds.'**
+  String get importGuideBody;
+
+  /// Text field label for the pasted link.
+  ///
+  /// In en, this message translates to:
+  /// **'Guide link'**
+  String get guideLinkLabel;
+
+  /// Confirming button. Reads the places out of the pasted link; it does not publish anything.
+  ///
+  /// In en, this message translates to:
+  /// **'Read guide'**
+  String get readGuide;
+
+  /// Shown when the pasted text could not be decoded as a guide link.
+  ///
+  /// In en, this message translates to:
+  /// **'That is not an Apple Maps guide link. Open the guide in Maps, share it, then choose Copy Link.'**
+  String get importGuideNotALink;
+
+  /// Shown when the link decoded but contained no place Wren can republish.
+  ///
+  /// In en, this message translates to:
+  /// **'That guide holds nothing Wren can add to.'**
+  String get importGuideNothing;
+
+  /// How many places came out of the pasted guide link.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Read 1 place from that guide} other{Read {count} places from that guide}}'**
+  String importedGuideSummary(int count);
+
+  /// Some entries in the guide carried no Apple place identifier, so they cannot go into the new guide. Said plainly rather than hidden, because the user would otherwise wonder where a place went.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 place in it cannot be carried over} other{{count} places in it cannot be carried over}}'**
+  String importedGuideUnusable(int count);
+
+  /// Header of the collapsed group holding the places that came from the existing guide. Tapping it expands the group.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 place already in this guide} other{{count} places already in this guide}}'**
+  String alreadyInGuide(int count);
+
+  /// Subtitle under the group header, naming the guide the places came from.
+  ///
+  /// In en, this message translates to:
+  /// **'From “{name}”'**
+  String fromGuideNamed(String name);
+
+  /// Title of the dialog shown before publishing a guide that includes imported places.
+  ///
+  /// In en, this message translates to:
+  /// **'Maps makes a new guide'**
+  String get republishTitle;
+
+  /// Explains why a combined guide appears rather than the old one growing. A limitation of Apple Maps, not of this app, and worth saying so.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Apple gives no way to add to a guide that already exists, so Wren will make a new one holding the 1 place.} other{Apple gives no way to add to a guide that already exists, so Wren will make a new one holding all {count} places.}}'**
+  String republishBody(int count);
+
+  /// What to do afterwards.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the new guide and delete the old one.'**
+  String get republishThenDelete;
+
+  /// Reassurance that deleting the wrong guide is recoverable, because the places stay in the app after publishing.
+  ///
+  /// In en, this message translates to:
+  /// **'Wren keeps these places, so you can make the guide again if anything goes wrong.'**
+  String get republishKeepsPlaces;
+
+  /// Confirming button on the dialog above.
+  ///
+  /// In en, this message translates to:
+  /// **'Make the combined guide'**
+  String get makeCombinedGuide;
+
+  /// How many places were found in an imported file.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Read 1 place from that file} other{Read {count} places from that file}}'**
+  String fileImportSummary(int count);
+
+  /// Rows in the file that could not be used because they carried nothing to search for.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 row had no name} other{{count} rows had no name}}'**
+  String fileImportSkipped(int count);
+
+  /// The file parsed but held nothing usable.
+  ///
+  /// In en, this message translates to:
+  /// **'No places in that file.'**
+  String get fileNoPlaces;
+
+  /// Shown when a chosen file is not in a format the app understands. The format names are file types and stay in Latin letters.
+  ///
+  /// In en, this message translates to:
+  /// **'Wren could not read that file. It reads CSV, KML, KMZ, GPX, GeoJSON and Google Takeout exports.'**
+  String get fileUnreadable;
+
+  /// Progress while each name from a file is matched against Apple Maps.
+  ///
+  /// In en, this message translates to:
+  /// **'Looking up {done} of {total}…'**
+  String lookingUpProgress(int done, int total);
+
+  /// Banner shown once places have been read out of an existing guide but the one-time purchase has not been made. Says it at that point rather than at the end, so nobody does the work first and finds out afterwards.
+  ///
+  /// In en, this message translates to:
+  /// **'Making the combined guide needs the unlock.'**
+  String get combineNeedsUnlock;
+
+  /// Heading of the purchase sheet shown when publishing a guide that includes places carried over from an existing one.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to a guide you already have'**
+  String get unlockCombineTitle;
+
+  /// What the purchase buys, on the sheet above. Describes the combined guide, and 'yours' means the guide the user already keeps in Apple Maps.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Wren will make one guide holding the place already in yours together with the new one.} other{Wren will make one guide holding the {count} places already in yours together with the new ones.}}'**
+  String unlockCombineBody(int count);
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {
