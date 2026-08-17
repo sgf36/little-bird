@@ -1,5 +1,3 @@
-import 'dart:io' show Platform;
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -31,10 +29,16 @@ const _shots = bool.fromEnvironment('WREN_SHOTS');
 
 void main() {
   if (_shots) {
-    // Named by SIMCTL_CHILD_WREN_SCENE on the simctl launch, so one build
-    // covers every scene and every language.
-    final scene = Platform.environment['WREN_SCENE'] ?? '';
-    runApp(WrenApp(home: sceneFor(scene) ?? UnknownScene(scene)));
+    // Named per launch, so one build covers every scene and every language. Two
+    // routes are tried — see [SceneRequest] — because the environment variable
+    // alone arrived empty on iOS 26 and cost a whole run.
+    final request = SceneRequest.resolve();
+    // Read back off the device log by shoot.py after every launch, so the log
+    // says which route delivered the scene even on a run that succeeds.
+    debugPrint(request.logLine);
+    runApp(
+      WrenApp(home: sceneFor(request.name) ?? UnknownScene.from(request)),
+    );
     return;
   }
   runApp(const WrenApp());

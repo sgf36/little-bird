@@ -17,6 +17,8 @@
 /// `SIMCTL_CHILD_WREN_SCENE` naming the one it wants.
 library;
 
+import 'dart:io' show Directory, File, Platform;
+
 import 'package:flutter/material.dart';
 
 import '../main.dart';
@@ -189,24 +191,118 @@ const sceneNames = <String>[
   '06-a-little-bird',
 ];
 
+/// The file shoot.py writes into the app's own tmp directory to name the scene.
+///
+/// The second of two routes, and it exists because the first one silently
+/// delivered nothing. `simctl launch` is documented to hand `SIMCTL_CHILD_*`
+/// variables to the app with the prefix stripped, and on the run of 17 August
+/// 2026 all sixty-four screenshots came out as [UnknownScene] with an **empty**
+/// name: the variable never arrived, on a freshly-created iOS 26 simulator.
+///
+/// This route depends on nothing being passed in. `Directory.systemTemp` on iOS
+/// is `TMPDIR`, which the system sets to the app's own tmp directory, and
+/// shoot.py reaches the same directory on the host through
+/// `simctl get_app_container <udid> <bundle> data`. Both routes are still tried,
+/// and [SceneRequest.sources] records what each one held so a failure says which
+/// mechanism broke instead of leaving it to be guessed at again.
+const sceneFileName = 'wren-scene.txt';
+
+/// Which scene the app was asked for, and what every route to that answer held.
+class SceneRequest {
+  const SceneRequest({required this.name, required this.sources});
+
+  /// The scene to render. Empty when no route produced one.
+  final String name;
+
+  /// Every route consulted, in order, with what it contained. Rendered on screen
+  /// by [UnknownScene], so a bad run is diagnosable from the screenshot itself
+  /// rather than from a log that may not have been kept.
+  final List<(String, String)> sources;
+
+  static String _show(String? v) => v == null
+      ? 'not set'
+      : v.trim().isEmpty
+      ? 'set but empty (${v.length} chars)'
+      : '"${v.trim()}"';
+
+  static SceneRequest resolve() {
+    final sources = <(String, String)>[];
+    String? found;
+
+    final env = Platform.environment['WREN_SCENE'];
+    sources.add(('env WREN_SCENE', _show(env)));
+    if (env != null && env.trim().isNotEmpty) found = env.trim();
+
+    final path = '${Directory.systemTemp.path}/$sceneFileName';
+    try {
+      final file = File(path);
+      final text = file.existsSync() ? file.readAsStringSync() : null;
+      sources.add(('file $path', _show(text)));
+      if (found == null && text != null && text.trim().isNotEmpty) {
+        found = text.trim();
+      }
+    } catch (e) {
+      sources.add(('file $path', 'unreadable: $e'));
+    }
+
+    // Separates "dart:io saw no environment at all" from "the variable
+    // specifically was not passed" — the same empty string, two different bugs.
+    sources.add((
+      'env vars visible',
+      '${Platform.environment.length}'
+          '${Platform.environment.containsKey('TMPDIR') ? ' (TMPDIR present)' : ''}',
+    ));
+
+    return SceneRequest(name: found ?? '', sources: sources);
+  }
+
+  /// One line for the device log, which shoot.py reads back after each launch.
+  String get logLine =>
+      'WREN-SHOTS scene="$name" '
+      '${sources.map((s) => '${s.$1}=${s.$2}').join(' | ')}';
+}
+
 /// Shown when a scene name is not recognised, instead of a blank screen.
 ///
 /// A run that quietly photographed six identical empty screens, uploaded them,
-/// and reported success is a specific failure worth designing against.
+/// and reported success is a specific failure worth designing against. It then
+/// happened in the other direction: the screen worked, was photographed
+/// sixty-four times, and said only `no scene called ""` — correct, and not
+/// enough to act on. So it now prints every route and what each held.
 class UnknownScene extends StatelessWidget {
-  const UnknownScene(this.name, {super.key});
+  const UnknownScene(this.name, {super.key, this.sources = const []});
+
+  UnknownScene.from(SceneRequest request, {super.key})
+    : name = request.name,
+      sources = request.sources;
+
   final String name;
+  final List<(String, String)> sources;
 
   @override
   Widget build(BuildContext context) => Scaffold(
     backgroundColor: Wren.clay,
-    body: Center(
+    body: SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Text(
-          'no scene called "$name"',
-          style: const TextStyle(color: Colors.white, fontSize: 28),
-          textAlign: TextAlign.center,
+        padding: const EdgeInsets.all(28),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              name.isEmpty ? 'no scene was named' : 'no scene called "$name"',
+              style: const TextStyle(color: Colors.white, fontSize: 26),
+            ),
+            const SizedBox(height: 20),
+            for (final (route, value) in sources)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Text(
+                  '$route\n  $value',
+                  style: const TextStyle(color: Colors.white70, fontSize: 15),
+                ),
+              ),
+          ],
         ),
       ),
     ),

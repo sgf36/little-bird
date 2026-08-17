@@ -34,6 +34,10 @@ on:
         description: 'Attempt the Apple Maps payoff shot'
         type: boolean
         default: true
+      verbose:
+        description: 'Log every simctl command and its output'
+        type: boolean
+        default: true
 
 env:
   FLUTTER_VERSION: '3.44.8'
@@ -67,10 +71,14 @@ jobs:
           python3 -m venv /tmp/shots
           /tmp/shots/bin/pip install --quiet pillow pyjwt cryptography
 
+      # `-u` as well as the script's own line buffering: the run of 17 August
+      # 2026 emitted thirty-one minutes of output in a single burst at the end,
+      # so there was no watching it and no telling how far it had got.
       - name: Take them
         run: |
-          /tmp/shots/bin/python store/shoot.py \
+          /tmp/shots/bin/python -u store/shoot.py \
             ${{ inputs.locale && format('--locale {0}', inputs.locale) || '' }} \
+            ${{ inputs.verbose && '--verbose' || '' }} \
             ${{ !inputs.maps && '--no-maps' || '' }}  # inverted deliberately: an empty string is FALSY in a GitHub
             # expression, so `inputs.maps && '' || '--no-maps'` falls through
             # to the || branch even when maps is true, and always passed
@@ -81,6 +89,26 @@ jobs:
         run: |
           find store/screenshots -mindepth 1 -maxdepth 1 -type d -print
           /tmp/shots/bin/python store/push_screenshots.py --check || true
+
+      # On failure the useful question is not "what does the log say" but "what
+      # was on the screen". This puts a per-image verdict in the run summary, so
+      # a flat frame is visible without downloading anything.
+      - name: Measure every frame
+        if: always()
+        run: |
+          /tmp/shots/bin/python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import pathlib
+          from PIL import Image
+          print('| image | size | most common colour |')
+          print('| --- | --- | --- |')
+          for p in sorted(pathlib.Path('store/screenshots').rglob('*.png')):
+              with Image.open(p) as im:
+                  w, h = im.size
+                  colours = im.convert('RGB').getcolors(maxcolors=1 << 24) or []
+              flat = max((c for c, _ in colours), default=0) / (w * h or 1)
+              print(f'| {p.relative_to("store/screenshots")} | {w}x{h} '
+                    f'| {flat:.0%} |')
+          PY
 
       # Always, including on failure: a half-finished set is the most useful
       # thing to look at when working out why it failed.

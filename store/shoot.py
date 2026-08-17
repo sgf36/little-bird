@@ -47,6 +47,9 @@ ROOT = HERE.parent
 SHOTS = HERE / "screenshots"
 BUNDLE = "com.spencerfields.littlebird"
 SLOT = "APP_IPHONE_67"
+# Must match `sceneFileName` in lib/src/screenshots.dart. Written into the app's
+# own tmp directory before each launch; see [app_tmp_dir] for why.
+SCENE_FILE = "wren-scene.txt"
 # Apple accepts either of these for the 6.7-inch slot. Whichever the chosen
 # simulator produces is used, and every image in the run must then match it —
 # a set of mixed sizes is rejected at upload.
@@ -122,12 +125,38 @@ def check_scenes_agree():
                  f"disagree:\n  here: {SCENES}\n  dart: {names}")
 
 
+VERBOSE = False
+_START = None
+
+
+def say(message, indent=0):
+    """Print with an elapsed stamp, unbuffered.
+
+    Unbuffered matters more than it sounds. Python buffers stdout when it is a
+    pipe, which a GitHub Actions step is, so the run of 17 August 2026 printed
+    its entire thirty-one minutes of output in one burst at the end, every line
+    stamped with the same second. There was no way to watch it, and no way to
+    tell how far it had got before it was killed. Nothing here is worth reading
+    after the fact only.
+    """
+    import time
+    stamp = "" if _START is None else f"[{time.time() - _START:6.1f}s] "
+    print(f"{stamp}{'  ' * indent}{message}", flush=True)
+
+
 def run(*args, check=True, quiet=False):
     r = subprocess.run(args, capture_output=True, text=True)
+    if VERBOSE:
+        # The command itself, because "failed: xcrun simctl …" with no argv is a
+        # sentence about a command nobody can reconstruct.
+        say(f"$ {' '.join(str(a) for a in args)}", indent=2)
+        for stream, text in (("out", r.stdout), ("err", r.stderr)):
+            for line in (text or "").strip().splitlines()[:12]:
+                say(f"{stream}| {line[:220]}", indent=3)
     if check and r.returncode != 0:
-        sys.exit(f"failed: {' '.join(args)}\n{r.stderr.strip()}")
-    if not quiet and r.stderr.strip():
-        print(f"  ! {r.stderr.strip()[:200]}")
+        sys.exit(f"failed: {' '.join(str(a) for a in args)}\n{r.stderr.strip()}")
+    if not quiet and not VERBOSE and r.stderr.strip():
+        say(f"! {r.stderr.strip()[:200]}", indent=1)
     return r
 
 
@@ -227,7 +256,7 @@ def boot_simulator():
     candidates = iphones()
     if not candidates:
         sys.exit("no iPhone simulators are available on this runner")
-    print(f"{len(candidates)} iPhone simulators available; want "
+    say(f"{len(candidates)} iPhone simulators available; want "
           f"{' or '.join(f'{w}x{h}' for w, h in WANT)}")
 
     tried, seen = [], set()
@@ -238,30 +267,30 @@ def boot_simulator():
         size = measure(udid)
         tried.append((name, size))
         if size in WANT:
-            print(f"native: {name} at {size[0]}x{size[1]}")
+            say(f"native: {name} at {size[0]}x{size[1]}")
             return udid, size, size
         run("xcrun", "simctl", "shutdown", udid, check=False, quiet=True)
 
-    print("\nno device shoots it natively:")
+    say("\nno device shoots it natively:")
     for name, size in tried:
-        print(f"  {name:<24} {size}")
+        say(f"  {name:<24} {size}")
 
     runtime = newest_runtime()
     for name, identifier in creatable_sixty_sevens():
         if runtime is None:
             break
-        print(f"\ncreating {name} to try for a native size...")
+        say(f"\ncreating {name} to try for a native size...")
         made = run("xcrun", "simctl", "create", "wren-shots", identifier,
                    runtime, check=False, quiet=True)
         udid = made.stdout.strip()
         if not udid:
-            print(f"  could not create {name}")
+            say(f"  could not create {name}")
             continue
         size = measure(udid)
         if size in WANT:
-            print(f"native: {name} at {size[0]}x{size[1]} (created)")
+            say(f"native: {name} at {size[0]}x{size[1]} (created)")
             return udid, size, size
-        print(f"  {name} shoots {size} - not it")
+        say(f"  {name} shoots {size} - not it")
         run("xcrun", "simctl", "shutdown", udid, check=False, quiet=True)
         run("xcrun", "simctl", "delete", udid, check=False, quiet=True)
 
@@ -280,7 +309,7 @@ def boot_simulator():
             f"{drift:.1%} off {target[0]}x{target[1]} in aspect ratio. Scaling "
             f"that would visibly distort or letterbox the images, and a padded "
             f"store screenshot looks like a mistake, so this stops here.")
-    print(f"\nscaling: {name} shoots {native[0]}x{native[1]}; images will be "
+    say(f"\nscaling: {name} shoots {native[0]}x{native[1]}; images will be "
           f"resampled to {target[0]}x{target[1]} ({drift:.2%} aspect drift)")
     measure(udid)
     return udid, native, target
@@ -356,24 +385,121 @@ def difference(a, b):
     return sum(stat.mean) / len(stat.mean)
 
 
-def shoot_app(udid, out_dir, language, locale, settle):
+def app_tmp_dir(udid):
+    """The app's own tmp directory, on the host filesystem.
+
+    The second route by which a scene name reaches the app, and now the load-
+    bearing one. `SIMCTL_CHILD_WREN_SCENE` is the documented way to pass an
+    environment variable through `simctl launch`, and on 17 August 2026 it
+    delivered nothing: every screenshot in the run rendered the app's
+    "no scene called" screen with an empty name. The variable is still passed —
+    it costs nothing and may work on other Xcode versions — but the scene is now
+    also written to a file the app reads, because a file either exists with the
+    right contents or does not, and both cases are visible from here.
+
+    Returns None if the container cannot be found, which is not fatal on its own:
+    the environment route may still work, and the app says which one fed it.
+    """
+    r = run("xcrun", "simctl", "get_app_container", udid, BUNDLE, "data",
+            check=False, quiet=True)
+    path = r.stdout.strip()
+    if r.returncode != 0 or not path:
+        say(f"! could not locate the app container: {r.stderr.strip()[:160]}")
+        return None
+    tmp = pathlib.Path(path) / "tmp"
+    try:
+        tmp.mkdir(parents=True, exist_ok=True)
+    except OSError as e:
+        say(f"! app tmp directory is not writable: {e}")
+        return None
+    say(f"app container: {path}")
+    return tmp
+
+
+def name_scene(app_tmp, scene):
+    """Write the scene file, and prove it was written by reading it back."""
+    if app_tmp is None:
+        return False
+    target = app_tmp / SCENE_FILE
+    try:
+        target.write_text(scene, encoding="utf-8")
+        wrote = target.read_text(encoding="utf-8")
+    except OSError as e:
+        say(f"! could not write {target}: {e}", indent=1)
+        return False
+    if wrote != scene:
+        say(f"! {target} holds {wrote!r}, not {scene!r}", indent=1)
+        return False
+    if VERBOSE:
+        say(f"scene file {target} = {wrote!r}", indent=2)
+    return True
+
+
+def app_log(udid, seconds=25):
+    """What the app itself printed, best effort.
+
+    The app logs one line naming the scene it resolved and what every route to
+    it held. Pulling it back means a successful run also records which mechanism
+    fed it, so the next breakage starts from evidence rather than from this
+    comment.
+    """
+    r = run("xcrun", "simctl", "spawn", udid, "log", "show",
+            "--last", f"{seconds}s", "--style", "compact",
+            "--predicate", 'eventMessage CONTAINS "WREN-SHOTS"',
+            check=False, quiet=True)
+    lines = [ln.strip() for ln in (r.stdout or "").splitlines()
+             if "WREN-SHOTS" in ln]
+    return lines[-1] if lines else None
+
+
+def shoot_app(udid, out_dir, language, locale, settle, app_tmp, first=False):
     """One launch per scene, so one build covers every scene and language."""
     taken = []
     for scene in SCENES:
         out = out_dir / f"{scene}.png"
         run("xcrun", "simctl", "terminate", udid, BUNDLE, check=False,
             quiet=True)
+        named = name_scene(app_tmp, scene)
         env = {"SIMCTL_CHILD_WREN_SCENE": scene}
         cmd = ["xcrun", "simctl", "launch", udid, BUNDLE,
                "-AppleLanguages", f"({language})", "-AppleLocale", locale]
+        if VERBOSE:
+            say(f"$ SIMCTL_CHILD_WREN_SCENE={scene} {' '.join(cmd)}", indent=2)
         r = subprocess.run(cmd, capture_output=True, text=True,
                            env={**_environ(), **env})
         if r.returncode != 0:
             sys.exit(f"launch failed for {scene}: {r.stderr.strip()}")
+        if VERBOSE and r.stdout.strip():
+            say(f"out| {r.stdout.strip()[:160]}", indent=3)
         _sleep(settle)
         run("xcrun", "simctl", "io", udid, "screenshot", "--type=png", str(out))
         taken.append(out)
-        print(f"  {scene}")
+
+        # Every frame gets a verdict as it is taken, rather than sixty-four of
+        # them at the end. Flatness is the tell for a scene that did not draw.
+        flat = uniformity(out)
+        size = png_size(out)
+        say(f"{scene}  {size[0]}x{size[1]}  {flat:.0%} one colour"
+            f"{'  scene file written' if named else '  NO scene file'}",
+            indent=1)
+        reported = app_log(udid)
+        if reported:
+            say(reported[-240:], indent=2)
+        elif VERBOSE:
+            say("(the app logged nothing this launch)", indent=2)
+
+        # Stop on the first bad frame of the first locale. The alternative,
+        # measured: thirty-one minutes of runner time to produce sixty-four
+        # copies of the same failure, and a bill for it.
+        if first and scene == SCENES[0] and flat > 0.92:
+            say("")
+            say("STOPPING: the first frame did not draw the scene. Everything "
+                "after this would be the same failure sixty-three more times.")
+            say("The screenshot itself names every route the app tried and what "
+                "each held — read it in the artifact.")
+            if reported:
+                say(f"the app reported: {reported[-400:]}")
+            sys.exit(1)
     run("xcrun", "simctl", "terminate", udid, BUNDLE, check=False, quiet=True)
     return taken
 
@@ -404,7 +530,7 @@ def shoot_maps(udid, out_dir, settle):
         quiet=True)
 
     if not out.exists():
-        print(f"  {MAPS_SCENE}: no screenshot taken — skipped")
+        say(f"  {MAPS_SCENE}: no screenshot taken — skipped")
         baseline.unlink(missing_ok=True)
         return None
     delta = difference(baseline, out)
@@ -412,11 +538,11 @@ def shoot_maps(udid, out_dir, settle):
     # 6 is well above the noise of two map renders of the same city and well
     # below what a guide sheet covering the lower half of the screen produces.
     if delta < 6:
-        print(f"  {MAPS_SCENE}: the guide did not open (delta {delta:.1f}) — "
+        say(f"  {MAPS_SCENE}: the guide did not open (delta {delta:.1f}) — "
               f"skipped, this locale gets {len(SCENES)} screenshots")
         out.unlink(missing_ok=True)
         return None
-    print(f"  {MAPS_SCENE} (delta {delta:.1f})")
+    say(f"  {MAPS_SCENE} (delta {delta:.1f})")
     return out
 
 
@@ -449,9 +575,9 @@ def verify(paths, locale, want):
                        f"scenes rendered the same thing")
         seen[digest] = p.name
     if bad:
-        print(f"\n{locale} FAILED verification:")
+        say(f"\n{locale} FAILED verification:")
         for b in bad:
-            print(f"  - {b}")
+            say(f"  - {b}")
     return not bad
 
 
@@ -464,12 +590,33 @@ def main():
                     help="seconds to wait after launch before the shutter")
     ap.add_argument("--keep-build", action="store_true",
                     help="reuse an existing build instead of rebuilding")
+    ap.add_argument("--verbose", action="store_true",
+                    help="log every simctl command and its output")
     args = ap.parse_args()
+
+    global VERBOSE, _START
+    import time
+    VERBOSE = args.verbose
+    _START = time.time()
+    # Line buffering, so a thirty-minute run can be watched rather than only
+    # read afterwards. See [say].
+    try:
+        sys.stdout.reconfigure(line_buffering=True)
+    except (AttributeError, OSError):
+        pass
 
     check_scenes_agree()
 
     if not shutil.which("xcrun"):
         sys.exit("this needs macOS and Xcode — it drives xcrun simctl")
+
+    # What this run is standing on. Every failure so far has come from the
+    # runner's Xcode changing under the script, so it is worth a line each.
+    for label, cmd in (("xcode", ("xcodebuild", "-version")),
+                       ("simctl", ("xcrun", "simctl", "help"))):
+        r = run(*cmd, check=False, quiet=True)
+        first_line = (r.stdout or r.stderr or "?").strip().splitlines()[:1]
+        say(f"{label}: {first_line[0] if first_line else '?'}")
 
     wanted = ([t for t in SHOOT if t[0] == args.locale] if args.locale
               else SHOOT)
@@ -479,20 +626,24 @@ def main():
 
     app = ROOT / "build/ios/iphonesimulator/Runner.app"
     if not args.keep_build or not app.exists():
-        print("building the screenshot app…")
+        say("building the screenshot app…")
         run("flutter", "build", "ios", "--simulator", "--debug",
             "--dart-define=WREN_SHOTS=true")
     if not app.exists():
         sys.exit(f"no app at {app}")
 
     udid, native, target = boot_simulator()
-    print(f"all screenshots will be {target[0]}x{target[1]}")
+    say(f"all screenshots will be {target[0]}x{target[1]}")
     run("xcrun", "simctl", "install", udid, str(app))
     clean_status_bar(udid)
+    app_tmp = app_tmp_dir(udid)
+    say(f"{len(wanted)} locales x {len(SCENES)} scenes"
+        f"{'' if args.no_maps else ' + the Maps shot'}")
 
     failures, skipped_maps = [], []
-    for asc, language, locale in wanted:
-        print(f"\n{asc}")
+    for index, (asc, language, locale) in enumerate(wanted):
+        say("")
+        say(f"{asc}  ({index + 1} of {len(wanted)})")
         out_dir = SHOTS / asc / SLOT
         if out_dir.exists():
             shutil.rmtree(out_dir)
@@ -500,7 +651,8 @@ def main():
 
         set_language(udid, language, locale)
         clean_status_bar(udid)
-        paths = shoot_app(udid, out_dir, language, locale, args.settle)
+        paths = shoot_app(udid, out_dir, language, locale, args.settle,
+                          app_tmp, first=index == 0)
 
         if not args.no_maps:
             maps = shoot_maps(udid, out_dir, args.settle)
@@ -515,13 +667,13 @@ def main():
         if not verify(paths, asc, target):
             failures.append(asc)
 
-    print()
+    say("")
     if skipped_maps:
-        print(f"no Maps shot for: {', '.join(skipped_maps)} — those locales "
-              f"have {len(SCENES)} screenshots, not {len(SCENES) + 1}")
+        say(f"no Maps shot for: {', '.join(skipped_maps)} — those locales "
+            f"have {len(SCENES)} screenshots, not {len(SCENES) + 1}")
     if failures:
         sys.exit(f"verification failed for: {', '.join(failures)}")
-    print(f"done — {len(wanted)} locales under {SHOTS}")
+    say(f"done — {len(wanted)} locales under {SHOTS}")
 
 
 if __name__ == "__main__":
