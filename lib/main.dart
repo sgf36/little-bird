@@ -420,18 +420,31 @@ class _CapturePageState extends State<CapturePage> {
 
       // Pass one: read everything, and keep the whole page of text. The caption
       // is the part that says where we are, and it used to be discarded.
-      final readings = <({String place, String all})>[];
+      final readings = <({List<String> candidates, String all})>[];
       var unread = 0;
+      // Every screenshot is read before any is ranked, because the strongest
+      // signal for interface furniture is that it repeats across the batch while
+      // places do not. That works in any language and in any app, which a list
+      // of English button labels cannot.
+      final perShot = <List<TextLine>>[];
       for (final f in files) {
-        final lines = await Ocr.recognise(f.path);
+        perShot.add(await Ocr.recognise(f.path));
         if (mounted) setState(() => _readCount++);
-        final guess = likeliestPlace(lines);
-        if (guess == null) {
+      }
+      final furniture = repeatedLines(perShot);
+
+      for (final lines in perShot) {
+        // Ranked, not a single guess. A tester's TikTok screenshot put the
+        // caption in the largest text and the real place in a small truncated
+        // label, so a miss on the front runner now falls through to the next
+        // candidate instead of costing the screenshot entirely.
+        final ranked = placeCandidates(lines, repeated: furniture);
+        if (ranked.isEmpty) {
           unread++;
           continue;
         }
         readings.add((
-          place: guess.text,
+          candidates: [for (final c in ranked.take(3)) c.text.trim()],
           all: lines.map((l) => l.text).join('\n'),
         ));
       }
@@ -447,7 +460,7 @@ class _CapturePageState extends State<CapturePage> {
       // Pass two: work out where, and have it confirmed.
       final detected = regionHint(
         readings.map((r) => r.all),
-        exclude: readings.map((r) => r.place),
+        exclude: readings.map((r) => r.candidates.first),
       );
       setState(() => _busy = false);
       if (!mounted) return;
@@ -461,9 +474,20 @@ class _CapturePageState extends State<CapturePage> {
       // Pass three: resolve, now that the search knows where to look.
       var unmatched = 0, added = 0;
       for (final r in readings) {
-        List<PlaceMatch> matches;
+        List<PlaceMatch> matches = const [];
+        var readAs = r.candidates.first;
         try {
-          matches = usable(await _resolver.resolve(r.place, region: region));
+          // Each candidate in turn until one is found. The resolver paces
+          // itself, so this costs time rather than risking a throttle.
+          for (final candidate in r.candidates) {
+            matches = usable(
+              await _resolver.resolve(candidate, region: region),
+            );
+            if (matches.isNotEmpty) {
+              readAs = candidate;
+              break;
+            }
+          }
         } on ResolverUnavailable catch (e) {
           setState(() {
             _busy = false;
@@ -479,13 +503,13 @@ class _CapturePageState extends State<CapturePage> {
           // Kept, not discarded: the reading is the only record of what the
           // screenshot said, and the user can search for it themselves.
           unmatched++;
-          _pending.add(Pending(r.place, null, keep: false));
+          _pending.add(Pending(r.candidates.first, null, keep: false));
           continue;
         }
         // Never write silently: Apple replaces the label with its own record,
         // so a wrong match would ship under a confident name.
         if (!_pending.any((p) => p.match?.id == matches.first.id)) {
-          _pending.add(Pending(r.place, matches.first));
+          _pending.add(Pending(readAs, matches.first));
           added++;
         }
       }

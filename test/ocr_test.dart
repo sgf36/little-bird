@@ -21,7 +21,7 @@ final _typicalFrame = [
 
 void main() {
   group('stripChrome', () {
-    test('drops handles, hashtags, counts and UI labels', () {
+    test('drops handles, hashtags and counts', () {
       final kept = stripChrome(_typicalFrame).map((l) => l.text).toList();
       expect(kept, contains('Otaleg Trastevere'));
       expect(kept, isNot(contains('@romefoodguide')));
@@ -31,8 +31,28 @@ void main() {
       );
       expect(kept, isNot(contains('12.4K')));
       expect(kept, isNot(contains('1,204')));
-      expect(kept, isNot(contains('Reels')));
-      expect(kept, isNot(contains('original audio · romefoodguide')));
+    });
+
+    test('keeps interface labels, and leaves them to the ranking', () {
+      // A deliberate change of contract, made on 17 August 2026. This used to
+      // delete anything matching a list of English interface labels, and that
+      // list was the whole mechanism — so a TikTok screenshot, whose labels
+      // differ, walked straight through it, and a screenshot in German or
+      // Japanese always would.
+      //
+      // Deleting the wrong line loses a place silently; demoting it costs one
+      // search. So the word list is now a scoring nudge and the real work is
+      // done by position and by repetition across a batch, which hold in any
+      // language. "Reels" survives here and loses in placeCandidates.
+      final kept = stripChrome(_typicalFrame).map((l) => l.text).toList();
+      expect(kept, contains('Reels'));
+      expect(placeCandidates(_typicalFrame).first.text, 'Otaleg Trastevere');
+      final ranked = placeCandidates(_typicalFrame).map((l) => l.text).toList();
+      expect(
+        ranked.indexOf('Otaleg Trastevere'),
+        lessThan(ranked.indexOf('Reels')),
+        reason: 'the place must be tried before the interface label',
+      );
     });
 
     test('keeps a caption, because captions sometimes name the place', () {

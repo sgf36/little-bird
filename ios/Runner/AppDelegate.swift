@@ -200,11 +200,27 @@ public class PlacesPlugin: NSObject, FlutterPlugin {
 
     MKLocalSearch(request: request).start { response, error in
       if let error = error as NSError? {
-        // MKError 4 is throttling. Surfaced so the caller can back off rather
-        // than mistake it for "no such place".
-        let throttled = error.domain == MKErrorDomain && error.code == 4
-        result(FlutterError(code: throttled ? "throttled" : "search_failed",
-                            message: error.localizedDescription, details: nil))
+        // Matched on MKError's own cases, never on a raw number. The previous
+        // code read `error.code == 4` and called it throttling, with a comment
+        // saying so; 4 is `.placemarkNotFound` and 3 is `.loadingThrottled`.
+        // Off by one, in the direction that turns "no such place" into "Apple
+        // Maps is rate-limiting" and aborts the whole import — reported from a
+        // real device on 17 August 2026, on a TikTok screenshot whose largest
+        // text was a caption rather than a place.
+        let code = error.domain == MKErrorDomain
+          ? MKError.Code(rawValue: error.code) : nil
+        switch code {
+        case .placemarkNotFound:
+          // Not an error. Nothing there to find, which the caller already
+          // handles by keeping the reading and letting the user search by hand.
+          result([])
+        case .loadingThrottled:
+          result(FlutterError(code: "throttled",
+                              message: error.localizedDescription, details: nil))
+        default:
+          result(FlutterError(code: "search_failed",
+                              message: error.localizedDescription, details: nil))
+        }
         return
       }
 

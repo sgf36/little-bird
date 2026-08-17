@@ -153,8 +153,31 @@ class MapKitResolver extends PlaceResolver {
     }
   }
 
+  /// How long to wait after a throttle, and how many times to try again.
+  ///
+  /// Apple's throttle is brief, so backing off recovers where giving up does
+  /// not. Before this existed a single `MKError.loadingThrottled` ended the whole
+  /// import and told the user to "try the rest in a moment" — which is advice the
+  /// app could have taken itself.
+  static const _backoff = [
+    Duration(seconds: 1),
+    Duration(seconds: 3),
+    Duration(seconds: 6),
+  ];
+
   @override
   Future<List<PlaceMatch>> resolve(String name, {Region? region}) async {
+    for (var attempt = 0; ; attempt++) {
+      try {
+        return await _searchOnce(name, region: region);
+      } on ResolverUnavailable catch (e) {
+        if (!e.throttled || attempt >= _backoff.length) rethrow;
+        await Future<void>.delayed(_backoff[attempt]);
+      }
+    }
+  }
+
+  Future<List<PlaceMatch>> _searchOnce(String name, {Region? region}) async {
     final since = DateTime.now().difference(_last);
     if (since < _gap) await Future<void>.delayed(_gap - since);
     _last = DateTime.now();
