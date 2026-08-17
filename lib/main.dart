@@ -690,6 +690,15 @@ class _CapturePageState extends State<CapturePage> {
       }
       if (gone.isNotEmpty) {
         final dropped = gone.length;
+        // Logged by identifier, because that is the only thing left of them.
+        // Apple has no record, so there is no name to show and nothing to look
+        // up: a dropped place is a bare muid or it is nothing. Printed rather
+        // than shown, since the alternative is putting raw hex in front of
+        // someone who wanted a list of restaurants.
+        debugPrint(
+          'WREN-GONE ${result.gone.length} place(s) Apple no longer serves: '
+          '${result.gone.map((id) => id.toString()).join(', ')}',
+        );
         _pending.removeWhere((p) => result.gone.contains(p.match?.id));
         final carried = _pending.where((p) => p.origin == Origin.guide).length;
         _status = [
