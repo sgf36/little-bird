@@ -140,15 +140,19 @@ void main() {
     testWidgets('a group with no names does not offer to expand', (
       tester,
     ) async {
-      // Apple's payload carries identifiers only, so until the lookup answers
-      // there is nothing behind the toggle. Opening onto blank cards would look
-      // like a bug, so the toggle is not offered.
+      // Apple's real share payload carries identifiers ONLY -- these are actual
+      // bytes from a real shared guide -- so until the lookup answers there is
+      // nothing behind the toggle. Opening onto blank cards would look like a
+      // bug, so the toggle is not offered.
+      const appleShared =
+          'https://maps.apple.com/guides?user=CgZMb25kb24SDgiuTRDL_OP_78aHmeAB'
+          'Eg0Irk0QzoPcmOKCuuFfEg0Irk0QoPDVtIPA2rAJEg0Irk0Q45apuffSi7FE';
       await pump(tester);
-      await paste(tester, link);
+      await paste(tester, appleShared);
 
-      await tester.tap(find.text('3 places already in this guide'));
+      expect(find.text('4 places already in this guide'), findsOne);
+      await tester.tap(find.text('4 places already in this guide'));
       await tester.pumpAndSettle();
-      expect(find.text('Dishoom'), findsNothing);
       expect(find.byIcon(Icons.expand_more), findsNothing);
     });
 

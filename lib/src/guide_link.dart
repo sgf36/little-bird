@@ -12,12 +12,12 @@
 ///  1. Every place MUST carry an Apple place ID. A payload describing places by
 ///     coordinate renders perfectly on maps.apple.com and opens with ZERO places
 ///     in the Maps app. Browser testing gives a false pass.
-///  2. The limit is the URL's length, not a count of places. Past roughly 8,000
-///     characters the server returns HTTP 200 with an empty guide — it fails
-///     silently, so callers must verify rather than trust the status code. A
-///     previous version of this file capped links at 50 places, which was
-///     measuring the cost of encoding a name with each one rather than any limit
-///     on guide size; see [_encodeLocation].
+///  2. The limit is the URL's length — about 3,500 characters — and not a count
+///     of places. Over it the server returns HTTP 200 with an empty guide, so
+///     callers must verify rather than trust the status code. Bisected against
+///     the live service; see [maxUrlChars] for the measurements. This file used
+///     to cap links at 50 places, which was measuring the cost of encoding a
+///     name with each one rather than any limit on guide size.
 library;
 
 /// An Apple place identifier, as returned by MapKit's `MKMapItem.identifier`
@@ -63,12 +63,27 @@ class GuidePlace {
   const GuidePlace({required this.id, required this.name});
 }
 
-/// How long a guide URL may get before Apple refuses it outright.
+/// How long a guide URL may get before Apple returns an empty guide.
 ///
-/// The real constraint is the URL, not the number of places. Past roughly 8,000
-/// characters Apple answers 400 or 414; 6,500 leaves room for a long guide name
-/// and for percent-encoding to expand more than expected.
-const int maxUrlChars = 6500;
+/// **Measured, not guessed.** maps.apple.com renders these links server-side and
+/// reports the number of places it parsed, so the ceiling was found by bisection
+/// against the live service on 17 August 2026, using real muids from a real
+/// guide:
+///
+///     159 places bare      3,504 chars   parsed all 159
+///     160 places bare      3,534 chars   EMPTY
+///     40 places padded     3,420 chars   parsed all 40
+///     40 places padded     3,550 chars   EMPTY
+///
+/// One threshold, between 3,504 and 3,534 characters, and it does not care how
+/// those characters are made up — 40 places with a padded title fails at the same
+/// length as 160 lean ones. So this is a URL-length limit, and the "50 places"
+/// figure this file used to carry was never a limit on places at all: it was the
+/// cost of encoding a name with every one of them.
+///
+/// 3,400 leaves margin for a long guide name and for percent-encoding expanding
+/// more than expected.
+const int maxUrlChars = 3400;
 
 /// A ceiling on places per link, kept only as a backstop.
 ///
@@ -79,9 +94,13 @@ const int maxUrlChars = 6500;
 /// byte-for-byte, verified against a real 82-place guide. So the old figure was
 /// measuring our own encoding, not a limit on guide size.
 ///
-/// 300 places is about 6,500 characters, so this and [maxUrlChars] bite at
-/// roughly the same point and either one alone would do.
-const int maxPlacesPerLink = 300;
+/// A count backstop, well inside the measured URL ceiling.
+///
+/// 159 places is the most that ever fitted (3,504 characters); 150 is that with
+/// margin, and [maxUrlChars] is the constraint that actually binds. Kept as a
+/// second guard because a silently empty guide is the worst failure this file
+/// can produce, and two independent checks are cheap.
+const int maxPlacesPerLink = 150;
 
 /// Apple's own place database, as a "result provider". Every real place the
 /// Maps client resolves comes back tagged with this.
@@ -153,18 +172,15 @@ List<int> encodeCollection(
     ..._lenDelim(2, _encodeLocation(p, withNames: withNames)),
 ];
 
-/// The older `guide?_col=` form, names and all.
+/// The exact encoding confirmed working on a physical iPhone.
 ///
-/// Kept because a link from this function was opened on a physical iPhone during
-/// the feasibility work and confirmed to populate a guide correctly — that is
-/// evidence, and deleting it to make a newer form look tidy would be throwing
-/// away the only device-verified thing in this file. `guide_link_test.dart`
-/// still checks it byte-for-byte.
-///
-/// Not the default any more, because it is the form that produced an empty guide
-/// at sixty places. Use [buildGuideLink] unless that turns out to fail on a
-/// device, in which case this is the fallback for small guides.
-String buildLegacyColLink(String title, List<GuidePlace> places) {
+/// `guide?_col=` with a name and an empty address on every place. Publishing no
+/// longer includes those fields — they cost three quarters of a link's capacity
+/// for values Apple overwrites — but this is the only byte sequence ever opened
+/// on a device and seen to build a correct guide, so it is kept and pinned
+/// byte-for-byte by `guide_link_test.dart`. If the leaner encoding ever turns
+/// out to misbehave on a device, this is what to fall back to.
+String buildLegacyVerifiedLink(String title, List<GuidePlace> places) {
   if (places.isEmpty) {
     throw ArgumentError('a guide needs at least one place');
   }
@@ -172,12 +188,39 @@ String buildLegacyColLink(String title, List<GuidePlace> places) {
   return 'https://maps.apple.com/guide?_col=${Uri.encodeComponent(payload)}';
 }
 
-/// A single guide link, in the form Apple Maps itself produces.
+/// The `guides?user=` form Apple emits when a guide is SHARED.
 ///
-/// `guides?user=` rather than the older `guide?_col=`: sharing a guide out of
-/// Apple Maps today gives a short link that redirects to exactly this, and the
-/// payload is the same protobuf. Emitting what Apple emits is the whole reason a
-/// guide of eighty places can go in one link.
+/// Reproduces Apple's own share payload byte-for-byte, verified against a real
+/// 82-place guide, and it decodes perfectly — [importGuideLink] reads it.
+///
+/// **It does not create a guide.** A link built by this function arrives empty in
+/// Apple Maps, confirmed on a device on 17 August 2026. Being byte-identical to a
+/// working share link was not sufficient: `user=` evidently asks Maps to render a
+/// guide that already exists somewhere, not to build one from the payload. Kept
+/// only so the distinction is recorded in code rather than rediscovered, and so
+/// the decoder has something to round-trip against.
+///
+/// Publish with [buildGuideLink].
+String buildUserFormLink(String title, List<GuidePlace> places) {
+  if (places.isEmpty) {
+    throw ArgumentError('a guide needs at least one place');
+  }
+  return 'https://maps.apple.com/guides?user='
+      '${_base64Url(encodeCollection(title, places))}';
+}
+
+/// A single guide link, in the only form known to create a populated guide.
+///
+/// `guide?_col=` with a name and an address on every place. That exact encoding
+/// was opened on a physical iPhone and confirmed to build a guide with the right
+/// places in it, and `guide_link_test.dart` pins it byte-for-byte.
+///
+/// It is tempting to switch to `guides?user=`, which is what Apple's own share
+/// sheet produces and which this file can reproduce byte-for-byte. That was
+/// tried, and the resulting guide **arrived empty on the device** — see
+/// [buildUserFormLink]. Structural identity with a working link is not evidence
+/// that a synthesised one works, because the two URLs mean different things:
+/// one creates, the other renders something that already exists.
 ///
 /// Throws if the result would be too long, because the silent-empty-guide
 /// failure is far worse than an exception — a link past Apple's limit comes back
@@ -194,8 +237,14 @@ String buildGuideLink(String title, List<GuidePlace> places) {
   }
   // Already URL-safe, so no percent-encoding: `-` and `_` are legal in a query
   // value, and encoding them would produce a string Apple's own links never do.
-  final payload = _base64Url(encodeCollection(title, places));
-  final url = 'https://maps.apple.com/guides?user=$payload';
+  // No per-place name or address. Apple overwrites both from its own record, so
+  // they were decoration that cost roughly 24 bytes each -- three quarters of
+  // the capacity of a link. Omitting them is what takes one guide from 50 places
+  // to about 150. The URL form is unchanged, which is the part that decides
+  // whether a guide is created at all.
+  final payload = _base64(encodeCollection(title, places));
+  final url =
+      'https://maps.apple.com/guide?_col=${Uri.encodeComponent(payload)}';
   if (url.length > maxUrlChars) {
     throw ArgumentError(
       '${places.length} places makes a ${url.length}-character URL, over the '

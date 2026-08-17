@@ -55,7 +55,12 @@ Three ways in, not one — the **Add** button opens a menu:
    `UIDocumentPickerViewController` channel in `AppDelegate.swift` rather than a
    plugin, for the same reason OCR and place lookup are.
 3. **An existing guide** — paste a shared link and Wren decodes the places
-   already in it, shown as a collapsed group.
+   already in it, shown as a collapsed group. Apple's share sheet gives a
+   short `maps.apple/ug/…` link with no payload, so it is expanded via one
+   request to Apple first; the app refused such links outright until
+   17 August. Publishing uses `guide?_col=`, which creates a guide;
+   `guides?user=`, which Apple emits for sharing, decodes identically but
+   **arrives empty** when synthesised — that cost a build.
 
 **The purchase now unlocks two things**, and Apple reviews the in-app-purchase
 description against actual behaviour, so both had to be named in all 49 locales:
@@ -99,6 +104,39 @@ Three rules in that flow are counter-intuitive, and each was a bug first:
    - `python store/push_metadata.py --all` — pushes the updated listings.
    - Publish the App Privacy answers in the browser.
    - `python store/submit.py` — idempotent, safe to re-run.
+
+## The guide-link ceiling, measured
+
+The "50 places per link" figure this project carried for a day was wrong, and
+worth recording properly because it changed a product decision.
+
+maps.apple.com renders a guide link server-side and reports how many places it
+parsed, so the limit was bisected against the live service on 17 August 2026
+using real muids from a real 82-place guide:
+
+| payload | URL chars | result |
+|---|---|---|
+| 159 places, lean | 3,504 | parsed all 159 |
+| 160 places, lean | 3,534 | empty |
+| 40 places, padded title | 3,420 | parsed all 40 |
+| 40 places, padded title | 3,550 | empty |
+
+**One limit, and it is the URL's length** — between 3,504 and 3,534 characters.
+Forty places fails at the same length as a hundred and sixty, so it is not a
+count. The old figure was measuring the cost of encoding a name and an empty
+address with every place, fields Apple overwrites from its own record. Dropping
+them takes a link from 50 places to about 150, so an 82-place guide is one guide.
+
+Also probably the explanation for the original "60 places fails" observation:
+sixty copies of one muid parses as sixty places but renders eight distinct ones
+and a page a ninth the size. That test was measuring muid validity, not count.
+
+**Still outstanding: one device check.** The server parses the lean payload; the
+server is not the Maps app, and a coordinate-only payload renders fine on the web
+and opens empty on a phone — which is how this project was misled once already.
+Five tappable links are in the artifact handed to Spencer. If the lean encoding
+misbehaves, `buildLegacyVerifiedLink` is the exact byte sequence confirmed on a
+device, and the cap goes back to 50.
 
 ## Two things that will bite whoever picks this up
 

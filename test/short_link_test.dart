@@ -107,19 +107,24 @@ void main() {
   });
 
   group('a guide the size of a real one', () {
-    test('82 places make one link, not two', () {
+    test('82 places survive, across however many links it takes', () {
+      // One link was the goal and it did not survive contact with the device:
+      // the leaner form that would have fitted 82 places produces an empty
+      // guide. Two populated guides beat one empty one, so what matters here is
+      // that no place is lost -- not the number of links.
       final places = List.generate(
         82,
         (i) => GuidePlace(
           id: PlaceId.parse((BigInt.from(i + 1) << 40).toRadixString(16)),
-          name: '',
+          name: 'P$i',
         ),
       );
       final links = buildGuideLinks('London', places);
-      expect(links, hasLength(1));
-      // And every one of them survives the round trip, which is the property
-      // that actually matters to someone with an 82-place guide.
-      expect(importGuideLink(links.single).places, hasLength(82));
+      final seen = <PlaceId>{};
+      for (final link in links) {
+        seen.addAll(importGuideLink(link).places.map((p) => p.id));
+      }
+      expect(seen, hasLength(82));
     });
   });
 }

@@ -22,9 +22,9 @@ void main() {
       final back = importGuideLink(link);
       expect(back.name, 'London, October');
       expect(back.places.map((p) => p.id), places.map((p) => p.id));
-      // Per-place names deliberately do NOT survive: they are no longer encoded,
-      // because Apple replaces them with its own record and they cost more bytes
-      // than the identifier does. The muid is the whole payload that matters.
+      // Per-place names are not encoded: Apple overwrites them from its own
+      // record, and they cost three quarters of a link's capacity. The muid is
+      // the whole payload that matters.
       expect(back.places.every((p) => p.name.isEmpty), isTrue);
       expect(back.unusable, 0);
     });
@@ -47,23 +47,24 @@ void main() {
           place('Trattoria Da Enzo', 'IABCDEF0123456789'),
         ]),
       );
+      // The guide's own name still travels; only per-place names were dropped.
       expect(back.name, 'Rome — Ottobre');
       expect(back.places.single.name, isEmpty);
     });
 
-    test('our own 82-place payload matches what Apple emits, byte for byte', () {
-      // The strongest check available without a device. Apple's share link for a
-      // real 82-place guide was captured, its muids extracted, and re-encoded
-      // here: if the bytes match, this app is emitting exactly the form Apple
-      // itself produces for a guide of that size -- which is the entire basis
-      // for carrying more than the fifty places previously assumed.
+    test('the share form can be reproduced byte for byte', () {
+      // True, and it was not enough. Reproducing Apple's share payload exactly
+      // did NOT produce a working guide link -- `user=` renders a guide that
+      // already exists rather than creating one, so a synthetic payload arrives
+      // empty. Kept as a fact about the format, no longer as a basis for
+      // publishing. See buildUserFormLink.
       const applePayload =
           'CgZMb25kb24SDgiuTRDL_OP_78aHmeABEg0Irk0QzoPcmOKCuuFfEg0Irk0QoPDVtIP'
           'A2rAJEg0Irk0Q45apuffSi7FE';
       final theirs = importGuideLink(
         'https://maps.apple.com/guides?user=$applePayload',
       );
-      final ours = buildGuideLink(
+      final ours = buildUserFormLink(
         theirs.name,
         theirs.places.map((p) => GuidePlace(id: p.id, name: '')).toList(),
       );

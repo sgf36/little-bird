@@ -59,12 +59,13 @@ void main() {
   });
 
   group('buildGuideLink', () {
-    test('the legacy form still reproduces a link verified on device', () {
-      // buildLegacyColLink, not buildGuideLink: the default form changed to the
-      // one Apple itself emits, and this assertion is the only device-verified
-      // fact in the file. Kept pointed at the function it actually verifies
-      // rather than deleted to make the new form look tidy.
-      final link = buildLegacyColLink('Reel Finds B', [
+    test('the device-verified encoding is still reproducible', () {
+      // This exact payload -- `_col`, with a name and address on every place --
+      // was opened on an iPhone and built a guide with the right places in it.
+      // Publishing no longer includes the names, because they tripled the cost
+      // of a link for fields Apple overwrites anyway; but the encoder can still
+      // produce this, and it is the only bytes ever confirmed on a device.
+      final link = buildLegacyVerifiedLink('Reel Finds B', [
         GuidePlace(id: PlaceId.parse(_dishoom), name: 'Dishoom Shoreditch'),
         GuidePlace(id: PlaceId.parse(_wrightBros), name: 'Borough Market'),
         GuidePlace(
@@ -88,7 +89,7 @@ void main() {
       ]);
       // The guide NAME still travels; only per-place names were dropped, and
       // this one is non-ASCII, so it must survive the base64 round trip.
-      expect(link, startsWith('https://maps.apple.com/guides?user='));
+      expect(link, startsWith('https://maps.apple.com/guide?_col='));
       expect(link, isNot(contains('Rom?')));
     });
 
@@ -116,20 +117,31 @@ void main() {
       expect(links.single, isNot(contains('1/1')));
     });
 
-    test('a guide the size of a real one stays a single link', () {
-      // 82 places, which is the size of an actual shared guide this was tested
-      // against. Under the old encoding it split into two; the whole point of
-      // dropping per-place names is that it no longer does.
+    test('a guide of 82 places is ONE guide', () {
+      // The whole point of the measurement. 82 places is the size of a real
+      // shared guide, and it now fits in a single link with room to spare --
+      // about 1,850 characters against a measured ceiling near 3,510.
       final places = List.generate(
         82,
-        (i) => GuidePlace(id: PlaceId.parse(_dishoom), name: 'P$i'),
+        (i) => GuidePlace(id: PlaceId.parse(_dishoom), name: 'P\$i'),
       );
       final links = buildGuideLinks('London', places);
       expect(links, hasLength(1));
-      expect(links.single.length, lessThan(2500));
+      expect(links.single.length, lessThan(2200));
+      expect(importGuideLink(links.single).places, hasLength(82));
     });
 
-    test('splits only when the URL genuinely will not fit', () {
+    test('150 places still make one link', () {
+      final places = List.generate(
+        150,
+        (i) => GuidePlace(id: PlaceId.parse(_dishoom), name: 'P\$i'),
+      );
+      final links = buildGuideLinks('Long', places);
+      expect(links, hasLength(1));
+      expect(links.single.length, lessThanOrEqualTo(maxUrlChars));
+    });
+
+    test('splits when there are more places than one link may carry', () {
       final places = List.generate(
         400,
         (i) => GuidePlace(id: PlaceId.parse(_dishoom), name: 'P$i'),
@@ -137,7 +149,7 @@ void main() {
       final links = buildGuideLinks('Big trip', places);
       expect(links.length, greaterThan(1));
       for (final l in links) {
-        expect(l, startsWith('https://maps.apple.com/guides?user='));
+        expect(l, startsWith('https://maps.apple.com/guide?_col='));
         // Every batch must be independently valid; an oversized one would have
         // thrown from buildGuideLink rather than arriving here.
         expect(l.length, lessThanOrEqualTo(maxUrlChars));
