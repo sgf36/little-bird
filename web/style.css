@@ -27,7 +27,12 @@ body {
 }
 
 .wrap {
-  max-width: 44rem;
+  /* A reading measure for text, not for the page. At 44rem this column held
+     everything — nav, hero, cards, footer — so a desktop browser showed about
+     700px of content between two 600px margins. The container is now wide
+     enough for the structure and the running text keeps its own measure
+     below, which is what 44rem was actually for. */
+  max-width: 62rem;
   margin: 0 auto;
   padding: clamp(2rem, 6vw, 3.5rem) clamp(1.25rem, 5vw, 2rem) 4rem;
   display: flex;
@@ -86,9 +91,13 @@ h3 {
   color: var(--gold);
   margin: 0;
 }
-.lede { font-size: clamp(1.02rem, 2.6vw, 1.15rem); margin: 0; max-width: 34rem; }
+.lede { font-size: clamp(1.02rem, 2.6vw, 1.15rem); margin: 0; max-width: 36rem; }
 .lede + .lede { color: var(--muted); }
 .prose { display: flex; flex-direction: column; gap: 1.15rem; }
+/* Running text keeps a comfortable line length whatever the container does.
+   Roughly 70 characters, which is the measure the old page-wide 44rem was
+   really enforcing. */
+.prose > p, .prose > ul { max-width: 38rem; }
 .updated { color: var(--muted); font-size: .88rem; margin: 0; }
 
 section > p { margin: 0 0 .9rem; }
@@ -128,6 +137,13 @@ ol.steps li {
 }
 .step-t { font-weight: 620; }
 .step-d { grid-column: 2; color: var(--muted); font-size: .94rem; margin-top: .15rem; }
+@media (min-width: 56rem) {
+  /* The three ways in are alternatives, not steps in a sequence, so at desktop
+     width they sit side by side rather than in a column that implies order. */
+  ol.steps { grid-template-columns: repeat(3, 1fr); }
+  ol.steps li { grid-template-columns: 1fr; gap: .35rem; align-content: start; }
+  .step-d { grid-column: 1; }
+}
 
 /* ── callout ─────────────────────────────────────────────────────────── */
 .status, .callout {
