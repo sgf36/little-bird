@@ -3,8 +3,12 @@ name: Screenshots
 # Takes the App Store screenshots in a simulator, in the ten most-spoken
 # languages, and optionally uploads them.
 #
-# Deliberately not on push. It needs a macOS runner and boots a simulator, so it
-# costs real minutes, and screenshots change far less often than code does.
+# Deliberately not on push. It boots a simulator and takes around forty minutes,
+# and screenshots change far less often than code does. Not a money question --
+# this repo is public, so standard runners including macOS are free, and the
+# Actions timing API confirms zero billable macOS milliseconds. It is a
+# wall-clock question, and a matter of not photographing a build that is about
+# to be superseded.
 #
 #   gh workflow run screenshots.yml                      # take them, keep as an artifact
 #   gh workflow run screenshots.yml -f upload=true       # and push to App Store Connect
