@@ -81,8 +81,8 @@ Three rules in that flow are counter-intuitive, and each was a bug first:
 
 | | |
 |---|---|
-| Build 53 | Signed and uploaded to TestFlight from CI run #53. First build containing the importers, the iOS 18 target and the new paywall. |
-| Tests | 447, green. Includes 72 scene renders across twelve languages and 10 checks on the manual-test fixtures. |
+| Build 58 | Signed, uploaded, attached to Internal Testers AND set on the version record, which pointed at build 48 until 17 August. Carries the importers, the iOS 18 target, the new paywall, short-link expansion and the raised guide-link ceiling. |
+| Tests | 472, green. Includes 72 scene renders across twelve languages and 10 checks on the manual-test fixtures. |
 | App UI | All 46 translated languages, plus English. 26 new strings this round. |
 | Listings | 49 locales, all within Apple's caps. **Not yet re-pushed** — see below. |
 | Test fixtures | `testdata/`, nine files, one per failure mode, each verified through the app's own reader. See `testdata/README.md`. |
@@ -93,8 +93,10 @@ Three rules in that flow are counter-intuitive, and each was a bug first:
 
 ## The two steps left, in order
 
-1. **You test build 53** on the phone, using `testdata/` and the guide-link
-   instructions in `testdata/README.md`.
+1. **You test build 58** on the phone, using `testdata/` and the guide-link
+   instructions in `testdata/README.md`, plus the five ceiling links in the
+   artifact — the lean encoding is parsed by Apple's server but has not been
+   opened from the app on a device.
 2. Then, in either order:
    - `gh workflow run screenshots.yml -f upload=true` — takes and uploads the
      ten localised sets. Roughly forty minutes of wall-clock. It waits for
