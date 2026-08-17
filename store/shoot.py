@@ -3,8 +3,18 @@
     python store/shoot.py                 # every language
     python store/shoot.py --locale fr-FR  # one
     python store/shoot.py --no-maps       # skip the Apple Maps payoff shot
+    python store/shoot.py --verbose       # every simctl command and its output
 
 macOS only — it drives `xcrun simctl`. Run from the repo root.
+
+**READ store/SCREENSHOTS-RUNBOOK.md BEFORE CHANGING ANY OF THIS.** Six failure
+modes have cost about three hours of runner time, and every one of them reported
+success at the layer that was checked: an environment variable that is documented
+to arrive and does not, a photograph of the home screen that is not flat enough
+to fail a flatness test, a photograph of Safari that passed a difference test
+against Maps, a device list where none of the devices exist, thirty-one minutes
+of output buffered into one burst, and a dollar price on nine foreign
+storefronts. The runbook says which check each one defeated.
 
 Why this exists. Screenshots used to be taken by hand on a phone, which meant
 they were in English, at that phone's size (an iPhone 16 Pro shoots 1206x2622
