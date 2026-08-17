@@ -51,7 +51,22 @@
     <p>Type over it. Wren reads the city out of the caption in the screenshots, which is usually right and occasionally is not. You can also choose to search anywhere.</p>
 
     <h3>The guide did not appear in Apple Maps</h3>
-    <p>Guides open in the Maps app, so make sure it is installed and not restricted. Apple Maps cannot merge guides: publishing several places always creates a <em>new</em> guide rather than adding to one you already have. To add to an existing guide, publish a single place — Wren sends it to its own place card, where Maps offers "Add to Guide".</p>
+    <p>Guides open in the Maps app, so make sure it is installed and not restricted. If Maps opened but the guide is empty, the list was probably too long — see below.</p>
+
+    <h3>I pasted a link to my guide and Wren said it was not a guide link</h3>
+    <p>Wren needs the link Apple Maps gives you when you share a guide: open the guide, share it, then choose <strong>Copy Link</strong>. If you have that and it is still refused, Wren could not reach Apple to read it — the link Apple produces is a short one that has to be expanded, which needs a connection. Check the connection and try again.</p>
+
+    <h3>The places from my existing guide have no names</h3>
+    <p>Apple's shared link carries each place's identifier and no name, so Wren asks Apple for the names separately. If that lookup does not answer, the group stays a count and will not open, rather than showing you a list of blanks. The places are still there and still publish correctly.</p>
+
+    <h3>My guide came back with fewer places than it had</h3>
+    <p>Apple silently drops a place whose record it no longer holds — somewhere that closed and was removed, or two entries it has since merged. There is nothing Wren can do about it: the place is correctly named in the link and Apple has nothing to resolve. Those places were already unreachable if you tapped them in Maps.</p>
+
+    <h3>Wren made two guides instead of one</h3>
+    <p>About a hundred and fifty places fit in one guide link. Past that Wren splits them into numbered guides and says so first. Maps takes one at a time, so tap the button again for each.</p>
+
+    <h3>My file would not import</h3>
+    <p>Wren reads <code>CSV</code>, <code>KML</code>, <code>KMZ</code>, <code>GPX</code>, <code>GeoJSON</code> and Google Takeout exports. It looks at what is inside the file rather than the extension, so a renamed file is usually fine. A row with nothing that looks like a place name is skipped, and Wren tells you how many.</p>
 
     <h3>I paid, and it is asking me to pay again</h3>
     <p>Tap the menu in the top-right and choose "Restore purchase". The unlock is tied to your Apple Account, so it restores on any device signed in to it, at no further cost. If it still does not restore, write below and include the Apple Account email you bought it with.</p>
@@ -144,5 +159,6 @@
     if (e) { e.innerHTML = '<a href="mai' + 'lto:' + email + '">' + email + '</a>'; }
   })();
 </script>
+<script src="analytics.js" defer></script>
 </body>
 </html>

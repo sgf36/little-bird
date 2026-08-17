@@ -40,7 +40,8 @@
 
   <div class="status">
     <span class="label">The short version</span>
-    <p>Wren has no accounts and no analytics, and collects nothing about you. Your screenshots are read on your phone and are never uploaded. There is one server, used once, only if you were given a complimentary code and choose to enter it.</p>
+    <p><strong>The app</strong> has no accounts and no analytics. Your screenshots and any file you import are read on your phone and are never uploaded. The one thing it keeps is a random identifier for your device, and only if you were given a complimentary code and choose to enter it — which is also the only time it contacts a server of its own.</p>
+    <p><strong>This website</strong> is a separate matter: it uses Google Analytics, and only if you accept the notice on your first visit. Declining sets no cookies.</p>
   </div>
 
   <section>
@@ -50,7 +51,8 @@
 
   <section>
     <h2>What Wren collects</h2>
-    <p>Nothing. There is no account to create, no sign-in, no profile, and no analytics or crash-reporting service. Everything Wren remembers lives on your device and goes away when you delete the app.</p>
+    <p>In the app there is no account to create, no sign-in, no profile, and no analytics or crash-reporting service. Almost everything Wren remembers lives on your device and goes away when you delete the app. (The website is different, and is covered further down.)</p>
+    <p>The single exception is a <strong>random identifier for your device</strong>, and it applies only if you enter a complimentary code. It is described in full below. Wren's App Store privacy label declares exactly this — a device identifier, used for app functionality, not linked to your identity and never used for tracking — and this page and that label are meant to say the same thing.</p>
   </section>
 
   <section>
@@ -62,14 +64,14 @@
   </section>
 
   <section>
-    <h2>Your screenshots</h2>
+    <h2>Your screenshots, and files you import</h2>
     <p>You choose which images Wren may read, through Apple's own photo picker. Wren has no standing access to your photo library — only to the images you hand it.</p>
-    <p>Text recognition runs entirely on your device, using Apple's Vision framework. <strong>The images themselves are never uploaded, transmitted or stored by Wren.</strong> Once a name has been read from an image, Wren has no further use for it and does not keep a copy.</p>
+    <p>Text recognition runs entirely on your device, using Apple's Vision framework. <strong>The images themselves are never uploaded, transmitted or stored by Wren.</strong> The same is true of a file you import — a spreadsheet or map export is opened through Apple's document picker, read on the device, and never sent anywhere. Once a name has been read from an image, Wren has no further use for it and does not keep a copy.</p>
   </section>
 
   <section>
     <h2>What leaves your device, and where it goes</h2>
-    <p>Only text. Everything below goes to Apple, apart from the last row, which happens only if you enter a complimentary code.</p>
+    <p>Only text and identifiers — never an image, and never a file. Everything below goes to Apple, apart from the last row, which happens only if you enter a complimentary code.</p>
     <div class="tbl">
       <table>
         <thead>
@@ -92,6 +94,16 @@
             <td>Wren opens a link that creates the guide. The places travel inside that link.</td>
           </tr>
           <tr>
+            <td>A shared guide link you paste in</td>
+            <td>Apple Maps</td>
+            <td>Only if you paste one. Apple's share sheet produces a short link that carries nothing readable, so Wren asks Apple where it points in order to read the places in it. The link is sent and the answer read; nothing else is sent with it, and Wren keeps no record of it.</td>
+          </tr>
+          <tr>
+            <td>The identifier of a place already in that guide</td>
+            <td>Apple Maps</td>
+            <td>Only if you paste a guide link. Apple's link carries identifiers and no names, so Wren asks Apple for each place's name and address in order to show you a list rather than a row of blanks.</td>
+          </tr>
+          <tr>
             <td>Purchase requests</td>
             <td>Apple</td>
             <td>Handled entirely by the App Store. Wren never sees your payment details, name or address.</td>
@@ -104,7 +116,7 @@
         </tbody>
       </table>
     </div>
-    <p>Apple's handling of the first four is governed by <a href="https://www.apple.com/legal/privacy/">Apple's privacy policy</a>, not this one. Wren sends nothing to anybody else — no third-party service, no advertiser, no analytics provider.</p>
+    <p>Apple's handling of everything above except the last row is governed by <a href="https://www.apple.com/legal/privacy/">Apple's privacy policy</a>, not this one. The app sends nothing to anybody else — no third-party service, no advertiser, no analytics provider. (This website does use Google Analytics, with your consent; see below.)</p>
   </section>
 
   <section>
@@ -136,7 +148,12 @@
 
   <section>
     <h2>This website</h2>
-    <p>This site sets no cookies, runs no analytics, and includes no tracking of any kind. The hosting provider keeps ordinary server access logs, which is normal for any website and is not something Wren reads or uses.</p>
+    <p>This site uses <strong>Google Analytics</strong> to count visits and see which pages people read. It is the only third party on the site, there is no advertising, and nothing here is used to build a profile of you.</p>
+    <p><strong>Nothing loads until you agree.</strong> Analytics cookies are not strictly necessary, so under the Privacy and Electronic Communications Regulations they need your consent first. A notice appears on your first visit with Accept and Decline. Until you choose, Google Consent Mode holds every storage type at "denied" and no Google script is loaded at all — so declining sets no cookies and sends Google nothing. Your choice is kept in your browser's local storage so the notice appears once.</p>
+    <p>To change your mind, clear this site's data in your browser and the notice will appear again.</p>
+    <p>If you accept, Google receives the ordinary analytics signals — the pages you view, roughly where you are, and what sort of device and browser you use — and sets cookies to tell one visit from the next. Google acts as a data processor for that, and its handling is governed by <a href="https://policies.google.com/privacy">Google's privacy policy</a>. Advertising and personalisation signals stay denied whatever you choose.</p>
+    <p>Separately, the hosting provider keeps ordinary server access logs, which is normal for any website and is not something Wren reads or uses.</p>
+    <p><strong>None of this applies to the app.</strong> Wren the iOS app contains no analytics of any kind and never has. This section is about this website only.</p>
   </section>
 
   <section>
@@ -151,5 +168,6 @@
   </footer>
 
 </div>
+<script src="analytics.js" defer></script>
 </body>
 </html>
