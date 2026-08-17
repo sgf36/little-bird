@@ -202,7 +202,13 @@ class LMl extends L {
 
   @override
   String nothingReadable(int count) {
-    return '$count സ്ക്രീൻഷോട്ടുകളിൽ വായിക്കാവുന്നത് ഒന്നുമില്ല';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count സ്ക്രീൻഷോട്ടുകളിൽ വായിക്കാവുന്നത് ഒന്നുമില്ല',
+      one: '$count സ്ക്രീൻഷോട്ടിൽ വായിക്കാവുന്നത് ഒന്നുമില്ല',
+    );
+    return '$_temp0';
   }
 
   @override

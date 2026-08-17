@@ -47,7 +47,7 @@
   "importSummaryIn": "in {region}",
   "importSummaryNeedLook": "{count} zu prüfen",
   "importSummaryUnreadable": "{count} unlesbar",
-  "nothingReadable": "Nichts Lesbares in {count} Screenshots",
+  "nothingReadable": "{count, plural, =1{Nichts Lesbares in diesem Screenshot} other{Nichts Lesbares in {count} Screenshots}}",
   "couldNotOpenMaps": "Karten konnte nicht geöffnet werden",
   "checkingAppleAccount": "Dein Apple-Account wird geprüft…",
   "restoredUnlocked": "Wiederhergestellt. Guides in jeder Größe sind freigeschaltet.",

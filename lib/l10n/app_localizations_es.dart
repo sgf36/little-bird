@@ -201,7 +201,13 @@ class LEs extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'Nada legible en $count capturas';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Nada legible en $count capturas',
+      one: 'Nada legible en esa captura',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -463,7 +469,13 @@ class LEsMx extends LEs {
 
   @override
   String nothingReadable(int count) {
-    return 'Nada legible en $count capturas';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Nada legible en $count capturas',
+      one: 'Nada legible en esa captura',
+    );
+    return '$_temp0';
   }
 
   @override

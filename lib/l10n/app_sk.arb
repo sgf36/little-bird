@@ -47,7 +47,7 @@
   "importSummaryIn": "v: {region}",
   "importSummaryNeedLook": "{count} na kontrolu",
   "importSummaryUnreadable": "{count} nečitateľných",
-  "nothingReadable": "Nič čitateľné na {count} snímkach obrazovky",
+  "nothingReadable": "{count, plural, one{Nič čitateľné na tejto snímke obrazovky} few{Nič čitateľné na {count} snímkach obrazovky} many{Nič čitateľné na {count} snímkach obrazovky} other{Nič čitateľné na {count} snímkach obrazovky}}",
   "couldNotOpenMaps": "Mapy sa nepodarilo otvoriť",
   "checkingAppleAccount": "Kontrola tvojho účtu Apple…",
   "restoredUnlocked": "Obnovené. Sprievodcovia bez obmedzenia sú odomknutí.",

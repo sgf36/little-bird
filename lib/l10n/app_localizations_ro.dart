@@ -203,7 +203,14 @@ class LRo extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'Nimic lizibil în $count capturi de ecran';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Nimic lizibil în $count de capturi de ecran',
+      few: 'Nimic lizibil în $count capturi de ecran',
+      one: 'Nimic lizibil în acea captură de ecran',
+    );
+    return '$_temp0';
   }
 
   @override

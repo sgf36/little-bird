@@ -191,7 +191,13 @@ class LUr extends L {
 
   @override
   String importSummaryNeedLook(int count) {
-    return '$count دیکھنی ہیں';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count دیکھنی ہیں',
+      one: '$count دیکھنی ہے',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -201,7 +207,13 @@ class LUr extends L {
 
   @override
   String nothingReadable(int count) {
-    return '$count اسکرین شاٹس میں پڑھنے کے قابل کچھ نہیں';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count اسکرین شاٹس میں پڑھنے کے قابل کچھ نہیں',
+      one: '$count اسکرین شاٹ میں پڑھنے کے قابل کچھ نہیں',
+    );
+    return '$_temp0';
   }
 
   @override

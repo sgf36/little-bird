@@ -157,7 +157,7 @@
     "description": "Appended to the summary. Reads as '12 found in London'.",
     "placeholders": { "region": { "type": "String" } }
   },
-  "importSummaryNeedLook": "{count} need a look",
+  "importSummaryNeedLook": "{count, plural, =1{1 needs a look} other{{count} need a look}}",
   "@importSummaryNeedLook": {
     "description": "Appended to the summary, counting places that were not identified.",
     "placeholders": { "count": { "type": "int" } }
@@ -167,7 +167,7 @@
     "description": "Appended to the summary, counting screenshots with no readable text.",
     "placeholders": { "count": { "type": "int" } }
   },
-  "nothingReadable": "Nothing readable in {count} screenshots",
+  "nothingReadable": "{count, plural, =1{Nothing readable in that screenshot} other{Nothing readable in {count} screenshots}}",
   "@nothingReadable": {
     "description": "Shown when no screenshot yielded any text.",
     "placeholders": { "count": { "type": "int" } }

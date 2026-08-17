@@ -202,7 +202,14 @@ class LHr extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'Ništa čitljivo na $count snimaka zaslona';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ništa čitljivo na $count snimaka zaslona',
+      few: 'Ništa čitljivo na $count snimke zaslona',
+      one: 'Ništa čitljivo na $count snimci zaslona',
+    );
+    return '$_temp0';
   }
 
   @override

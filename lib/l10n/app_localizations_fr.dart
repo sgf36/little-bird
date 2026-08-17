@@ -202,7 +202,13 @@ class LFr extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'Rien de lisible dans $count captures';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Rien de lisible dans $count captures',
+      one: 'Rien de lisible dans cette capture',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -466,7 +472,13 @@ class LFrCa extends LFr {
 
   @override
   String nothingReadable(int count) {
-    return 'Rien de lisible dans $count saisies d\'écran';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Rien de lisible dans $count saisies d\'écran',
+      one: 'Rien de lisible dans cette saisie d\'écran',
+    );
+    return '$_temp0';
   }
 
   @override

@@ -203,7 +203,13 @@ class LNl extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'Niets leesbaars in $count schermafbeeldingen';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Niets leesbaars in $count schermafbeeldingen',
+      one: 'Niets leesbaars in deze schermafbeelding',
+    );
+    return '$_temp0';
   }
 
   @override

@@ -194,7 +194,13 @@ class LEl extends L {
 
   @override
   String importSummaryNeedLook(int count) {
-    return '$count θέλουν έλεγχο';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count θέλουν έλεγχο',
+      one: '1 θέλει έλεγχο',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -204,7 +210,13 @@ class LEl extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'Τίποτα αναγνώσιμο σε $count στιγμιότυπα';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Τίποτα αναγνώσιμο σε $count στιγμιότυπα',
+      one: 'Τίποτα αναγνώσιμο σε αυτό το στιγμιότυπο',
+    );
+    return '$_temp0';
   }
 
   @override

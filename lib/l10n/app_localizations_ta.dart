@@ -204,7 +204,13 @@ class LTa extends L {
 
   @override
   String nothingReadable(int count) {
-    return '$count திரைப்பிடிப்புகளில் படிக்கக்கூடியது எதுவும் இல்லை';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count திரைப்பிடிப்புகளில் படிக்கக்கூடியது எதுவும் இல்லை',
+      one: '$count திரைப்பிடிப்பில் படிக்கக்கூடியது எதுவும் இல்லை',
+    );
+    return '$_temp0';
   }
 
   @override

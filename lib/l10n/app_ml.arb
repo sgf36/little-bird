@@ -47,7 +47,7 @@
   "importSummaryIn": "{region}ൽ",
   "importSummaryNeedLook": "{count} നോക്കണം",
   "importSummaryUnreadable": "{count} വായിക്കാനായില്ല",
-  "nothingReadable": "{count} സ്ക്രീൻഷോട്ടുകളിൽ വായിക്കാവുന്നത് ഒന്നുമില്ല",
+  "nothingReadable": "{count, plural, =1{{count} സ്ക്രീൻഷോട്ടിൽ വായിക്കാവുന്നത് ഒന്നുമില്ല} other{{count} സ്ക്രീൻഷോട്ടുകളിൽ വായിക്കാവുന്നത് ഒന്നുമില്ല}}",
   "couldNotOpenMaps": "Maps തുറക്കാനായില്ല",
   "checkingAppleAccount": "നിങ്ങളുടെ Apple അക്കൗണ്ട് പരിശോധിക്കുന്നു…",
   "restoredUnlocked": "വീണ്ടെടുത്തു. ഏത് വലുപ്പത്തിലുമുള്ള ഗൈഡുകൾ അൺലോക്ക് ആയി.",

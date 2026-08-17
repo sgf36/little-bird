@@ -192,7 +192,13 @@ class LEn extends L {
 
   @override
   String importSummaryNeedLook(int count) {
-    return '$count need a look';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count need a look',
+      one: '1 needs a look',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -202,7 +208,13 @@ class LEn extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'Nothing readable in $count screenshots';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Nothing readable in $count screenshots',
+      one: 'Nothing readable in that screenshot',
+    );
+    return '$_temp0';
   }
 
   @override

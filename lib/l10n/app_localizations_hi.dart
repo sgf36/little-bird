@@ -190,7 +190,13 @@ class LHi extends L {
 
   @override
   String importSummaryNeedLook(int count) {
-    return '$count देखनी हैं';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count देखनी हैं',
+      one: '$count देखनी है',
+    );
+    return '$_temp0';
   }
 
   @override

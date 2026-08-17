@@ -47,7 +47,7 @@
   "importSummaryIn": "{region}లో",
   "importSummaryNeedLook": "{count} చూడాలి",
   "importSummaryUnreadable": "{count} చదవలేకపోయాం",
-  "nothingReadable": "{count} స్క్రీన్‌షాట్‌లలో చదవదగినది ఏమీ లేదు",
+  "nothingReadable": "{count, plural, =1{{count} స్క్రీన్‌షాట్‌లో చదవదగినది ఏమీ లేదు} other{{count} స్క్రీన్‌షాట్‌లలో చదవదగినది ఏమీ లేదు}}",
   "couldNotOpenMaps": "Maps తెరవలేకపోయాం",
   "checkingAppleAccount": "మీ Apple ఖాతాను తనిఖీ చేస్తోంది…",
   "restoredUnlocked": "పునరుద్ధరించబడింది. ఎంత పెద్ద గైడ్‌లైనా అన్‌లాక్ అయ్యాయి.",

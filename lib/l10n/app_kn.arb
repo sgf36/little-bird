@@ -47,7 +47,7 @@
   "importSummaryIn": "{region}ನಲ್ಲಿ",
   "importSummaryNeedLook": "{count} ನೋಡಬೇಕು",
   "importSummaryUnreadable": "{count} ಓದಲಾಗಲಿಲ್ಲ",
-  "nothingReadable": "{count} ಸ್ಕ್ರೀನ್‌ಶಾಟ್‌ಗಳಲ್ಲಿ ಓದುವಂತಹದ್ದು ಏನೂ ಇಲ್ಲ",
+  "nothingReadable": "{count, plural, =1{{count} ಸ್ಕ್ರೀನ್‌ಶಾಟ್‌ನಲ್ಲಿ ಓದುವಂತಹದ್ದು ಏನೂ ಇಲ್ಲ} other{{count} ಸ್ಕ್ರೀನ್‌ಶಾಟ್‌ಗಳಲ್ಲಿ ಓದುವಂತಹದ್ದು ಏನೂ ಇಲ್ಲ}}",
   "couldNotOpenMaps": "Maps ತೆರೆಯಲಾಗಲಿಲ್ಲ",
   "checkingAppleAccount": "ನಿಮ್ಮ Apple ಖಾತೆಯನ್ನು ಪರಿಶೀಲಿಸುತ್ತಿದೆ…",
   "restoredUnlocked": "ಮರಳಿ ಪಡೆಯಲಾಗಿದೆ. ಯಾವುದೇ ಗಾತ್ರದ ಮಾರ್ಗದರ್ಶಿಗಳು ಅನ್‌ಲಾಕ್ ಆಗಿವೆ.",

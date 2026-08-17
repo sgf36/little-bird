@@ -203,7 +203,13 @@ class LKn extends L {
 
   @override
   String nothingReadable(int count) {
-    return '$count ಸ್ಕ್ರೀನ್‌ಶಾಟ್‌ಗಳಲ್ಲಿ ಓದುವಂತಹದ್ದು ಏನೂ ಇಲ್ಲ';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ಸ್ಕ್ರೀನ್‌ಶಾಟ್‌ಗಳಲ್ಲಿ ಓದುವಂತಹದ್ದು ಏನೂ ಇಲ್ಲ',
+      one: '$count ಸ್ಕ್ರೀನ್‌ಶಾಟ್‌ನಲ್ಲಿ ಓದುವಂತಹದ್ದು ಏನೂ ಇಲ್ಲ',
+    );
+    return '$_temp0';
   }
 
   @override

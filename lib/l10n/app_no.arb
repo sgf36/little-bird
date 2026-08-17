@@ -47,7 +47,7 @@
   "importSummaryIn": "i {region}",
   "importSummaryNeedLook": "{count} må ses på",
   "importSummaryUnreadable": "{count} uleselige",
-  "nothingReadable": "Ingenting leselig i {count} skjermbilder",
+  "nothingReadable": "{count, plural, =1{Ingenting leselig i dette skjermbildet} other{Ingenting leselig i {count} skjermbilder}}",
   "couldNotOpenMaps": "Kart kunne ikke åpnes",
   "checkingAppleAccount": "Sjekker Apple-kontoen din…",
   "restoredUnlocked": "Gjenopprettet. Guider uten størrelsesgrense er låst opp.",

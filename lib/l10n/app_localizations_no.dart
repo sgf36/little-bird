@@ -201,7 +201,13 @@ class LNo extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'Ingenting leselig i $count skjermbilder';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ingenting leselig i $count skjermbilder',
+      one: 'Ingenting leselig i dette skjermbildet',
+    );
+    return '$_temp0';
   }
 
   @override

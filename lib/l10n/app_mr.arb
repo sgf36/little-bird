@@ -45,7 +45,7 @@
   "rateLimitedDuringImport": "Apple Maps शोधांवर मर्यादा घालत आहे — आतापर्यंत {added} जोडली, बाकीची थोड्या वेळाने पाहा.",
   "importSummary": "{found} सापडली",
   "importSummaryIn": "{region} मध्ये",
-  "importSummaryNeedLook": "{count} तपासायची आहेत",
+  "importSummaryNeedLook": "{count, plural, =1{{count} तपासायची आहे} other{{count} तपासायची आहेत}}",
   "importSummaryUnreadable": "{count} वाचता आली नाहीत",
   "nothingReadable": "{count} स्क्रीनशॉटमध्ये वाचण्यासारखं काहीच नाही",
   "couldNotOpenMaps": "Maps उघडता आलं नाही",

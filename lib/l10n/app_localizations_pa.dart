@@ -191,7 +191,13 @@ class LPa extends L {
 
   @override
   String importSummaryNeedLook(int count) {
-    return '$count ਵੇਖਣੀਆਂ ਹਨ';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ਵੇਖਣੀਆਂ ਹਨ',
+      one: '$count ਵੇਖਣੀ ਹੈ',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -201,7 +207,13 @@ class LPa extends L {
 
   @override
   String nothingReadable(int count) {
-    return '$count ਸਕ੍ਰੀਨਸ਼ਾਟਾਂ ਵਿੱਚ ਪੜ੍ਹਨ ਯੋਗ ਕੁਝ ਨਹੀਂ';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ਸਕ੍ਰੀਨਸ਼ਾਟਾਂ ਵਿੱਚ ਪੜ੍ਹਨ ਯੋਗ ਕੁਝ ਨਹੀਂ',
+      one: '$count ਸਕ੍ਰੀਨਸ਼ਾਟ ਵਿੱਚ ਪੜ੍ਹਨ ਯੋਗ ਕੁਝ ਨਹੀਂ',
+    );
+    return '$_temp0';
   }
 
   @override

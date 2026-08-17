@@ -204,7 +204,15 @@ class LPl extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'Nic czytelnego w $count zrzutach ekranu';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Nic czytelnego w $count zrzutach ekranu',
+      many: 'Nic czytelnego w $count zrzutach ekranu',
+      few: 'Nic czytelnego w $count zrzutach ekranu',
+      one: 'Nic czytelnego w tym zrzucie ekranu',
+    );
+    return '$_temp0';
   }
 
   @override

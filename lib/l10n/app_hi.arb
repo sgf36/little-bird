@@ -45,7 +45,7 @@
   "rateLimitedDuringImport": "Apple Maps खोजों पर रोक लगा रहा है — अब तक {added} जुड़ीं, बाकी थोड़ी देर में आज़माइए।",
   "importSummary": "{found} मिलीं",
   "importSummaryIn": "{region} में",
-  "importSummaryNeedLook": "{count} देखनी हैं",
+  "importSummaryNeedLook": "{count, plural, =1{{count} देखनी है} other{{count} देखनी हैं}}",
   "importSummaryUnreadable": "{count} पढ़ी नहीं गईं",
   "nothingReadable": "{count} स्क्रीनशॉट में पढ़ने लायक कुछ नहीं",
   "couldNotOpenMaps": "Maps नहीं खुल सका",

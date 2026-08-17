@@ -208,7 +208,15 @@ class LUk extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'Нічого читабельного на $count знімках екрана';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Нічого читабельного на $count знімках екрана',
+      many: 'Нічого читабельного на $count знімках екрана',
+      few: 'Нічого читабельного на $count знімках екрана',
+      one: 'Нічого читабельного на $count знімку екрана',
+    );
+    return '$_temp0';
   }
 
   @override

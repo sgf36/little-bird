@@ -47,7 +47,7 @@
   "importSummaryIn": "em {region}",
   "importSummaryNeedLook": "{count} por verificar",
   "importSummaryUnreadable": "{count} ilegíveis",
-  "nothingReadable": "Nada legível em {count} capturas de ecrã",
+  "nothingReadable": "{count, plural, =1{Nada legível nessa captura de ecrã} other{Nada legível em {count} capturas de ecrã}}",
   "couldNotOpenMaps": "Não foi possível abrir o Mapas",
   "checkingAppleAccount": "A verificar a sua Conta Apple…",
   "restoredUnlocked": "Restaurado. Os guias de qualquer tamanho estão desbloqueados.",

@@ -47,7 +47,7 @@
   "importSummaryIn": "in {region}",
   "importSummaryNeedLook": "{count} nakijken",
   "importSummaryUnreadable": "{count} onleesbaar",
-  "nothingReadable": "Niets leesbaars in {count} schermafbeeldingen",
+  "nothingReadable": "{count, plural, =1{Niets leesbaars in deze schermafbeelding} other{Niets leesbaars in {count} schermafbeeldingen}}",
   "couldNotOpenMaps": "Kaarten kon niet worden geopend",
   "checkingAppleAccount": "Je Apple Account controleren…",
   "restoredUnlocked": "Hersteld. Gidsen van elke omvang zijn ontgrendeld.",

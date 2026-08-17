@@ -201,7 +201,13 @@ class LDa extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'Intet læsbart i $count skærmbilleder';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Intet læsbart i $count skærmbilleder',
+      one: 'Intet læsbart i dette skærmbillede',
+    );
+    return '$_temp0';
   }
 
   @override

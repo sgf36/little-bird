@@ -201,7 +201,13 @@ class LPt extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'Nada legível em $count capturas';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Nada legível em $count capturas',
+      one: 'Nada legível nessa captura',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -464,7 +470,13 @@ class LPtPt extends LPt {
 
   @override
   String nothingReadable(int count) {
-    return 'Nada legível em $count capturas de ecrã';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Nada legível em $count capturas de ecrã',
+      one: 'Nada legível nessa captura de ecrã',
+    );
+    return '$_temp0';
   }
 
   @override

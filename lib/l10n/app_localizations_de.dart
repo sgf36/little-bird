@@ -202,7 +202,13 @@ class LDe extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'Nichts Lesbares in $count Screenshots';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Nichts Lesbares in $count Screenshots',
+      one: 'Nichts Lesbares in diesem Screenshot',
+    );
+    return '$_temp0';
   }
 
   @override

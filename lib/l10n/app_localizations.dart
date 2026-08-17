@@ -456,7 +456,7 @@ abstract class L {
   /// Appended to the summary, counting places that were not identified.
   ///
   /// In en, this message translates to:
-  /// **'{count} need a look'**
+  /// **'{count, plural, =1{1 needs a look} other{{count} need a look}}'**
   String importSummaryNeedLook(int count);
 
   /// Appended to the summary, counting screenshots with no readable text.
@@ -468,7 +468,7 @@ abstract class L {
   /// Shown when no screenshot yielded any text.
   ///
   /// In en, this message translates to:
-  /// **'Nothing readable in {count} screenshots'**
+  /// **'{count, plural, =1{Nothing readable in that screenshot} other{Nothing readable in {count} screenshots}}'**
   String nothingReadable(int count);
 
   /// Opening the Apple Maps link failed.

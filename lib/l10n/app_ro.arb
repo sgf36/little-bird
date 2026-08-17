@@ -47,7 +47,7 @@
   "importSummaryIn": "în {region}",
   "importSummaryNeedLook": "{count} de verificat",
   "importSummaryUnreadable": "{count} ilizibile",
-  "nothingReadable": "Nimic lizibil în {count} capturi de ecran",
+  "nothingReadable": "{count, plural, =1{Nimic lizibil în acea captură de ecran} few{Nimic lizibil în {count} capturi de ecran} other{Nimic lizibil în {count} de capturi de ecran}}",
   "couldNotOpenMaps": "Hărți nu a putut fi deschisă",
   "checkingAppleAccount": "Se verifică contul tău Apple…",
   "restoredUnlocked": "Restaurat. Ghidurile de orice mărime sunt deblocate.",

@@ -190,7 +190,13 @@ class LMr extends L {
 
   @override
   String importSummaryNeedLook(int count) {
-    return '$count तपासायची आहेत';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count तपासायची आहेत',
+      one: '$count तपासायची आहे',
+    );
+    return '$_temp0';
   }
 
   @override

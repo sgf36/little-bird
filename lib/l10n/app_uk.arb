@@ -47,7 +47,7 @@
   "importSummaryIn": "у: {region}",
   "importSummaryNeedLook": "{count} на перевірку",
   "importSummaryUnreadable": "{count} нерозпізнано",
-  "nothingReadable": "Нічого читабельного на {count} знімках екрана",
+  "nothingReadable": "{count, plural, one{Нічого читабельного на {count} знімку екрана} few{Нічого читабельного на {count} знімках екрана} many{Нічого читабельного на {count} знімках екрана} other{Нічого читабельного на {count} знімках екрана}}",
   "couldNotOpenMaps": "Не вдалося відкрити Карти",
   "checkingAppleAccount": "Перевіряю твій обліковий запис Apple…",
   "restoredUnlocked": "Відновлено. Путівники без обмежень розблоковано.",

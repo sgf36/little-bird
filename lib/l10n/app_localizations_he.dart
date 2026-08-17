@@ -194,7 +194,15 @@ class LHe extends L {
 
   @override
   String importSummaryNeedLook(int count) {
-    return '$count דורשים בדיקה';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count דורשים בדיקה',
+      many: '$count דורשים בדיקה',
+      two: '$count דורשים בדיקה',
+      one: '$count דורש בדיקה',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -204,7 +212,15 @@ class LHe extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'אין דבר קריא ב־$count צילומי מסך';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'אין דבר קריא ב־$count צילומי מסך',
+      many: 'אין דבר קריא ב־$count צילומי מסך',
+      two: 'אין דבר קריא ב־$count צילומי מסך',
+      one: 'אין דבר קריא ב־$count צילום מסך',
+    );
+    return '$_temp0';
   }
 
   @override

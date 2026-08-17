@@ -47,7 +47,7 @@
   "importSummaryIn": "v: {region}",
   "importSummaryNeedLook": "{count} za pregled",
   "importSummaryUnreadable": "{count} neberljivih",
-  "nothingReadable": "Nič berljivega na {count} posnetkih zaslona",
+  "nothingReadable": "{count, plural, one{Nič berljivega na {count} posnetku zaslona} two{Nič berljivega na {count} posnetkih zaslona} few{Nič berljivega na {count} posnetkih zaslona} other{Nič berljivega na {count} posnetkih zaslona}}",
   "couldNotOpenMaps": "Zemljevidov ni bilo mogoče odpreti",
   "checkingAppleAccount": "Preverjanje tvojega računa Apple…",
   "restoredUnlocked": "Obnovljeno. Vodniki poljubne velikosti so odklenjeni.",

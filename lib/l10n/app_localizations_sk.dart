@@ -203,7 +203,15 @@ class LSk extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'Nič čitateľné na $count snímkach obrazovky';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Nič čitateľné na $count snímkach obrazovky',
+      many: 'Nič čitateľné na $count snímkach obrazovky',
+      few: 'Nič čitateľné na $count snímkach obrazovky',
+      one: 'Nič čitateľné na tejto snímke obrazovky',
+    );
+    return '$_temp0';
   }
 
   @override

@@ -202,7 +202,13 @@ class LTe extends L {
 
   @override
   String nothingReadable(int count) {
-    return '$count స్క్రీన్‌షాట్‌లలో చదవదగినది ఏమీ లేదు';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count స్క్రీన్‌షాట్‌లలో చదవదగినది ఏమీ లేదు',
+      one: '$count స్క్రీన్‌షాట్‌లో చదవదగినది ఏమీ లేదు',
+    );
+    return '$_temp0';
   }
 
   @override

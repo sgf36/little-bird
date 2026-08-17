@@ -206,7 +206,15 @@ class LSl extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'Nič berljivega na $count posnetkih zaslona';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Nič berljivega na $count posnetkih zaslona',
+      few: 'Nič berljivega na $count posnetkih zaslona',
+      two: 'Nič berljivega na $count posnetkih zaslona',
+      one: 'Nič berljivega na $count posnetku zaslona',
+    );
+    return '$_temp0';
   }
 
   @override

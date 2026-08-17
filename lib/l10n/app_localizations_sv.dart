@@ -203,7 +203,13 @@ class LSv extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'Inget läsbart i $count skärmavbilder';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Inget läsbart i $count skärmavbilder',
+      one: 'Inget läsbart i den här skärmavbilden',
+    );
+    return '$_temp0';
   }
 
   @override

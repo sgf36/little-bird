@@ -203,7 +203,15 @@ class LCs extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'Nic čitelného na $count snímcích obrazovky';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Nic čitelného na $count snímcích obrazovky',
+      many: 'Nic čitelného na $count snímcích obrazovky',
+      few: 'Nic čitelného na $count snímcích obrazovky',
+      one: 'Nic čitelného na tomto snímku obrazovky',
+    );
+    return '$_temp0';
   }
 
   @override

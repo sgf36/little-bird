@@ -47,7 +47,7 @@
   "importSummaryIn": "w: {region}",
   "importSummaryNeedLook": "{count} do sprawdzenia",
   "importSummaryUnreadable": "{count} nieczytelnych",
-  "nothingReadable": "Nic czytelnego w {count} zrzutach ekranu",
+  "nothingReadable": "{count, plural, one{Nic czytelnego w tym zrzucie ekranu} few{Nic czytelnego w {count} zrzutach ekranu} many{Nic czytelnego w {count} zrzutach ekranu} other{Nic czytelnego w {count} zrzutach ekranu}}",
   "couldNotOpenMaps": "Nie udało się otworzyć Map",
   "checkingAppleAccount": "Sprawdzanie konta Apple…",
   "restoredUnlocked": "Przywrócono. Przewodniki bez ograniczeń są odblokowane.",

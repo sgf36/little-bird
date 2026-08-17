@@ -47,7 +47,7 @@
   "importSummaryIn": "i {region}",
   "importSummaryNeedLook": "{count} skal ses efter",
   "importSummaryUnreadable": "{count} ulæselige",
-  "nothingReadable": "Intet læsbart i {count} skærmbilleder",
+  "nothingReadable": "{count, plural, =1{Intet læsbart i dette skærmbillede} other{Intet læsbart i {count} skærmbilleder}}",
   "couldNotOpenMaps": "Kort kunne ikke åbnes",
   "checkingAppleAccount": "Tjekker din Apple-konto…",
   "restoredUnlocked": "Gendannet. Guider uden størrelsesgrænse er låst op.",

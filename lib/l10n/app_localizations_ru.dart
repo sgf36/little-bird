@@ -208,7 +208,15 @@ class LRu extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'Ничего читаемого в $count скриншотах';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ничего читаемого в $count скриншотах',
+      many: 'Ничего читаемого в $count скриншотах',
+      few: 'Ничего читаемого в $count скриншотах',
+      one: 'Ничего читаемого в $count скриншоте',
+    );
+    return '$_temp0';
   }
 
   @override

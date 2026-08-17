@@ -47,7 +47,7 @@
   "importSummaryIn": "i {region}",
   "importSummaryNeedLook": "{count} att titta på",
   "importSummaryUnreadable": "{count} oläsliga",
-  "nothingReadable": "Inget läsbart i {count} skärmavbilder",
+  "nothingReadable": "{count, plural, =1{Inget läsbart i den här skärmavbilden} other{Inget läsbart i {count} skärmavbilder}}",
   "couldNotOpenMaps": "Det gick inte att öppna Kartor",
   "checkingAppleAccount": "Kollar ditt Apple-konto…",
   "restoredUnlocked": "Återskapat. Guider utan storleksgräns är upplåsta.",

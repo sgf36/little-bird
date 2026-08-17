@@ -47,7 +47,7 @@
   "importSummaryIn": "à {region}",
   "importSummaryNeedLook": "{count} à vérifier",
   "importSummaryUnreadable": "{count} illisibles",
-  "nothingReadable": "Rien de lisible dans {count} saisies d'écran",
+  "nothingReadable": "{count, plural, =1{Rien de lisible dans cette saisie d'écran} other{Rien de lisible dans {count} saisies d'écran}}",
   "couldNotOpenMaps": "Impossible d'ouvrir Plans",
   "checkingAppleAccount": "Vérification de votre compte Apple…",
   "restoredUnlocked": "Restauré. Les guides sans limite sont débloqués.",

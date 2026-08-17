@@ -202,7 +202,13 @@ class LCa extends L {
 
   @override
   String nothingReadable(int count) {
-    return 'Res llegible en $count captures';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Res llegible en $count captures',
+      one: 'Res llegible en aquesta captura',
+    );
+    return '$_temp0';
   }
 
   @override

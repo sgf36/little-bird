@@ -47,7 +47,7 @@
   "importSummaryIn": "u: {region}",
   "importSummaryNeedLook": "{count} za provjeru",
   "importSummaryUnreadable": "{count} nečitljivih",
-  "nothingReadable": "Ništa čitljivo na {count} snimaka zaslona",
+  "nothingReadable": "{count, plural, one{Ništa čitljivo na {count} snimci zaslona} few{Ništa čitljivo na {count} snimke zaslona} other{Ništa čitljivo na {count} snimaka zaslona}}",
   "couldNotOpenMaps": "Karte se nisu mogle otvoriti",
   "checkingAppleAccount": "Provjera tvog Apple računa…",
   "restoredUnlocked": "Vraćeno. Vodiči bilo koje veličine su otključani.",
