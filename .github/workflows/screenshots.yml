@@ -69,7 +69,7 @@ jobs:
       - name: Python for the image checks
         run: |
           python3 -m venv /tmp/shots
-          /tmp/shots/bin/pip install --quiet pillow pyjwt cryptography
+          /tmp/shots/bin/pip install --quiet pillow pyjwt cryptography babel
 
       # `-u` as well as the script's own line buffering: the run of 17 August
       # 2026 emitted thirty-one minutes of output in a single burst at the end,

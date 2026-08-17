@@ -90,12 +90,21 @@ class _SceneResolver extends PlaceResolver {
   ];
 }
 
-/// A store whose price is fixed. The real one reads StoreKit, which in a
-/// simulator with no signed-in account returns nothing — and the paywall
-/// screenshot would then advertise the fallback price rather than a real one.
+/// A store whose price is supplied rather than read.
+///
+/// The real one reads StoreKit, which in a simulator with no signed-in account
+/// returns nothing, so the paywall fell back to its advertised dollar figure and
+/// the screenshot advertised `$4.99` in all ten languages — wrong on every
+/// storefront but the American one.
+///
+/// The price now comes from `store/shot_prices.json`, which `store/iap_prices.py`
+/// reads out of Apple's own price schedule, and arrives per launch alongside the
+/// scene name. It is never assembled or converted here: Apple's price points are
+/// set per market, so a dollar figure multiplied by a rate would be a
+/// fabrication that looks like a fact.
 class _SceneStore implements UnlockStore {
   @override
-  Future<String?> price() async => r'$4.99';
+  Future<String?> price() async => SceneRequest.scenePrice;
   @override
   Future<bool> buy() async => false;
   @override
@@ -228,6 +237,7 @@ class SceneRequest {
   static SceneRequest resolve() {
     final sources = <(String, String)>[];
     String? found;
+    String? price;
 
     final env = Platform.environment['WREN_SCENE'];
     sources.add(('env WREN_SCENE', _show(env)));
@@ -238,12 +248,22 @@ class SceneRequest {
       final file = File(path);
       final text = file.existsSync() ? file.readAsStringSync() : null;
       sources.add(('file $path', _show(text)));
-      if (found == null && text != null && text.trim().isNotEmpty) {
-        found = text.trim();
+      // First line names the scene; an optional `price=` line carries the real
+      // storefront price for the language being shot. See [scenePrice].
+      for (final line in (text ?? '').split('\n')) {
+        final trimmed = line.trim();
+        if (trimmed.isEmpty) continue;
+        if (trimmed.startsWith('price=')) {
+          price = trimmed.substring('price='.length).trim();
+        } else {
+          found ??= trimmed;
+        }
       }
+      if (price != null) sources.add(('price', '"$price"'));
     } catch (e) {
       sources.add(('file $path', 'unreadable: $e'));
     }
+    _price = price;
 
     // Separates "dart:io saw no environment at all" from "the variable
     // specifically was not passed" — the same empty string, two different bugs.
@@ -255,6 +275,15 @@ class SceneRequest {
 
     return SceneRequest(name: found ?? '', sources: sources);
   }
+
+  static String? _price;
+
+  /// The real storefront price for the language being shot, or null.
+  ///
+  /// Null means the paywall shows the app's own fallback, which is a dollar
+  /// figure — correct in the United States and nowhere else. Read by
+  /// [_SceneStore] in place of a StoreKit call a simulator cannot make.
+  static String? get scenePrice => _price;
 
   /// One line for the device log, which shoot.py reads back after each launch.
   String get logLine =>

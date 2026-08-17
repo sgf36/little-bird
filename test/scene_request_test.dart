@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wren/main.dart';
 import 'package:wren/src/screenshots.dart';
@@ -40,6 +39,26 @@ void main() {
 
     expect(request.name, '03-correct-a-place');
     expect(sceneFor(request.name), isNotNull);
+  });
+
+  test('the real storefront price arrives with the scene', () {
+    // The paywall shot advertised $4.99 in all ten languages, because a
+    // simulator cannot reach StoreKit and the app fell back to its dollar
+    // figure. The price now travels with the scene, and it is Apple's own
+    // per-territory figure — never a conversion of the dollar one.
+    sceneFile.writeAsStringSync('05-places-kept\nprice=449,00 ₽');
+    final request = SceneRequest.resolve();
+
+    expect(request.name, '05-places-kept');
+    expect(SceneRequest.scenePrice, '449,00 ₽');
+    // Reported on screen, so a wrong currency is visible in the artifact.
+    expect(request.sources.map((s) => s.$1), contains('price'));
+  });
+
+  test('no price line leaves the app on its own fallback', () {
+    sceneFile.writeAsStringSync('05-places-kept');
+    expect(SceneRequest.resolve().name, '05-places-kept');
+    expect(SceneRequest.scenePrice, isNull);
   });
 
   test('trailing whitespace does not become part of the scene name', () {
