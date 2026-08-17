@@ -504,46 +504,96 @@ def shoot_app(udid, out_dir, language, locale, settle, app_tmp, first=False):
     return taken
 
 
+SAFARI = "com.apple.mobilesafari"
+MAPS = "com.apple.Maps"
+
+
+def running(udid, bundle):
+    """Whether an app is running, by asking launchd rather than looking.
+
+    This is the check the pixel comparison could not make. On 17 August 2026 the
+    Maps shot passed a difference test and was a photograph of **Safari**: the
+    `https://maps.apple.com/guide?…` link is a web URL, Maps does not claim it in
+    a simulator, and Safari took it. The frame differed enormously from the
+    baseline, which the difference test read as "the guide opened".
+
+    A difference test can only say two frames are not the same. It cannot say
+    what is in either of them, and the thing worth knowing here is which app is
+    on screen.
+    """
+    r = run("xcrun", "simctl", "spawn", udid, "launchctl", "list",
+            check=False, quiet=True)
+    return bundle.lower() in (r.stdout or "").lower()
+
+
 def shoot_maps(udid, out_dir, settle):
     """The payoff: the guide open in Apple Maps, in the device's language.
 
-    Returns the path, or None with a reason printed. Whether a `?_col=` guide
-    link opens a guide sheet in a *simulator* is genuinely unknown — on a device
-    it does — so this is attempted and checked rather than assumed. The check is
-    a baseline: Maps opened on a plain search, against Maps opened on the guide
-    link. If the two frames are near enough identical, the guide did not open.
+    Returns the path, or None with a reason printed. Two URL forms are tried,
+    because which one a *simulator* hands to Maps is not the same question as
+    which one works on a device:
+
+      * `maps://guide?_col=…` — the private scheme, which only Maps can claim.
+      * `https://maps.apple.com/guide?_col=…` — the real link, and the one that
+        works on a device. In a simulator it opened Safari.
+
+    Whichever leaves Maps running and Safari closed is used. If neither does, the
+    locale gets six screenshots and the run says so by name.
     """
     baseline = out_dir / "_maps-baseline.png"
     out = out_dir / f"{MAPS_SCENE}.png"
 
-    run("xcrun", "simctl", "terminate", udid, "com.apple.Maps", check=False,
-        quiet=True)
+    # The location prompt appeared in the middle of the frame last time. Granting
+    # it up front is not cosmetic — a modal dialog is what gets photographed.
+    run("xcrun", "simctl", "privacy", udid, "grant", "location", MAPS,
+        check=False, quiet=True)
+    for app in (MAPS, SAFARI):
+        run("xcrun", "simctl", "terminate", udid, app, check=False, quiet=True)
+
     run("xcrun", "simctl", "openurl", udid, "maps://?q=London", check=False)
     _sleep(settle + 4)
     run("xcrun", "simctl", "io", udid, "screenshot", "--type=png",
         str(baseline))
-
-    run("xcrun", "simctl", "openurl", udid, GUIDE_URL, check=False)
-    _sleep(settle + 6)
-    run("xcrun", "simctl", "io", udid, "screenshot", "--type=png", str(out))
-    run("xcrun", "simctl", "terminate", udid, "com.apple.Maps", check=False,
-        quiet=True)
-
-    if not out.exists():
-        say(f"  {MAPS_SCENE}: no screenshot taken — skipped")
+    if not running(udid, MAPS):
+        say(f"{MAPS_SCENE}: Maps would not open even on a plain search — "
+            f"skipped, this locale gets {len(SCENES)} screenshots", indent=1)
         baseline.unlink(missing_ok=True)
         return None
-    delta = difference(baseline, out)
+
+    payload = GUIDE_URL.split("guide?", 1)[1]
+    for form in (f"maps://guide?{payload}", GUIDE_URL):
+        run("xcrun", "simctl", "terminate", udid, SAFARI, check=False,
+            quiet=True)
+        run("xcrun", "simctl", "openurl", udid, form, check=False)
+        _sleep(settle + 6)
+        run("xcrun", "simctl", "io", udid, "screenshot", "--type=png", str(out))
+
+        which = form.split(":", 1)[0]
+        if running(udid, SAFARI):
+            say(f"{MAPS_SCENE}: {which} went to Safari, not Maps", indent=1)
+            continue
+        if not out.exists():
+            say(f"{MAPS_SCENE}: {which} produced no screenshot", indent=1)
+            continue
+        delta = difference(baseline, out)
+        # Maps is in front and the frame moved: the guide sheet opened over the
+        # map. 6 is well above the noise of two renders of the same city.
+        if delta < 6:
+            say(f"{MAPS_SCENE}: {which} left Maps unchanged "
+                f"(delta {delta:.1f}) — the guide did not open", indent=1)
+            continue
+        say(f"{MAPS_SCENE} via {which} (delta {delta:.1f}, Maps in front)",
+            indent=1)
+        baseline.unlink(missing_ok=True)
+        run("xcrun", "simctl", "terminate", udid, MAPS, check=False, quiet=True)
+        return out
+
+    say(f"{MAPS_SCENE}: no URL form opened the guide in Maps — skipped, this "
+        f"locale gets {len(SCENES)} screenshots", indent=1)
+    out.unlink(missing_ok=True)
     baseline.unlink(missing_ok=True)
-    # 6 is well above the noise of two map renders of the same city and well
-    # below what a guide sheet covering the lower half of the screen produces.
-    if delta < 6:
-        say(f"  {MAPS_SCENE}: the guide did not open (delta {delta:.1f}) — "
-              f"skipped, this locale gets {len(SCENES)} screenshots")
-        out.unlink(missing_ok=True)
-        return None
-    say(f"  {MAPS_SCENE} (delta {delta:.1f})")
-    return out
+    run("xcrun", "simctl", "terminate", udid, MAPS, check=False, quiet=True)
+    return None
 
 
 def _environ():

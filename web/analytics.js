@@ -44,6 +44,50 @@
     document.head.appendChild(s);
     gtag("js", new Date());
     gtag("config", GA_ID);
+    trackConversions();
+  }
+
+  /* Conversion events. Same shape as the Easy-Post site, deliberately.
+   *
+   * Wren is not on the App Store yet, so there is no purchase funnel to
+   * measure. The App Store handler is wired now anyway: the day the link goes
+   * on the page it starts counting, with no second deploy and nothing to
+   * remember. Until then it simply never matches.
+   *
+   * Delegated on document, called only from enableAnalytics(), so nothing is
+   * sent without consent. Nothing calls preventDefault — GA4 sends by
+   * navigator.sendBeacon, which survives the page unloading, so links behave
+   * exactly as they did.
+   */
+  function trackConversions() {
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest ? e.target.closest("a") : null;
+      if (!a) return;
+
+      var href = a.getAttribute("href") || "";
+
+      // The conversion, once there is one to have.
+      if (href.indexOf("apps.apple.com") > -1 || href.indexOf("itunes.apple.com") > -1) {
+        gtag("event", "app_store_click");
+        return;
+      }
+
+      if (/^https?:/i.test(href) && href.indexOf(location.host) === -1) {
+        gtag("event", "outbound_click", { link_domain: hostOf(href), link_url: href });
+      }
+    });
+
+    // Support enquiries, caught at submit because the form posts to contact.php.
+    var form = document.getElementById("contact-form");
+    if (form) {
+      form.addEventListener("submit", function () {
+        gtag("event", "contact_submit");
+      });
+    }
+  }
+
+  function hostOf(url) {
+    try { return new URL(url).hostname; } catch (e) { return "unknown"; }
   }
 
   function remember(value) {
