@@ -207,8 +207,14 @@ public class PlacesPlugin: NSObject, FlutterPlugin {
 
       var out: [[String: Any]] = []
       for item in response?.mapItems ?? [] {
-        guard #available(iOS 18.0, *),
-              let raw = item.identifier?.rawValue,
+        // `MKMapItem.identifier` is iOS 18 and up, and it is the muid an Apple
+      // Maps guide link requires — without it this app has nothing to publish.
+      // That is why the deployment target is 18.0: on iOS 17 this guard would
+      // skip every result, every lookup would come back empty, and the app
+      // would install and then do nothing. Better to be unavailable than
+      // present and useless, and a reviewer on an older device would rightly
+      // have failed it.
+      guard let raw = item.identifier?.rawValue,
               raw.hasPrefix("I") else { continue }        // no id → not a business
         guard let category = item.pointOfInterestCategory?.rawValue
         else { continue }                                  // no category → an area
@@ -431,13 +437,19 @@ class FilesPlugin: NSObject, FlutterPlugin, UIDocumentPickerDelegate,
     result(nil)
   }
 
+  /// Walks the scene graph rather than reaching for `self.window`.
+  ///
+  /// This project uses the UIScene lifecycle, so the app delegate's `window` is
+  /// nil — it belongs to the scene. Force-unwrapping it is what killed the app
+  /// on launch once before, and CI did not catch it because CI compiles the app
+  /// and never runs it. `UIWindowScene.keyWindow` rather than `.windows`, which
+  /// is deprecated.
   private static func topViewController() -> UIViewController? {
-    let scene = UIApplication.shared.connectedScenes
+    let scenes = UIApplication.shared.connectedScenes
       .compactMap { $0 as? UIWindowScene }
-      .first { $0.activationState == .foregroundActive }
-      ?? UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.first
-    var top = scene?.windows.first { $0.isKeyWindow }?.rootViewController
-      ?? scene?.windows.first?.rootViewController
+    let scene = scenes.first { $0.activationState == .foregroundActive }
+      ?? scenes.first
+    var top = scene?.keyWindow?.rootViewController
     while let presented = top?.presentedViewController { top = presented }
     return top
   }
