@@ -33,6 +33,7 @@ out of the hand-taken set.
 """
 import argparse
 import hashlib
+import json
 import pathlib
 import shutil
 import subprocess
@@ -43,7 +44,10 @@ ROOT = HERE.parent
 SHOTS = HERE / "screenshots"
 BUNDLE = "com.spencerfields.littlebird"
 SLOT = "APP_IPHONE_67"
-WANT = (1290, 2796)
+# Apple accepts either of these for the 6.7-inch slot. Whichever the chosen
+# simulator produces is used, and every image in the run must then match it —
+# a set of mixed sizes is rejected at upload.
+WANT = [(1290, 2796), (1284, 2778)]
 
 # The scenes, in product-page order. Must match `sceneNames` in
 # lib/src/screenshots.dart — the test scene_render_test.dart renders every one
@@ -89,17 +93,10 @@ SHOOT = [
     ("id", "id", "id_ID"),
 ]
 
-# Tried in order. Every one of these is a 6.7-inch class device at 1290x2796,
-# but which of them a given Xcode ships changes, so the size is checked rather
-# than trusted.
-DEVICES = [
-    "iPhone 17 Plus",
-    "iPhone 16 Plus",
-    "iPhone 15 Plus",
-    "iPhone 16 Pro Max",
-    "iPhone 15 Pro Max",
-    "iPhone 14 Plus",
-]
+# Preferred first, but NOT a closed list. A hardcoded list failed on macos-26
+# because none of the six names existed there, so every available iPhone is
+# enumerated and probed and these merely go first.
+PREFERRED = ("Plus", "Pro Max", "Max")
 
 
 def check_scenes_agree():
@@ -141,49 +138,73 @@ def png_size(path):
             int.from_bytes(head[20:24], "big"))
 
 
+def iphones():
+    """Every available iPhone simulator, most promising first.
+
+    Enumerated rather than hardcoded. Xcode's simulator lineup changes with every
+    release, and a fixed list of names silently matched nothing on macos-26 —
+    which produced "no simulator shoots 1290x2796" without saying that no
+    candidate had even been found.
+    """
+    r = run("xcrun", "simctl", "list", "devices", "available", "-j", quiet=True)
+    try:
+        data = json.loads(r.stdout)
+    except json.JSONDecodeError:
+        sys.exit("could not read `simctl list devices -j`")
+    found = []
+    for runtime, devices in (data.get("devices") or {}).items():
+        if "iOS" not in runtime:
+            continue
+        for d in devices:
+            if not d.get("isAvailable", True):
+                continue
+            name = d.get("name", "")
+            if "iPhone" not in name:
+                continue
+            found.append((name, d["udid"]))
+    # Bigger phones first, then newest-looking names, so the right size is
+    # usually the first probe rather than the twentieth.
+    found.sort(key=lambda nu: (
+        0 if any(p in nu[0] for p in PREFERRED) else 1, nu[0]), reverse=False)
+    return found
+
+
 def boot_simulator():
-    """Boots a device of exactly the right size, creating one if need be."""
-    for name in DEVICES:
-        r = run("xcrun", "simctl", "list", "devices", "-j", quiet=True)
-        # Substring match on the JSON is enough to find a name, and avoids
-        # depending on the shape of simctl's output, which has changed before.
-        if f'"{name}"' not in r.stdout and name not in r.stdout:
-            continue
-        udid = create_or_find(name)
-        if udid is None:
-            continue
-        run("xcrun", "simctl", "boot", udid, check=False)
-        run("xcrun", "simctl", "bootstatus", udid, "-b", check=False)
+    """Boots a device whose screenshots are a size the App Store accepts.
+
+    The size is measured from a real screenshot rather than inferred from the
+    device name, because the name is not a promise and a wrong size fails at
+    upload with IMAGE_INCORRECT_DIMENSIONS and nothing to say which file.
+    """
+    candidates = iphones()
+    if not candidates:
+        sys.exit("no iPhone simulators are available on this runner")
+    print(f"{len(candidates)} iPhone simulators available; probing for "
+          f"{' or '.join(f'{w}x{h}' for w, h in WANT)}")
+
+    tried = []
+    for name, udid in candidates:
+        run("xcrun", "simctl", "boot", udid, check=False, quiet=True)
+        run("xcrun", "simctl", "bootstatus", udid, "-b", check=False, quiet=True)
         probe = SHOTS / "_probe.png"
         probe.parent.mkdir(parents=True, exist_ok=True)
-        run("xcrun", "simctl", "io", udid, "screenshot", "--type=png", str(probe))
-        size = png_size(probe)
+        run("xcrun", "simctl", "io", udid, "screenshot", "--type=png",
+            str(probe), check=False, quiet=True)
+        size = png_size(probe) if probe.exists() else None
         probe.unlink(missing_ok=True)
-        if size == WANT:
+        tried.append((name, size))
+        if size in WANT:
             print(f"simulator: {name} ({udid}) at {size[0]}x{size[1]}")
-            return udid
-        print(f"  {name} shoots {size}, not {WANT[0]}x{WANT[1]} — trying another")
-        run("xcrun", "simctl", "shutdown", udid, check=False)
+            return udid, size
+        print(f"  {name} shoots {size} — not it")
+        run("xcrun", "simctl", "shutdown", udid, check=False, quiet=True)
+
+    print("\nevery available iPhone and what it shoots:")
+    for name, size in tried:
+        print(f"  {name:<28} {size}")
     sys.exit(
-        f"no simulator shoots {WANT[0]}x{WANT[1]}. Add a device name to DEVICES "
-        f"in this file; the App Store's APP_IPHONE_67 slot wants exactly that.")
-
-
-def create_or_find(name):
-    r = run("xcrun", "simctl", "list", "devices", "available", quiet=True)
-    for line in r.stdout.splitlines():
-        if line.strip().startswith(name + " (") and "unavailable" not in line:
-            return line.split("(")[1].split(")")[0]
-    # Not present, so make one. The runtime is whichever iOS this Xcode has.
-    rt = run("xcrun", "simctl", "list", "runtimes", quiet=True)
-    ident = next((w for ln in rt.stdout.splitlines() if "iOS" in ln
-                  for w in ln.split() if w.startswith("com.apple.CoreSimulator")),
-                 None)
-    if ident is None:
-        return None
-    made = run("xcrun", "simctl", "create", "wren-shots", name, ident,
-               check=False)
-    return made.stdout.strip() or None
+        f"none of them shoots {' or '.join(f'{w}x{h}' for w, h in WANT)}, "
+        f"which the App Store's APP_IPHONE_67 slot requires.")
 
 
 def set_language(udid, language, locale):
@@ -315,13 +336,13 @@ def _sleep(seconds):
     time.sleep(seconds)
 
 
-def verify(paths, locale):
+def verify(paths, locale, want):
     """Sizes, flat frames, and duplicates. Every one of these has bitten."""
     bad = []
     for p in paths:
         size = png_size(p)
-        if size != WANT:
-            bad.append(f"{p.name} is {size}, wanted {WANT[0]}x{WANT[1]}")
+        if size != want:
+            bad.append(f"{p.name} is {size}, wanted {want[0]}x{want[1]}")
         flat = uniformity(p)
         if flat > 0.92:
             bad.append(f"{p.name} is {flat:.0%} one colour — the app probably "
@@ -370,7 +391,8 @@ def main():
     if not app.exists():
         sys.exit(f"no app at {app}")
 
-    udid = boot_simulator()
+    udid, size = boot_simulator()
+    print(f"all screenshots will be {size[0]}x{size[1]}")
     run("xcrun", "simctl", "install", udid, str(app))
     clean_status_bar(udid)
 
@@ -393,7 +415,7 @@ def main():
             else:
                 skipped_maps.append(asc)
 
-        if not verify(paths, asc):
+        if not verify(paths, asc, size):
             failures.append(asc)
 
     print()

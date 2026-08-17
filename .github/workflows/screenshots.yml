@@ -71,7 +71,10 @@ jobs:
         run: |
           /tmp/shots/bin/python store/shoot.py \
             ${{ inputs.locale && format('--locale {0}', inputs.locale) || '' }} \
-            ${{ inputs.maps && '' || '--no-maps' }}
+            ${{ !inputs.maps && '--no-maps' || '' }}  # inverted deliberately: an empty string is FALSY in a GitHub
+            # expression, so `inputs.maps && '' || '--no-maps'` falls through
+            # to the || branch even when maps is true, and always passed
+            # --no-maps. The Apple Maps shot was skipped on every run.
 
       - name: What came out
         if: always()
