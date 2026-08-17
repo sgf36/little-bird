@@ -79,14 +79,31 @@ def errs(d):
                      for x in d.get("errors", []))[:400] or str(d)[:200]
 
 
-def newest_build():
+def list_builds():
     st, d = call("GET", f"builds?filter[app]={APP}&limit=5"
                         "&sort=-version&fields[builds]="
                         "version,processingState,expired,usesNonExemptEncryption")
     builds = d.get("data")
     if not builds:
         sys.exit(f"could not list builds -> {st}: {errs(d)}")
-    return builds[0], builds
+    return builds
+
+
+def newest_build(want=None):
+    """The newest build, or a specific version if one was asked for.
+
+    `want` matters more than it looks. Apple takes minutes to register an
+    uploaded build, and an earlier version of this script only waited for a
+    build in PROCESSING — so run straight after an upload it saw the *previous*
+    build, found it already attached, and reported success having done nothing.
+    Naming the version turns that silence into a wait.
+    """
+    builds = list_builds()
+    if want is None:
+        return builds[0], builds
+    match = next((b for b in builds if b["attributes"]["version"] == want),
+                 None)
+    return match, builds
 
 
 def main():
@@ -95,11 +112,32 @@ def main():
                     help="actually attach the build and add the tester")
     ap.add_argument("--tester", action="append", default=[],
                     help="email to ensure is a tester; repeatable")
+    ap.add_argument("--version", help="the build number to attach, e.g. 56. "
+                    "Without it the newest build is used, which straight after "
+                    "an upload is the PREVIOUS one")
     ap.add_argument("--wait", type=int, default=0,
-                    help="minutes to wait for processing before giving up")
+                    help="minutes to wait for the build to appear and finish "
+                         "processing before giving up")
     args = ap.parse_args()
 
-    build, recent = newest_build()
+    deadline = time.time() + args.wait * 60
+    build, recent = newest_build(args.version)
+
+    # A named build that is not there yet is the normal state straight after an
+    # upload, and it is worth waiting for rather than silently operating on the
+    # previous one.
+    while build is None and time.time() < deadline:
+        print(f"  build {args.version} has not appeared yet, waiting…")
+        time.sleep(45)
+        build, recent = newest_build(args.version)
+    if build is None:
+        print("recent builds: "
+              + ", ".join(b["attributes"]["version"] for b in recent))
+        sys.exit(
+            f"build {args.version} is not on App Store Connect"
+            + (". Give it longer with --wait." if args.wait else
+               ". Try --wait 15."))
+
     print("recent builds:")
     for b in recent:
         a = b["attributes"]
@@ -111,11 +149,12 @@ def main():
 
     # Processing can take several minutes and a build cannot be attached to a
     # group until it is VALID.
-    deadline = time.time() + args.wait * 60
     while attrs["processingState"] == "PROCESSING" and time.time() < deadline:
         print(f"  build {version} still PROCESSING, waiting…")
-        time.sleep(60)
-        build, _ = newest_build()
+        time.sleep(45)
+        build, _ = newest_build(version)
+        if build is None:
+            break
         bid, attrs = build["id"], build["attributes"]
     if attrs["processingState"] != "VALID":
         print(f"\nbuild {version} is {attrs['processingState']}, not VALID. "
