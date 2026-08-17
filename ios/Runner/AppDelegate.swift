@@ -207,8 +207,11 @@ public class PlacesPlugin: NSObject, FlutterPlugin {
         // Maps is rate-limiting" and aborts the whole import — reported from a
         // real device on 17 August 2026, on a TikTok screenshot whose largest
         // text was a caption rather than a place.
-        let code = error.domain == MKErrorDomain
-          ? MKError.Code(rawValue: error.code) : nil
+        // MKError.Code's rawValue is UInt, and NSError.code is Int. The bounds
+        // check is not decoration: UInt(negative) traps at runtime, which would
+        // turn a failed search into a crash.
+        let code = error.domain == MKErrorDomain && error.code >= 0
+          ? MKError.Code(rawValue: UInt(error.code)) : nil
         switch code {
         case .placemarkNotFound:
           // Not an error. Nothing there to find, which the caller already
