@@ -285,14 +285,41 @@ public class PlacesPlugin: NSObject, FlutterPlugin {
     let group = DispatchGroup()
     let lock = NSLock()
     var found: [[String: Any]] = []
+    // Answered by Apple with nothing: the identifier is no longer served, so the
+    // place is already unreachable in whatever guide holds it.
+    var gone: [String] = []
+    // The request itself did not complete. NOT the same thing, and the whole
+    // reason this function was rewritten: it previously discarded the error
+    // (`getMapItem { item, _ in }`), so a place Apple has dropped and a place we
+    // simply could not ask about were indistinguishable. Pruning a guide on that
+    // basis would delete live places whenever the network hiccuped.
+    var failed: [String] = []
 
     for raw in ids {
-      guard let identifier = MKMapItem.Identifier(rawValue: raw) else { continue }
+      guard let identifier = MKMapItem.Identifier(rawValue: raw) else {
+        lock.lock(); gone.append(raw); lock.unlock()
+        continue
+      }
       group.enter()
-      MKMapItemRequest(mapItemIdentifier: identifier).getMapItem { item, _ in
+      MKMapItemRequest(mapItemIdentifier: identifier).getMapItem { item, error in
         defer { group.leave() }
-        guard let item = item, let itemId = item.identifier?.rawValue
-        else { return }
+        guard let item = item, let itemId = item.identifier?.rawValue else {
+          // Conservative on purpose: an identifier counts as gone only when
+          // Apple said so, either by answering with no item and no error or with
+          // placemarkNotFound. Anything else is a failure to ask.
+          let code = (error as NSError?).flatMap {
+            $0.domain == MKErrorDomain && $0.code >= 0
+              ? MKError.Code(rawValue: UInt($0.code)) : nil
+          }
+          lock.lock()
+          if error == nil || code == .placemarkNotFound {
+            gone.append(raw)
+          } else {
+            failed.append(raw)
+          }
+          lock.unlock()
+          return
+        }
         let coord = item.placemark.coordinate
         lock.lock()
         found.append([
@@ -311,7 +338,9 @@ public class PlacesPlugin: NSObject, FlutterPlugin {
       }
     }
 
-    group.notify(queue: .main) { result(found) }
+    group.notify(queue: .main) {
+      result(["found": found, "gone": gone, "failed": failed])
+    }
   }
 
   /// Turns a place-context phrase ("London", "Mexico City") into a coordinate,

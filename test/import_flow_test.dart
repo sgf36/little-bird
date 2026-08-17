@@ -28,11 +28,28 @@ class QueryResolver extends PlaceResolver {
   /// that fills in an imported guide's blanks.
   final names = <PlaceId, PlaceMatch>{};
 
+  /// Identifiers Apple answers about and has no record of. Only these may be
+  /// pruned from a guide.
+  final gone = <PlaceId>{};
+
+  /// Identifiers whose lookup does not complete. Never evidence of anything.
+  final failed = <PlaceId>{};
+
   @override
-  Future<Map<PlaceId, PlaceMatch>> lookup(List<PlaceId> ids) async => {
-    for (final id in ids)
-      if (names.containsKey(id)) id: names[id]!,
-  };
+  Future<PlaceLookup> lookup(List<PlaceId> ids) async => PlaceLookup(
+    found: {
+      for (final id in ids)
+        if (names.containsKey(id)) id: names[id]!,
+    },
+    gone: {
+      for (final id in ids)
+        if (gone.contains(id)) id,
+    },
+    failed: {
+      for (final id in ids)
+        if (failed.contains(id)) id,
+    },
+  );
 
   @override
   Future<Region?> locate(String query) async =>

@@ -84,12 +84,40 @@ abstract class PlaceResolver {
   /// imported guide would otherwise show a row of blanks. iOS 18 can fetch a
   /// place from its identifier, which is the only way to put a name back.
   ///
-  /// Returns what it could find, keyed by id. A place missing from the result is
-  /// a place Apple would not tell us about, which is not an error — it can still
-  /// be republished, since the identifier is all a guide link needs.
+  /// Returns three separate outcomes — see [PlaceLookup]. Only `gone` means
+  /// Apple has no record; `failed` means the question could not be asked, and
+  /// the difference matters because `gone` is used to prune a guide.
   ///
   /// Defaults to finding nothing, so a stub or a test resolver need not care.
-  Future<Map<PlaceId, PlaceMatch>> lookup(List<PlaceId> ids) async => const {};
+  Future<PlaceLookup> lookup(List<PlaceId> ids) async => const PlaceLookup();
+}
+
+/// What came back from looking identifiers up against Apple Maps.
+///
+/// Three outcomes, kept apart deliberately. Before this existed the native side
+/// discarded the error and simply omitted anything it could not return, so a
+/// place Apple has dropped and a place we could not ask about were the same
+/// answer. That is fine when names are cosmetic and fatal the moment the result
+/// is used as evidence: pruning a guide on an omission would delete live places
+/// every time the network hiccuped.
+class PlaceLookup {
+  const PlaceLookup({
+    this.found = const {},
+    this.gone = const {},
+    this.failed = const {},
+  });
+
+  /// Resolved, with Apple's own name and address.
+  final Map<PlaceId, PlaceMatch> found;
+
+  /// Apple answered, and has no record. The place is already unreachable in any
+  /// guide holding it, so it is safe to drop — and only these are.
+  final Set<PlaceId> gone;
+
+  /// The request did not complete. Says nothing about whether the place exists.
+  final Set<PlaceId> failed;
+
+  bool get isEmpty => found.isEmpty && gone.isEmpty && failed.isEmpty;
 }
 
 /// Resolution through MapKit on the device.
@@ -101,7 +129,9 @@ abstract class PlaceResolver {
 class MapKitResolver extends PlaceResolver {
   static const _channel = MethodChannel('littlebird/places');
 
-  /// MapKit throttles bursts with MKError 4, so lookups are spaced out.
+  /// MapKit throttles bursts with `MKError.loadingThrottled`, so lookups are
+  /// spaced out. That is code 3; this comment said 4 for a while, which is
+  /// `.placemarkNotFound`, and the native side believed it.
   static const _gap = Duration(milliseconds: 350);
   DateTime _last = DateTime.fromMillisecondsSinceEpoch(0);
 
@@ -126,30 +156,49 @@ class MapKitResolver extends PlaceResolver {
   }
 
   @override
-  Future<Map<PlaceId, PlaceMatch>> lookup(List<PlaceId> ids) async {
-    if (ids.isEmpty) return const {};
+  Future<PlaceLookup> lookup(List<PlaceId> ids) async {
+    if (ids.isEmpty) return const PlaceLookup();
+    PlaceLookup allFailed() => PlaceLookup(failed: ids.toSet());
     try {
-      final raw = await _channel.invokeMethod<List<Object?>>('lookup', {
+      final raw = await _channel.invokeMapMethod<String, Object?>('lookup', {
         'ids': ids.map((i) => i.toString()).toList(),
       });
-      if (raw == null) return const {};
-      final out = <PlaceId, PlaceMatch>{};
-      for (final m in raw.whereType<Map<Object?, Object?>>()) {
+      if (raw == null) return allFailed();
+      final found = <PlaceId, PlaceMatch>{};
+      for (final m
+          in (raw['found'] as List<Object?>? ?? const [])
+              .whereType<Map<Object?, Object?>>()) {
         try {
           final match = PlaceMatch.fromMap(m);
-          out[match.id] = match;
+          found[match.id] = match;
         } on FormatException {
           // One unreadable id must not cost the whole batch its names.
           continue;
         }
       }
-      return out;
+      Set<PlaceId> ofKey(String key) => {
+        for (final s
+            in (raw[key] as List<Object?>? ?? const []).whereType<String>())
+          if (_parsed(s) != null) _parsed(s)!,
+      };
+      return PlaceLookup(
+        found: found,
+        gone: ofKey('gone'),
+        failed: ofKey('failed'),
+      );
     } on MissingPluginException {
-      return const {};
+      // No implementation is not evidence about any place.
+      return allFailed();
     } on PlatformException {
-      // Names are a nicety here; the places are republishable without them, so
-      // a failure is silent rather than an error the user must dismiss.
-      return const {};
+      return allFailed();
+    }
+  }
+
+  static PlaceId? _parsed(String raw) {
+    try {
+      return PlaceId.parse(raw);
+    } on FormatException {
+      return null;
     }
   }
 

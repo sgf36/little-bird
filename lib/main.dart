@@ -176,6 +176,10 @@ class _CapturePageState extends State<CapturePage> {
   /// guide can be offered the same name.
   late String? _guideName = widget.initialGuideName;
 
+  /// Entries in the pasted guide that carried no usable identifier. Kept so the
+  /// summary can be recomposed if the lookup later proves some places gone.
+  int _carriedUnusable = 0;
+
   /// Whether the carried-over places are showing. Collapsed by default: they
   /// are context, and a guide of forty would bury the two places just added.
   bool _showCarried = false;
@@ -640,6 +644,7 @@ class _CapturePageState extends State<CapturePage> {
         added++;
       }
       if (guide.name.isNotEmpty) _guideName = guide.name;
+      _carriedUnusable = guide.unusable;
       _status = [
         l.importedGuideSummary(added),
         if (guide.unusable > 0) '· ${l.importedGuideUnusable(guide.unusable)}',
@@ -661,15 +666,36 @@ class _CapturePageState extends State<CapturePage> {
         .toList();
     if (nameless.isEmpty) return;
 
-    final found = await _resolver.lookup([
+    final result = await _resolver.lookup([
       for (final p in nameless) p.match!.id,
     ]);
-    if (found.isEmpty || !mounted) return;
+    if (result.isEmpty || !mounted) return;
+    final l = L.of(context);
+
+    // Only `gone` is evidence. Apple answered about these and has no record, so
+    // they cannot appear in any guide made from this list — Apple drops them on
+    // arrival, silently, which is why an 82-place guide came back as 80 with
+    // nothing to explain the difference. Dropping them here makes the count the
+    // user is shown the count they actually get.
+    //
+    // `failed` is never pruned. Those requests did not complete, which says
+    // nothing about whether the place exists, and treating a network hiccup as
+    // proof of death would delete places that are perfectly alive.
+    final gone = nameless.where((p) => result.gone.contains(p.match!.id));
 
     setState(() {
       for (final p in nameless) {
-        final match = found[p.match!.id];
+        final match = result.found[p.match!.id];
         if (match != null) p.match = match;
+      }
+      if (gone.isNotEmpty) {
+        final dropped = gone.length;
+        _pending.removeWhere((p) => result.gone.contains(p.match?.id));
+        final carried = _pending.where((p) => p.origin == Origin.guide).length;
+        _status = [
+          l.importedGuideSummary(carried),
+          '· ${l.importedGuideUnusable(_carriedUnusable + dropped)}',
+        ].join(' ');
       }
     });
   }
