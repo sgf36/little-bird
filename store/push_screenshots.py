@@ -43,13 +43,16 @@ _tok = {"v": None, "exp": 0}
 def token():
     now = int(time.time())
     if not _tok["v"] or now > _tok["exp"] - 120:
-        # iat backdated: Apple rejects a token issued at exactly now.
+        # exp is 1140, not 1200. Apple caps the token's lifetime at 20
+        # minutes and measures it as exp - iat, so backdating iat by 60 to
+        # dodge clock skew also has to pull exp back by 60. Getting this wrong
+        # produced intermittent 401s that looked like Apple being flaky.
         _tok["v"] = jwt.encode(
-            {"iss": ISSUER, "iat": now - 60, "exp": now + 1200,
+            {"iss": ISSUER, "iat": now - 60, "exp": now + 1140,
              "aud": "appstoreconnect-v1"},
             KEY.read_text(), algorithm="ES256",
             headers={"kid": KEY_ID, "typ": "JWT"})
-        _tok["exp"] = now + 1200
+        _tok["exp"] = now + 1140
     return _tok["v"]
 
 

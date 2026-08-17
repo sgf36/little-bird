@@ -48,16 +48,18 @@ def token():
     """
     now = int(time.time())
     if _token["value"] is None or now > _token["expires"] - 120:
-        # iat is backdated a minute. If this machine's clock runs even a second
-        # ahead of Apple's, a token issued "in the future" is rejected — which
-        # is what made the first locale of the run fail while the other
-        # forty-eight, minted from the same call, went through.
+        # Two constraints at once, and missing either produces intermittent
+        # 401s that look like Apple misbehaving. iat is backdated a minute,
+        # because a token issued at exactly now is rejected outright. exp is
+        # only 1140 ahead, because Apple caps the lifetime at 20 minutes and
+        # measures it as exp - iat — backdate one end and you must pull in the
+        # other.
         _token["value"] = jwt.encode(
-            {"iss": ISSUER, "iat": now - 60, "exp": now + 1200,
+            {"iss": ISSUER, "iat": now - 60, "exp": now + 1140,
              "aud": "appstoreconnect-v1"},
             KEY.read_text(encoding="utf-8"), algorithm="ES256",
             headers={"kid": KEY_ID, "typ": "JWT"})
-        _token["expires"] = now + 1200
+        _token["expires"] = now + 1140
     return _token["value"]
 
 
@@ -175,7 +177,8 @@ def push(meta):
             "GET", f"appInfos/{editable['id']}/appInfoLocalizations?limit=200")
         existing = next((l for l in locs.get("data", [])
                          if l["attributes"].get("locale") == locale), None)
-        attrs = {"name": meta["name"], "subtitle": meta.get("subtitle")}
+        attrs = {"name": meta["name"], "subtitle": meta.get("subtitle"),
+                 "privacyPolicyUrl": meta.get("privacyPolicyUrl")}
         if existing:
             st, d = call("PATCH", f"appInfoLocalizations/{existing['id']}",
                          {"data": {"type": "appInfoLocalizations",

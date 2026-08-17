@@ -41,11 +41,11 @@ def token():
     now = int(time.time())
     if not _tok["v"] or now > _tok["exp"] - 120:
         _tok["v"] = jwt.encode(
-            {"iss": ISSUER, "iat": now - 60, "exp": now + 1200,
+            {"iss": ISSUER, "iat": now - 60, "exp": now + 1140,
              "aud": "appstoreconnect-v1"},
             KEY.read_text(), algorithm="ES256",
             headers={"kid": KEY_ID, "typ": "JWT"})
-        _tok["exp"] = now + 1200
+        _tok["exp"] = now + 1140
     return _tok["v"]
 
 

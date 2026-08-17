@@ -17,5 +17,13 @@
   "name": "Wren",
   "supportUrl": "https://wren.spencerfields.com/support.html",
   "marketingUrl": "https://wren.spencerfields.com/",
-  "whatsNew": "First release."
+  "whatsNew": "First release.",
+
+  "_privacyPolicyUrl": [
+    "Required, and its absence is not obvious: the version simply refuses to",
+    "enter review with 'this resource cannot be reviewed', and only the nested",
+    "associatedErrors name privacyPolicyUrl. It lives on appInfoLocalizations,",
+    "beside name and subtitle, not on the version."
+  ],
+  "privacyPolicyUrl": "https://wren.spencerfields.com/privacy.html"
 }
