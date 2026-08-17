@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2"><Document>
+<name>Borough Market walk</name>
+  <Placemark>
+    <name><![CDATA[Padella]]></name>
+    <address>6 Southwark St, London</address>
+    <Point><coordinates>-0.0903,51.5054,0</coordinates></Point>
+  </Placemark>
+  <Placemark>
+    <name><![CDATA[Maltby Street Market]]></name>
+    <address>Ropewalk, London</address>
+    <Point><coordinates>-0.0787,51.4989,0</coordinates></Point>
+  </Placemark>
+  <Placemark>
+    <name><![CDATA[Arabica Bar & Kitchen]]></name>
+    <address>3 Rochester Walk, London</address>
+    <Point><coordinates>-0.091,51.5052,0</coordinates></Point>
+  </Placemark>
+  <Placemark>
+    <name><![CDATA[Monmouth Coffee]]></name>
+    <address>2 Park St, London</address>
+    <Point><coordinates>-0.0913,51.5053,0</coordinates></Point>
+  </Placemark>
+  <Placemark>
+    <name><![CDATA[Borough Market]]></name>
+    <address>8 Southwark St, London</address>
+    <Point><coordinates>-0.091,51.5055,0</coordinates></Point>
+  </Placemark>
+</Document></kml>

@@ -1,0 +1,2 @@
+This file is prose and holds no places.
+Wren should refuse it and name the formats it does read.

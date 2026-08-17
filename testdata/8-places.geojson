@@ -1,0 +1,76 @@
+{
+ "type": "FeatureCollection",
+ "name": "London, October",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Padella",
+    "address": "6 Southwark St, London"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -0.0903,
+     51.5054
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Maltby Street Market",
+    "address": "Ropewalk, London"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -0.0787,
+     51.4989
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Arabica Bar & Kitchen",
+    "address": "3 Rochester Walk, London"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -0.091,
+     51.5052
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Monmouth Coffee",
+    "address": "2 Park St, London"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -0.0913,
+     51.5053
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Borough Market",
+    "address": "8 Southwark St, London"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -0.091,
+     51.5055
+    ]
+   }
+  }
+ ]
+}
