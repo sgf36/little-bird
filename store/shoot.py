@@ -479,6 +479,13 @@ def shoot_app(udid, out_dir, language, locale, settle, app_tmp,
               price=None, first=False):
     """One launch per scene, so one build covers every scene and language."""
     taken = []
+    # Hashes of the frames already taken for this locale. A new frame identical
+    # to an earlier one is not a scene that renders the same; it is a frame of
+    # something that is not the app. On 17 August 2026 four zh-Hans frames were
+    # byte-identical photographs of the **home screen** — the app had launched,
+    # logged the right scene, and simply had not come to front yet. Flatness
+    # cannot catch that, because a wallpaper is not flat.
+    already = {}
     for scene in SCENES:
         out = out_dir / f"{scene}.png"
         # Up to three goes, each waiting longer. A frame taken before the app
@@ -506,11 +513,15 @@ def shoot_app(udid, out_dir, language, locale, settle, app_tmp,
             run("xcrun", "simctl", "io", udid, "screenshot", "--type=png",
                 str(out))
             flat = uniformity(out)
-            if flat <= 0.92:
+            digest = hashlib.md5(out.read_bytes()).hexdigest()
+            twin = already.get(digest)
+            if flat <= 0.92 and twin is None:
                 break
-            say(f"{scene} came out {flat:.0%} one colour — the app had not "
-                f"drawn. Retaking with {settle * (attempt + 2):.0f}s to settle.",
-                indent=1)
+            why = (f"came out {flat:.0%} one colour" if twin is None
+                   else f"is byte-identical to {twin}, so it is not the app")
+            say(f"{scene} {why}. Retaking with "
+                f"{settle * (attempt + 2):.0f}s to settle.", indent=1)
+        already[digest] = out.name
         taken.append(out)
 
         # Every frame gets a verdict as it is taken, rather than sixty of them
