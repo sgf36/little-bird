@@ -36,9 +36,7 @@ void main() {
     // Read back off the device log by shoot.py after every launch, so the log
     // says which route delivered the scene even on a run that succeeds.
     debugPrint(request.logLine);
-    runApp(
-      WrenApp(home: sceneFor(request.name) ?? UnknownScene.from(request)),
-    );
+    runApp(WrenApp(home: sceneFor(request.name) ?? UnknownScene.from(request)));
     return;
   }
   runApp(const WrenApp());
