@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="hi">
+
+
+
+<head>
+
+
+
+<meta charset="utf-8">
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>गोपनीयता — Wren</title>
+
+
+
+<meta name="description" content="Wren की गोपनीयता नीति। Wren में कोई खाते नहीं हैं और यह कोई व्यक्तिगत डेटा एकत्र नहीं करता। स्क्रीनशॉट आपके डिवाइस पर पढ़े जाते हैं और कभी अपलोड नहीं किए जाते।">
+
+
+
+<meta name="theme-color" content="#12332F">
+
+
+
+<link rel="icon" href="data:image/svg+xml,&lt;svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'&gt;&lt;rect%20width='100'%20height='100'%20rx='22'%20fill='%231E4B45'/&gt;&lt;polygon%20points='22,62%2012,29%2024,23%2031,50'%20fill='%23F2C879'/&gt;&lt;ellipse%20cx='42'%20cy='60'%20rx='23'%20ry='17'%20fill='%23F2C879'/&gt;&lt;ellipse%20cx='63'%20cy='44'%20rx='12'%20ry='11.5'%20fill='%23F2C879'/&gt;&lt;polygon%20points='74,42%2089,46%2074,48'%20fill='%23E08A4B'/&gt;&lt;circle%20cx='67'%20cy='41'%20r='2.3'%20fill='%231E4B45'/&gt;&lt;/svg&gt;">
+
+
+
+<link rel="stylesheet" href="../style.css">
+
+
+
+<link rel="canonical" href="https://wren.spencerfields.com/hi/privacy.html"><!-- i18n:begin --><link rel="alternate" hreflang="x-default" href="https://wren.spencerfields.com/privacy.html"><link rel="alternate" hreflang="en" href="https://wren.spencerfields.com/privacy.html"><link rel="alternate" hreflang="zh" href="https://wren.spencerfields.com/zh/privacy.html"><link rel="alternate" hreflang="hi" href="https://wren.spencerfields.com/hi/privacy.html"><link rel="alternate" hreflang="es" href="https://wren.spencerfields.com/es/privacy.html"><link rel="alternate" hreflang="ar" href="https://wren.spencerfields.com/ar/privacy.html"><link rel="alternate" hreflang="fr" href="https://wren.spencerfields.com/fr/privacy.html"><link rel="alternate" hreflang="bn" href="https://wren.spencerfields.com/bn/privacy.html"><link rel="alternate" hreflang="pt" href="https://wren.spencerfields.com/pt/privacy.html"><link rel="alternate" hreflang="id" href="https://wren.spencerfields.com/id/privacy.html"><link rel="alternate" hreflang="ur" href="https://wren.spencerfields.com/ur/privacy.html"><link rel="alternate" hreflang="ru" href="https://wren.spencerfields.com/ru/privacy.html"><link rel="alternate" hreflang="de" href="https://wren.spencerfields.com/de/privacy.html"><link rel="alternate" hreflang="ja" href="https://wren.spencerfields.com/ja/privacy.html"><link rel="alternate" hreflang="mr" href="https://wren.spencerfields.com/mr/privacy.html"><link rel="alternate" hreflang="te" href="https://wren.spencerfields.com/te/privacy.html"><!-- i18n:end --></head>
+
+
+
+<body>
+
+
+
+<div class="wrap">
+
+
+
+
+
+
+
+  <!-- i18n:begin --><p class="i18n-legal" style="margin:0 0 1.5rem;padding:.75rem 1rem;border-left:3px solid currentColor;opacity:.8;font-size:.9rem">यह पृष्ठ सुविधा के लिए उपलब्ध कराया गया एक अनुवाद है। अंग्रेज़ी संस्करण ही आधिकारिक पाठ है और किसी भी विसंगति की स्थिति में वही मान्य होगा।</p><!-- i18n:end --><div class="topbar">
+
+
+
+    <a class="brand" href="index.html">
+
+
+
+      <svg viewbox="0 0 100 100" role="img" aria-label="Wren">
+
+
+
+        <rect width="100" height="100" rx="22" fill="#1E4B45"></rect>
+
+
+
+        <polygon points="22,62 12,29 24,23 31,50" fill="#F2C879"></polygon>
+
+
+
+        <ellipse cx="42" cy="60" rx="23" ry="17" fill="#F2C879"></ellipse>
+
+
+
+        <ellipse cx="63" cy="44" rx="12" ry="11.5" fill="#F2C879"></ellipse>
+
+
+
+        <polygon points="74,42 89,46 74,48" fill="#E08A4B"></polygon>
+
+
+
+        <circle cx="67" cy="41" r="2.3" fill="#1E4B45"></circle>
+
+
+
+      </svg>
+
+
+
+      Wren
+
+
+
+    </a>
+
+
+
+    <nav><a href="index.html">अवलोकन</a>
+
+
+
+      <a href="support.html">सहायता</a>
+
+
+
+      <a href="privacy.html" aria-current="page">गोपनीयता</a>
+
+
+
+      <a href="terms.html">शर्तें</a></nav>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <header class="hero">
+
+
+
+    <h1>गोपनीयता</h1>
+
+
+
+    <p class="updated">अंतिम अपडेट 17 अगस्त 2026</p>
+
+
+
+  </header>
+
+
+
+
+
+
+
+  <div class="status">
+
+
+
+    <span class="label">संक्षिप्त संस्करण</span>
+
+
+
+    <p><strong>ऐप</strong> में कोई अकाउंट नहीं है और कोई एनालिटिक्स नहीं है। आपके स्क्रीनशॉट और आपके द्वारा इंपोर्ट की गई कोई भी फ़ाइल आपके फ़ोन पर ही पढ़ी जाती है और कभी अपलोड नहीं की जाती। यह जो एक चीज़ रखता है वह है आपके डिवाइस के लिए एक रैंडम पहचानकर्ता, और वह भी केवल तभी जब आपको एक कॉम्प्लिमेंटरी कोड दिया गया हो और आप उसे दर्ज करना चुनें — यह भी एकमात्र वह समय है जब यह अपने किसी सर्वर से संपर्क करता है।</p>
+
+
+
+    <p><strong>यह वेबसाइट</strong> एक अलग मामला है: यह Google Analytics का उपयोग करती है, और वह भी केवल तभी जब आप अपनी पहली विज़िट पर सूचना को स्वीकार करते हैं। अस्वीकार करने पर कोई कुकीज़ सेट नहीं होतीं।</p>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>यह कौन है</h2>
+
+
+
+    <p>Wren को Spencer Fields द्वारा बनाया गया है, जो यूनाइटेड किंगडम में स्थापित एक एकल व्यापारी हैं, जिनका पता है Lytchett House, 13 Freeland Park, Wareham Road, Lytchett Matravers, Poole, BH16 6FA। इस नीति से संबंधित किसी भी विषय के लिए, <strong>Apps [at] spencerfields [dot] com</strong> पर लिखें।</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>Wren क्या एकत्र करता है</h2>
+
+
+
+    <p>ऐप में बनाने के लिए कोई अकाउंट नहीं है, कोई साइन-इन नहीं है, कोई प्रोफ़ाइल नहीं है, और कोई एनालिटिक्स या क्रैश-रिपोर्टिंग सेवा नहीं है। लगभग हर वह चीज़ जो Wren याद रखता है, आपके डिवाइस पर रहती है और ऐप को डिलीट करने पर मिट जाती है। (वेबसाइट अलग है, और उसके बारे में आगे बताया गया है।)</p>
+
+
+
+    <p>एकमात्र अपवाद है आपके <strong>डिवाइस के लिए एक रैंडम पहचानकर्ता</strong>, और यह केवल तभी लागू होता है जब आप कोई कॉम्प्लिमेंटरी कोड दर्ज करते हैं। इसका पूरा विवरण नीचे दिया गया है। Wren का App Store प्राइवेसी लेबल ठीक यही घोषित करता है — एक डिवाइस पहचानकर्ता, जिसका उपयोग ऐप की कार्यक्षमता के लिए किया जाता है, जो आपकी पहचान से जुड़ा नहीं है और जिसका उपयोग कभी ट्रैकिंग के लिए नहीं किया जाता — और यह पृष्ठ तथा वह लेबल एक ही बात कहने के लिए हैं।</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>कॉम्प्लिमेंटरी कोड</h2>
+
+
+
+    <p>कुछ लोगों को एक ऐसा कोड दिया जाता है जो भुगतान किए बिना पेड फ़ीचर को अनलॉक कर देता है — Apple के समीक्षक, और डेवलपर के मित्र। यह Wren का एकमात्र हिस्सा है जो Wren द्वारा संचालित सर्वर से संपर्क करता है, और यह तभी होता है जब आपको कोई कोड दिया गया हो और आप उसे दर्ज करना चुनें। यदि ऐसा नहीं है, तो Wren उस सर्वर से कभी संपर्क नहीं करता।</p>
+
+
+
+    <p>जब कोई कोड दर्ज किया जाता है, तो दो चीज़ें भेजी जाती हैं: <strong>स्वयं कोड, और आपके डिवाइस के लिए एक रैंडम पहचानकर्ता</strong>। यह पहचानकर्ता Wren द्वारा जनरेट किया जाता है, यह आपके हार्डवेयर से व्युत्पन्न नहीं होता, और इस इंस्टॉलेशन के अलावा कुछ भी पहचान नहीं करता। इसके साथ और कुछ नहीं भेजा जाता — न नाम, न ईमेल पता, न स्थान, न स्क्रीनशॉट।</p>
+
+
+
+    <p>यह जोड़ी इसलिए संग्रहीत की जाती है ताकि किसी कोड का उपयोग एक बार हो सके, दोबारा नहीं — और यही एकमात्र कारण है कि एक सर्वर शामिल है: एक फ़ोन को यह जानने का कोई तरीका नहीं है कि कोई कोड पहले से ही किसी दूसरे फ़ोन पर उपयोग हो चुका है। जवाब की जांच की जाती है और उसे आपके डिवाइस पर रखा जाता है, ताकि यह जांच दोबारा कभी न हो।</p>
+
+
+
+    <p>सर्वर डेवलपर के अपने अकाउंट में एक Cloudflare Worker है, और Cloudflare इसके लिए एक डेटा प्रोसेसर के रूप में कार्य करता है। यदि कोई कोड <em>अस्वीकृत</em> होता है, तो मूल IP पता अपने आप में अधिकतम एक घंटे के लिए दर्ज किया जाता है, ताकि इस एंडपॉइंट पर अंदाज़ों की बौछार न की जा सके। इसे कोड या आपके डिवाइस पहचानकर्ता के साथ संग्रहीत नहीं किया जाता, जब कोई कोड सफल होता है तो इसे बिल्कुल भी संग्रहीत नहीं किया जाता, और यह अपने आप हटा दिया जाता है।</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>आपके स्क्रीनशॉट, और आपके द्वारा इंपोर्ट की गई फ़ाइलें</h2>
+
+
+
+    <p>आप Apple के अपने फ़ोटो पिकर के माध्यम से चुनते हैं कि Wren कौन-सी छवियां पढ़ सकता है। Wren के पास आपकी फ़ोटो लाइब्रेरी तक कोई स्थायी पहुंच नहीं है — केवल उन छवियों तक जो आप उसे सौंपते हैं।</p>
+
+
+
+    <p>टेक्स्ट पहचान पूरी तरह से आपके डिवाइस पर होती है, जो Apple के Vision फ्रेमवर्क का उपयोग करती है। <strong>छवियां स्वयं कभी Wren द्वारा अपलोड, प्रसारित या संग्रहीत नहीं की जातीं।</strong> यही बात आपके द्वारा इंपोर्ट की गई फ़ाइल के लिए भी सच है — कोई स्प्रेडशीट या मैप एक्सपोर्ट Apple के डॉक्यूमेंट पिकर के माध्यम से खोला जाता है, डिवाइस पर पढ़ा जाता है, और कभी कहीं नहीं भेजा जाता। एक बार जब किसी छवि से कोई नाम पढ़ लिया जाता है, तो Wren को उसकी आगे कोई आवश्यकता नहीं रहती और वह उसकी कोई प्रति नहीं रखता।</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>आपके डिवाइस से क्या जाता है, और वह कहां जाता है</h2>
+
+
+
+    <p>केवल टेक्स्ट और पहचानकर्ता — कभी कोई छवि नहीं, और कभी कोई फ़ाइल नहीं। नीचे दी गई हर चीज़ Apple के पास जाती है, अंतिम पंक्ति को छोड़कर, जो तभी होती है जब आप कोई कॉम्प्लिमेंटरी कोड दर्ज करते हैं।</p>
+
+
+
+    <div class="tbl">
+
+
+
+      <table>
+
+
+
+        <thead>
+
+
+
+          <tr><th>क्या</th><th>जाता है</th><th>क्यों</th></tr>
+
+
+
+        </thead>
+
+
+
+        <tbody>
+
+
+
+          <tr>
+
+
+
+            <td>किसी स्थान का नाम, और वह शहर जिसकी आपने पुष्टि की</td>
+
+
+
+            <td>Apple Maps</td>
+
+
+
+            <td>स्थान खोजने के लिए। यह Apple की सामान्य Maps खोज है, जो आपके डिवाइस से उसी तरह बनाई जाती है जैसे Maps ऐप इसे बनाता है।</td>
+
+
+
+          </tr>
+
+
+
+          <tr>
+
+
+
+            <td>वह शहर या क्षेत्र जिसकी आप पुष्टि करते हैं</td>
+
+
+
+            <td>Apple Maps</td>
+
+
+
+            <td>"London" जैसे नाम को एक स्थान में बदलने के लिए, ताकि खोज सही जगह देखे।</td>
+
+
+
+          </tr>
+
+
+
+          <tr>
+
+
+
+            <td>वे स्थान जिन्हें आप प्रकाशित करना चुनते हैं</td>
+
+
+
+            <td>Apple Maps</td>
+
+
+
+            <td>Wren एक लिंक खोलता है जो Guide बनाता है। स्थान उसी लिंक के भीतर यात्रा करते हैं।</td>
+
+
+
+          </tr>
+
+
+
+          <tr>
+
+
+
+            <td>एक साझा किया गया Guide लिंक जिसे आप पेस्ट करते हैं</td>
+
+
+
+            <td>Apple Maps</td>
+
+
+
+            <td>केवल तभी जब आप कोई पेस्ट करें। Apple की शेयर शीट एक छोटा लिंक बनाती है जिसमें कुछ भी पढ़ने योग्य नहीं होता, इसलिए Wren, उसमें मौजूद स्थानों को पढ़ने के लिए Apple से पूछता है कि यह लिंक कहाँ जाता है। लिंक भेजा जाता है और उत्तर पढ़ा जाता है; इसके साथ और कुछ नहीं भेजा जाता, और Wren इसका कोई रिकॉर्ड नहीं रखता।</td>
+
+
+
+          </tr>
+
+
+
+          <tr>
+
+
+
+            <td>उस Guide में पहले से मौजूद किसी स्थान का पहचानकर्ता</td>
+
+
+
+            <td>Apple Maps</td>
+
+
+
+            <td>केवल तभी जब आप कोई Guide लिंक पेस्ट करें। Apple के लिंक में पहचानकर्ता होते हैं, नाम नहीं, इसलिए Wren प्रत्येक स्थान का नाम और पता Apple से माँगता है ताकि आपको खाली पंक्तियों की बजाय एक सूची दिखाई जा सके।</td>
+
+
+
+          </tr>
+
+
+
+          <tr>
+
+
+
+            <td>खरीद अनुरोध</td>
+
+
+
+            <td>Apple</td>
+
+
+
+            <td>पूरी तरह से App Store द्वारा संभाला जाता है। Wren को कभी भी आपके भुगतान विवरण, नाम या पता नहीं दिखता।</td>
+
+
+
+          </tr>
+
+
+
+          <tr>
+
+
+
+            <td>एक निःशुल्क कोड, और एक यादृच्छिक डिवाइस पहचानकर्ता</td>
+
+
+
+            <td>Wren का कोड सर्वर</td>
+
+
+
+            <td>केवल तभी, जब आपको कोई कोड दिया गया हो और आपने उसे दर्ज किया हो। ऊपर देखें। यदि आप कभी कोई कोड दर्ज नहीं करते, तो ऐसा कभी नहीं होता।</td>
+
+
+
+          </tr>
+
+
+
+        </tbody>
+
+
+
+      </table>
+
+
+
+    </div>
+
+
+
+    <p>ऊपर दी गई हर बात के लिए, आख़िरी पंक्ति को छोड़कर, Apple का व्यवहार <a href="https://www.apple.com/legal/privacy/">Apple की गोपनीयता नीति</a> द्वारा नियंत्रित होता है, न कि इस नीति द्वारा। ऐप किसी और को कुछ नहीं भेजता — न कोई तीसरे पक्ष की सेवा, न कोई विज्ञापनदाता, न कोई एनालिटिक्स प्रदाता। (यह वेबसाइट आपकी सहमति से Google Analytics का उपयोग ज़रूर करती है; नीचे देखें।)</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>Instagram और अन्य ऐप</h2>
+
+
+
+    <p>Wren Instagram, TikTok या किसी अन्य सेवा से नहीं जुड़ता। उसे इन पर मौजूद आपके खातों तक कोई पहुँच नहीं है और वह उनसे कुछ भी पढ़ता, स्क्रैप करता या डाउनलोड नहीं करता। वह केवल वे स्क्रीनशॉट पढ़ता है जो आपने लिए हैं और स्वयं उसके साथ साझा करना चुना है।</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>आपके डिवाइस पर क्या संग्रहीत होता है</h2>
+
+
+
+    <ul>
+
+
+
+      <li>क्या आपने वन-टाइम अनलॉक खरीदा है, ताकि आपसे दोबारा न पूछा जाए।</li>
+
+
+
+      <li>यदि आपने कोई कॉम्प्लिमेंटरी कोड रिडीम किया है, तो उसकी पुष्टि करने वाला हस्ताक्षरित उत्तर। यही Wren को बिना दोबारा किसी से संपर्क किए आपकी पहुँच जाँचने देता है।</li>
+
+
+
+      <li>जिन स्थानों पर आप काम कर रहे हैं उनकी सूची, जब तक आप उसे प्रकाशित या साफ़ नहीं करते।</li>
+
+
+
+    </ul>
+
+
+
+    <p>ये आपके फ़ोन पर सामान्य ऐप संग्रहण हैं, जो आपके डिवाइस की अपनी एन्क्रिप्शन के अंतर्गत आते हैं। Wren को हटाने से ये भी हट जाते हैं।</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>बच्चे</h2>
+
+
+
+    <p>Wren बच्चों को लक्षित करके नहीं बनाया गया है और यह किसी भी उम्र के व्यक्ति से कोई व्यक्तिगत डेटा एकत्र नहीं करता।</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>आपके अधिकार</h2>
+
+
+
+    <p>UK GDPR और EU GDPR के अंतर्गत आपको अपने बारे में रखे गए व्यक्तिगत डेटा तक पहुँच, उसमें सुधार, उसे मिटाने, उस पर प्रतिबंध, आपत्ति और पोर्टेबिलिटी के अधिकार प्राप्त हैं।</p>
+
+
+
+    <p>यदि आपने कभी कोई कॉम्प्लिमेंटरी कोड दर्ज नहीं किया है, तो Wren के पास आपके बारे में बिल्कुल कुछ नहीं होता, इसलिए व्यावहारिक रूप से पहुँचने, सुधारने या मिटाने के लिए कुछ है ही नहीं। यदि आपने किया है, तो एकमात्र रिकॉर्ड वह कोड है जो आपने उपयोग किया और उसके साथ मिला यादृच्छिक डिवाइस पहचानकर्ता, जिसे यह सुनिश्चित करने के लिए रखा जाता है कि कोड दोबारा उपयोग न हो सके। ऊपर दिए गए पते पर लिखें और यह एक महीने के भीतर मिटा दिया जाएगा, या आपको भेज दिया जाएगा। इसे मिटाने से वह कोड किसी और के लिए उपलब्ध हो जाता है।</p>
+
+
+
+    <p>यदि आप यूनाइटेड किंगडम में हैं, तो आप <a href="https://ico.org.uk/">Information Commissioner's Office</a> से भी शिकायत कर सकते हैं।</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>यह वेबसाइट</h2>
+
+
+
+    <p>यह साइट विज़िट गिनने और यह देखने के लिए कि लोग कौन से पेज पढ़ते हैं, <strong>Google Analytics</strong> का उपयोग करती है। यह इस साइट पर एकमात्र तीसरा पक्ष है, यहाँ कोई विज्ञापन नहीं है, और यहाँ कुछ भी आपकी प्रोफ़ाइल बनाने के लिए उपयोग नहीं किया जाता।</p>
+
+
+
+    <p><strong>जब तक आप सहमत नहीं होते, कुछ भी लोड नहीं होता।</strong> एनालिटिक्स कुकीज़ अनिवार्य रूप से आवश्यक नहीं हैं, इसलिए Privacy and Electronic Communications Regulations के अंतर्गत उन्हें पहले आपकी सहमति चाहिए होती है। आपकी पहली विज़िट पर Accept और Decline के साथ एक सूचना दिखाई देती है। जब तक आप चुनाव नहीं करते, Google Consent Mode हर संग्रहण प्रकार को "denied" पर रखता है और कोई भी Google स्क्रिप्ट बिल्कुल लोड नहीं होती — इसलिए अस्वीकार करने पर न कोई कुकी सेट होती है, न Google को कुछ भेजा जाता है। आपका चुनाव आपके ब्राउज़र के लोकल स्टोरेज में रखा जाता है ताकि यह सूचना केवल एक बार दिखाई दे।</p>
+
+
+
+    <p>अपना विचार बदलने के लिए, अपने ब्राउज़र में इस साइट का डेटा साफ़ करें और सूचना फिर से दिखाई देगी।</p>
+
+
+
+    <p>यदि आप स्वीकार करते हैं, तो Google को सामान्य विश्लेषण संकेत मिलते हैं — आपके द्वारा देखे गए पृष्ठ, आप मोटे तौर पर कहाँ हैं, और आप किस प्रकार के डिवाइस और ब्राउज़र का उपयोग करते हैं — और एक विज़िट को दूसरी से अलग बताने के लिए कुकीज़ सेट करता है। इसके लिए Google एक डेटा प्रोसेसर के रूप में कार्य करता है, और इसका संचालन <a href="https://policies.google.com/privacy">Google की गोपनीयता नीति</a> द्वारा शासित होता है। आप जो भी चुनें, विज्ञापन और वैयक्तिकरण संकेत अस्वीकृत ही रहते हैं।</p>
+
+
+
+    <p>अलग से, होस्टिंग प्रदाता सामान्य सर्वर एक्सेस लॉग रखता है, जो किसी भी वेबसाइट के लिए सामान्य बात है और यह ऐसी चीज़ नहीं है जिसे Wren पढ़ता या उपयोग करता है।</p>
+
+
+
+    <p><strong>इनमें से कुछ भी ऐप पर लागू नहीं होता।</strong> Wren, यह iOS ऐप, किसी भी प्रकार का कोई विश्लेषण नहीं रखता और कभी नहीं रखा है। यह अनुभाग केवल इस वेबसाइट के बारे में है।</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>बदलाव</h2>
+
+
+
+    <p>यदि यह नीति बदलती है, तो इसके साथ ऊपर दी गई तारीख भी बदल जाएगी। महत्वपूर्ण बदलावों को चुपचाप करने के बजाय इसी पृष्ठ पर दर्ज किया जाएगा।</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <footer><span>Wren</span>
+
+
+
+    <span><a href="support.html">सहायता</a></span>
+
+
+
+    <span><a href="terms.html">शर्तें</a></span></footer>
+
+
+
+
+
+
+
+</div>
+
+
+
+<script src="../analytics.js" defer></script>
+
+
+
+<!-- i18n:begin --><details class="i18n-picker"><summary>हिन्दी</summary><ul><li><a href="../privacy.html" lang="en" hreflang="en">English</a></li><li><a href="../zh/privacy.html" lang="zh" hreflang="zh">简体中文</a></li><li><span aria-current="true" class="i18n-current">हिन्दी</span></li><li><a href="../es/privacy.html" lang="es" hreflang="es">Español</a></li><li><a href="../ar/privacy.html" lang="ar" hreflang="ar">العربية</a></li><li><a href="../fr/privacy.html" lang="fr" hreflang="fr">Français</a></li><li><a href="../bn/privacy.html" lang="bn" hreflang="bn">বাংলা</a></li><li><a href="../pt/privacy.html" lang="pt" hreflang="pt">Português</a></li><li><a href="../id/privacy.html" lang="id" hreflang="id">Bahasa Indonesia</a></li><li><a href="../ur/privacy.html" lang="ur" hreflang="ur">اردو</a></li><li><a href="../ru/privacy.html" lang="ru" hreflang="ru">Русский</a></li><li><a href="../de/privacy.html" lang="de" hreflang="de">Deutsch</a></li><li><a href="../ja/privacy.html" lang="ja" hreflang="ja">日本語</a></li><li><a href="../mr/privacy.html" lang="mr" hreflang="mr">मराठी</a></li><li><a href="../te/privacy.html" lang="te" hreflang="te">తెలుగు</a></li></ul></details><style>.i18n-picker{margin:1.5rem 0 0;font-size:.9rem}.i18n-picker summary{cursor:pointer;opacity:.85}.i18n-picker ul{list-style:none;padding:.75rem 0 0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(11rem,1fr));gap:.35rem}.i18n-picker li{margin:0}.i18n-picker a{text-decoration:none;opacity:.85}.i18n-picker a:hover{text-decoration:underline;opacity:1}.i18n-current{font-weight:700}</style><!-- i18n:end --></body>
+
+
+
+</html>

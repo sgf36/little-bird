@@ -32,6 +32,9 @@ import Vision
     if let registrar = registrar(forPlugin: "FilesPlugin") {
       FilesPlugin.register(with: registrar)
     }
+    if let registrar = registrar(forPlugin: "ShareInboxPlugin") {
+      ShareInboxPlugin.register(with: registrar)
+    }
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
@@ -554,5 +557,51 @@ class FilesPlugin: NSObject, FlutterPlugin, UIDocumentPickerDelegate,
     var top = scene?.keyWindow?.rootViewController
     while let presented = top?.presentedViewController { top = presented }
     return top
+  }
+}
+
+/// The link the share extension left behind, handed to Dart.
+///
+/// Wren appears in Apple Maps' share sheet through a share extension, which
+/// cannot talk to the app directly: extensions run in their own process and are
+/// gone by the time the app opens. So it writes the URL into the App Group
+/// container and this reads it out — once, then deletes it, because a link that
+/// stays behind gets imported again on the next launch.
+///
+/// The App Group has to exist in the developer portal and be enabled on both App
+/// IDs. The App Store Connect API cannot create one (`appGroups` answers 404),
+/// so it is the single manual step in this feature; without it the container is
+/// nil, this returns nil, and the paste route still works.
+public class ShareInboxPlugin: NSObject, FlutterPlugin {
+  private static let appGroup = "group.com.spencerfields.littlebird"
+  private static let handoffName = "shared-guide-link.txt"
+
+  public static func register(with registrar: FlutterPluginRegistrar) {
+    let channel = FlutterMethodChannel(name: "littlebird/share",
+                                       binaryMessenger: registrar.messenger())
+    registrar.addMethodCallDelegate(ShareInboxPlugin(), channel: channel)
+  }
+
+  public func handle(_ call: FlutterMethodCall,
+                     result: @escaping FlutterResult) {
+    guard call.method == "take" else {
+      result(FlutterMethodNotImplemented)
+      return
+    }
+    guard let container = FileManager.default.containerURL(
+      forSecurityApplicationGroupIdentifier: Self.appGroup) else {
+      result(nil)
+      return
+    }
+    let file = container.appendingPathComponent(Self.handoffName)
+    guard let text = try? String(contentsOf: file, encoding: .utf8) else {
+      result(nil)
+      return
+    }
+    // Taken, not read: deleted before it is returned, so a failure to import
+    // cannot become an import loop.
+    try? FileManager.default.removeItem(at: file)
+    let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+    result(trimmed.isEmpty ? nil : trimmed)
   }
 }

@@ -92,8 +92,25 @@ jobs:
 
       - run: flutter pub get
 
+      # The share extension is a second Xcode target, and there is no Xcode on
+      # the machine this app is written on. Rather than hand-edit
+      # project.pbxproj — a UUID cross-referenced graph, not a config file — the
+      # target is generated here by a tool that understands the format. Runs on
+      # every build and is idempotent, so the committed project file never has to
+      # carry it.
+      - name: Add the share extension target
+        run: |
+          gem install --no-document xcodeproj
+          ruby ios/add_share_extension.rb
+          # Prove it landed, rather than trusting the script's own word.
+          grep -q 'ShareExtension' ios/Runner.xcodeproj/project.pbxproj
+          echo "target present in the project file"
+
       # Unsigned: proves the Swift bridge and the pod install are sound without
       # needing certificates. Signing comes in with the TestFlight job below.
+      #
+      # This now also compiles the share extension, which is the check that
+      # matters most for it — the extension has no tests and cannot run here.
       - name: Build (no codesign)
         run: flutter build ios --release --no-codesign
 

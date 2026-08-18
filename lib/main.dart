@@ -13,6 +13,7 @@ import 'src/place_files.dart';
 import 'src/place_search_sheet.dart';
 import 'src/region_hint.dart';
 import 'src/resolver.dart';
+import 'src/share_inbox.dart';
 import 'src/comp_unlock.dart' as comp;
 import 'src/screenshots.dart';
 import 'src/splash.dart';
@@ -115,6 +116,7 @@ class CapturePage extends StatefulWidget {
     this.resolver,
     this.files,
     this.expander,
+    this.shareInbox,
     this.initialPending,
     this.initialGuideName,
     this.initialOverlay = ScreenshotOverlay.none,
@@ -127,6 +129,9 @@ class CapturePage extends StatefulWidget {
   final PlaceResolver? resolver;
   final FileSource? files;
   final LinkExpander? expander;
+
+  /// Injectable so the share-sheet handoff can be tested without an extension.
+  final ShareInbox? shareInbox;
 
   @visibleForTesting
   final List<Pending>? initialPending;
@@ -146,12 +151,14 @@ class CapturePage extends StatefulWidget {
   State<CapturePage> createState() => _CapturePageState();
 }
 
-class _CapturePageState extends State<CapturePage> {
+class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   final _picker = ImagePicker();
   late final PlaceResolver _resolver = widget.resolver ?? MapKitResolver();
   late final UnlockStore _store = widget.store ?? StoreUnlockStore();
   late final FileSource _files = widget.files ?? DocumentFileSource();
   late final LinkExpander _expander = widget.expander ?? HttpLinkExpander();
+  late final ShareInbox _shareInbox =
+      widget.shareInbox ?? const MethodChannelShareInbox();
   late final List<Pending> _pending = [...?widget.initialPending];
 
   /// Guide links still to be handed to Apple Maps.
@@ -191,6 +198,9 @@ class _CapturePageState extends State<CapturePage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    // A link may be waiting from before the app was even running.
+    WidgetsBinding.instance.addPostFrameCallback((_) => _takeSharedGuide());
     StoreUnlockStore.cachedUnlocked().then((unlocked) {
       if (unlocked && mounted) {
         setState(() => _entitlement = const Entitlement.unlocked());
@@ -547,49 +557,82 @@ class _CapturePageState extends State<CapturePage> {
   /// Apple offers no way to add to an existing one from outside Maps — a
   /// limitation the user is told about at the point it matters, in [_publish],
   /// rather than discovered afterwards.
-  Future<void> _importGuide() async {
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  /// Sharing a guide out of Apple Maps brings the app forward rather than
+  /// starting it, so resuming is when a link usually arrives.
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) _takeSharedGuide();
+  }
+
+  /// Collects a link the share extension left, and imports it.
+  ///
+  /// Guarded against running twice over the same link: the native side deletes
+  /// the file as it hands it over, and [_busy] keeps a resume that lands mid
+  /// import from starting a second one.
+  Future<void> _takeSharedGuide() async {
+    if (_busy) return;
+    final link = await _shareInbox.take();
+    if (link == null || link.isEmpty || !mounted) return;
+    await _importGuide(shared: link);
+  }
+
+  /// [shared] arrives from the iOS share sheet, where the user has already
+  /// chosen the guide — so the paste dialog is skipped rather than asking them to
+  /// hand over something they just handed over.
+  Future<void> _importGuide({String? shared}) async {
     final l = L.of(context);
     final controller = TextEditingController();
-    final pasted = await showDialog<String>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          l.importGuideTitle,
-          style: const TextStyle(fontFamily: Wren.serif),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              l.importGuideBody,
-              style: Theme.of(context).textTheme.bodySmall,
+    final pasted =
+        shared ??
+        await showDialog<String>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(
+              l.importGuideTitle,
+              style: const TextStyle(fontFamily: Wren.serif),
             ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: controller,
-              autofocus: true,
-              autocorrect: false,
-              enableSuggestions: false,
-              maxLines: 2,
-              keyboardType: TextInputType.url,
-              decoration: InputDecoration(labelText: l.guideLinkLabel),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l.importGuideBody,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: controller,
+                  autofocus: true,
+                  autocorrect: false,
+                  enableSuggestions: false,
+                  maxLines: 2,
+                  keyboardType: TextInputType.url,
+                  decoration: InputDecoration(labelText: l.guideLinkLabel),
+                ),
+              ],
             ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(l.cancel, style: const TextStyle(color: Wren.muted)),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  l.cancel,
+                  style: const TextStyle(color: Wren.muted),
+                ),
+              ),
+              FilledButton(
+                onPressed: () => Navigator.pop(context, controller.text),
+                style: FilledButton.styleFrom(minimumSize: const Size(0, 44)),
+                child: Text(l.readGuide),
+              ),
+            ],
           ),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, controller.text),
-            style: FilledButton.styleFrom(minimumSize: const Size(0, 44)),
-            child: Text(l.readGuide),
-          ),
-        ],
-      ),
-    );
+        );
     if (pasted == null || pasted.trim().isEmpty || !mounted) return;
 
     // Apple's share sheet gives a short link with an opaque id and no payload,

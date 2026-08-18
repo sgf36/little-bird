@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+
+
+<head>
+
+
+
+<meta charset="utf-8">
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>الخصوصية — Wren</title>
+
+
+
+<meta name="description" content="سياسة خصوصية Wren. لا يملك Wren حسابات ولا يجمع أي بيانات شخصية. تُقرأ لقطات الشاشة على جهازك ولا تُرفع أبدًا.">
+
+
+
+<meta name="theme-color" content="#12332F">
+
+
+
+<link rel="icon" href="data:image/svg+xml,&lt;svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'&gt;&lt;rect%20width='100'%20height='100'%20rx='22'%20fill='%231E4B45'/&gt;&lt;polygon%20points='22,62%2012,29%2024,23%2031,50'%20fill='%23F2C879'/&gt;&lt;ellipse%20cx='42'%20cy='60'%20rx='23'%20ry='17'%20fill='%23F2C879'/&gt;&lt;ellipse%20cx='63'%20cy='44'%20rx='12'%20ry='11.5'%20fill='%23F2C879'/&gt;&lt;polygon%20points='74,42%2089,46%2074,48'%20fill='%23E08A4B'/&gt;&lt;circle%20cx='67'%20cy='41'%20r='2.3'%20fill='%231E4B45'/&gt;&lt;/svg&gt;">
+
+
+
+<link rel="stylesheet" href="../style.css">
+
+
+
+<link rel="canonical" href="https://wren.spencerfields.com/ar/privacy.html"><!-- i18n:begin --><link rel="alternate" hreflang="x-default" href="https://wren.spencerfields.com/privacy.html"><link rel="alternate" hreflang="en" href="https://wren.spencerfields.com/privacy.html"><link rel="alternate" hreflang="zh" href="https://wren.spencerfields.com/zh/privacy.html"><link rel="alternate" hreflang="hi" href="https://wren.spencerfields.com/hi/privacy.html"><link rel="alternate" hreflang="es" href="https://wren.spencerfields.com/es/privacy.html"><link rel="alternate" hreflang="ar" href="https://wren.spencerfields.com/ar/privacy.html"><link rel="alternate" hreflang="fr" href="https://wren.spencerfields.com/fr/privacy.html"><link rel="alternate" hreflang="bn" href="https://wren.spencerfields.com/bn/privacy.html"><link rel="alternate" hreflang="pt" href="https://wren.spencerfields.com/pt/privacy.html"><link rel="alternate" hreflang="id" href="https://wren.spencerfields.com/id/privacy.html"><link rel="alternate" hreflang="ur" href="https://wren.spencerfields.com/ur/privacy.html"><link rel="alternate" hreflang="ru" href="https://wren.spencerfields.com/ru/privacy.html"><link rel="alternate" hreflang="de" href="https://wren.spencerfields.com/de/privacy.html"><link rel="alternate" hreflang="ja" href="https://wren.spencerfields.com/ja/privacy.html"><link rel="alternate" hreflang="mr" href="https://wren.spencerfields.com/mr/privacy.html"><link rel="alternate" hreflang="te" href="https://wren.spencerfields.com/te/privacy.html"><!-- i18n:end --></head>
+
+
+
+<body>
+
+
+
+<div class="wrap">
+
+
+
+
+
+
+
+  <!-- i18n:begin --><p class="i18n-legal" style="margin:0 0 1.5rem;padding:.75rem 1rem;border-left:3px solid currentColor;opacity:.8;font-size:.9rem">هذه الصفحة ترجمة مقدَّمة للتسهيل. النسخة الإنجليزية هي النص المعتمد وهي التي يُعمل بها في حال وجود أي تعارض.</p><!-- i18n:end --><div class="topbar">
+
+
+
+    <a class="brand" href="index.html">
+
+
+
+      <svg viewbox="0 0 100 100" role="img" aria-label="Wren">
+
+
+
+        <rect width="100" height="100" rx="22" fill="#1E4B45"></rect>
+
+
+
+        <polygon points="22,62 12,29 24,23 31,50" fill="#F2C879"></polygon>
+
+
+
+        <ellipse cx="42" cy="60" rx="23" ry="17" fill="#F2C879"></ellipse>
+
+
+
+        <ellipse cx="63" cy="44" rx="12" ry="11.5" fill="#F2C879"></ellipse>
+
+
+
+        <polygon points="74,42 89,46 74,48" fill="#E08A4B"></polygon>
+
+
+
+        <circle cx="67" cy="41" r="2.3" fill="#1E4B45"></circle>
+
+
+
+      </svg>
+
+
+
+      Wren
+
+
+
+    </a>
+
+
+
+    <nav><a href="index.html">نظرة عامة</a>
+
+
+
+      <a href="support.html">الدعم</a>
+
+
+
+      <a href="privacy.html" aria-current="page">الخصوصية</a>
+
+
+
+      <a href="terms.html">الشروط</a></nav>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <header class="hero">
+
+
+
+    <h1>الخصوصية</h1>
+
+
+
+    <p class="updated">آخر تحديث 17 أغسطس 2026</p>
+
+
+
+  </header>
+
+
+
+
+
+
+
+  <div class="status">
+
+
+
+    <span class="label">النسخة المختصرة</span>
+
+
+
+    <p><strong>التطبيق</strong> لا يحتوي على حسابات ولا تحليلات. تُقرأ لقطات الشاشة وأي ملف تستورده على هاتفك ولا يتم رفعها مطلقًا. الشيء الوحيد الذي يحتفظ به هو معرّف عشوائي لجهازك، وذلك فقط إذا حصلت على رمز مجاني واخترت إدخاله — وهي أيضًا المرة الوحيدة التي يتواصل فيها مع خادم خاص به.</p>
+
+
+
+    <p><strong>هذا الموقع</strong> أمر مختلف: فهو يستخدم Google Analytics، وذلك فقط إذا وافقت على الإشعار عند زيارتك الأولى. وفي حال الرفض، لا يتم تعيين أي ملفات تعريف ارتباط.</p>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>من نحن</h2>
+
+
+
+    <p>تطبيق Wren من صنع Spencer Fields، وهو تاجر فردي مؤسس في المملكة المتحدة، بعنوان Lytchett House, 13 Freeland Park, Wareham Road, Lytchett Matravers, Poole, BH16 6FA. لأي استفسار يتعلق بهذه السياسة، يُرجى الكتابة إلى <strong>Apps [at] spencerfields [dot] com</strong>.</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>ما الذي يجمعه Wren</h2>
+
+
+
+    <p>في التطبيق، لا يوجد حساب لإنشائه، ولا تسجيل دخول، ولا ملف شخصي، ولا خدمة تحليلات أو إبلاغ عن الأعطال. تعيش كل المعلومات التي يتذكرها Wren تقريبًا على جهازك وتختفي عند حذف التطبيق. (الموقع الإلكتروني مختلف، وسيأتي الحديث عنه لاحقًا.)</p>
+
+
+
+    <p>الاستثناء الوحيد هو <strong>معرّف عشوائي لجهازك</strong>، وهذا لا ينطبق إلا إذا أدخلت رمزًا مجانيًا. وسنشرح ذلك بالتفصيل أدناه. تعلن بطاقة خصوصية Wren في App Store هذا الأمر بالضبط — معرّف جهاز، يُستخدم لتشغيل وظائف التطبيق، وغير مرتبط بهويتك ولا يُستخدم أبدًا للتتبع — والغرض من هذه الصفحة وتلك البطاقة أن يقولا الشيء نفسه.</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>الرموز المجانية</h2>
+
+
+
+    <p>يحصل بعض الأشخاص على رمز يفتح الميزة المدفوعة دون دفع — مثل مراجعي Apple وأصدقاء المطوّر. وهذا هو الجزء الوحيد من Wren الذي يتواصل مع خادم يديره Wren، ولا يحدث ذلك إلا إذا حصلت على رمز واخترت إدخاله. وإن لم يكن الأمر كذلك، فلن يتواصل Wren مع ذلك الخادم على الإطلاق.</p>
+
+
+
+    <p>عند إدخال رمز، يتم إرسال أمرين: <strong>الرمز نفسه، ومعرّف عشوائي لجهازك</strong>. يُنشئ Wren هذا المعرّف، وهو غير مشتق من جهازك، ولا يُعرّف بشيء يتجاوز عملية التثبيت هذه. ولا يُرسَل معه أي شيء آخر — لا اسم، ولا عنوان بريد إلكتروني، ولا موقع، ولا لقطة شاشة.</p>
+
+
+
+    <p>يُخزَّن هذا الزوج حتى يمكن استخدام الرمز مرة واحدة فقط لا أكثر، وهذا هو السبب الوحيد لوجود خادم أصلًا: فلا وسيلة لدى الهاتف لمعرفة أن رمزًا ما قد استُخدم بالفعل على هاتف آخر. يتم التحقق من الرد ثم يُحفظ على جهازك، بحيث لا يتكرر التحقق مرة أخرى.</p>
+
+
+
+    <p>الخادم هو Cloudflare Worker ضمن حساب المطوّر الخاص، وتعمل Cloudflare بصفتها معالج بيانات له. وإذا <em>رُفض</em> رمز ما، يُسجَّل عنوان IP المصدر بمفرده لمدة تصل إلى ساعة، حتى لا يتعرض هذا المسار لمحاولات تخمين متكررة. ولا يُخزَّن هذا العنوان مع الرمز أو مع معرّف جهازك، ولا يُخزَّن على الإطلاق عندما ينجح الرمز، ويُحذف تلقائيًا.</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>لقطات الشاشة والملفات التي تستوردها</h2>
+
+
+
+    <p>أنت من يختار الصور التي يمكن لـ Wren قراءتها، وذلك من خلال منتقي الصور الخاص بـ Apple. لا يملك Wren أي صلاحية دائمة للوصول إلى مكتبة صورك — بل فقط إلى الصور التي تسلّمها له.</p>
+
+
+
+    <p>يتم التعرف على النصوص بالكامل على جهازك، باستخدام إطار عمل Vision من Apple. <strong>لا يقوم Wren أبدًا برفع الصور نفسها أو نقلها أو تخزينها.</strong> وينطبق الأمر نفسه على أي ملف تستورده — إذ يُفتح جدول بيانات أو ملف خرائط مُصدَّر من خلال منتقي المستندات الخاص بـ Apple، ويُقرأ على الجهاز، ولا يُرسَل أبدًا إلى أي مكان. وبمجرد قراءة اسم من صورة، لا يعود لدى Wren أي استخدام آخر له ولا يحتفظ بنسخة منه.</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>ما يغادر جهازك، وإلى أين يذهب</h2>
+
+
+
+    <p>نصوص ومعرّفات فقط — لا تُرسَل صورة أبدًا، ولا ملف أبدًا. كل ما يلي يذهب إلى Apple، باستثناء الصف الأخير، الذي لا يحدث إلا إذا أدخلت رمزًا مجانيًا.</p>
+
+
+
+    <div class="tbl">
+
+
+
+      <table>
+
+
+
+        <thead>
+
+
+
+          <tr><th>ماذا</th><th>يُرسل إلى</th><th>السبب</th></tr>
+
+
+
+        </thead>
+
+
+
+        <tbody>
+
+
+
+          <tr>
+
+
+
+            <td>اسم المكان والمدينة التي أكدتها</td>
+
+
+
+            <td>Apple Maps</td>
+
+
+
+            <td>للعثور على المكان. هذا هو بحث خرائط Apple العادي، يُجرى من جهازك بالطريقة نفسها التي يُجريه بها تطبيق الخرائط.</td>
+
+
+
+          </tr>
+
+
+
+          <tr>
+
+
+
+            <td>المدينة أو المنطقة التي تؤكدها</td>
+
+
+
+            <td>Apple Maps</td>
+
+
+
+            <td>لتحويل اسم مثل "لندن" إلى موقع جغرافي، بحيث يبحث في المكان الصحيح.</td>
+
+
+
+          </tr>
+
+
+
+          <tr>
+
+
+
+            <td>الأماكن التي تختار نشرها</td>
+
+
+
+            <td>Apple Maps</td>
+
+
+
+            <td>يفتح Wren رابطًا يُنشئ الدليل. تنتقل الأماكن داخل ذلك الرابط.</td>
+
+
+
+          </tr>
+
+
+
+          <tr>
+
+
+
+            <td>رابط Guide مشارك تلصقه</td>
+
+
+
+            <td>Apple Maps</td>
+
+
+
+            <td>فقط إذا لصقت رابطًا. تُنتج قائمة المشاركة في Apple رابطًا قصيرًا لا يحمل أي محتوى مقروء، لذا يسأل Wren شركة Apple عن الوجهة التي يشير إليها الرابط لقراءة الأماكن الموجودة فيه. يُرسل الرابط وتُقرأ الإجابة فقط؛ لا يُرسل معه أي شيء آخر، ولا يحتفظ Wren بأي سجل لذلك.</td>
+
+
+
+          </tr>
+
+
+
+          <tr>
+
+
+
+            <td>معرّف مكان موجود بالفعل في ذلك الـ Guide</td>
+
+
+
+            <td>Apple Maps</td>
+
+
+
+            <td>فقط إذا لصقت رابط دليل. يحمل رابط Apple معرّفات دون أسماء، لذا يطلب Wren من Apple اسم كل مكان وعنوانه لعرض قائمة لك بدلًا من صف من الخانات الفارغة.</td>
+
+
+
+          </tr>
+
+
+
+          <tr>
+
+
+
+            <td>طلبات الشراء</td>
+
+
+
+            <td>Apple</td>
+
+
+
+            <td>يتم التعامل معها بالكامل عبر App Store. لا يطّلع Wren إطلاقًا على تفاصيل الدفع أو اسمك أو عنوانك.</td>
+
+
+
+          </tr>
+
+
+
+          <tr>
+
+
+
+            <td>رمز مجاني ومعرّف جهاز عشوائي</td>
+
+
+
+            <td>خادم رموز Wren</td>
+
+
+
+            <td>فقط إذا حصلت على رمز وأدخلته. انظر أعلاه. إن لم تُدخل رمزًا قط، فهذا لا يحدث مطلقًا.</td>
+
+
+
+          </tr>
+
+
+
+        </tbody>
+
+
+
+      </table>
+
+
+
+    </div>
+
+
+
+    <p>تعامل Apple مع كل ما سبق باستثناء الصف الأخير يخضع <a href="https://www.apple.com/legal/privacy/">لسياسة خصوصية Apple</a>، وليس لهذه السياسة. لا يرسل التطبيق أي شيء إلى أي جهة أخرى — لا خدمة خارجية، ولا معلن، ولا مزوّد تحليلات. (يستخدم هذا الموقع Google Analytics بموافقتك؛ انظر أدناه.)</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>إنستغرام وتطبيقات أخرى</h2>
+
+
+
+    <p>لا يتصل Wren بإنستغرام أو تيك توك أو أي خدمة أخرى. وليس لديه أي وصول إلى حساباتك عليها، ولا يقرأ أو يستخلص أو يُنزّل أي شيء منها. كل ما يفعله هو قراءة لقطات الشاشة التي التقطتها واخترت مشاركتها معه.</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>ما الذي يُخزَّن على جهازك</h2>
+
+
+
+    <ul>
+
+
+
+      <li>ما إذا كنت قد اشتريت الفتح لمرة واحدة، حتى لا تُسأل مرتين.</li>
+
+
+
+      <li>إن استخدمت رمزًا مجانيًا، الرد الموقَّع الذي يؤكد ذلك. هذا ما يتيح لـ Wren التحقق من وصولك دون التواصل مع أي جهة مجددًا.</li>
+
+
+
+      <li>قائمة الأماكن التي تعمل عليها، إلى أن تنشرها أو تمسحها.</li>
+
+
+
+    </ul>
+
+
+
+    <p>هذه بيانات تخزين تطبيق عادية على هاتفك، مشمولة بتشفير جهازك نفسه. حذف Wren يحذفها.</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>الأطفال</h2>
+
+
+
+    <p>Wren غير موجّه للأطفال ولا يجمع أي بيانات شخصية من أي شخص، أيًا كان عمره.</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>حقوقك</h2>
+
+
+
+    <p>بموجب اللائحة العامة لحماية البيانات في المملكة المتحدة واللائحة العامة لحماية البيانات في الاتحاد الأوروبي، لك حقوق الوصول والتصحيح والمحو والتقييد والاعتراض ونقل البيانات الشخصية المحتفَظ بها عنك.</p>
+
+
+
+    <p>إن لم تُدخل رمزًا مجانيًا قط، فلا يحتفظ Wren بأي شيء عنك على الإطلاق، وبالتالي لا يوجد عمليًا ما يُطلب الوصول إليه أو تصحيحه أو محوه. أما إن فعلت، فالسجل الوحيد هو الرمز الذي استخدمته ومعرّف الجهاز العشوائي المرفق به، ويُحتفظ بهما حتى لا يُستخدم الرمز مرة أخرى. راسلنا على العنوان أعلاه وسيُحذف، أو يُرسل إليك، خلال شهر واحد. حذفه يُطلق الرمز لشخص آخر.</p>
+
+
+
+    <p>إن كنت مقيمًا في المملكة المتحدة، يمكنك أيضًا تقديم شكوى إلى <a href="https://ico.org.uk/">مكتب مفوض المعلومات</a>.</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>هذا الموقع</h2>
+
+
+
+    <p>يستخدم هذا الموقع <strong>Google Analytics</strong> لإحصاء الزيارات ومعرفة الصفحات التي يقرؤها الزوار. وهو الطرف الثالث الوحيد على الموقع، ولا يوجد إعلانات، ولا يُستخدم شيء هنا لبناء ملف تعريف عنك.</p>
+
+
+
+    <p><strong>لا شيء يُحمَّل حتى توافق.</strong> ملفات تعريف الارتباط التحليلية ليست ضرورية بشكل صارم، لذا بموجب لائحة الخصوصية والاتصالات الإلكترونية تحتاج إلى موافقتك أولًا. يظهر إشعار عند زيارتك الأولى يتضمن خياري قبول ورفض. وإلى أن تختار، يُبقي Google Consent Mode كل أنواع التخزين على وضع "مرفوض" ولا يُحمَّل أي نص برمجي من Google على الإطلاق — أي أن الرفض لا يضع أي ملفات تعريف ارتباط ولا يرسل أي شيء إلى Google. يُحفظ اختيارك في التخزين المحلي لمتصفحك بحيث يظهر الإشعار مرة واحدة فقط.</p>
+
+
+
+    <p>لتغيير رأيك، امسح بيانات هذا الموقع في متصفحك، وسيظهر الإشعار مرة أخرى.</p>
+
+
+
+    <p>إذا وافقت، تتلقى Google إشارات التحليلات المعتادة - الصفحات التي تشاهدها، ومكانك تقريبًا، ونوع الجهاز والمتصفح الذي تستخدمه - وتضع ملفات تعريف ارتباط لتمييز كل زيارة عن الأخرى. تعمل Google كمعالج بيانات في هذا الشأن، ويخضع تعاملها لـ<a href="https://policies.google.com/privacy">سياسة خصوصية Google</a>. تظل إشارات الإعلانات والتخصيص مرفوضة أيًا كان اختيارك.</p>
+
+
+
+    <p>بشكل منفصل، يحتفظ مزوّد الاستضافة بسجلات وصول الخادم المعتادة، وهو أمر طبيعي لأي موقع إلكتروني وليس شيئًا تقرأه Wren أو تستخدمه.</p>
+
+
+
+    <p><strong>لا شيء من هذا ينطبق على التطبيق.</strong> تطبيق Wren لنظام iOS لا يحتوي على أي تحليلات من أي نوع ولم يحتوِ قط. هذا القسم يخص هذا الموقع الإلكتروني فقط.</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>التغييرات</h2>
+
+
+
+    <p>إذا تغيّرت هذه السياسة، يتغيّر التاريخ الموجود أعلاها معها. سيُشار إلى التغييرات الجوهرية في هذه الصفحة بدلًا من إجرائها بصمت.</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <footer><span>Wren</span>
+
+
+
+    <span><a href="support.html">الدعم</a></span>
+
+
+
+    <span><a href="terms.html">الشروط</a></span></footer>
+
+
+
+
+
+
+
+</div>
+
+
+
+<script src="../analytics.js" defer></script>
+
+
+
+<!-- i18n:begin --><details class="i18n-picker"><summary>العربية</summary><ul><li><a href="../privacy.html" lang="en" hreflang="en">English</a></li><li><a href="../zh/privacy.html" lang="zh" hreflang="zh">简体中文</a></li><li><a href="../hi/privacy.html" lang="hi" hreflang="hi">हिन्दी</a></li><li><a href="../es/privacy.html" lang="es" hreflang="es">Español</a></li><li><span aria-current="true" class="i18n-current">العربية</span></li><li><a href="../fr/privacy.html" lang="fr" hreflang="fr">Français</a></li><li><a href="../bn/privacy.html" lang="bn" hreflang="bn">বাংলা</a></li><li><a href="../pt/privacy.html" lang="pt" hreflang="pt">Português</a></li><li><a href="../id/privacy.html" lang="id" hreflang="id">Bahasa Indonesia</a></li><li><a href="../ur/privacy.html" lang="ur" hreflang="ur">اردو</a></li><li><a href="../ru/privacy.html" lang="ru" hreflang="ru">Русский</a></li><li><a href="../de/privacy.html" lang="de" hreflang="de">Deutsch</a></li><li><a href="../ja/privacy.html" lang="ja" hreflang="ja">日本語</a></li><li><a href="../mr/privacy.html" lang="mr" hreflang="mr">मराठी</a></li><li><a href="../te/privacy.html" lang="te" hreflang="te">తెలుగు</a></li></ul></details><style>.i18n-picker{margin:1.5rem 0 0;font-size:.9rem}.i18n-picker summary{cursor:pointer;opacity:.85}.i18n-picker ul{list-style:none;padding:.75rem 0 0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(11rem,1fr));gap:.35rem}.i18n-picker li{margin:0}.i18n-picker a{text-decoration:none;opacity:.85}.i18n-picker a:hover{text-decoration:underline;opacity:1}.i18n-current{font-weight:700}</style><!-- i18n:end --></body>
+
+
+
+</html>
