@@ -48,6 +48,14 @@ build_file.settings = { 'ATTRIBUTES' => ['RemoveHeadersOnCopy'] }
 
 ext.build_configurations.each do |config|
   s = config.build_settings
+  # Without these the product is literally ".appex" — no name — and the build
+  # fails with "Multiple commands produce .../.appex", because the target's own
+  # product and the copy into the app resolve to the same nameless path. Xcode
+  # sets them when you add a target through the interface; new_target does not.
+  s['PRODUCT_NAME']              = '$(TARGET_NAME)'
+  # Info.plist names the principal class as $(PRODUCT_MODULE_NAME).ShareViewController,
+  # so this has to resolve too or the extension loads and finds no class.
+  s['PRODUCT_MODULE_NAME']       = TARGET
   s['PRODUCT_BUNDLE_IDENTIFIER'] = BUNDLE_ID
   s['INFOPLIST_FILE']            = "#{GROUP_DIR}/Info.plist"
   s['CODE_SIGN_ENTITLEMENTS']    = "#{GROUP_DIR}/ShareExtension.entitlements"
