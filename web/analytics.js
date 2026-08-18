@@ -9,7 +9,8 @@
  *
  * Ported from the Easy-Post site, which does the same thing, so that both sites
  * behave identically and there is one pattern to reason about rather than two.
- * The measurement ID and the storage key differ; nothing else does.
+ * The measurement ID, the Clarity project id and the storage key differ;
+ * nothing else does.
  *
  * This is loaded on every page. It draws its own banner, so pages need only the
  * one <script> tag — no per-page markup and no CSS dependency. The banner is
@@ -20,6 +21,7 @@
   "use strict";
 
   var GA_ID = "G-EYVRLQBMVF";
+  var CLARITY_ID = "y49zevxmw8";
   var KEY = "wren-analytics-consent";
 
   var choice = null;
@@ -44,7 +46,34 @@
     document.head.appendChild(s);
     gtag("js", new Date());
     gtag("config", GA_ID);
+    enableClarity();
     trackConversions();
+  }
+
+  /* Microsoft Clarity — heatmaps and session replay. Same shape as the
+   * Easy-Post site, and the project id is the only difference.
+   *
+   * Called only from enableAnalytics(), so it is behind the same consent as
+   * GA and nothing reaches Microsoft on a decline. A session recording is not
+   * aggregate information and is not information that cannot identify people,
+   * so this cannot ride the PECR "statistical purposes" exception the way an
+   * aggregate-only tool could. Consent is the only lawful route, so the banner
+   * stays for as long as this is here.
+   *
+   * Empty or PLACEHOLDER disables it cleanly.
+   *
+   * This is the WEBSITE only. The app carries no analytics of any kind, and
+   * the privacy policy and the App Store privacy label both say so — do not
+   * let anything here leak into that claim.
+   */
+  function enableClarity() {
+    if (!CLARITY_ID || CLARITY_ID === "PLACEHOLDER") return;
+    (function (c, l, a, r, i, t, y) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+      t = l.createElement(r); t.async = 1;
+      t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", CLARITY_ID);
   }
 
   /* Conversion events. Same shape as the Easy-Post site, deliberately.
@@ -115,8 +144,9 @@
     var msg = document.createElement("span");
     msg.style.maxWidth = "46rem";
     msg.innerHTML =
-      "This site uses Google Analytics to understand how it is used. " +
-      "Analytics cookies load only if you accept. See the " +
+      "This site uses Google Analytics and Microsoft Clarity to understand how " +
+      "it is used, which includes recording how pages are viewed and clicked. " +
+      "Nothing loads unless you accept. See the " +
       '<a href="privacy.html" style="color:#F2C879;text-decoration:underline">' +
       "privacy policy</a>.";
 
