@@ -46,6 +46,24 @@ embed.symbol_dst_subfolder_spec = :plug_ins
 build_file = embed.add_file_reference(ext.product_reference)
 build_file.settings = { 'ATTRIBUTES' => ['RemoveHeadersOnCopy'] }
 
+# Order matters, and getting it wrong fails with "Cycle inside Runner; building
+# could produce unreliable results" rather than anything about ordering.
+#
+# Flutter's Runner target ends with a "Thin Binary" script phase that processes
+# the app binary. A new copy phase is appended after it, so the copy waits on the
+# script and the script sees the copy's output inside the bundle it is thinning —
+# a cycle. Putting the embed before that script breaks it.
+thin = app.build_phases.index do |phase|
+  phase.respond_to?(:name) && phase.name.to_s.downcase.include?('thin')
+end
+if thin
+  app.build_phases.delete(embed)
+  app.build_phases.insert(thin, embed)
+  puts "moved the embed phase before \"#{app.build_phases[thin + 1].name}\""
+else
+  warn 'no Thin Binary phase found — leaving the embed phase where it is'
+end
+
 ext.build_configurations.each do |config|
   s = config.build_settings
   # Without these the product is literally ".appex" — no name — and the build
