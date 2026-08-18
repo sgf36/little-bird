@@ -114,6 +114,21 @@ jobs:
       - name: Build (no codesign)
         run: flutter build ios --release --no-codesign
 
+      # A green build says the compile worked, not that the extension shipped
+      # inside the app. An appex that is built and never embedded produces an app
+      # that installs, runs, and simply never appears in the share sheet — which
+      # is indistinguishable, from the outside, from not having written it.
+      - name: Prove the extension is embedded
+        run: |
+          APPEX="build/ios/iphoneos/Runner.app/PlugIns/ShareExtension.appex"
+          test -d "$APPEX" || { echo "::error::no appex at $APPEX"; ls -R build/ios/iphoneos/Runner.app/PlugIns 2>/dev/null || true; exit 1; }
+          POINT=$(plutil -extract NSExtension.NSExtensionPointIdentifier raw "$APPEX/Info.plist")
+          test "$POINT" = "com.apple.share-services" || { echo "::error::wrong extension point: $POINT"; exit 1; }
+          URLS=$(plutil -extract NSExtension.NSExtensionAttributes.NSExtensionActivationRule.NSExtensionActivationSupportsWebURLWithMaxCount raw "$APPEX/Info.plist")
+          test "$URLS" = "1" || { echo "::error::not activated for web URLs: $URLS"; exit 1; }
+          echo "embedded, share-services, activates on 1 web URL"
+          plutil -extract CFBundleIdentifier raw "$APPEX/Info.plist"
+
       - name: Report app size
         run: |
           du -sh build/ios/iphoneos/Runner.app
