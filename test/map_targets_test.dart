@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wren/src/map_targets.dart';
 import 'package:wren/src/place_export.dart';
-import 'package:wren/src/place_share.dart';
 
 /// The target list, and the one way it can rot.
 ///
