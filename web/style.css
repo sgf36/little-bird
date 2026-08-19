@@ -91,13 +91,23 @@ h3 {
   color: var(--gold);
   margin: 0;
 }
-.lede { font-size: clamp(1.02rem, 2.6vw, 1.15rem); margin: 0; max-width: 36rem; }
+/* Matched to the body measure above: a lede narrower than the text beneath it
+   made the intro look like a pull-quote rather than the opening paragraph. */
+.lede { font-size: clamp(1.02rem, 2.6vw, 1.15rem); margin: 0; max-width: 44rem; }
 .lede + .lede { color: var(--muted); }
 .prose { display: flex; flex-direction: column; gap: 1.15rem; }
 /* Running text keeps a comfortable line length whatever the container does.
-   Roughly 70 characters, which is the measure the old page-wide 44rem was
-   really enforcing. */
-.prose > p, .prose > ul { max-width: 38rem; }
+   Widened from 38rem after measuring the rendered page: at 1585px every other
+   element -- headings, the status block, the footer -- was 928px while the
+   text was 608px, leaving 320px of dead space to the right of the paragraphs
+   and only under them. That reads as a layout fault rather than a measure.
+   44rem is about 77 characters at this size, still inside the comfortable
+   range, and closes a third of the gap.
+
+   Narrowing the headings to match instead was the obvious alternative and is
+   worse: it fixes the ragged edge by using LESS of the page, which is the
+   opposite of what the page needed. */
+.prose > p, .prose > ul { max-width: 44rem; }
 .updated { color: var(--muted); font-size: .88rem; margin: 0; }
 
 section > p { margin: 0 0 .9rem; }
