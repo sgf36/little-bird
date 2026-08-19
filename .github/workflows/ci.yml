@@ -200,6 +200,16 @@ jobs:
       - name: Report APK size
         run: du -sh build/app/outputs/flutter-apk/app-debug.apk
 
+      # The APK is kept because this job is the only place it can be built, and a
+      # compiled hand-off is not a working one -- proving that needs the real
+      # binary on a real Android system, driven through its own UI.
+      - name: Keep the APK for device testing
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+          retention-days: 7
+
   # Ships when you ask for it:
   #   gh workflow run ci.yml -f testflight=true
   # or on a version tag:
