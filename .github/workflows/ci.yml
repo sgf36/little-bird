@@ -222,10 +222,14 @@ jobs:
           done
           # And the reverse: a class whose package line disagrees with the
           # namespace compiles perfectly and is unreachable from the manifest.
+          shopt -s nullglob
+          found=0
           for f in $DIR/*.kt; do
+            found=1
             grep -q "^package $NS\$" "$f" || { echo "::error::$f does not declare 'package $NS'"; fail=1; }
           done
-          exit $fail"
+          [ "$found" = 1 ] || { echo "::error::no Kotlin at all in $DIR -- the sources are in some other package and nothing the manifest names can resolve"; fail=1; }
+          exit $fail
 
       - name: Report APK size
         run: du -sh build/app/outputs/flutter-apk/app-debug.apk
