@@ -20,8 +20,8 @@ import io.flutter.plugin.common.PluginRegistry
  * caught that, because the Dart side handles the exception gracefully: the
  * feature failed politely rather than loudly.
  *
- * **Why ACTION_OPEN_DOCUMENT with `*​/*`.** Android's MIME table has no entry for
- * `gpx` or `geojson`, so a picker filtered by MIME type renders exactly those
+ * **Why the picker is unfiltered.** Android's MIME table has no entry for `gpx`
+ * or `geojson`, so a picker filtered by MIME type renders exactly those
  * files unselectable — greyed out, with nothing to explain why. The name is what
  * Wren parses by anyway, so the filter would buy nothing and cost the two
  * formats OpenStreetMap apps export.
