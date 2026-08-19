@@ -587,5 +587,35 @@
         "type": "int"
       }
     }
+  },
+  "sendPlacesTo": "Send places to",
+  "@sendPlacesTo": {
+    "description": "Title of the sheet that lists map apps a place list can be sent to. Android only."
+  },
+  "sendPlacesReady": "{count, plural, =1{1 place ready to send} other{{count} places ready to send}}",
+  "@sendPlacesReady": {
+    "description": "How many places will go into the exported file.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sendPlacesNoLocation": "{count, plural, =1{1 place has no location and cannot be sent} other{{count} places have no location and cannot be sent}}",
+  "@sendPlacesNoLocation": {
+    "description": "Places dropped from the export because they have no coordinate. Other map apps do not look an address up, so a place without one would vanish from the file silently — said plainly instead.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sendPlacesOtherApp": "Any other app",
+  "@sendPlacesOtherApp": {
+    "description": "Opens the system share sheet instead of a named app, so apps Wren does not list by name still work."
+  },
+  "sendPlacesFailed": "That app would not take the file",
+  "@sendPlacesFailed": {
+    "description": "Shown when the receiving app did not accept the handover."
   }
 }

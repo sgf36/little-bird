@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -10,7 +12,10 @@ import 'src/guide_import.dart';
 import 'src/guide_link.dart';
 import 'src/ocr.dart';
 import 'src/place_files.dart';
+import 'src/map_targets.dart';
+import 'src/place_export.dart';
 import 'src/place_search_sheet.dart';
+import 'src/place_share.dart';
 import 'src/region_hint.dart';
 import 'src/resolver.dart';
 import 'src/share_inbox.dart';
@@ -117,6 +122,7 @@ class CapturePage extends StatefulWidget {
     this.files,
     this.expander,
     this.shareInbox,
+    this.sharer,
     this.initialPending,
     this.initialGuideName,
     this.initialOverlay = ScreenshotOverlay.none,
@@ -132,6 +138,9 @@ class CapturePage extends StatefulWidget {
 
   /// Injectable so the share-sheet handoff can be tested without an extension.
   final ShareInbox? shareInbox;
+
+  /// Injectable so sending to another map app can be tested without a device.
+  final PlaceSharer? sharer;
 
   @visibleForTesting
   final List<Pending>? initialPending;
@@ -159,6 +168,14 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   late final LinkExpander _expander = widget.expander ?? HttpLinkExpander();
   late final ShareInbox _shareInbox =
       widget.shareInbox ?? const MethodChannelShareInbox();
+  late final PlaceSharer _sharer =
+      widget.sharer ?? const MethodChannelPlaceSharer();
+
+  /// The My Map the user chose to keep adding to, if they have picked one.
+  ///
+  /// Remembering it is worth two taps every time: with an id the Custom Tab can
+  /// open that map's edit page directly instead of the list plus a create step.
+  String? _myMapId;
   late final List<Pending> _pending = [...?widget.initialPending];
 
   /// Guide links still to be handed to Apple Maps.
@@ -1088,6 +1105,135 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
     return go ?? false;
   }
 
+  /// Offers the places to another map app.
+  ///
+  /// Android only in practice: on iOS the destination is Apple Maps and that is
+  /// what [_publish] already does. Named apps are listed first, but only if they
+  /// are actually installed — and "installed" here means installed AND declared
+  /// in the manifest's `<queries>`, because from Android 11 the two are the same
+  /// answer. Anything not listed still reaches the same file through the system
+  /// chooser, so the long tail works without Wren claiming to have tested it.
+  Future<void> _sendPlacesElsewhere() async {
+    final l = L.of(context);
+    final places = [
+      for (final p in _pending.where((p) => p.publishable))
+        ExportPlace.from(p.match, readAs: p.readAs),
+    ].whereType<ExportPlace>().toList();
+    if (places.isEmpty) return;
+
+    // Ask the platform which of the named apps are really there. One call per
+    // app, all at once, before the sheet is drawn.
+    final found = <String, String>{};
+    for (final t in namedTargets) {
+      final pkg = await _sharer.firstInstalled(t.packages);
+      if (pkg != null) found[t.id] = pkg;
+    }
+    if (!mounted) return;
+
+    final chosen = await showModalBottomSheet<MapTarget>(
+      context: context,
+      showDragHandle: true,
+      builder: (context) => SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(8, 0, 8, 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 2),
+                child: Text(
+                  l.sendPlacesTo,
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                child: Text(
+                  l.sendPlacesReady(places.length),
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
+              for (final t in namedTargets)
+                if (found.containsKey(t.id))
+                  ListTile(
+                    leading: const Icon(Icons.place_outlined),
+                    title: Text(t.name),
+                    subtitle: t.note.isEmpty ? null : Text(t.note),
+                    onTap: () => Navigator.pop(context, t),
+                  ),
+              // Google Maps is always offered, because the route is a web page
+              // rather than an installed app.
+              ListTile(
+                leading: const Icon(Icons.public),
+                title: Text(googleMapsTarget.name),
+                subtitle: Text(googleMapsTarget.note),
+                onTap: () => Navigator.pop(context, googleMapsTarget),
+              ),
+              const Divider(height: 8),
+              ListTile(
+                leading: const Icon(Icons.ios_share),
+                title: Text(l.sendPlacesOtherApp),
+                onTap: () => Navigator.pop(context, null),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    if (!mounted) return;
+
+    // Dismissed with the chooser row, or by swiping down. The chooser is the
+    // safe default either way; a swipe simply does nothing.
+    //
+    // GPX for the chooser as well as for the named apps: it is what all of them
+    // read as individual named places, and the one format that is never mistaken
+    // for a route.
+    final file = exportPlaces(
+      places,
+      chosen?.format ?? PlaceFormat.gpx,
+      title: _guideName ?? 'Places',
+    );
+
+    if (chosen?.id == googleMapsTarget.id) {
+      await _sendToGoogleMaps(file, l);
+      return;
+    }
+
+    final outcome = chosen == null
+        ? await _sharer.share(file, subject: _guideName ?? 'Places')
+        : await _sharer.shareTo(file, chosen, found[chosen.id]!);
+    if (!mounted) return;
+    setState(() {
+      _status = switch (outcome) {
+        // "sent" is a hand-off, never an import: not one of these apps reports
+        // back, so claiming success on their behalf would be a guess.
+        ShareOutcome.sent => [
+          l.sendPlacesReady(file.written),
+          if (file.droppedForNoCoordinate > 0)
+            '· ${l.sendPlacesNoLocation(file.droppedForNoCoordinate)}',
+        ].join(' '),
+        ShareOutcome.noHandler => l.sendPlacesFailed,
+        ShareOutcome.unavailable => l.sendPlacesFailed,
+      };
+    });
+  }
+
+  /// The Google Maps route: a CSV, then My Maps in a Custom Tab.
+  ///
+  /// A CSV rather than a GPX because Google geocodes a name or address column
+  /// itself on import, so nothing here needs a coordinate — which is the only
+  /// reason this path costs nothing to run. The file goes to the share sheet
+  /// first so it is somewhere the browser's file picker can reach it, and then
+  /// the tab opens on the import page.
+  Future<void> _sendToGoogleMaps(ExportResult file, L l) async {
+    await _sharer.share(file, subject: _guideName ?? 'Places');
+    if (!mounted) return;
+    await _sharer.openTab(myMapsUrl(mapId: _myMapId));
+    if (!mounted) return;
+    setState(() => _status = l.sendPlacesReady(file.written));
+  }
+
   Future<void> _publish() async {
     final l = L.of(context);
 
@@ -1332,8 +1478,14 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
             onSelected: (v) {
               if (v == 'restore') _restoreFromMenu();
               if (v == 'clear') _clearList();
+              if (v == 'send') _sendPlacesElsewhere();
             },
             itemBuilder: (context) => [
+              // Android only. On iOS the destination is Apple Maps, which the
+              // main button already does, and offering to "send elsewhere" there
+              // would mean offering a file nothing on the phone wants.
+              if (Platform.isAndroid && keeping > 0)
+                PopupMenuItem(value: 'send', child: Text(l.sendPlacesTo)),
               if (_pending.isNotEmpty)
                 PopupMenuItem(value: 'clear', child: Text(l.clearList)),
               if (!_entitlement.unlimited)

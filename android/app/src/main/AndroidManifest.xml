@@ -25,6 +25,21 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <!-- Exports leave through a content:// URI, never a file path.
+             A file:// URI grants the receiving app nothing: it launches, matches
+             the MIME, tries to read and dies with EACCES. Measured against
+             Organic Maps on 19 August 2026 — the intent was right and the
+             transport was wrong, which is the confusing way round. -->
+        <provider
+            android:name=".PlaceFileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
@@ -36,7 +51,43 @@
          https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
 
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
+    <!-- Package visibility, Android 11 and later.
+         Without an entry here, a package is invisible: getPackageInfo throws
+         NameNotFoundException exactly as if the app were not installed, and a
+         "Send to Organic Maps" button silently never appears on a phone that has
+         it. Declared per package rather than with QUERY_ALL_PACKAGES, which is a
+         restricted permission needing a Play declaration we have no grounds for.
+
+         The intent query is what makes the plain chooser work for these types. -->
     <queries>
+        <!-- Every package Wren offers as a named button, and nothing else.
+             These must stay in step with `namedTargets` in lib/src/map_targets.dart:
+             a target listed there but missing here is a button that never appears
+             on a device that has the app, because getPackageInfo throws exactly as
+             if it were not installed. -->
+        <package android:name="app.organicmaps" />
+        <!-- Not app.organicmaps.beta: the beta build type applies no
+             applicationIdSuffix, so beta installs are still app.organicmaps. -->
+        <package android:name="app.organicmaps.web" />
+        <package android:name="net.osmand" />
+        <package android:name="net.osmand.plus" />
+        <package android:name="menion.android.locus" />
+        <package android:name="com.trailbehind.android.gaiagps.pro" />
+        <package android:name="cz.seznam.mapy" />
+        <!-- Chrome, for the Google Maps route's Custom Tab. -->
+        <package android:name="com.android.chrome" />
+        <!-- Enumeration for the plain chooser, which serves every app nobody has
+             tested. One action per <intent>, and path/pathPrefix/pathPattern are
+             forbidden inside <queries> — so "anything ending in .gpx" cannot be
+             expressed here, and detection is by package name and MIME only. -->
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+            <data android:mimeType="application/gpx+xml" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:mimeType="application/gpx+xml" />
+        </intent>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>

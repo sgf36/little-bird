@@ -12,13 +12,28 @@ class PlaceMatch {
   /// Metres from the search centre, when one was supplied.
   final double? metresFromCentre;
 
+  /// Where the place actually is.
+  ///
+  /// The native side has always sent these and Dart always discarded them,
+  /// because an Apple Maps guide link needs only the identifier — Apple supplies
+  /// the coordinate from its own record. Exporting to any other map app is the
+  /// opposite case: OpenStreetMap apps do not geocode an incoming file, so a
+  /// place with no coordinate is a place they silently drop.
+  final double? lat;
+  final double? lon;
+
   const PlaceMatch({
     required this.id,
     required this.name,
     required this.address,
     this.category,
     this.metresFromCentre,
+    this.lat,
+    this.lon,
   });
+
+  /// True when this place can be written into a file for another map app.
+  bool get hasCoordinate => lat != null && lon != null;
 
   factory PlaceMatch.fromMap(Map<Object?, Object?> m) => PlaceMatch(
     id: PlaceId.parse(m['placeId'] as String),
@@ -26,6 +41,8 @@ class PlaceMatch {
     address: ((m['address'] as String?) ?? '').replaceAll('\n', ', '),
     category: m['category'] as String?,
     metresFromCentre: (m['metresFromCentre'] as num?)?.toDouble(),
+    lat: (m['lat'] as num?)?.toDouble(),
+    lon: (m['lon'] as num?)?.toDouble(),
   );
 }
 

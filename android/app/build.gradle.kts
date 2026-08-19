@@ -43,3 +43,14 @@ kotlin {
 flutter {
     source = "../.."
 }
+
+dependencies {
+    // Chrome Custom Tabs. Needed for the Google Maps route: My Maps has no
+    // Android app and no import API, so the only way in is its web page — and a
+    // Custom Tab is the one surface that is BOTH signed in (it is Chrome, so it
+    // carries the session the user already has) and permitted to sign in. An
+    // embedded WebView can inject script but Google blocks Google sign-in inside
+    // one; a Custom Tab can sign in but forbids injection. That split is
+    // deliberate, and it is why this is a tab rather than a WebView.
+    implementation("androidx.browser:browser:1.8.0")
+}
