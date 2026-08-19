@@ -482,4 +482,35 @@ class LEl extends L {
   String splitProgress(int done, int total) {
     return 'Άνοιξε ο οδηγός $done από $total. Άγγιξε για να φτιάξεις τον επόμενο.';
   }
+
+  @override
+  String get sendPlacesTo => 'Αποστολή τοποθεσιών σε';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count τοποθεσίες έτοιμες για αποστολή',
+      one: '1 τοποθεσία έτοιμη για αποστολή',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count τοποθεσίες δεν έχουν θέση και δεν μπορούν να σταλούν',
+      one: '1 τοποθεσία δεν έχει θέση και δεν μπορεί να σταλεί',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Οποιαδήποτε άλλη εφαρμογή';
+
+  @override
+  String get sendPlacesFailed => 'Αυτή η εφαρμογή δεν δέχτηκε το αρχείο';
 }

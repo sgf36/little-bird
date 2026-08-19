@@ -474,4 +474,36 @@ class LIt extends L {
   String splitProgress(int done, int total) {
     return 'Guida $done di $total aperta. Tocca per creare la prossima.';
   }
+
+  @override
+  String get sendPlacesTo => 'Invia i luoghi a';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count luoghi pronti da inviare',
+      one: '1 luogo pronto da inviare',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count luoghi non hanno una posizione e non possono essere inviati',
+      one: '1 luogo non ha una posizione e non può essere inviato',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Un’altra app';
+
+  @override
+  String get sendPlacesFailed => 'Quell’app non ha accettato il file';
 }

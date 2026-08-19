@@ -102,5 +102,10 @@
   "splitTitle": "Dit levert meer dan één gids op",
   "splitBody": "Apple beperkt hoeveel plekken één gidslink kan bevatten. Wren maakt {guides} gidsen, genummerd zodat de volgorde blijft, met samen {count} plekken.",
   "splitConfirm": "Maak {guides} gidsen",
-  "splitProgress": "Gids {done} van {total} geopend. Tik om de volgende te maken."
+  "splitProgress": "Gids {done} van {total} geopend. Tik om de volgende te maken.",
+  "sendPlacesTo": "Plaatsen sturen naar",
+  "sendPlacesReady": "{count, plural, =1{1 plaats klaar om te sturen} other{{count} plaatsen klaar om te sturen}}",
+  "sendPlacesNoLocation": "{count, plural, =1{1 plaats heeft geen locatie en kan niet worden gestuurd} other{{count} plaatsen hebben geen locatie en kunnen niet worden gestuurd}}",
+  "sendPlacesOtherApp": "Een andere app",
+  "sendPlacesFailed": "Die app nam het bestand niet aan"
 }

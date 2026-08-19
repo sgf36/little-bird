@@ -474,4 +474,36 @@ class LNl extends L {
   String splitProgress(int done, int total) {
     return 'Gids $done van $total geopend. Tik om de volgende te maken.';
   }
+
+  @override
+  String get sendPlacesTo => 'Plaatsen sturen naar';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count plaatsen klaar om te sturen',
+      one: '1 plaats klaar om te sturen',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count plaatsen hebben geen locatie en kunnen niet worden gestuurd',
+      one: '1 plaats heeft geen locatie en kan niet worden gestuurd',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Een andere app';
+
+  @override
+  String get sendPlacesFailed => 'Die app nam het bestand niet aan';
 }

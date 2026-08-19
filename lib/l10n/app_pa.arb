@@ -102,5 +102,10 @@
   "splitTitle": "ਇਸ ਨਾਲ ਇੱਕ ਤੋਂ ਵੱਧ ਗਾਈਡਾਂ ਬਣਨਗੀਆਂ",
   "splitBody": "ਇੱਕ ਗਾਈਡ ਦੇ ਲਿੰਕ ਵਿੱਚ ਕਿੰਨੀਆਂ ਥਾਵਾਂ ਆ ਸਕਦੀਆਂ ਹਨ, Apple ਇਸਦੀ ਹੱਦ ਰੱਖਦਾ ਹੈ। Wren {guides} ਗਾਈਡਾਂ ਬਣਾਏਗਾ, ਤਰਤੀਬ ਬਣੀ ਰਹੇ ਇਸ ਲਈ ਉਹਨਾਂ ਉੱਤੇ ਨੰਬਰ ਹੋਣਗੇ, ਅਤੇ ਉਹਨਾਂ ਸਾਰੀਆਂ ਵਿੱਚ ਮਿਲਾ ਕੇ {count} ਥਾਵਾਂ ਹੋਣਗੀਆਂ।",
   "splitConfirm": "{guides} ਗਾਈਡਾਂ ਬਣਾਓ",
-  "splitProgress": "{total} ਵਿੱਚੋਂ {done} ਗਾਈਡ ਖੁੱਲ੍ਹ ਗਈ। ਅਗਲੀ ਬਣਾਉਣ ਲਈ ਟੈਪ ਕਰੋ।"
+  "splitProgress": "{total} ਵਿੱਚੋਂ {done} ਗਾਈਡ ਖੁੱਲ੍ਹ ਗਈ। ਅਗਲੀ ਬਣਾਉਣ ਲਈ ਟੈਪ ਕਰੋ।",
+  "sendPlacesTo": "ਥਾਵਾਂ ਭੇਜੋ",
+  "sendPlacesReady": "{count, plural, one{1 ਥਾਂ ਭੇਜਣ ਲਈ ਤਿਆਰ} other{{count} ਥਾਵਾਂ ਭੇਜਣ ਲਈ ਤਿਆਰ}}",
+  "sendPlacesNoLocation": "{count, plural, one{1 ਥਾਂ ਦੀ ਸਥਿਤੀ ਨਹੀਂ, ਭੇਜੀ ਨਹੀਂ ਜਾ ਸਕਦੀ} other{{count} ਥਾਵਾਂ ਦੀ ਸਥਿਤੀ ਨਹੀਂ, ਭੇਜੀਆਂ ਨਹੀਂ ਜਾ ਸਕਦੀਆਂ}}",
+  "sendPlacesOtherApp": "ਕੋਈ ਹੋਰ ਐਪ",
+  "sendPlacesFailed": "ਉਸ ਐਪ ਨੇ ਫ਼ਾਈਲ ਨਹੀਂ ਲਈ"
 }

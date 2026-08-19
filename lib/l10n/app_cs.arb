@@ -102,5 +102,10 @@
   "splitTitle": "Vznikne víc než jeden průvodce",
   "splitBody": "Apple omezuje, kolik míst se vejde do jednoho odkazu na průvodce. Wren proto vytvoří několik průvodců ({guides}), číslovaných tak, aby zůstalo jejich pořadí, a rozdělí do nich všechna místa ({count}).",
   "splitConfirm": "Vytvořit průvodce ({guides})",
-  "splitProgress": "Průvodce {done} z {total} otevřen. Klepnutím vytvoříš dalšího."
+  "splitProgress": "Průvodce {done} z {total} otevřen. Klepnutím vytvoříš dalšího.",
+  "sendPlacesTo": "Poslat místa do",
+  "sendPlacesReady": "{count, plural, one{1 místo je připravené k odeslání} few{{count} místa jsou připravená k odeslání} many{{count} místa jsou připravená k odeslání} other{{count} míst je připravených k odeslání}}",
+  "sendPlacesNoLocation": "{count, plural, one{1 místo nemá polohu a nelze ho odeslat} few{{count} místa nemají polohu a nelze je odeslat} many{{count} místa nemají polohu a nelze je odeslat} other{{count} míst nemá polohu a nelze je odeslat}}",
+  "sendPlacesOtherApp": "Jakákoli jiná aplikace",
+  "sendPlacesFailed": "Tato aplikace soubor nepřijala"
 }

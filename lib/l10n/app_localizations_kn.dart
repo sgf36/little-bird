@@ -476,4 +476,35 @@ class LKn extends L {
   String splitProgress(int done, int total) {
     return '$totalರಲ್ಲಿ $done ಮಾರ್ಗದರ್ಶಿ ತೆರೆಯಲಾಯಿತು. ಮುಂದಿನದನ್ನು ರಚಿಸಲು ಟ್ಯಾಪ್ ಮಾಡಿ.';
   }
+
+  @override
+  String get sendPlacesTo => 'ಸ್ಥಳಗಳನ್ನು ಕಳುಹಿಸಿ';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ಸ್ಥಳಗಳು ಕಳುಹಿಸಲು ಸಿದ್ಧ',
+      one: '1 ಸ್ಥಳ ಕಳುಹಿಸಲು ಸಿದ್ಧ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ಸ್ಥಳಗಳಿಗೆ ಸ್ಥಾನವಿಲ್ಲ, ಕಳುಹಿಸಲಾಗದು',
+      one: '1 ಸ್ಥಳಕ್ಕೆ ಸ್ಥಾನವಿಲ್ಲ, ಕಳುಹಿಸಲಾಗದು',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'ಬೇರೆ ಯಾವುದೇ ಆ್ಯಪ್';
+
+  @override
+  String get sendPlacesFailed => 'ಆ ಆ್ಯಪ್ ಫೈಲ್ ಸ್ವೀಕರಿಸಲಿಲ್ಲ';
 }

@@ -102,5 +102,10 @@
   "splitTitle": "سيؤدي هذا إلى إنشاء أكثر من دليل",
   "splitBody": "تحدّ Apple من عدد الأماكن التي يمكن أن يحملها رابط دليل واحد. سيُنشئ Wren {guides} من الأدلة، مرقّمة لتبقى بالترتيب، تضم {count} من الأماكن بينها.",
   "splitConfirm": "إنشاء {guides} من الأدلة",
-  "splitProgress": "فُتح الدليل {done} من {total}. المس لإنشاء التالي."
+  "splitProgress": "فُتح الدليل {done} من {total}. المس لإنشاء التالي.",
+  "sendPlacesTo": "إرسال الأماكن إلى",
+  "sendPlacesReady": "{count, plural, zero{لا مكان جاهز للإرسال} one{مكان واحد جاهز للإرسال} two{مكانان جاهزان للإرسال} few{{count} أماكن جاهزة للإرسال} many{{count} مكاناً جاهزة للإرسال} other{{count} مكان جاهز للإرسال}}",
+  "sendPlacesNoLocation": "{count, plural, zero{لا مكان بلا موقع} one{مكان واحد بلا موقع ولا يمكن إرساله} two{مكانان بلا موقع ولا يمكن إرسالهما} few{{count} أماكن بلا موقع ولا يمكن إرسالها} many{{count} مكاناً بلا موقع ولا يمكن إرسالها} other{{count} مكان بلا موقع ولا يمكن إرساله}}",
+  "sendPlacesOtherApp": "أي تطبيق آخر",
+  "sendPlacesFailed": "لم يقبل هذا التطبيق الملف"
 }

@@ -472,4 +472,35 @@ class LTe extends L {
   String splitProgress(int done, int total) {
     return '$totalలో $done గైడ్ తెరిచాం. తర్వాతది తయారుచేయడానికి నొక్కండి.';
   }
+
+  @override
+  String get sendPlacesTo => 'స్థలాలను పంపు';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count స్థలాలు పంపడానికి సిద్ధం',
+      one: '1 స్థలం పంపడానికి సిద్ధం',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count స్థలాలకు స్థానం లేదు, పంపలేము',
+      one: '1 స్థలానికి స్థానం లేదు, పంపలేము',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'మరే యాప్ అయినా';
+
+  @override
+  String get sendPlacesFailed => 'ఆ యాప్ ఫైల్‌ను తీసుకోలేదు';
 }

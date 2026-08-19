@@ -102,5 +102,10 @@
   "splitTitle": "ייווצר יותר ממדריך אחד",
   "splitBody": "המפות של Apple מגבילות כמה מקומות יכול לשאת קישור אחד של מדריך. ייווצרו {guides} מדריכים, ממוספרים כדי לשמור על הסדר, ובהם {count} מקומות יחד.",
   "splitConfirm": "יצירת {guides} מדריכים",
-  "splitProgress": "מדריך {done} מתוך {total} נפתח. יש להקיש כדי ליצור את הבא."
+  "splitProgress": "מדריך {done} מתוך {total} נפתח. יש להקיש כדי ליצור את הבא.",
+  "sendPlacesTo": "שליחת מקומות אל",
+  "sendPlacesReady": "{count, plural, one{מקום אחד מוכן לשליחה} two{שני מקומות מוכנים לשליחה} many{{count} מקומות מוכנים לשליחה} other{{count} מקומות מוכנים לשליחה}}",
+  "sendPlacesNoLocation": "{count, plural, one{למקום אחד אין מיקום ואי אפשר לשלוח אותו} two{לשני מקומות אין מיקום ואי אפשר לשלוח אותם} many{ל־{count} מקומות אין מיקום ואי אפשר לשלוח אותם} other{ל־{count} מקומות אין מיקום ואי אפשר לשלוח אותם}}",
+  "sendPlacesOtherApp": "אפליקציה אחרת",
+  "sendPlacesFailed": "האפליקציה לא קיבלה את הקובץ"
 }

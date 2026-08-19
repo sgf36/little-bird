@@ -478,4 +478,35 @@ class LPa extends L {
   String splitProgress(int done, int total) {
     return '$total ਵਿੱਚੋਂ $done ਗਾਈਡ ਖੁੱਲ੍ਹ ਗਈ। ਅਗਲੀ ਬਣਾਉਣ ਲਈ ਟੈਪ ਕਰੋ।';
   }
+
+  @override
+  String get sendPlacesTo => 'ਥਾਵਾਂ ਭੇਜੋ';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ਥਾਵਾਂ ਭੇਜਣ ਲਈ ਤਿਆਰ',
+      one: '1 ਥਾਂ ਭੇਜਣ ਲਈ ਤਿਆਰ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ਥਾਵਾਂ ਦੀ ਸਥਿਤੀ ਨਹੀਂ, ਭੇਜੀਆਂ ਨਹੀਂ ਜਾ ਸਕਦੀਆਂ',
+      one: '1 ਥਾਂ ਦੀ ਸਥਿਤੀ ਨਹੀਂ, ਭੇਜੀ ਨਹੀਂ ਜਾ ਸਕਦੀ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'ਕੋਈ ਹੋਰ ਐਪ';
+
+  @override
+  String get sendPlacesFailed => 'ਉਸ ਐਪ ਨੇ ਫ਼ਾਈਲ ਨਹੀਂ ਲਈ';
 }

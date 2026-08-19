@@ -102,5 +102,10 @@
   "splitTitle": "Det blir mer än en guide",
   "splitBody": "Apple begränsar hur många platser en guidelänk kan bära. Wren skapar {guides} guider, numrerade så att ordningen håller, med {count} platser tillsammans.",
   "splitConfirm": "Skapa {guides} guider",
-  "splitProgress": "Guide {done} av {total} är öppnad. Tryck för att skapa nästa."
+  "splitProgress": "Guide {done} av {total} är öppnad. Tryck för att skapa nästa.",
+  "sendPlacesTo": "Skicka platser till",
+  "sendPlacesReady": "{count, plural, =1{1 plats är klar att skicka} other{{count} platser är klara att skicka}}",
+  "sendPlacesNoLocation": "{count, plural, =1{1 plats saknar position och kan inte skickas} other{{count} platser saknar position och kan inte skickas}}",
+  "sendPlacesOtherApp": "Någon annan app",
+  "sendPlacesFailed": "Appen tog inte emot filen"
 }

@@ -478,4 +478,35 @@ class LTa extends L {
   String splitProgress(int done, int total) {
     return '$total-இல் $done வழிகாட்டி திறக்கப்பட்டது. அடுத்ததை உருவாக்க தட்டவும்.';
   }
+
+  @override
+  String get sendPlacesTo => 'இடங்களை அனுப்பு';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count இடங்கள் அனுப்பத் தயார்',
+      one: '1 இடம் அனுப்பத் தயார்',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count இடங்களுக்கு இருப்பிடம் இல்லை, அனுப்ப முடியாது',
+      one: '1 இடத்திற்கு இருப்பிடம் இல்லை, அனுப்ப முடியாது',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'வேறு ஏதேனும் ஆப்';
+
+  @override
+  String get sendPlacesFailed => 'அந்த ஆப் கோப்பை ஏற்கவில்லை';
 }

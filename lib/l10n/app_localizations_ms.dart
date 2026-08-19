@@ -455,4 +455,33 @@ class LMs extends L {
   String splitProgress(int done, int total) {
     return 'Panduan $done daripada $total telah dibuka. Ketik untuk mencipta yang seterusnya.';
   }
+
+  @override
+  String get sendPlacesTo => 'Hantar tempat ke';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tempat sedia dihantar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tempat tiada lokasi dan tidak boleh dihantar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Apl lain';
+
+  @override
+  String get sendPlacesFailed => 'Apl itu tidak menerima fail';
 }

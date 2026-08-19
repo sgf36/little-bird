@@ -446,4 +446,33 @@ class LTh extends L {
   String splitProgress(int done, int total) {
     return 'เปิดไกด์ที่ $done จาก $total แล้ว แตะเพื่อสร้างอันต่อไป';
   }
+
+  @override
+  String get sendPlacesTo => 'ส่งสถานที่ไปที่';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'สถานที่ $count แห่งพร้อมส่ง',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'สถานที่ $count แห่งไม่มีตำแหน่ง จึงส่งไม่ได้',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'แอปอื่น';
+
+  @override
+  String get sendPlacesFailed => 'แอปนั้นไม่รับไฟล์';
 }

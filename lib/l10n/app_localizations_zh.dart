@@ -432,6 +432,35 @@ class LZh extends L {
   String splitProgress(int done, int total) {
     return '第 $done 个指南已打开，共 $total 个。轻点以创建下一个。';
   }
+
+  @override
+  String get sendPlacesTo => '将地点发送到';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个地点已准备好发送',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个地点没有位置，无法发送',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => '其他应用';
+
+  @override
+  String get sendPlacesFailed => '该应用没有接收文件';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -862,4 +891,33 @@ class LZhHant extends LZh {
   String splitProgress(int done, int total) {
     return '第 $done 個指南已打開，共 $total 個。點一下來製作下一個。';
   }
+
+  @override
+  String get sendPlacesTo => '將地點傳送到';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個地點已準備好傳送',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個地點沒有位置，無法傳送',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => '其他應用程式';
+
+  @override
+  String get sendPlacesFailed => '該應用程式沒有接收檔案';
 }

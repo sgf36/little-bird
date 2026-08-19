@@ -499,4 +499,39 @@ class LPl extends L {
   String splitProgress(int done, int total) {
     return 'Przewodnik $done z $total otwarty. Dotknij, aby utworzyć następny.';
   }
+
+  @override
+  String get sendPlacesTo => 'Wyślij miejsca do';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count miejsca gotowe do wysłania',
+      many: '$count miejsc gotowych do wysłania',
+      few: '$count miejsca gotowe do wysłania',
+      one: '1 miejsce gotowe do wysłania',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count miejsca nie mają lokalizacji i nie da się ich wysłać',
+      many: '$count miejsc nie ma lokalizacji i nie da się ich wysłać',
+      few: '$count miejsca nie mają lokalizacji i nie da się ich wysłać',
+      one: '1 miejsce nie ma lokalizacji i nie da się go wysłać',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Dowolna inna aplikacja';
+
+  @override
+  String get sendPlacesFailed => 'Ta aplikacja nie przyjęła pliku';
 }

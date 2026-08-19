@@ -503,4 +503,39 @@ class LUk extends L {
   String splitProgress(int done, int total) {
     return 'Путівник $done з $total відкрито. Торкнись, щоб зробити наступний.';
   }
+
+  @override
+  String get sendPlacesTo => 'Надіслати місця до';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count місця готові до надсилання',
+      many: '$count місць готові до надсилання',
+      few: '$count місця готові до надсилання',
+      one: '$count місце готове до надсилання',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count місця без координат, їх не надіслати',
+      many: '$count місць без координат, їх не надіслати',
+      few: '$count місця без координат, їх не надіслати',
+      one: '$count місце без координат, його не надіслати',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Будь-який інший застосунок';
+
+  @override
+  String get sendPlacesFailed => 'Цей застосунок не прийняв файл';
 }

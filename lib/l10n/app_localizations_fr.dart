@@ -475,6 +475,38 @@ class LFr extends L {
   String splitProgress(int done, int total) {
     return 'Guide $done sur $total ouvert. Touchez pour créer le suivant.';
   }
+
+  @override
+  String get sendPlacesTo => 'Envoyer les lieux vers';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lieux prêts à être envoyés',
+      one: '1 lieu prêt à être envoyé',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count lieux n’ont pas de position et ne peuvent pas être envoyés',
+      one: '1 lieu n’a pas de position et ne peut pas être envoyé',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Une autre app';
+
+  @override
+  String get sendPlacesFailed => 'Cette app n’a pas accepté le fichier';
 }
 
 /// The translations for French, as used in Canada (`fr_CA`).
@@ -948,4 +980,36 @@ class LFrCa extends LFr {
   String splitProgress(int done, int total) {
     return 'Guide $done sur $total ouvert. Touchez pour créer le prochain.';
   }
+
+  @override
+  String get sendPlacesTo => 'Envoyer les lieux vers';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lieux prêts à être envoyés',
+      one: '1 lieu prêt à être envoyé',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count lieux n’ont pas de position et ne peuvent pas être envoyés',
+      one: '1 lieu n’a pas de position et ne peut pas être envoyé',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Une autre application';
+
+  @override
+  String get sendPlacesFailed => 'Cette application n’a pas pris le fichier';
 }

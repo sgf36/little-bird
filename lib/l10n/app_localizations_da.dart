@@ -472,4 +472,35 @@ class LDa extends L {
   String splitProgress(int done, int total) {
     return 'Guide $done af $total er åbnet. Tryk for at lave den næste.';
   }
+
+  @override
+  String get sendPlacesTo => 'Send steder til';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count steder er klar til at sende',
+      one: '1 sted er klar til at sende',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count steder har ingen placering og kan ikke sendes',
+      one: '1 sted har ingen placering og kan ikke sendes',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'En anden app';
+
+  @override
+  String get sendPlacesFailed => 'Den app ville ikke tage filen';
 }

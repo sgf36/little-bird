@@ -498,4 +498,39 @@ class LCs extends L {
   String splitProgress(int done, int total) {
     return 'Průvodce $done z $total otevřen. Klepnutím vytvoříš dalšího.';
   }
+
+  @override
+  String get sendPlacesTo => 'Poslat místa do';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count míst je připravených k odeslání',
+      many: '$count místa jsou připravená k odeslání',
+      few: '$count místa jsou připravená k odeslání',
+      one: '1 místo je připravené k odeslání',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count míst nemá polohu a nelze je odeslat',
+      many: '$count místa nemají polohu a nelze je odeslat',
+      few: '$count místa nemají polohu a nelze je odeslat',
+      one: '1 místo nemá polohu a nelze ho odeslat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Jakákoli jiná aplikace';
+
+  @override
+  String get sendPlacesFailed => 'Tato aplikace soubor nepřijala';
 }

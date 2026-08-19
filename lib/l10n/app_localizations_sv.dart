@@ -476,4 +476,35 @@ class LSv extends L {
   String splitProgress(int done, int total) {
     return 'Guide $done av $total är öppnad. Tryck för att skapa nästa.';
   }
+
+  @override
+  String get sendPlacesTo => 'Skicka platser till';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count platser är klara att skicka',
+      one: '1 plats är klar att skicka',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count platser saknar position och kan inte skickas',
+      one: '1 plats saknar position och kan inte skickas',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Någon annan app';
+
+  @override
+  String get sendPlacesFailed => 'Appen tog inte emot filen';
 }

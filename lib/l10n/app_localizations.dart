@@ -633,7 +633,7 @@ abstract class L {
   /// **'{count, plural, =1{Read 1 place from that guide} other{Read {count} places from that guide}}'**
   String importedGuideSummary(int count);
 
-  /// Some entries in the guide carried no Apple place identifier, so they cannot go into the new guide. Said plainly rather than hidden, because the user would otherwise wonder where a place went.
+  /// Places in the pasted guide that cannot go into the new one: either they carried no Apple place identifier, or Apple answered that it no longer has a record of that identifier. Said plainly rather than hidden, because Apple drops such places on arrival and the user would otherwise wonder where a place went. The wording is deliberately general so it covers both causes without a second string in 47 languages.
   ///
   /// In en, this message translates to:
   /// **'{count, plural, =1{1 place in it cannot be carried over} other{{count} places in it cannot be carried over}}'**
@@ -800,6 +800,36 @@ abstract class L {
   /// In en, this message translates to:
   /// **'Guide {done} of {total} opened. Tap to make the next.'**
   String splitProgress(int done, int total);
+
+  /// Title of the sheet that lists map apps a place list can be sent to. Android only.
+  ///
+  /// In en, this message translates to:
+  /// **'Send places to'**
+  String get sendPlacesTo;
+
+  /// How many places will go into the exported file.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 place ready to send} other{{count} places ready to send}}'**
+  String sendPlacesReady(int count);
+
+  /// Places dropped from the export because they have no coordinate. Other map apps do not look an address up, so a place without one would vanish from the file silently — said plainly instead.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 place has no location and cannot be sent} other{{count} places have no location and cannot be sent}}'**
+  String sendPlacesNoLocation(int count);
+
+  /// Opens the system share sheet instead of a named app, so apps Wren does not list by name still work.
+  ///
+  /// In en, this message translates to:
+  /// **'Any other app'**
+  String get sendPlacesOtherApp;
+
+  /// Shown when the receiving app did not accept the handover.
+  ///
+  /// In en, this message translates to:
+  /// **'That app would not take the file'**
+  String get sendPlacesFailed;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

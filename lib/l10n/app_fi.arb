@@ -102,5 +102,10 @@
   "splitTitle": "Tästä tulee useampi kuin yksi opas",
   "splitBody": "Apple rajoittaa, montako paikkaa yhteen opaslinkkiin mahtuu. Wren tekee {guides} opasta, numeroituna niin että järjestys säilyy, ja niissä on yhteensä {count} paikkaa.",
   "splitConfirm": "Luo {guides} opasta",
-  "splitProgress": "Opas {done} / {total} avattu. Napauta, niin luodaan seuraava."
+  "splitProgress": "Opas {done} / {total} avattu. Napauta, niin luodaan seuraava.",
+  "sendPlacesTo": "Lähetä paikat",
+  "sendPlacesReady": "{count, plural, =1{1 paikka valmiina lähetettäväksi} other{{count} paikkaa valmiina lähetettäväksi}}",
+  "sendPlacesNoLocation": "{count, plural, =1{1 paikalla ei ole sijaintia eikä sitä voi lähettää} other{{count} paikalla ei ole sijaintia eikä niitä voi lähettää}}",
+  "sendPlacesOtherApp": "Mikä tahansa muu sovellus",
+  "sendPlacesFailed": "Sovellus ei ottanut tiedostoa vastaan"
 }

@@ -102,5 +102,10 @@
   "splitTitle": "Bu, birden fazla rehber oluşturacak",
   "splitBody": "Bir rehber bağlantısının taşıyabileceği mekân sayısını Apple sınırlıyor. Wren, sırası korunsun diye numaralandırılmış {guides} rehber oluşturacak ve {count} mekânı bunlara bölüştürecek.",
   "splitConfirm": "{guides} rehber oluştur",
-  "splitProgress": "{total} rehberin {done} tanesi açıldı. Sonrakini oluşturmak için dokun."
+  "splitProgress": "{total} rehberin {done} tanesi açıldı. Sonrakini oluşturmak için dokun.",
+  "sendPlacesTo": "Yerleri şuraya gönder",
+  "sendPlacesReady": "{count, plural, =1{1 yer gönderilmeye hazır} other{{count} yer gönderilmeye hazır}}",
+  "sendPlacesNoLocation": "{count, plural, =1{1 yerin konumu yok, gönderilemez} other{{count} yerin konumu yok, gönderilemez}}",
+  "sendPlacesOtherApp": "Başka bir uygulama",
+  "sendPlacesFailed": "O uygulama dosyayı kabul etmedi"
 }

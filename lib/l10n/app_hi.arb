@@ -102,5 +102,10 @@
   "splitTitle": "इससे एक से ज़्यादा गाइड बनेंगी",
   "splitBody": "Apple यह सीमित रखता है कि एक गाइड लिंक में कितनी जगहें आ सकती हैं। Wren {guides} गाइड बनाएगा, क्रम बना रहे इसलिए उन पर नंबर होंगे, और उन सबमें मिलाकर {count} जगहें होंगी।",
   "splitConfirm": "{guides} गाइड बनाएँ",
-  "splitProgress": "{total} में से {done} गाइड खुल गई। अगली बनाने के लिए टैप करें।"
+  "splitProgress": "{total} में से {done} गाइड खुल गई। अगली बनाने के लिए टैप करें।",
+  "sendPlacesTo": "जगहें भेजें",
+  "sendPlacesReady": "{count, plural, one{1 जगह भेजने के लिए तैयार} other{{count} जगहें भेजने के लिए तैयार}}",
+  "sendPlacesNoLocation": "{count, plural, one{1 जगह की लोकेशन नहीं है, इसलिए भेजी नहीं जा सकती} other{{count} जगहों की लोकेशन नहीं है, इसलिए भेजी नहीं जा सकतीं}}",
+  "sendPlacesOtherApp": "कोई दूसरा ऐप",
+  "sendPlacesFailed": "उस ऐप ने फ़ाइल नहीं ली"
 }

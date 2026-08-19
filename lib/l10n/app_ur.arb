@@ -102,5 +102,10 @@
   "splitTitle": "اس سے ایک سے زیادہ گائیڈز بنیں گی",
   "splitBody": "ایک گائیڈ کے لنک میں کتنی جگہیں آ سکتی ہیں، Apple اسے محدود رکھتا ہے۔ Wren {guides} گائیڈز بنائے گا، ترتیب برقرار رہے اس لیے ان پر نمبر ہوں گے، اور ان سب میں مل کر {count} جگہیں ہوں گی۔",
   "splitConfirm": "{guides} گائیڈز بنائیں",
-  "splitProgress": "{total} میں سے {done} گائیڈ کھل گئی۔ اگلی بنانے کے لیے ٹیپ کریں۔"
+  "splitProgress": "{total} میں سے {done} گائیڈ کھل گئی۔ اگلی بنانے کے لیے ٹیپ کریں۔",
+  "sendPlacesTo": "مقامات بھیجیں",
+  "sendPlacesReady": "{count, plural, one{1 مقام بھیجنے کے لیے تیار} other{{count} مقامات بھیجنے کے لیے تیار}}",
+  "sendPlacesNoLocation": "{count, plural, one{1 مقام کا محلِ وقوع نہیں، اسے بھیجا نہیں جا سکتا} other{{count} مقامات کا محلِ وقوع نہیں، انہیں بھیجا نہیں جا سکتا}}",
+  "sendPlacesOtherApp": "کوئی اور ایپ",
+  "sendPlacesFailed": "اُس ایپ نے فائل نہیں لی"
 }

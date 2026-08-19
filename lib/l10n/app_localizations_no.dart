@@ -472,4 +472,35 @@ class LNo extends L {
   String splitProgress(int done, int total) {
     return 'Guide $done av $total er åpnet. Trykk for å lage den neste.';
   }
+
+  @override
+  String get sendPlacesTo => 'Send steder til';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count steder er klare til å sendes',
+      one: '1 sted er klart til å sendes',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count steder mangler posisjon og kan ikke sendes',
+      one: '1 sted mangler posisjon og kan ikke sendes',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'En annen app';
+
+  @override
+  String get sendPlacesFailed => 'Appen tok ikke imot filen';
 }

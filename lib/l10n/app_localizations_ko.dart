@@ -440,4 +440,33 @@ class LKo extends L {
   String splitProgress(int done, int total) {
     return '가이드 $total개 중 $done개를 열었습니다. 탭하여 다음을 만드세요.';
   }
+
+  @override
+  String get sendPlacesTo => '장소 보내기';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '보낼 장소 $count곳이 준비되었습니다',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '장소 $count곳에 위치가 없어 보낼 수 없습니다',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => '다른 앱';
+
+  @override
+  String get sendPlacesFailed => '그 앱이 파일을 받지 않았습니다';
 }

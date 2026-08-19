@@ -476,4 +476,36 @@ class LDe extends L {
   String splitProgress(int done, int total) {
     return 'Guide $done von $total geöffnet. Tippen, um den nächsten zu erstellen.';
   }
+
+  @override
+  String get sendPlacesTo => 'Orte senden an';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Orte sind bereit zum Senden',
+      one: '1 Ort ist bereit zum Senden',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count Orte haben keinen Standort und können nicht gesendet werden',
+      one: '1 Ort hat keinen Standort und kann nicht gesendet werden',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Andere App';
+
+  @override
+  String get sendPlacesFailed => 'Diese App hat die Datei nicht angenommen';
 }

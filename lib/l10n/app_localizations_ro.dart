@@ -487,4 +487,37 @@ class LRo extends L {
   String splitProgress(int done, int total) {
     return 'Ghidul $done din $total a fost deschis. Atinge pentru a-l crea pe următorul.';
   }
+
+  @override
+  String get sendPlacesTo => 'Trimite locurile către';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de locuri sunt gata de trimis',
+      few: '$count locuri sunt gata de trimis',
+      one: '1 loc este gata de trimis',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de locuri nu au poziție și nu pot fi trimise',
+      few: '$count locuri nu au poziție și nu pot fi trimise',
+      one: '1 loc nu are poziție și nu poate fi trimis',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Orice altă aplicație';
+
+  @override
+  String get sendPlacesFailed => 'Acea aplicație nu a acceptat fișierul';
 }

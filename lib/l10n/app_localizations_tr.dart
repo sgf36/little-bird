@@ -464,4 +464,35 @@ class LTr extends L {
   String splitProgress(int done, int total) {
     return '$total rehberin $done tanesi açıldı. Sonrakini oluşturmak için dokun.';
   }
+
+  @override
+  String get sendPlacesTo => 'Yerleri şuraya gönder';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count yer gönderilmeye hazır',
+      one: '1 yer gönderilmeye hazır',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count yerin konumu yok, gönderilemez',
+      one: '1 yerin konumu yok, gönderilemez',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Başka bir uygulama';
+
+  @override
+  String get sendPlacesFailed => 'O uygulama dosyayı kabul etmedi';
 }

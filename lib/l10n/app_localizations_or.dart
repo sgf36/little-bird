@@ -466,4 +466,35 @@ class LOr extends L {
   String splitProgress(int done, int total) {
     return '$totalରୁ $doneଟି ଗାଇଡ୍ ଖୋଲିଲା। ପରବର୍ତ୍ତୀଟି ତିଆରି କରିବାକୁ ଟ୍ୟାପ୍ କରନ୍ତୁ।';
   }
+
+  @override
+  String get sendPlacesTo => 'ସ୍ଥାନ ପଠାନ୍ତୁ';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ସ୍ଥାନ ପଠାଇବାକୁ ପ୍ରସ୍ତୁତ',
+      one: '1 ସ୍ଥାନ ପଠାଇବାକୁ ପ୍ରସ୍ତୁତ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ସ୍ଥାନର ଅବସ୍ଥାନ ନାହିଁ, ପଠାଯିବ ନାହିଁ',
+      one: '1 ସ୍ଥାନର ଅବସ୍ଥାନ ନାହିଁ, ପଠାଯିବ ନାହିଁ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'ଅନ୍ୟ କୌଣସି ଆପ୍';
+
+  @override
+  String get sendPlacesFailed => 'ସେହି ଆପ୍ ଫାଇଲ୍ ନେଲା ନାହିଁ';
 }

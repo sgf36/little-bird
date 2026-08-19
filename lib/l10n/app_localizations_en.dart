@@ -479,4 +479,35 @@ class LEn extends L {
   String splitProgress(int done, int total) {
     return 'Guide $done of $total opened. Tap to make the next.';
   }
+
+  @override
+  String get sendPlacesTo => 'Send places to';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count places ready to send',
+      one: '1 place ready to send',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count places have no location and cannot be sent',
+      one: '1 place has no location and cannot be sent',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Any other app';
+
+  @override
+  String get sendPlacesFailed => 'That app would not take the file';
 }

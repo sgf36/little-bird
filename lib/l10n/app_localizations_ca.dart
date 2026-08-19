@@ -476,4 +476,35 @@ class LCa extends L {
   String splitProgress(int done, int total) {
     return 'Guia $done de $total oberta. Toca per crear la següent.';
   }
+
+  @override
+  String get sendPlacesTo => 'Envia els llocs a';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count llocs a punt per enviar',
+      one: '1 lloc a punt per enviar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count llocs no tenen ubicació i no es poden enviar',
+      one: '1 lloc no té ubicació i no es pot enviar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Qualsevol altra app';
+
+  @override
+  String get sendPlacesFailed => 'Aquesta app no ha acceptat el fitxer';
 }

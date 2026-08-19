@@ -473,4 +473,35 @@ class LMr extends L {
   String splitProgress(int done, int total) {
     return '$total पैकी $done मार्गदर्शिका उघडली. पुढची तयार करण्यासाठी टॅप करा.';
   }
+
+  @override
+  String get sendPlacesTo => 'ठिकाणे पाठवा';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ठिकाणे पाठवायला तयार',
+      one: '1 ठिकाण पाठवायला तयार',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ठिकाणांना स्थान नाही, ती पाठवता येणार नाहीत',
+      one: '1 ठिकाणाला स्थान नाही, ते पाठवता येणार नाही',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'दुसरे कोणतेही ॲप';
+
+  @override
+  String get sendPlacesFailed => 'त्या ॲपने फाइल घेतली नाही';
 }

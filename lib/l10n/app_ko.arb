@@ -102,5 +102,10 @@
   "splitTitle": "가이드가 여러 개로 나뉩니다",
   "splitBody": "한 가이드 링크에 담을 수 있는 장소 수는 Apple이 제한합니다. Wren이 가이드 {guides}개를 만들어 순서가 유지되도록 번호를 붙이고, 그 안에 장소 {count}곳을 나눠 담습니다.",
   "splitConfirm": "가이드 {guides}개 만들기",
-  "splitProgress": "가이드 {total}개 중 {done}개를 열었습니다. 탭하여 다음을 만드세요."
+  "splitProgress": "가이드 {total}개 중 {done}개를 열었습니다. 탭하여 다음을 만드세요.",
+  "sendPlacesTo": "장소 보내기",
+  "sendPlacesReady": "{count, plural, other{보낼 장소 {count}곳이 준비되었습니다}}",
+  "sendPlacesNoLocation": "{count, plural, other{장소 {count}곳에 위치가 없어 보낼 수 없습니다}}",
+  "sendPlacesOtherApp": "다른 앱",
+  "sendPlacesFailed": "그 앱이 파일을 받지 않았습니다"
 }

@@ -514,4 +514,43 @@ class LAr extends L {
   String splitProgress(int done, int total) {
     return 'فُتح الدليل $done من $total. المس لإنشاء التالي.';
   }
+
+  @override
+  String get sendPlacesTo => 'إرسال الأماكن إلى';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مكان جاهز للإرسال',
+      many: '$count مكاناً جاهزة للإرسال',
+      few: '$count أماكن جاهزة للإرسال',
+      two: 'مكانان جاهزان للإرسال',
+      one: 'مكان واحد جاهز للإرسال',
+      zero: 'لا مكان جاهز للإرسال',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مكان بلا موقع ولا يمكن إرساله',
+      many: '$count مكاناً بلا موقع ولا يمكن إرسالها',
+      few: '$count أماكن بلا موقع ولا يمكن إرسالها',
+      two: 'مكانان بلا موقع ولا يمكن إرسالهما',
+      one: 'مكان واحد بلا موقع ولا يمكن إرساله',
+      zero: 'لا مكان بلا موقع',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'أي تطبيق آخر';
+
+  @override
+  String get sendPlacesFailed => 'لم يقبل هذا التطبيق الملف';
 }

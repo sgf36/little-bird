@@ -489,4 +489,39 @@ class LHe extends L {
   String splitProgress(int done, int total) {
     return 'מדריך $done מתוך $total נפתח. יש להקיש כדי ליצור את הבא.';
   }
+
+  @override
+  String get sendPlacesTo => 'שליחת מקומות אל';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count מקומות מוכנים לשליחה',
+      many: '$count מקומות מוכנים לשליחה',
+      two: 'שני מקומות מוכנים לשליחה',
+      one: 'מקום אחד מוכן לשליחה',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ל־$count מקומות אין מיקום ואי אפשר לשלוח אותם',
+      many: 'ל־$count מקומות אין מיקום ואי אפשר לשלוח אותם',
+      two: 'לשני מקומות אין מיקום ואי אפשר לשלוח אותם',
+      one: 'למקום אחד אין מיקום ואי אפשר לשלוח אותו',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'אפליקציה אחרת';
+
+  @override
+  String get sendPlacesFailed => 'האפליקציה לא קיבלה את הקובץ';
 }

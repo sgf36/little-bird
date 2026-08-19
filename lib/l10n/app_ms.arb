@@ -102,5 +102,10 @@
   "splitTitle": "Ini akan mencipta lebih daripada satu panduan",
   "splitBody": "Apple mengehadkan berapa banyak tempat yang boleh dibawa oleh satu pautan panduan. Wren akan mencipta {guides} panduan, dinomborkan supaya susunannya kekal, yang bersama-sama memuatkan {count} tempat.",
   "splitConfirm": "Cipta {guides} panduan",
-  "splitProgress": "Panduan {done} daripada {total} telah dibuka. Ketik untuk mencipta yang seterusnya."
+  "splitProgress": "Panduan {done} daripada {total} telah dibuka. Ketik untuk mencipta yang seterusnya.",
+  "sendPlacesTo": "Hantar tempat ke",
+  "sendPlacesReady": "{count, plural, other{{count} tempat sedia dihantar}}",
+  "sendPlacesNoLocation": "{count, plural, other{{count} tempat tiada lokasi dan tidak boleh dihantar}}",
+  "sendPlacesOtherApp": "Apl lain",
+  "sendPlacesFailed": "Apl itu tidak menerima fail"
 }

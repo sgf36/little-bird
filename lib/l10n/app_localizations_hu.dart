@@ -469,4 +469,35 @@ class LHu extends L {
   String splitProgress(int done, int total) {
     return '$done / $total útikalauz megnyitva. Koppints a következő elkészítéséhez.';
   }
+
+  @override
+  String get sendPlacesTo => 'Helyek küldése';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hely készen áll a küldésre',
+      one: '1 hely készen áll a küldésre',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count helynek nincs pozíciója, így nem küldhetők',
+      one: '1 helynek nincs pozíciója, így nem küldhető',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Bármely más alkalmazás';
+
+  @override
+  String get sendPlacesFailed => 'Az alkalmazás nem fogadta el a fájlt';
 }

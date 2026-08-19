@@ -102,5 +102,10 @@
   "splitTitle": "Bit će više od jednog vodiča",
   "splitBody": "Apple ograničava koliko mjesta može stati u jedan link vodiča. Wren će zato napraviti nekoliko vodiča ({guides}), numeriranih tako da ostane redoslijed, i rasporediti u njih sva mjesta ({count}).",
   "splitConfirm": "Napravi vodiče ({guides})",
-  "splitProgress": "Vodič {done} od {total} otvoren. Dodirni za sljedeći."
+  "splitProgress": "Vodič {done} od {total} otvoren. Dodirni za sljedeći.",
+  "sendPlacesTo": "Pošalji mjesta u",
+  "sendPlacesReady": "{count, plural, one{{count} mjesto je spremno za slanje} few{{count} mjesta su spremna za slanje} other{{count} mjesta je spremno za slanje}}",
+  "sendPlacesNoLocation": "{count, plural, one{{count} mjesto nema lokaciju i ne može se poslati} few{{count} mjesta nemaju lokaciju i ne mogu se poslati} other{{count} mjesta nema lokaciju i ne može se poslati}}",
+  "sendPlacesOtherApp": "Bilo koja druga aplikacija",
+  "sendPlacesFailed": "Ta aplikacija nije prihvatila datoteku"
 }

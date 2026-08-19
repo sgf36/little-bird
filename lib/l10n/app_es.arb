@@ -102,5 +102,10 @@
   "splitTitle": "Esto creará más de una guía",
   "splitBody": "Apple limita cuántos lugares puede llevar el enlace de una guía. Wren creará {guides} guías, numeradas para que queden en orden, con {count} lugares entre todas.",
   "splitConfirm": "Crear {guides} guías",
-  "splitProgress": "Guía {done} de {total} abierta. Toca para crear la siguiente."
+  "splitProgress": "Guía {done} de {total} abierta. Toca para crear la siguiente.",
+  "sendPlacesTo": "Enviar lugares a",
+  "sendPlacesReady": "{count, plural, =1{1 lugar listo para enviar} other{{count} lugares listos para enviar}}",
+  "sendPlacesNoLocation": "{count, plural, =1{1 lugar no tiene ubicación y no se puede enviar} other{{count} lugares no tienen ubicación y no se pueden enviar}}",
+  "sendPlacesOtherApp": "Otra app",
+  "sendPlacesFailed": "Esa app no aceptó el archivo"
 }

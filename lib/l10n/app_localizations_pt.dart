@@ -472,6 +472,37 @@ class LPt extends L {
   String splitProgress(int done, int total) {
     return 'Guia $done de $total aberto. Toque para criar o próximo.';
   }
+
+  @override
+  String get sendPlacesTo => 'Enviar lugares para';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lugares prontos para enviar',
+      one: '1 lugar pronto para enviar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lugares não têm localização e não podem ser enviados',
+      one: '1 lugar não tem localização e não pode ser enviado',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Outro app';
+
+  @override
+  String get sendPlacesFailed => 'Esse app não aceitou o arquivo';
 }
 
 /// The translations for Portuguese, as used in Portugal (`pt_PT`).
@@ -944,4 +975,35 @@ class LPtPt extends LPt {
   String splitProgress(int done, int total) {
     return 'Guia $done de $total aberto. Toque para criar o seguinte.';
   }
+
+  @override
+  String get sendPlacesTo => 'Enviar locais para';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count locais prontos a enviar',
+      one: '1 local pronto a enviar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count locais não têm localização e não podem ser enviados',
+      one: '1 local não tem localização e não pode ser enviado',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Outra aplicação';
+
+  @override
+  String get sendPlacesFailed => 'Essa aplicação não aceitou o ficheiro';
 }

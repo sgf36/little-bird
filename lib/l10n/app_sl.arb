@@ -102,5 +102,10 @@
   "splitTitle": "Nastalo bo več vodnikov",
   "splitBody": "Apple omejuje, koliko krajev zmore ena povezava do vodnika. Wren bo zato ustvaril več vodnikov ({guides}), številčenih tako, da ostane vrstni red, in med njih razporedil vse kraje ({count}).",
   "splitConfirm": "Ustvari vodnike ({guides})",
-  "splitProgress": "Vodnik {done} od {total} odprt. Tapni za naslednjega."
+  "splitProgress": "Vodnik {done} od {total} odprt. Tapni za naslednjega.",
+  "sendPlacesTo": "Pošlji kraje v",
+  "sendPlacesReady": "{count, plural, one{1 kraj je pripravljen za pošiljanje} two{{count} kraja sta pripravljena za pošiljanje} few{{count} kraji so pripravljeni za pošiljanje} other{{count} krajev je pripravljenih za pošiljanje}}",
+  "sendPlacesNoLocation": "{count, plural, one{1 kraj nima lokacije in ga ni mogoče poslati} two{{count} kraja nimata lokacije in jih ni mogoče poslati} few{{count} kraji nimajo lokacije in jih ni mogoče poslati} other{{count} krajev nima lokacije in jih ni mogoče poslati}}",
+  "sendPlacesOtherApp": "Katera koli druga aplikacija",
+  "sendPlacesFailed": "Ta aplikacija ni sprejela datoteke"
 }

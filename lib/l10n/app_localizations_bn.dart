@@ -463,4 +463,35 @@ class LBn extends L {
   String splitProgress(int done, int total) {
     return '$totalটির মধ্যে $doneটি গাইড খোলা হয়েছে। পরেরটি তৈরি করতে ট্যাপ করুন।';
   }
+
+  @override
+  String get sendPlacesTo => 'স্থান পাঠাও';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countটি স্থান পাঠানোর জন্য তৈরি',
+      one: '১টি স্থান পাঠানোর জন্য তৈরি',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countটি স্থানের অবস্থান নেই, পাঠানো যাবে না',
+      one: '১টি স্থানের অবস্থান নেই, পাঠানো যাবে না',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'অন্য কোনও অ্যাপ';
+
+  @override
+  String get sendPlacesFailed => 'সেই অ্যাপ ফাইলটি নিল না';
 }

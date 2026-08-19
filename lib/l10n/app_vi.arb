@@ -102,5 +102,10 @@
   "splitTitle": "Việc này sẽ tạo nhiều hướng dẫn",
   "splitBody": "Apple giới hạn số địa điểm mà một liên kết hướng dẫn có thể chứa. Wren sẽ tạo {guides} hướng dẫn, được đánh số để giữ đúng thứ tự, cùng chứa {count} địa điểm.",
   "splitConfirm": "Tạo {guides} hướng dẫn",
-  "splitProgress": "Đã mở hướng dẫn {done} trong {total}. Chạm để tạo cái tiếp theo."
+  "splitProgress": "Đã mở hướng dẫn {done} trong {total}. Chạm để tạo cái tiếp theo.",
+  "sendPlacesTo": "Gửi địa điểm tới",
+  "sendPlacesReady": "{count, plural, other{{count} địa điểm sẵn sàng để gửi}}",
+  "sendPlacesNoLocation": "{count, plural, other{{count} địa điểm không có vị trí nên không thể gửi}}",
+  "sendPlacesOtherApp": "Ứng dụng khác",
+  "sendPlacesFailed": "Ứng dụng đó không nhận tệp"
 }

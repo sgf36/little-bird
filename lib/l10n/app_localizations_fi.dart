@@ -466,4 +466,35 @@ class LFi extends L {
   String splitProgress(int done, int total) {
     return 'Opas $done / $total avattu. Napauta, niin luodaan seuraava.';
   }
+
+  @override
+  String get sendPlacesTo => 'Lähetä paikat';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count paikkaa valmiina lähetettäväksi',
+      one: '1 paikka valmiina lähetettäväksi',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count paikalla ei ole sijaintia eikä niitä voi lähettää',
+      one: '1 paikalla ei ole sijaintia eikä sitä voi lähettää',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Mikä tahansa muu sovellus';
+
+  @override
+  String get sendPlacesFailed => 'Sovellus ei ottanut tiedostoa vastaan';
 }

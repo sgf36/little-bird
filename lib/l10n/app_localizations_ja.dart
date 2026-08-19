@@ -439,4 +439,33 @@ class LJa extends L {
   String splitProgress(int done, int total) {
     return '$total個中$done個目のガイドを開きました。タップして次を作成します。';
   }
+
+  @override
+  String get sendPlacesTo => '場所の送信先';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count件の場所を送信できます',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count件の場所に位置情報がなく、送信できません',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'ほかのアプリ';
+
+  @override
+  String get sendPlacesFailed => 'そのアプリはファイルを受け取りませんでした';
 }

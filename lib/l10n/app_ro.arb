@@ -102,5 +102,10 @@
   "splitTitle": "Se vor crea mai multe ghiduri",
   "splitBody": "Apple limitează câte locuri poate duce un link de ghid. Wren va crea mai multe ghiduri ({guides}), numerotate ca să rămână în ordine, și va împărți între ele toate locurile ({count}).",
   "splitConfirm": "Creează ghidurile ({guides})",
-  "splitProgress": "Ghidul {done} din {total} a fost deschis. Atinge pentru a-l crea pe următorul."
+  "splitProgress": "Ghidul {done} din {total} a fost deschis. Atinge pentru a-l crea pe următorul.",
+  "sendPlacesTo": "Trimite locurile către",
+  "sendPlacesReady": "{count, plural, =1{1 loc este gata de trimis} few{{count} locuri sunt gata de trimis} other{{count} de locuri sunt gata de trimis}}",
+  "sendPlacesNoLocation": "{count, plural, =1{1 loc nu are poziție și nu poate fi trimis} few{{count} locuri nu au poziție și nu pot fi trimise} other{{count} de locuri nu au poziție și nu pot fi trimise}}",
+  "sendPlacesOtherApp": "Orice altă aplicație",
+  "sendPlacesFailed": "Acea aplicație nu a acceptat fișierul"
 }

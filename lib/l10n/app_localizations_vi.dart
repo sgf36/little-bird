@@ -450,4 +450,33 @@ class LVi extends L {
   String splitProgress(int done, int total) {
     return 'Đã mở hướng dẫn $done trong $total. Chạm để tạo cái tiếp theo.';
   }
+
+  @override
+  String get sendPlacesTo => 'Gửi địa điểm tới';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count địa điểm sẵn sàng để gửi',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count địa điểm không có vị trí nên không thể gửi',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Ứng dụng khác';
+
+  @override
+  String get sendPlacesFailed => 'Ứng dụng đó không nhận tệp';
 }

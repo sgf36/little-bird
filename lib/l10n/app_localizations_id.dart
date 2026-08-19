@@ -455,4 +455,33 @@ class LId extends L {
   String splitProgress(int done, int total) {
     return 'Panduan $done dari $total sudah dibuka. Ketuk untuk membuat yang berikutnya.';
   }
+
+  @override
+  String get sendPlacesTo => 'Kirim tempat ke';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tempat siap dikirim',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tempat tidak punya lokasi dan tidak bisa dikirim',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Aplikasi lain';
+
+  @override
+  String get sendPlacesFailed => 'Aplikasi itu tidak menerima berkas';
 }

@@ -505,4 +505,39 @@ class LRu extends L {
   String splitProgress(int done, int total) {
     return 'Путеводитель $done из $total открыт. Нажми, чтобы сделать следующий.';
   }
+
+  @override
+  String get sendPlacesTo => 'Отправить места в';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count места готовы к отправке',
+      many: '$count мест готовы к отправке',
+      few: '$count места готовы к отправке',
+      one: '$count место готово к отправке',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'у $count места нет координат, их не отправить',
+      many: 'у $count мест нет координат, их не отправить',
+      few: 'у $count мест нет координат, их не отправить',
+      one: 'у $count места нет координат, его не отправить',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Любое другое приложение';
+
+  @override
+  String get sendPlacesFailed => 'Это приложение не приняло файл';
 }

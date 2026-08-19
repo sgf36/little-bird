@@ -466,4 +466,35 @@ class LGu extends L {
   String splitProgress(int done, int total) {
     return '$total માંથી $done માર્ગદર્શિકા ખૂલી. પછીની બનાવવા ટૅપ કરો.';
   }
+
+  @override
+  String get sendPlacesTo => 'સ્થળો મોકલો';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count સ્થળો મોકલવા તૈયાર',
+      one: '1 સ્થળ મોકલવા તૈયાર',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count સ્થળોનું સ્થાન નથી, મોકલી શકાય નહીં',
+      one: '1 સ્થળનું સ્થાન નથી, મોકલી શકાય નહીં',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'કોઈ પણ બીજી ઍપ';
+
+  @override
+  String get sendPlacesFailed => 'તે ઍપે ફાઇલ સ્વીકારી નહીં';
 }

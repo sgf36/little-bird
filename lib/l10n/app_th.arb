@@ -102,5 +102,10 @@
   "splitTitle": "จะได้ไกด์มากกว่าหนึ่งอัน",
   "splitBody": "Apple จำกัดจำนวนที่ที่ลิงก์ไกด์เดียวจะพาไปได้ Wren จะสร้างไกด์ {guides} อัน ใส่เลขกำกับให้เรียงตามลำดับ และแบ่ง {count} ที่ไว้ในนั้น",
   "splitConfirm": "สร้างไกด์ {guides} อัน",
-  "splitProgress": "เปิดไกด์ที่ {done} จาก {total} แล้ว แตะเพื่อสร้างอันต่อไป"
+  "splitProgress": "เปิดไกด์ที่ {done} จาก {total} แล้ว แตะเพื่อสร้างอันต่อไป",
+  "sendPlacesTo": "ส่งสถานที่ไปที่",
+  "sendPlacesReady": "{count, plural, other{สถานที่ {count} แห่งพร้อมส่ง}}",
+  "sendPlacesNoLocation": "{count, plural, other{สถานที่ {count} แห่งไม่มีตำแหน่ง จึงส่งไม่ได้}}",
+  "sendPlacesOtherApp": "แอปอื่น",
+  "sendPlacesFailed": "แอปนั้นไม่รับไฟล์"
 }

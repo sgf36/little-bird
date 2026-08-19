@@ -501,4 +501,39 @@ class LSl extends L {
   String splitProgress(int done, int total) {
     return 'Vodnik $done od $total odprt. Tapni za naslednjega.';
   }
+
+  @override
+  String get sendPlacesTo => 'Pošlji kraje v';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count krajev je pripravljenih za pošiljanje',
+      few: '$count kraji so pripravljeni za pošiljanje',
+      two: '$count kraja sta pripravljena za pošiljanje',
+      one: '1 kraj je pripravljen za pošiljanje',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count krajev nima lokacije in jih ni mogoče poslati',
+      few: '$count kraji nimajo lokacije in jih ni mogoče poslati',
+      two: '$count kraja nimata lokacije in jih ni mogoče poslati',
+      one: '1 kraj nima lokacije in ga ni mogoče poslati',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Katera koli druga aplikacija';
+
+  @override
+  String get sendPlacesFailed => 'Ta aplikacija ni sprejela datoteke';
 }

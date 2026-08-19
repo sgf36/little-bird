@@ -475,4 +475,35 @@ class LMl extends L {
   String splitProgress(int done, int total) {
     return '$totalൽ $done ഗൈഡ് തുറന്നു. അടുത്തത് ഉണ്ടാക്കാൻ ടാപ്പ് ചെയ്യുക.';
   }
+
+  @override
+  String get sendPlacesTo => 'സ്ഥലങ്ങൾ അയയ്ക്കുക';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count സ്ഥലങ്ങൾ അയയ്ക്കാൻ തയ്യാർ',
+      one: '1 സ്ഥലം അയയ്ക്കാൻ തയ്യാർ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count സ്ഥലങ്ങൾക്ക് ലൊക്കേഷൻ ഇല്ല, അയയ്ക്കാനാകില്ല',
+      one: '1 സ്ഥലത്തിന് ലൊക്കേഷൻ ഇല്ല, അയയ്ക്കാനാകില്ല',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'മറ്റേതെങ്കിലും ആപ്പ്';
+
+  @override
+  String get sendPlacesFailed => 'ആ ആപ്പ് ഫയൽ സ്വീകരിച്ചില്ല';
 }

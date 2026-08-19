@@ -484,4 +484,37 @@ class LHr extends L {
   String splitProgress(int done, int total) {
     return 'Vodič $done od $total otvoren. Dodirni za sljedeći.';
   }
+
+  @override
+  String get sendPlacesTo => 'Pošalji mjesta u';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mjesta je spremno za slanje',
+      few: '$count mjesta su spremna za slanje',
+      one: '$count mjesto je spremno za slanje',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mjesta nema lokaciju i ne može se poslati',
+      few: '$count mjesta nemaju lokaciju i ne mogu se poslati',
+      one: '$count mjesto nema lokaciju i ne može se poslati',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Bilo koja druga aplikacija';
+
+  @override
+  String get sendPlacesFailed => 'Ta aplikacija nije prihvatila datoteku';
 }

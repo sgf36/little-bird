@@ -102,5 +102,10 @@
   "splitTitle": "這會產生多個指南",
   "splitBody": "一個指南連結能帶多少個地點是 Apple 定的上限。Wren 會做 {guides} 個指南，依順序編號，一起收下這 {count} 個地點。",
   "splitConfirm": "製作 {guides} 個指南",
-  "splitProgress": "第 {done} 個指南已打開，共 {total} 個。點一下來製作下一個。"
+  "splitProgress": "第 {done} 個指南已打開，共 {total} 個。點一下來製作下一個。",
+  "sendPlacesTo": "將地點傳送到",
+  "sendPlacesReady": "{count, plural, other{{count} 個地點已準備好傳送}}",
+  "sendPlacesNoLocation": "{count, plural, other{{count} 個地點沒有位置，無法傳送}}",
+  "sendPlacesOtherApp": "其他應用程式",
+  "sendPlacesFailed": "該應用程式沒有接收檔案"
 }

@@ -478,4 +478,35 @@ class LUr extends L {
   String splitProgress(int done, int total) {
     return '$total میں سے $done گائیڈ کھل گئی۔ اگلی بنانے کے لیے ٹیپ کریں۔';
   }
+
+  @override
+  String get sendPlacesTo => 'مقامات بھیجیں';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مقامات بھیجنے کے لیے تیار',
+      one: '1 مقام بھیجنے کے لیے تیار',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مقامات کا محلِ وقوع نہیں، انہیں بھیجا نہیں جا سکتا',
+      one: '1 مقام کا محلِ وقوع نہیں، اسے بھیجا نہیں جا سکتا',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'کوئی اور ایپ';
+
+  @override
+  String get sendPlacesFailed => 'اُس ایپ نے فائل نہیں لی';
 }
