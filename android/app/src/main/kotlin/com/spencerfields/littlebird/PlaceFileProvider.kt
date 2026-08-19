@@ -1,4 +1,4 @@
-package com.spencerfields.reel_places
+package com.spencerfields.littlebird
 
 import android.net.Uri
 import androidx.core.content.FileProvider
