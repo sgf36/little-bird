@@ -10,5 +10,6 @@ class MainActivity : FlutterActivity() {
     // plugin is a compile error instead of a channel that silently answers
     // MissingPluginException at runtime.
     flutterEngine.plugins.add(ShareFilePlugin())
+    flutterEngine.plugins.add(PickFilePlugin())
   }
 }
