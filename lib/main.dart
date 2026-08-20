@@ -321,8 +321,16 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   /// Reached by long-pressing the title. Nothing on screen advertises it, and
   /// a code has to be issued before it does anything — the entry point on its
   /// own is not a way in.
+  ///
+  /// Absent where there are no guides, for the same reason as the rest of the
+  /// purchase: the code unlocks guides of any size, and unlocking a cap that
+  /// does not apply is nothing. It also cannot work — the device identifier a
+  /// code is issued against comes from `littlebird/identity`, which has no
+  /// Android implementation, so [comp.redeem] answers "unreachable" without
+  /// reaching anything. That is the whole reason this build makes no network
+  /// request at all, which is what the Data Safety declaration rests on.
   Future<void> _compUnlock() async {
-    if (_entitlement.unlimited) return;
+    if (!_makesGuides || _entitlement.unlimited) return;
     final l = L.of(context);
     final controller = TextEditingController();
     final entered = await showDialog<String>(

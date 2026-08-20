@@ -238,25 +238,44 @@ jobs:
           [ "$found" = 1 ] || { echo "::error::no Kotlin at all in $DIR -- the sources are in some other package and nothing the manifest names can resolve"; fail=1; }
           exit $fail
 
-      # The app manifest asks for nothing, and the APK used to ship
-      # com.android.vending.BILLING anyway: `in_app_purchase` pulls in
-      # com.android.billingclient:billing, whose own manifest declares it, and
-      # Play reads the merged result. It is removed with tools:node="remove"
-      # because Android sells nothing -- the unlock is an Apple Maps feature and
-      # the product does not exist in Play Console. Reading the source manifest
-      # would not catch a regression here, so this reads what was actually
-      # built.
-      - name: Prove the APK asks for no purchase
+      # What the app asks for is decided by its dependencies, not by its own
+      # manifest, and nothing in the source tree shows the result. Every
+      # permission Wren shipped arrived through com.android.billingclient:
+      # BILLING from the billing library itself, INTERNET and
+      # ACCESS_NETWORK_STATE from the Google datatransport it depends on. All
+      # three are removed with tools:node="remove", because the released app
+      # sells nothing and makes no network request of its own -- there is no
+      # map lookup here, no guide link to expand, and a complimentary-access
+      # code cannot be redeemed without a device identifier the Android build
+      # has no channel for.
+      #
+      # So this reads what was BUILT, for both variants: nothing in release,
+      # and INTERNET back in debug, where the Dart VM service needs it and
+      # `flutter run` attaches to nothing without it.
+      - name: Prove the released app asks for nothing
         run: |
-          M=$(find build/app/intermediates/merged_manifest -name AndroidManifest.xml | head -1)
-          [ -n "$M" ] || { echo "::error::no merged manifest — the check below would pass by finding nothing"; exit 1; }
-          echo "reading $M"
-          grep -o 'uses-permission android:name="[^"]*"' "$M" || true
-          if grep -q 'com.android.vending.BILLING' "$M"; then
-            echo "::error::the APK declares com.android.vending.BILLING. Play would advertise in-app purchases on a listing that cannot take a payment. Restore the tools:node=\"remove\" line in android/app/src/main/AndroidManifest.xml, or, if Android really is selling something now, create the product in Play Console first."
-            exit 1
-          fi
-          echo "no BILLING permission in the built APK"
+          set -e
+          ( cd android && ./gradlew --no-daemon -q :app:processReleaseMainManifest )
+          R=build/app/intermediates/merged_manifest/release/processReleaseMainManifest/AndroidManifest.xml
+          D=$(find build/app/intermediates/merged_manifest/debug -name AndroidManifest.xml | head -1)
+          for f in "$R" "$D"; do
+            [ -f "$f" ] || { echo "::error::no manifest at $f — the checks below would pass by finding nothing"; exit 1; }
+          done
+          echo "release: $R"; grep -o 'uses-permission android:name="[^"]*"' "$R" || echo "  (none)"
+          echo "debug:   $D"; grep -o 'uses-permission android:name="[^"]*"' "$D" || echo "  (none)"
+          fail=0
+          for perm in com.android.vending.BILLING android.permission.INTERNET android.permission.ACCESS_NETWORK_STATE; do
+            if grep -q "\"$perm\"" "$R"; then
+              echo "::error::the release manifest declares $perm. It came from a dependency, not from android/app/src/main/AndroidManifest.xml — restore the matching tools:node=\"remove\" line there. BILLING in particular would make Play advertise in-app purchases on a listing that cannot take a payment."
+              fail=1
+            fi
+          done
+          grep -q '"android.permission.INTERNET"' "$D" || {
+            echo "::error::the debug manifest has no INTERNET. android/app/src/debug/AndroidManifest.xml adds it back for the Dart VM service; without it flutter run attaches to nothing."
+            fail=1
+          }
+          [ "$fail" = 0 ] && echo "release asks for nothing; debug keeps INTERNET"
+          exit $fail
 
       - name: Report APK size
         run: du -sh build/app/outputs/flutter-apk/app-debug.apk

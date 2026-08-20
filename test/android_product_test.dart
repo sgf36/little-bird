@@ -116,6 +116,29 @@ void main() {
     expect(store.restoreCalls, 0);
   });
 
+  testWidgets('the complimentary code is not offered either', (tester) async {
+    // Long-pressing the title opens it. Undiscoverable, so no reviewer will
+    // find it -- but it unlocks guides of any size, which is nothing here, and
+    // it is the only thing in the app that would open a socket. It cannot even
+    // do that: the device identifier a code is issued against comes from a
+    // channel with no Android implementation. Leaving a dialog that can only
+    // ever answer "could not be reached" is worse than not having one.
+    await pumpAndroid(tester);
+    await tester.longPress(find.text('Wren'));
+    await tester.pumpAndSettle();
+    expect(find.text('Complimentary access'), findsNothing);
+  });
+
+  testWidgets('a guide-making build keeps the complimentary code', (
+    tester,
+  ) async {
+    await tester.pumpWidget(app(const CapturePage(canMakeGuides: true)));
+    await tester.pumpAndSettle();
+    await tester.longPress(find.text('Wren'));
+    await tester.pumpAndSettle();
+    expect(find.text('Complimentary access'), findsOne);
+  });
+
   testWidgets('more places than the free cap all go across', (tester) async {
     // The cap limits the places in one guide. This makes no guide, so counting
     // against it would be charging for a feature the platform does not have.

@@ -19,6 +19,28 @@
          does sell something, delete this line first — a billing call
          without the permission fails at connection time, not at build. -->
     <uses-permission android:name="com.android.vending.BILLING" tools:node="remove" />
+
+    <!-- Both of these arrive the same way, and neither is Wren's.
+         com.android.billingclient:billing depends on Google's datatransport
+         (transport-backend-cct), whose manifest declares INTERNET and
+         ACCESS_NETWORK_STATE for its own telemetry.
+
+         This build asks nothing of the network. There is no map lookup here
+         (MapKit is Apple's), no guide to expand a link for, and the
+         complimentary-access code cannot be redeemed because the device
+         identifier it is issued against comes from a channel with no Android
+         implementation — comp.redeem answers "unreachable" before it opens a
+         socket. The one thing that does reach the internet is Chrome, when
+         the user picks the Google Maps route and the system opens My Maps in
+         a Custom Tab: that is the browser's request, with the user's own
+         session, after they have already saved the file themselves.
+
+         So the released app declares no permissions at all, which is both
+         true and worth saying on the listing. Debug and profile builds add
+         INTERNET back in their own manifests, because the Dart VM service and
+         hot reload need it and nothing else does. -->
+    <uses-permission android:name="android.permission.INTERNET" tools:node="remove" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" tools:node="remove" />
     <application
         android:label="Wren"
         android:name="${applicationName}"
