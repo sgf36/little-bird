@@ -141,6 +141,13 @@ class Pending {
   bool get billable => origin != Origin.guide;
 }
 
+/// Empty strings are a name nobody chose. Reads better than a chain of
+/// `isEmpty ? null : x` at each call site, and keeps the two places that pick a
+/// list's name agreeing on what "no name" means.
+extension on String {
+  String? get nullIfEmpty => isEmpty ? null : this;
+}
+
 class CapturePage extends StatefulWidget {
   const CapturePage({
     super.key,
@@ -630,6 +637,33 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
     }
   }
 
+  /// The file's name with its extension taken off, or null when there is
+  /// nothing left worth using.
+  ///
+  /// Only the extensions the importer actually accepts are stripped. Cutting at
+  /// the last dot would turn "Lunch. Tokyo.csv" into "Lunch" and "St. John" into
+  /// "St", which is a worse name than the one it replaced.
+  static String? _titleFrom(String filename) {
+    var name = filename;
+    for (final ext in const [
+      '.csv',
+      '.tsv',
+      '.kml',
+      '.kmz',
+      '.gpx',
+      '.geojson',
+      '.json',
+      '.zip',
+      '.txt',
+    ]) {
+      if (name.toLowerCase().endsWith(ext)) {
+        name = name.substring(0, name.length - ext.length);
+        break;
+      }
+    }
+    return name.trim().nullIfEmpty;
+  }
+
   /// Reads the places out of a guide the user already has, so new ones can be
   /// added to them.
   ///
@@ -847,12 +881,16 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
     });
 
     final PlaceFileResult read;
+    // Kept beyond the try, because the file's own name is the fallback title
+    // and the parser's own title is only known afterwards.
+    final String pickedName;
     try {
       final picked = await _files.pick();
       if (picked == null || !mounted) {
         setState(() => _busy = false);
         return;
       }
+      pickedName = picked.name;
       read = readPlaceFile(picked.text, filename: picked.name);
     } on PlaceFileFormat {
       // Same reasoning as the guide link: the parser's complaint is precise and
@@ -892,10 +930,15 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
       // document name — and this method quietly dropped it, so importing
       // 8-places.geojson offered no guide name at all. Only taken when there is
       // not already one from an imported guide, which is the stronger claim.
-      final title = read.title;
-      if (_guideName == null && title != null && title.isNotEmpty) {
-        _guideName = title;
-      }
+      //
+      // Failing that, the file's own name. A CSV carries no title inside it,
+      // so a list exported as "Saved places.csv" used to arrive in the other
+      // map app called "Places" — or "Places1", once the second one landed.
+      // The name the user already gave the file is better than a word Wren
+      // made up, and on iOS it is only ever a suggestion in a box they can
+      // edit.
+      final title = read.title?.trim().nullIfEmpty ?? _titleFrom(pickedName);
+      _guideName ??= title;
     });
 
     var unmatched = 0, added = 0, positioned = 0;

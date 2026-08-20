@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wren/main.dart';
@@ -215,6 +217,63 @@ Fuunji,35.6895,139.6917,Shibuya
       expect(find.text('Add screenshots'), findsOne);
       expect(find.text('From a file'), findsOne);
       expect(find.text('From an existing guide'), findsOne);
+    });
+  });
+
+  group('the list arrives under a name somebody chose', () {
+    const csv = '''
+name,latitude,longitude,address
+Padella,51.5055,-0.0911,Southwark
+''';
+
+    testWidgets('a CSV takes its title from the file name', (tester) async {
+      // A CSV carries no title inside it. Without this the list landed in the
+      // other map app called "Places" — and "Places1" once a second one
+      // arrived, which is Organic Maps disambiguating a name Wren invented.
+      final sharer = StubPlaceSharer();
+      await pumpAndroid(
+        tester,
+        files: StubFileSource(csv, name: 'Saved places.csv'),
+        sharer: sharer,
+      );
+      await tester.tap(find.widgetWithText(OutlinedButton, 'Add'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.widgetWithText(FilledButton, 'Send places to'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Any other app'));
+      await tester.pumpAndSettle();
+
+      final gpx = utf8.decode(sharer.sent.single.file.bytes);
+      expect(gpx, contains('<name>Saved places</name>'));
+      expect(gpx, isNot(contains('<name>Places</name>')));
+    });
+
+    testWidgets('a title inside the file still wins', (tester) async {
+      // The GPX says what it is called. That is a stronger claim than the
+      // name of whatever the file happens to be saved as.
+      const gpx = '''
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="test" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata><name>Tokyo, March</name></metadata>
+  <wpt lat="35.6895" lon="139.6917"><name>Fuunji</name></wpt>
+</gpx>
+''';
+      final sharer = StubPlaceSharer();
+      await pumpAndroid(
+        tester,
+        files: StubFileSource(gpx, name: 'export (3).gpx'),
+        sharer: sharer,
+      );
+      await tester.tap(find.widgetWithText(OutlinedButton, 'Add'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.widgetWithText(FilledButton, 'Send places to'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Any other app'));
+      await tester.pumpAndSettle();
+
+      final written = utf8.decode(sharer.sent.single.file.bytes);
+      expect(written, contains('Tokyo, March'));
+      expect(written, isNot(contains('export (3)')));
     });
   });
 
