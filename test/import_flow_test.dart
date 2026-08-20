@@ -629,9 +629,9 @@ Den,35.6700,139.7100,Jingumae
         // is the hand-off rather than an item hidden in the overflow menu.
         canMakeGuides: false,
       );
-      // No source menu here: a file is the only way in, so Add is the picker.
-      await tester.tap(find.widgetWithText(OutlinedButton, 'Add'));
-      await tester.pumpAndSettle();
+      await addFrom(tester, 'From a file');
+      // The main button, not an item in the overflow menu: where there are no
+      // guides the hand-off is the whole product, so it is the button.
       await tester.tap(find.widgetWithText(FilledButton, 'Send places to'));
       await tester.pumpAndSettle();
     }

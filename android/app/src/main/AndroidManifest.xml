@@ -20,26 +20,21 @@
          without the permission fails at connection time, not at build. -->
     <uses-permission android:name="com.android.vending.BILLING" tools:node="remove" />
 
-    <!-- Both of these arrive the same way, and neither is Wren's.
-         com.android.billingclient:billing depends on Google's datatransport
-         (transport-backend-cct), whose manifest declares INTERNET and
-         ACCESS_NETWORK_STATE for its own telemetry.
+    <!-- Reading a screenshot happens on the phone: the text recogniser runs
+         from a model inside the bundle and asks nothing of the network.
+         Turning the name it read into a place does not. The system geocoder
+         is what MapKit is on iPhone, and it answers over the network, so a
+         place name does leave the device — exactly as the iOS build has
+         always described.
 
-         This build asks nothing of the network. There is no map lookup here
-         (MapKit is Apple's), no guide to expand a link for, and the
-         complimentary-access code cannot be redeemed because the device
-         identifier it is issued against comes from a channel with no Android
-         implementation — comp.redeem answers "unreachable" before it opens a
-         socket. The one thing that does reach the internet is Chrome, when
-         the user picks the Google Maps route and the system opens My Maps in
-         a Custom Tab: that is the browser's request, with the user's own
-         session, after they have already saved the file themselves.
+         So INTERNET is genuinely required and stays. ACCESS_NETWORK_STATE is
+         not: it arrives from the Google datatransport that the billing
+         library depends on, for its own telemetry, and nothing here reads it.
 
-         So the released app declares no permissions at all, which is both
-         true and worth saying on the listing. Debug and profile builds add
-         INTERNET back in their own manifests, because the Dart VM service and
-         hot reload need it and nothing else does. -->
-    <uses-permission android:name="android.permission.INTERNET" tools:node="remove" />
+         Wren still asks for no permission of its own beyond this one. There
+         is no location permission, deliberately: the app never asks where the
+         phone is, only where a place named in a screenshot is. -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" tools:node="remove" />
     <application
         android:label="Wren"

@@ -113,4 +113,16 @@ dependencies {
     // one; a Custom Tab can sign in but forbids injection. That split is
     // deliberate, and it is why this is a tab rather than a WebView.
     implementation("androidx.browser:browser:1.8.0")
+
+    // On-device text recognition, which is what makes reading a screenshot
+    // possible here at all -- the iOS build uses Apple's Vision framework, and
+    // this is the Android equivalent. It runs entirely on the phone.
+    //
+    // Bundled rather than the play-services variant. Bundled puts the model in
+    // the bundle, costing about 10 MB of what a phone actually downloads, and
+    // the first screenshot reads immediately. The unbundled variant costs
+    // almost nothing up front and then downloads the model through Play
+    // services on first use, which fails on a phone that is offline at exactly
+    // the moment somebody tries the app for the first time.
+    implementation("com.google.mlkit:text-recognition:16.0.1")
 }

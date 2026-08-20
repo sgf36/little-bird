@@ -11,5 +11,7 @@ class MainActivity : FlutterActivity() {
     // MissingPluginException at runtime.
     flutterEngine.plugins.add(ShareFilePlugin())
     flutterEngine.plugins.add(PickFilePlugin())
+    flutterEngine.plugins.add(OcrPlugin(applicationContext))
+    flutterEngine.plugins.add(PlacesPlugin(applicationContext))
   }
 }

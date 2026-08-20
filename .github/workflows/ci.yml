@@ -239,42 +239,47 @@ jobs:
           exit $fail
 
       # What the app asks for is decided by its dependencies, not by its own
-      # manifest, and nothing in the source tree shows the result. Every
-      # permission Wren shipped arrived through com.android.billingclient:
-      # BILLING from the billing library itself, INTERNET and
-      # ACCESS_NETWORK_STATE from the Google datatransport it depends on. All
-      # three are removed with tools:node="remove", because the released app
-      # sells nothing and makes no network request of its own -- there is no
-      # map lookup here, no guide link to expand, and a complimentary-access
-      # code cannot be redeemed without a device identifier the Android build
-      # has no channel for.
+      # manifest, and nothing in the source tree shows the result. Three
+      # permissions arrived that way: BILLING from the billing library, and
+      # INTERNET plus ACCESS_NETWORK_STATE from the Google datatransport it
+      # depends on.
       #
-      # So this reads what was BUILT, for both variants: nothing in release,
-      # and INTERNET back in debug, where the Dart VM service needs it and
-      # `flutter run` attaches to nothing without it.
-      - name: Prove the released app asks for nothing
+      # INTERNET is now genuinely needed -- the system geocoder turns a name
+      # read off a screenshot into a coordinate, and it answers over the
+      # network -- so it is declared deliberately in the app manifest rather
+      # than inherited. The other two are removed: Android sells nothing, and
+      # nothing here reads the network state.
+      #
+      # This reads what was BUILT, for both variants, because the source
+      # manifest cannot show what a dependency added.
+      - name: Prove the app asks only for what it uses
         run: |
           set -e
           ( cd android && ./gradlew --no-daemon -q :app:processReleaseMainManifest )
           R=build/app/intermediates/merged_manifest/release/processReleaseMainManifest/AndroidManifest.xml
-          D=$(find build/app/intermediates/merged_manifest/debug -name AndroidManifest.xml | head -1)
-          for f in "$R" "$D"; do
-            [ -f "$f" ] || { echo "::error::no manifest at $f — the checks below would pass by finding nothing"; exit 1; }
-          done
+          [ -f "$R" ] || { echo "::error::no release manifest at $R — the checks below would pass by finding nothing"; exit 1; }
           echo "release: $R"; grep -o 'uses-permission android:name="[^"]*"' "$R" || echo "  (none)"
-          echo "debug:   $D"; grep -o 'uses-permission android:name="[^"]*"' "$D" || echo "  (none)"
           fail=0
-          for perm in com.android.vending.BILLING android.permission.INTERNET android.permission.ACCESS_NETWORK_STATE; do
+          for perm in com.android.vending.BILLING android.permission.ACCESS_NETWORK_STATE; do
             if grep -q "\"$perm\"" "$R"; then
-              echo "::error::the release manifest declares $perm. It came from a dependency, not from android/app/src/main/AndroidManifest.xml — restore the matching tools:node=\"remove\" line there. BILLING in particular would make Play advertise in-app purchases on a listing that cannot take a payment."
+              echo "::error::the release manifest declares $perm, which nothing in Wren uses. It came from a dependency — restore the matching tools:node=\"remove\" line in android/app/src/main/AndroidManifest.xml. BILLING in particular makes Play advertise in-app purchases on a listing that cannot take a payment."
               fail=1
             fi
           done
-          grep -q '"android.permission.INTERNET"' "$D" || {
-            echo "::error::the debug manifest has no INTERNET. android/app/src/debug/AndroidManifest.xml adds it back for the Dart VM service; without it flutter run attaches to nothing."
+          # And the one that must be there. Without it every lookup fails with
+          # a SecurityException at run time and nothing at build time.
+          grep -q '"android.permission.INTERNET"' "$R" || {
+            echo "::error::the release manifest has no INTERNET. The geocoder needs it; without it every place lookup fails on a device and no test here would notice."
             fail=1
           }
-          [ "$fail" = 0 ] && echo "release asks for nothing; debug keeps INTERNET"
+          # A place name is looked up; the phone's own position never is.
+          for perm in ACCESS_FINE_LOCATION ACCESS_COARSE_LOCATION; do
+            if grep -q "$perm" "$R"; then
+              echo "::error::the release manifest declares $perm. Wren never asks where the phone is, only where a place named in a screenshot is, and a location permission on the listing says otherwise."
+              fail=1
+            fi
+          done
+          [ "$fail" = 0 ] && echo "asks for INTERNET and nothing else"
           exit $fail
 
       - name: Report APK size

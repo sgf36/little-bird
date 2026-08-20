@@ -187,17 +187,17 @@ void main() {
   });
 
   group('the first screen describes the app that is installed', () {
-    testWidgets('it promises no screenshots and no guide', (tester) async {
+    testWidgets('it says where the places end up, and names no Apple', (
+      tester,
+    ) async {
       await pumpAndroid(tester);
-      // emptyBody/emptyNote are about reading screenshots into Apple Maps.
-      // Neither half exists here: no Vision framework, no Apple Maps.
-      expect(find.textContaining('Screenshot what people'), findsNothing);
+      // The same promise as iOS up to the destination: a screenshot is read
+      // here too, by ML Kit rather than Vision. What differs is the last
+      // clause -- a map app on the phone, not a guide that does not exist.
+      expect(find.textContaining('Screenshot what people'), findsOne);
+      expect(find.textContaining('sends them to the map app'), findsOne);
       expect(find.textContaining('Apple'), findsNothing);
-      expect(find.textContaining('Open a list of places'), findsOne);
-      // The formats chip opens with "Also", which is only true beside
-      // screenshots. The Android body names them instead.
-      expect(find.textContaining('Also reads a list'), findsNothing);
-      expect(find.textContaining('GeoJSON'), findsOne);
+      expect(find.textContaining('Also reads a list'), findsOne);
     });
 
     testWidgets('the guide-making build keeps its own words', (tester) async {
@@ -215,19 +215,18 @@ name,latitude,longitude,address
 Fuunji,35.6895,139.6917,Shibuya
 ''';
 
-    testWidgets('Add goes straight to the file picker', (tester) async {
-      // No sheet at all. Screenshots need Apple's Vision framework, and a
-      // guide read without MapKit arrives as identifiers with no coordinate,
-      // so a three-item menu would offer one working source and two dead ones.
+    testWidgets('a guide link is the only source left out', (tester) async {
+      // Screenshots work here now. A guide link still does not: it is a list
+      // of Apple identifiers and nothing else, and resolving one needs
+      // Apple's own lookup, so it produces a list that looks imported and
+      // cannot be sent. Measured, not assumed.
       await pumpAndroid(tester, files: StubFileSource(csv));
       await tester.tap(find.widgetWithText(OutlinedButton, 'Add'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Add screenshots'), findsNothing);
+      expect(find.text('Add screenshots'), findsOne);
+      expect(find.text('From a file'), findsOne);
       expect(find.text('From an existing guide'), findsNothing);
-      expect(find.text('From a file'), findsNothing);
-      // The picker ran and its one row is on screen.
-      expect(find.text('Fuunji'), findsOne);
     });
 
     testWidgets('the guide-making build still asks which source', (
@@ -261,6 +260,8 @@ Padella,51.5055,-0.0911,Southwark
       );
       await tester.tap(find.widgetWithText(OutlinedButton, 'Add'));
       await tester.pumpAndSettle();
+      await tester.tap(find.text('From a file'));
+      await tester.pumpAndSettle();
       await tester.tap(find.widgetWithText(FilledButton, 'Send places to'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Any other app'));
@@ -289,6 +290,8 @@ Padella,51.5055,-0.0911,Southwark
       );
       await tester.tap(find.widgetWithText(OutlinedButton, 'Add'));
       await tester.pumpAndSettle();
+      await tester.tap(find.text('From a file'));
+      await tester.pumpAndSettle();
       await tester.tap(find.widgetWithText(FilledButton, 'Send places to'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Any other app'));
@@ -297,6 +300,54 @@ Padella,51.5055,-0.0911,Southwark
       final written = utf8.decode(sharer.sent.single.file.bytes);
       expect(written, contains('Tokyo, March'));
       expect(written, isNot(contains('export (3)')));
+    });
+  });
+
+  group('a place with no Apple identifier is still a place', () {
+    // Everything the Android lookup returns looks like this: a name, an
+    // address and a coordinate, and no id, because a geocoder issues none.
+    testWidgets('the same place twice is still one place', (tester) async {
+      const m = PlaceMatch(
+        name: 'Padella',
+        address: '6 Southwark St',
+        lat: 51.5052,
+        lon: -0.0899,
+      );
+      const other = PlaceMatch(
+        name: 'Padella',
+        address: '6 Southwark St',
+        lat: 51.5052,
+        lon: -0.0899,
+      );
+      const elsewhere = PlaceMatch(
+        name: 'Padella',
+        address: 'Shoreditch',
+        lat: 51.5245,
+        lon: -0.0766,
+      );
+      expect(m.isSamePlaceAs(other), isTrue);
+      // Same name, different place. Two branches of one restaurant are two
+      // places, and without an identifier the coordinate is what says so.
+      expect(m.isSamePlaceAs(elsewhere), isFalse);
+      expect(m.isSamePlaceAs(null), isFalse);
+      // One with an identifier and one without cannot be shown to be the
+      // same, so they are not treated as the same.
+      final appled = PlaceMatch(
+        id: PlaceId.parse('I43FA2531C5B5D635'),
+        name: 'Padella',
+        address: '6 Southwark St',
+        lat: 51.5052,
+        lon: -0.0899,
+      );
+      expect(m.isSamePlaceAs(appled), isFalse);
+    });
+
+    testWidgets('it can be sent, and cannot be published', (tester) async {
+      // The whole point of the id being optional: enough to write a file,
+      // not enough to build a guide link.
+      final p = Pending('read', geocoded('Padella', 51.5052, -0.0899));
+      expect(p.exportable, isTrue);
+      expect(p.publishable, isFalse);
     });
   });
 
@@ -310,38 +361,79 @@ Padella,51.5055,-0.0911,Southwark
       fromFile: ExportPlace(name: name, address: '', lat: lat, lon: lon),
     );
 
-    testWidgets('no search icon, because there is nothing to search', (
+    testWidgets('an unmatched row can be searched for', (tester) async {
+      // There is a lookup on Android now -- the platform geocoder -- so a row
+      // the reading got wrong is something the user can fix, exactly as on
+      // iPhone. While there was no lookup this had to be hidden, because the
+      // sheet could only ever answer "needs an iPhone".
+      await pumpAndroid(tester, pending: [fromFile('Somewhere')]);
+      // Nothing positions it: no match and no coordinate, so it cannot be
+      // sent and the search is the only thing that would help.
+      expect(find.byIcon(Icons.search), findsOne);
+
+      await tester.tap(find.text('Somewhere'));
+      await tester.pumpAndSettle();
+      expect(find.text('Find this place'), findsOne);
+    });
+
+    testWidgets('a positioned row is ready to send, with no search', (
       tester,
     ) async {
+      // The file gave it a coordinate, so nothing is missing and there is
+      // nothing to correct: it gets a tick rather than a magnifying glass.
       await pumpAndroid(
         tester,
         pending: [fromFile('Fuunji', lat: 35.68, lon: 139.69)],
       );
-      // With a map this row would carry a magnifying glass and open a sheet.
-      // Here that sheet can only ever answer "needs an iPhone", which turns
-      // the normal case into an error nobody can clear.
+      // A tick rather than a warning: the file positioned it, so there is
+      // nothing missing and nothing to fix.
       expect(find.byIcon(Icons.search), findsNothing);
       expect(find.byType(Checkbox), findsOne);
-
-      await tester.tap(find.text('Fuunji'));
-      await tester.pumpAndSettle();
-      expect(find.text('Find this place'), findsNothing);
-    });
-
-    testWidgets('a row with no coordinate cannot be ticked', (tester) async {
-      // It can never be sent, so a live checkbox would tick and then be
-      // quietly ignored on the way out.
-      await pumpAndroid(tester, pending: [fromFile('Somewhere')]);
-      final box = tester.widget<Checkbox>(find.byType(Checkbox));
-      expect(box.onChanged, isNull);
       expect(
         tester
             .widget<FilledButton>(
               find.widgetWithText(FilledButton, 'Send places to'),
             )
             .onPressed,
-        isNull,
+        isNotNull,
       );
+      // Still correctable, though, because the reading may have been wrong.
+      await tester.tap(find.text('Fuunji'));
+      await tester.pumpAndSettle();
+      expect(find.text('Find this place'), findsOne);
     });
   });
 }
+
+/// A resolver shaped like the Android one: it answers with a real place that
+/// has a coordinate and no Apple identifier, because a geocoder issues no
+/// identifiers.
+class GeocoderLikeResolver extends PlaceResolver {
+  GeocoderLikeResolver(this.answers);
+
+  final Map<String, PlaceMatch> answers;
+
+  @override
+  Future<List<PlaceMatch>> resolve(String query, {Region? region}) async {
+    for (final e in answers.entries) {
+      if (query.contains(e.key)) return [e.value];
+    }
+    return const [];
+  }
+
+  @override
+  Future<PlaceLookup> lookup(List<PlaceId> ids) async =>
+      PlaceLookup(failed: ids.toSet());
+
+  @override
+  Future<Region?> locate(String query) async =>
+      Region(name: query, lat: 51.5, lon: -0.12);
+}
+
+PlaceMatch geocoded(String name, double lat, double lon) => PlaceMatch(
+  id: null,
+  name: name,
+  address: '$name Street',
+  lat: lat,
+  lon: lon,
+);

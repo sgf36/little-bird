@@ -120,8 +120,10 @@ class Pending {
 
   bool get resolved => match != null;
 
-  /// Only a resolved place can go in a guide — an Apple place id is required.
-  bool get publishable => resolved && keep;
+  /// Only a place Apple has identified can go in a guide — the link is built
+  /// out of place ids and carries nothing else. A geocoded match has a
+  /// coordinate and no id, which is enough to send and not enough to publish.
+  bool get publishable => match?.id != null && keep;
 
   /// Whether this place can be written into a file another map app will read.
   ///
@@ -240,6 +242,22 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   /// Whether guides -- and therefore the purchase that sells bigger ones --
   /// exist on this platform at all. See [CapturePage.canMakeGuides].
   bool get _makesGuides => widget.canMakeGuides ?? !Platform.isAndroid;
+
+  /// Set once a lookup has reported that this platform has no map at all.
+  ///
+  /// Not a platform check. MapKit backs the search on iOS and the system
+  /// geocoder backs it on Android, so both normally have one -- but an Android
+  /// phone without Google services has no geocoder, and there is no way to
+  /// know that except by asking. Discovered rather than assumed, and sticky
+  /// once discovered.
+  bool _noMapHere = false;
+
+  /// Whether a wrong or missing match is something the user can act on.
+  ///
+  /// Offering a search that can only answer "there is no map search on this
+  /// platform" turns every unmatched row into an error nobody can clear, which
+  /// is what the Android build did while it had no lookup at all.
+  bool get _canSearch => !_noMapHere;
 
   /// The My Map the user chose to keep adding to, if they have picked one.
   ///
@@ -600,6 +618,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
         } on ResolverUnavailable catch (e) {
           setState(() {
             _busy = false;
+            if (e.unsupported) _noMapHere = true;
             _status = e.throttled
                 ? l.rateLimitedDuringImport(added)
                 : e.unsupported
@@ -617,7 +636,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
         }
         // Never write silently: Apple replaces the label with its own record,
         // so a wrong match would ship under a confident name.
-        if (!_pending.any((p) => p.match?.id == matches.first.id)) {
+        if (!_pending.any((p) => matches.first.isSamePlaceAs(p.match))) {
           _pending.add(Pending(readAs, matches.first));
           added++;
         }
@@ -826,13 +845,21 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   /// count appears immediately and the labels arrive when they arrive. Making
   /// the user wait on a lookup for something cosmetic would be the wrong trade.
   Future<void> _nameCarriedPlaces() async {
+    // Carried places come out of a guide link, so every one of them has an
+    // Apple id and nothing else -- that is the whole payload. The id filter is
+    // a type requirement rather than a real condition.
     final nameless = _pending
-        .where((p) => p.origin == Origin.guide && (p.match?.name ?? '').isEmpty)
+        .where(
+          (p) =>
+              p.origin == Origin.guide &&
+              p.match?.id != null &&
+              (p.match?.name ?? '').isEmpty,
+        )
         .toList();
     if (nameless.isEmpty) return;
 
     final result = await _resolver.lookup([
-      for (final p in nameless) p.match!.id,
+      for (final p in nameless) p.match!.id!,
     ]);
     if (result.isEmpty || !mounted) return;
     final l = L.of(context);
@@ -970,6 +997,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
         // take the rest of it at its word rather than abandoning the import —
         // which is what used to happen on every platform without MapKit.
         if (e.unsupported) {
+          _noMapHere = true;
           for (final rest in read.places.skip(positioned + unmatched + added)) {
             final own = ExportPlace(
               name: rest.name,
@@ -1221,7 +1249,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
     if (chosen == null || !mounted) return;
 
     final duplicate = _pending.indexWhere(
-      (o) => o != p && o.match?.id == chosen.id,
+      (o) => o != p && chosen.isSamePlaceAs(o.match),
     );
     setState(() {
       p.match = chosen;
@@ -1535,9 +1563,10 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
         break;
     }
 
-    // Safe to force: `publishable` already required a match.
+    // Safe to force: `publishable` is now exactly "Apple has identified this",
+    // so both the match and its id are present by construction.
     final places = keep
-        .map((p) => GuidePlace(id: p.match!.id, name: p.match!.name))
+        .map((p) => GuidePlace(id: p.match!.id!, name: p.match!.name))
         .toList();
 
     final String url;
@@ -1624,18 +1653,6 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
 
   /// Which of the three sources to add from.
   Future<void> _addPlaces() async {
-    // Where there are no guides there is only one source that works, so there
-    // is nothing to choose between. Screenshots need Apple's Vision framework
-    // and the channel behind them answers MissingPluginException; a guide read
-    // without MapKit arrives as Apple identifiers with no name and no
-    // coordinate, which is a list that looks imported and cannot be sent
-    // anywhere. Offering one working source beside two dead ones is worse than
-    // offering no menu at all.
-    if (!_makesGuides) {
-      await _importFile();
-      return;
-    }
-
     final l = L.of(context);
     final choice = await showModalBottomSheet<_AddSource>(
       context: context,
@@ -1654,11 +1671,17 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
               title: Text(l.fromFile),
               onTap: () => Navigator.pop(context, _AddSource.file),
             ),
-            ListTile(
-              leading: const Icon(Icons.bookmark_border),
-              title: Text(l.fromExistingGuide),
-              onTap: () => Navigator.pop(context, _AddSource.guide),
-            ),
+            // Only where guides exist. A guide link is a list of Apple
+            // identifiers and nothing else -- no name, no coordinate -- and
+            // resolving one needs Apple's own lookup. Read anywhere else it
+            // produces a list that looks imported and cannot be sent, which
+            // was measured rather than assumed.
+            if (_makesGuides)
+              ListTile(
+                leading: const Icon(Icons.bookmark_border),
+                title: Text(l.fromExistingGuide),
+                onTap: () => Navigator.pop(context, _AddSource.guide),
+              ),
             const SizedBox(height: 8),
           ],
         ),
@@ -1850,7 +1873,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
                           for (final p in carried) ...[
                             _PlaceCard(
                               pending: p,
-                              canSearch: _makesGuides,
+                              canSearch: _canSearch,
                               onChanged: (v) =>
                                   setState(() => p.keep = v ?? true),
                               onEdit: () => _editPlace(_pending.indexOf(p)),
@@ -1861,7 +1884,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
                       for (final p in fresh) ...[
                         _PlaceCard(
                           pending: p,
-                          canSearch: _makesGuides,
+                          canSearch: _canSearch,
                           onChanged: (v) => setState(() => p.keep = v ?? true),
                           onEdit: () => _editPlace(_pending.indexOf(p)),
                         ),
@@ -2057,13 +2080,16 @@ class _PlaceCard extends StatelessWidget {
     // place is not lost, and on a platform with no map search there is nothing
     // for a tap to do.
     final fromFile = pending.fromFile;
-    // Whether this row still wants something from the user. With a map that
-    // means Apple found nothing. Without one it means the file gave no
-    // coordinate, which is the only way a place can be unusable here -- and
-    // the only one worth outlining, since otherwise every row would be.
-    final needsAttention = canSearch
-        ? !resolved
-        : !(pending.forExport?.hasCoordinate ?? false);
+    // Whether this row still wants something from the user, which is not the
+    // same as "the map did not identify it". A place a file positioned is
+    // perfectly usable: it has a name, an address and a coordinate, and
+    // outlining it in red under "Not found on the map" would be doubly wrong
+    // — the place is not lost, and the user has nothing to fix.
+    //
+    // A row needs attention when nothing positions it at all: no match and no
+    // coordinate. That is the only kind that cannot be sent anywhere.
+    final needsAttention =
+        !resolved && !(pending.forExport?.hasCoordinate ?? false);
     final shown = resolved
         ? (match.name.isNotEmpty ? match.name : match.address)
         : (fromFile?.name ?? '');
@@ -2086,8 +2112,10 @@ class _PlaceCard extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
           // Tapping anywhere opens the lookup. Correcting a wrong match and
-          // finding one that failed are the same job, so they are one gesture.
-          // Where there is no lookup the card is not a button.
+          // finding one that failed are the same job, so they are one gesture
+          // — including on a row that is already usable, where the reading may
+          // still have been wrong. Where there is no lookup at all the card is
+          // not a button.
           onTap: canSearch ? onEdit : null,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(14, 12, 8, 12),
@@ -2236,35 +2264,31 @@ class _Empty extends StatelessWidget {
             // Named here rather than left to be found inside a menu. A file
             // importer nobody knows the formats of is a file importer nobody
             // tries, and the formats are the whole answer to "will mine work".
-            // Only beside screenshots, though: it opens with "Also", and where
-            // a file is the only way in it is not "also" anything -- the
-            // Android body above names the formats instead.
-            if (makesGuides)
-              Container(
-                padding: const EdgeInsets.fromLTRB(14, 11, 14, 11),
-                decoration: BoxDecoration(
-                  color: Wren.raised,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Wren.line),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Icon(
-                      Icons.insert_drive_file_outlined,
-                      size: 15,
-                      color: Wren.muted,
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        l.acceptedFormats,
-                        style: t.bodySmall?.copyWith(fontSize: 12.5),
-                      ),
-                    ),
-                  ],
-                ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(14, 11, 14, 11),
+              decoration: BoxDecoration(
+                color: Wren.raised,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Wren.line),
               ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(
+                    Icons.insert_drive_file_outlined,
+                    size: 15,
+                    color: Wren.muted,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      l.acceptedFormats,
+                      style: t.bodySmall?.copyWith(fontSize: 12.5),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

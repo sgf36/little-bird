@@ -31,7 +31,7 @@ and the short description is directly beneath it.
 ## Short description (80 characters)
 
 ```
-Turn a list of places into pins in the map app you already use
+Screenshot a place, and Wren puts it in the map app you already use
 ```
 
 62 characters.
@@ -39,37 +39,47 @@ Turn a list of places into pins in the map app you already use
 ## Full description (4000 characters)
 
 ```
-Wren takes a list of places you already keep and puts it into the map app on your phone.
+Wren reads the places off a screenshot and puts them into the map app on your phone.
 
-READ A FILE YOU ALREADY HAVE
+FROM A SCREENSHOT
 
-Open a saved-places export from another map app, or a Google Takeout archive. Wren reads CSV, KML, KMZ, GPX and GeoJSON. Every place it finds is listed for you first, with its name and its address, and you decide what to keep. Nothing leaves until you have looked at it.
+Somebody sends you a reel, a post, a message, a page of a guidebook. Screenshot it. Wren reads the names, works out which of them are places rather than buttons and captions, and asks which city before it looks anything up.
 
-The list arrives under whatever name the file already had, rather than one Wren made up.
+The reading happens on your phone. Nothing is uploaded, and no picture ever leaves.
 
-HAND IT TO YOUR MAP APP
+OR FROM A FILE YOU ALREADY HAVE
 
-Wren writes one file and passes it to whichever app you choose. Only the apps actually installed on the phone are offered.
+A saved-places export from another map app, or a Google Takeout archive. Wren reads CSV, KML, KMZ, GPX and GeoJSON, and takes its name for the list from the file.
+
+EVERY PLACE IS YOURS TO CHECK
+
+Wren shows what it read beside what it matched, so a wrong match is obvious rather than silent, and you can search again for anything it got wrong. Nothing is sent anywhere until you have looked at the list and chosen what to keep.
+
+THEN HAND IT TO YOUR MAP APP
+
+Wren writes one file and passes it to whichever app you choose. Only the apps actually installed on your phone are offered.
 
 • Organic Maps — arrives as a named list of saved places
 • OsmAnd — arrives in Favorites, after tapping "Import as favorites"
 • Locus Map — arrives in My library, once you confirm the import
 • Gaia GPS — needs a Gaia account, and the Waypoints layer switched on
 • Mapy.com — needs a Seznam account, and a few taps to save
-• Anything else on the phone, through the standard share sheet
+• Anything else on your phone, through the standard share sheet
 
-Google Maps works differently, because Google offers no way for an app to write into a saved list. Wren saves the places as a spreadsheet, then opens Google My Maps so you can import it there yourself. It takes a few more taps, and it is the route Google leaves open.
+Google Maps works differently, because Google offers no way for an app to write into a saved list. Wren saves the places as a spreadsheet, then opens Google My Maps so you can import it there yourself.
 
-FREE, AND PRIVATE BECAUSE IT HAS TO BE
+WHAT LEAVES YOUR PHONE, AND WHAT DOES NOT
 
-Wren is free. There is no account, no advertising and no analytics, and it collects nothing.
+The screenshot does not. The reading is done on the device.
 
-It also asks for no permissions at all, which you can check on this page. It needs none: the file you open, the list you edit and the file it writes never leave the phone until you hand them to another app yourself. The only thing that ever reaches the internet is your own browser, if you choose the Google Maps route and it opens My Maps for you.
+A place name does, when Wren looks it up, because finding where a place is means asking a map. That is the only thing sent, and it is sent to the map service your phone already uses.
+
+There is no account, no advertising and no analytics. Wren asks for one permission, to reach the network for that lookup, and none at all for your location: it never asks where you are, only where a place named in a screenshot is.
 
 Organic Maps, OsmAnd, Locus Map, Gaia GPS, Mapy.com and Google Maps are the trademarks of their respective owners. Wren works with them; it is not affiliated with, endorsed by or connected to any of them.
 ```
 
-1,974 characters, against a 4,000 limit.
+2,345 characters, against a 4,000 limit.
 
 ---
 
@@ -77,28 +87,36 @@ Organic Maps, OsmAnd, Locus Map, Gaia GPS, Mapy.com and Google Maps are the trad
 
 Answered from what the app does, all of it checkable in the code.
 
-**Data safety — no data collected and no data shared.**
+**Data safety — a place name, and nothing else.**
 
-This is a stronger answer than the handover expected, and it changed on
-2026-08-20. The handover said two things left the device: a place name sent to
-the map provider, and a complimentary-access code with a random device
-identifier. Neither happens on Android:
+Two things changed on 2026-08-20, in opposite directions, and both are worth
+stating precisely because this is the answer Play holds you to.
 
-* There is no map lookup. Place search is MapKit, which is Apple's.
-* The complimentary code cannot be redeemed. The device identifier it is issued
-  against comes from the `littlebird/identity` channel, which has no Android
-  implementation, so `comp.redeem` returns "unreachable" before it opens a
-  socket. The entry point is hidden on Android in any case.
-* Guide links are gone from the add menu, so nothing expands a link either.
+*Nothing is collected.* No account, no analytics, no advertising identifier.
+The complimentary-access code cannot be redeemed on Android — the device
+identifier it is issued against comes from a channel with no Android
+implementation — and that entry point is hidden here.
 
-The released app declares **no permissions**, which CI proves against the built
-manifest rather than the source. Verified by installing the signed release APK
-and reading `dumpsys package`.
+*One thing is shared.* Turning "Dishoom Shoreditch" into a coordinate means
+asking a map, and the platform geocoder answers over the network. So a **place
+name** is sent, to the map service the phone already uses, at the moment the
+user asks for a lookup. Under Play's taxonomy this is closest to *App activity
+— other user-generated content*, sent but not collected, and required for the
+app to function rather than optional.
 
-The Google Maps route is worth declaring plainly if the form allows a note: the
-app saves a file through the system's own save dialog, and then asks Android to
-open `https://www.google.com/maps/d/` in a browser. The request is the
-browser's, in the user's own session, and Wren uploads nothing.
+*The screenshot never leaves.* The text recognition runs on the device from a
+model inside the bundle. Say this plainly on the listing; it is the question
+anybody will actually have.
+
+The app declares exactly one permission, INTERNET, and CI proves that against
+the built manifest rather than the source. There is deliberately **no location
+permission**: Wren never asks where the phone is, only where a place named in a
+screenshot is.
+
+The Google Maps route is worth a note if the form allows one: the app saves a
+file through the system's own save dialog, then asks Android to open
+`https://www.google.com/maps/d/` in a browser. That request is the browser's,
+in the user's own session, and Wren uploads nothing.
 
 **Content rating.** IARC questionnaire. No violence, no user-generated content,
 no communication features, no gambling, no purchases. A utility.

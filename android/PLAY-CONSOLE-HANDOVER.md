@@ -10,12 +10,22 @@ Read the whole of §1 and §2 before touching anything. The rest is a work list.
 ## 1. What Wren-for-Android is, and what it is not
 
 Wren on iPhone reads places off screenshots and writes them into an Apple Maps
-guide. **Neither half of that exists on Android**, and no amount of work on the
-Play listing changes it:
+guide. On Android it reads the screenshots too — that was fixed on 2026-08-20,
+and this document used to say it could not — but there is no Apple Maps, so the
+places go somewhere else.
 
-* There is no Apple Maps on Android, so there is no guide to write.
-* On-device text recognition is Apple's Vision framework. The Android build has
-  no OCR at all.
+* **Reading a screenshot works.** Apple's Vision framework is not available, but
+  ML Kit's on-device recogniser is, and it returns text with the same geometry
+  Vision does. `OcrPlugin.kt` is the Android half of `littlebird/ocr`, and every
+  line of ranking logic in Dart is shared, unchanged.
+* **Looking a place up works.** MapKit is not available; the platform geocoder
+  is, and on a device with Google services it resolves business names rather
+  than only addresses. `PlacesPlugin.kt` is the Android half of
+  `littlebird/places`. It returns no Apple place id, because a geocoder issues
+  none — which is why `PlaceMatch.id` is optional.
+* **There is still no Apple Maps**, so there is no guide to write. That one
+  absence is real and permanent, and it is the only thing `canMakeGuides`
+  should ever gate.
 
 What the Android build actually does, end to end:
 
