@@ -85,6 +85,17 @@ void main() {
       expect(gpx, isNot(contains('e-')), reason: 'no exponent notation');
     });
 
+    test('the address survives a GPX round trip', () {
+      // GPX has no address element, so the writer puts it in <cmt> and <desc>.
+      // The reader ignored both, which mattered most on the Google Maps route:
+      // Google geocodes the address column, and it was being handed the place
+      // name instead of a street.
+      final out = exportPlaces([dishoom], PlaceFormat.gpx);
+      final back = readPlaceFile(utf8.decode(out.bytes)).places.single;
+      expect(back.address, '7 Boundary St, London E2 7JE');
+      expect(back.name, 'Dishoom Shoreditch');
+    });
+
     test('the list name survives a GPX round trip', () {
       // The writer puts it in <metadata><name> and the reader used to ignore it,
       // so a file Wren had written came back as an untitled list -- and a name
