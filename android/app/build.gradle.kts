@@ -1,8 +1,38 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
+
+// The Play UPLOAD key. Not the app signing key: Play App Signing holds that
+// one, and it is the reason losing this file is recoverable through Play
+// support rather than fatal.
+//
+// Two sources, in order. `android/key.properties` is git-ignored and is how a
+// local release build finds the keystore. The environment is how CI does it,
+// out of GitHub Actions secrets, which are encrypted and not exposed to fork
+// pull requests. This repository is public: neither the keystore nor its
+// password may ever be a file inside it.
+val keyProperties = Properties().apply {
+    val f = rootProject.file("key.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
+}
+
+fun signingMaterial(property: String, variable: String): String? =
+    keyProperties.getProperty(property) ?: System.getenv(variable)
+
+val uploadStorePath = signingMaterial("storeFile", "ANDROID_KEYSTORE_PATH")
+val uploadStorePassword = signingMaterial("storePassword", "ANDROID_KEYSTORE_PASSWORD")
+val uploadKeyAlias = signingMaterial("keyAlias", "ANDROID_KEY_ALIAS")
+val uploadKeyPassword = signingMaterial("keyPassword", "ANDROID_KEY_PASSWORD")
+val canSignRelease = listOf(
+    uploadStorePath,
+    uploadStorePassword,
+    uploadKeyAlias,
+    uploadKeyPassword,
+).all { !it.isNullOrBlank() } && file(uploadStorePath!!).exists()
 
 android {
     namespace = "com.spencerfields.littlebird"
@@ -25,11 +55,26 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        if (canSignRelease) {
+            create("upload") {
+                storeFile = file(uploadStorePath!!)
+                storePassword = uploadStorePassword
+                keyAlias = uploadKeyAlias
+                keyPassword = uploadKeyPassword
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            // Null when there is no key, and deliberately not a fall back to
+            // the debug one. A release bundle signed with the debug key builds
+            // without complaint, uploads, and is refused by Play with a
+            // message about the certificate -- which reads like a Play fault
+            // and sends you looking in the wrong place. An unsigned bundle is
+            // refused too, but for the reason that is actually true.
+            signingConfig = signingConfigs.findByName("upload")
         }
     }
 }
@@ -37,6 +82,21 @@ android {
 kotlin {
     compilerOptions {
         jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+    }
+}
+
+// Said at configuration time rather than discovered at upload time. Without
+// this the only symptom is a bundle Play will not take, hours later.
+gradle.taskGraph.whenReady {
+    if (allTasks.any { it.name.contains("Release") } && !canSignRelease) {
+        logger.warn("")
+        logger.warn("  Wren: building RELEASE with no upload key.")
+        logger.warn("  The output will be unsigned and Play will refuse it.")
+        logger.warn("  Put storeFile, storePassword, keyAlias and keyPassword")
+        logger.warn("  in android/key.properties, or set ANDROID_KEYSTORE_PATH,")
+        logger.warn("  ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS and")
+        logger.warn("  ANDROID_KEY_PASSWORD in the environment.")
+        logger.warn("")
     }
 }
 

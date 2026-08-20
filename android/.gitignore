@@ -1,5 +1,8 @@
 gradle-wrapper.jar
 /.gradle
+# Gradle writes a problems report here on every configuration, which is
+# a build artefact and was landing in `git status` beside real changes.
+/build/
 /captures/
 /gradlew
 /gradlew.bat
