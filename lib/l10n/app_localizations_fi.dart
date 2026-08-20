@@ -497,4 +497,17 @@ class LFi extends L {
 
   @override
   String get sendPlacesFailed => 'Sovellus ei ottanut tiedostoa vastaan';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count paikkaa säilytettiin tiedostosta, valmiina toiseen karttasovellukseen',
+      one:
+          '1 paikka säilytettiin tiedostosta, valmis toiseen karttasovellukseen',
+    );
+    return '$_temp0';
+  }
 }

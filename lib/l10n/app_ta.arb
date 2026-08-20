@@ -107,5 +107,6 @@
   "sendPlacesReady": "{count, plural, one{1 இடம் அனுப்பத் தயார்} other{{count} இடங்கள் அனுப்பத் தயார்}}",
   "sendPlacesNoLocation": "{count, plural, one{1 இடத்திற்கு இருப்பிடம் இல்லை, அனுப்ப முடியாது} other{{count} இடங்களுக்கு இருப்பிடம் இல்லை, அனுப்ப முடியாது}}",
   "sendPlacesOtherApp": "வேறு ஏதேனும் ஆப்",
-  "sendPlacesFailed": "அந்த ஆப் கோப்பை ஏற்கவில்லை"
+  "sendPlacesFailed": "அந்த ஆப் கோப்பை ஏற்கவில்லை",
+  "fileImportPositioned": "{count, plural, one{கோப்பிலிருந்து 1 இடம் வைக்கப்பட்டது, வேறு வரைபட ஆப்புக்கு அனுப்பத் தயார்} other{கோப்பிலிருந்து {count} இடங்கள் வைக்கப்பட்டன, வேறு வரைபட ஆப்புக்கு அனுப்பத் தயார்}}"
 }

@@ -503,6 +503,18 @@ class LPt extends L {
 
   @override
   String get sendPlacesFailed => 'Esse app não aceitou o arquivo';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count lugares mantidos do arquivo, prontos para outro app de mapas',
+      one: '1 lugar mantido do arquivo, pronto para outro app de mapas',
+    );
+    return '$_temp0';
+  }
 }
 
 /// The translations for Portuguese, as used in Portugal (`pt_PT`).
@@ -1006,4 +1018,16 @@ class LPtPt extends LPt {
 
   @override
   String get sendPlacesFailed => 'Essa aplicação não aceitou o ficheiro';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count locais mantidos do ficheiro, prontos para outra aplicação de mapas',
+      one: '1 local mantido do ficheiro, pronto para outra aplicação de mapas',
+    );
+    return '$_temp0';
+  }
 }

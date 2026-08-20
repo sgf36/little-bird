@@ -533,4 +533,21 @@ class LCs extends L {
 
   @override
   String get sendPlacesFailed => 'Tato aplikace soubor nepřijala';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count míst ze souboru je připravených k odeslání do jiné mapové aplikace',
+      many:
+          '$count místa ze souboru jsou připravená k odeslání do jiné mapové aplikace',
+      few:
+          '$count místa ze souboru jsou připravená k odeslání do jiné mapové aplikace',
+      one:
+          '1 místo ze souboru je připravené k odeslání do jiné mapové aplikace',
+    );
+    return '$_temp0';
+  }
 }

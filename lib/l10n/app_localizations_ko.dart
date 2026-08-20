@@ -469,4 +469,14 @@ class LKo extends L {
 
   @override
   String get sendPlacesFailed => '그 앱이 파일을 받지 않았습니다';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '파일에서 장소 $count곳을 보관했습니다. 다른 지도 앱으로 보낼 수 있습니다',
+    );
+    return '$_temp0';
+  }
 }

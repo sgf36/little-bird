@@ -506,4 +506,17 @@ class LMl extends L {
 
   @override
   String get sendPlacesFailed => 'ആ ആപ്പ് ഫയൽ സ്വീകരിച്ചില്ല';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'ഫയലിൽ നിന്ന് $count സ്ഥലങ്ങൾ സൂക്ഷിച്ചു, മറ്റൊരു മാപ്പ് ആപ്പിലേക്ക് അയയ്ക്കാൻ തയ്യാർ',
+      one:
+          'ഫയലിൽ നിന്ന് 1 സ്ഥലം സൂക്ഷിച്ചു, മറ്റൊരു മാപ്പ് ആപ്പിലേക്ക് അയയ്ക്കാൻ തയ്യാർ',
+    );
+    return '$_temp0';
+  }
 }

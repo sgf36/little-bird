@@ -507,6 +507,18 @@ class LFr extends L {
 
   @override
   String get sendPlacesFailed => 'Cette app n’a pas accepté le fichier';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count lieux conservés du fichier, prêts pour une autre app de cartes',
+      one: '1 lieu conservé du fichier, prêt pour une autre app de cartes',
+    );
+    return '$_temp0';
+  }
 }
 
 /// The translations for French, as used in Canada (`fr_CA`).
@@ -1012,4 +1024,17 @@ class LFrCa extends LFr {
 
   @override
   String get sendPlacesFailed => 'Cette application n’a pas pris le fichier';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count lieux conservés du fichier, prêts pour une autre application de cartes',
+      one:
+          '1 lieu conservé du fichier, prêt pour une autre application de cartes',
+    );
+    return '$_temp0';
+  }
 }

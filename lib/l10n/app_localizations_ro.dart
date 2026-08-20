@@ -520,4 +520,18 @@ class LRo extends L {
 
   @override
   String get sendPlacesFailed => 'Acea aplicație nu a acceptat fișierul';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count de locuri păstrate din fișier, gata pentru altă aplicație de hărți',
+      few:
+          '$count locuri păstrate din fișier, gata pentru altă aplicație de hărți',
+      one: '1 loc păstrat din fișier, gata pentru altă aplicație de hărți',
+    );
+    return '$_temp0';
+  }
 }

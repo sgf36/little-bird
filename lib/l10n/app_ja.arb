@@ -107,5 +107,6 @@
   "sendPlacesReady": "{count, plural, other{{count}件の場所を送信できます}}",
   "sendPlacesNoLocation": "{count, plural, other{{count}件の場所に位置情報がなく、送信できません}}",
   "sendPlacesOtherApp": "ほかのアプリ",
-  "sendPlacesFailed": "そのアプリはファイルを受け取りませんでした"
+  "sendPlacesFailed": "そのアプリはファイルを受け取りませんでした",
+  "fileImportPositioned": "{count, plural, other{ファイルから{count}件の場所を保持しました。ほかの地図アプリに送信できます}}"
 }

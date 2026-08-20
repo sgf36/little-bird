@@ -534,4 +534,17 @@ class LPl extends L {
 
   @override
   String get sendPlacesFailed => 'Ta aplikacja nie przyjęła pliku';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count miejsca z pliku gotowe do wysłania do innej aplikacji map',
+      many: '$count miejsc z pliku gotowych do wysłania do innej aplikacji map',
+      few: '$count miejsca z pliku gotowe do wysłania do innej aplikacji map',
+      one: '1 miejsce z pliku gotowe do wysłania do innej aplikacji map',
+    );
+    return '$_temp0';
+  }
 }

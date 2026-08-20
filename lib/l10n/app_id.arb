@@ -107,5 +107,6 @@
   "sendPlacesReady": "{count, plural, other{{count} tempat siap dikirim}}",
   "sendPlacesNoLocation": "{count, plural, other{{count} tempat tidak punya lokasi dan tidak bisa dikirim}}",
   "sendPlacesOtherApp": "Aplikasi lain",
-  "sendPlacesFailed": "Aplikasi itu tidak menerima berkas"
+  "sendPlacesFailed": "Aplikasi itu tidak menerima berkas",
+  "fileImportPositioned": "{count, plural, other{{count} tempat disimpan dari berkas, siap dikirim ke aplikasi peta lain}}"
 }

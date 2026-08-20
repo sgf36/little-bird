@@ -506,4 +506,16 @@ class LIt extends L {
 
   @override
   String get sendPlacesFailed => 'Quell’app non ha accettato il file';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count luoghi conservati dal file, pronti per un\'altra app di mappe',
+      one: '1 luogo conservato dal file, pronto per un\'altra app di mappe',
+    );
+    return '$_temp0';
+  }
 }

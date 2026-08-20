@@ -538,4 +538,18 @@ class LUk extends L {
 
   @override
   String get sendPlacesFailed => 'Цей застосунок не прийняв файл';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count місця з файлу готові до надсилання в інший застосунок карт',
+      many: '$count місць з файлу готові до надсилання в інший застосунок карт',
+      few: '$count місця з файлу готові до надсилання в інший застосунок карт',
+      one: '$count місце з файлу готове до надсилання в інший застосунок карт',
+    );
+    return '$_temp0';
+  }
 }

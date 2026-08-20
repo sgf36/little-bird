@@ -107,5 +107,6 @@
   "sendPlacesReady": "{count, plural, other{{count} 个地点已准备好发送}}",
   "sendPlacesNoLocation": "{count, plural, other{{count} 个地点没有位置，无法发送}}",
   "sendPlacesOtherApp": "其他应用",
-  "sendPlacesFailed": "该应用没有接收文件"
+  "sendPlacesFailed": "该应用没有接收文件",
+  "fileImportPositioned": "{count, plural, other{已从文件保留 {count} 个地点，可发送到其他地图应用}}"
 }

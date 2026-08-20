@@ -504,6 +504,19 @@ class LEs extends L {
 
   @override
   String get sendPlacesFailed => 'Esa app no aceptó el archivo';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count lugares guardados del archivo, listos para enviar a otra app de mapas',
+      one:
+          '1 lugar guardado del archivo, listo para enviar a otra app de mapas',
+    );
+    return '$_temp0';
+  }
 }
 
 /// The translations for Spanish Castilian, as used in Mexico (`es_MX`).
@@ -1006,4 +1019,17 @@ class LEsMx extends LEs {
 
   @override
   String get sendPlacesFailed => 'Esa app no quiso el archivo';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count lugares guardados del archivo, listos para enviar a otra app de mapas',
+      one:
+          '1 lugar guardado del archivo, listo para enviar a otra app de mapas',
+    );
+    return '$_temp0';
+  }
 }

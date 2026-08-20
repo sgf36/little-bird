@@ -479,4 +479,15 @@ class LVi extends L {
 
   @override
   String get sendPlacesFailed => 'Ứng dụng đó không nhận tệp';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Đã giữ $count địa điểm từ tệp, sẵn sàng gửi tới ứng dụng bản đồ khác',
+    );
+    return '$_temp0';
+  }
 }

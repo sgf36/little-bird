@@ -107,5 +107,6 @@
   "sendPlacesReady": "{count, plural, =1{1 lugar listo para enviar} other{{count} lugares listos para enviar}}",
   "sendPlacesNoLocation": "{count, plural, =1{1 lugar no tiene ubicación y no se puede enviar} other{{count} lugares no tienen ubicación y no se pueden enviar}}",
   "sendPlacesOtherApp": "Cualquier otra app",
-  "sendPlacesFailed": "Esa app no quiso el archivo"
+  "sendPlacesFailed": "Esa app no quiso el archivo",
+  "fileImportPositioned": "{count, plural, =1{1 lugar guardado del archivo, listo para enviar a otra app de mapas} other{{count} lugares guardados del archivo, listos para enviar a otra app de mapas}}"
 }

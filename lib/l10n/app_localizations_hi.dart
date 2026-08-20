@@ -501,4 +501,16 @@ class LHi extends L {
 
   @override
   String get sendPlacesFailed => 'उस ऐप ने फ़ाइल नहीं ली';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'फ़ाइल से $count जगहें रखी गईं, दूसरे मैप ऐप में भेजने के लिए तैयार',
+      one: 'फ़ाइल से 1 जगह रखी गई, दूसरे मैप ऐप में भेजने के लिए तैयार',
+    );
+    return '$_temp0';
+  }
 }

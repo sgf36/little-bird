@@ -495,4 +495,17 @@ class LTr extends L {
 
   @override
   String get sendPlacesFailed => 'O uygulama dosyayı kabul etmedi';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Dosyadan $count yer korundu, başka bir harita uygulamasına gönderilmeye hazır',
+      one:
+          'Dosyadan 1 yer korundu, başka bir harita uygulamasına gönderilmeye hazır',
+    );
+    return '$_temp0';
+  }
 }

@@ -461,6 +461,16 @@ class LZh extends L {
 
   @override
   String get sendPlacesFailed => '该应用没有接收文件';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '已从文件保留 $count 个地点，可发送到其他地图应用',
+    );
+    return '$_temp0';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -920,4 +930,14 @@ class LZhHant extends LZh {
 
   @override
   String get sendPlacesFailed => '該應用程式沒有接收檔案';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '已從檔案保留 $count 個地點，可傳送到其他地圖應用程式',
+    );
+    return '$_temp0';
+  }
 }

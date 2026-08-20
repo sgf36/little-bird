@@ -484,4 +484,15 @@ class LMs extends L {
 
   @override
   String get sendPlacesFailed => 'Apl itu tidak menerima fail';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count tempat disimpan daripada fail, sedia dihantar ke apl peta lain',
+    );
+    return '$_temp0';
+  }
 }

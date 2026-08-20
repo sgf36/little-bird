@@ -484,4 +484,15 @@ class LId extends L {
 
   @override
   String get sendPlacesFailed => 'Aplikasi itu tidak menerima berkas';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count tempat disimpan dari berkas, siap dikirim ke aplikasi peta lain',
+    );
+    return '$_temp0';
+  }
 }

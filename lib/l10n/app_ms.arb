@@ -107,5 +107,6 @@
   "sendPlacesReady": "{count, plural, other{{count} tempat sedia dihantar}}",
   "sendPlacesNoLocation": "{count, plural, other{{count} tempat tiada lokasi dan tidak boleh dihantar}}",
   "sendPlacesOtherApp": "Apl lain",
-  "sendPlacesFailed": "Apl itu tidak menerima fail"
+  "sendPlacesFailed": "Apl itu tidak menerima fail",
+  "fileImportPositioned": "{count, plural, other{{count} tempat disimpan daripada fail, sedia dihantar ke apl peta lain}}"
 }

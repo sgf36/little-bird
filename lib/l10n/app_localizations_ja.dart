@@ -468,4 +468,14 @@ class LJa extends L {
 
   @override
   String get sendPlacesFailed => 'そのアプリはファイルを受け取りませんでした';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ファイルから$count件の場所を保持しました。ほかの地図アプリに送信できます',
+    );
+    return '$_temp0';
+  }
 }

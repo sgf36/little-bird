@@ -107,5 +107,6 @@
   "sendPlacesReady": "{count, plural, other{สถานที่ {count} แห่งพร้อมส่ง}}",
   "sendPlacesNoLocation": "{count, plural, other{สถานที่ {count} แห่งไม่มีตำแหน่ง จึงส่งไม่ได้}}",
   "sendPlacesOtherApp": "แอปอื่น",
-  "sendPlacesFailed": "แอปนั้นไม่รับไฟล์"
+  "sendPlacesFailed": "แอปนั้นไม่รับไฟล์",
+  "fileImportPositioned": "{count, plural, other{เก็บสถานที่ {count} แห่งจากไฟล์ พร้อมส่งไปยังแอปแผนที่อื่น}}"
 }

@@ -513,4 +513,17 @@ class LEl extends L {
 
   @override
   String get sendPlacesFailed => 'Αυτή η εφαρμογή δεν δέχτηκε το αρχείο';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count τοποθεσίες κρατήθηκαν από το αρχείο, έτοιμες για άλλη εφαρμογή χαρτών',
+      one:
+          '1 τοποθεσία κρατήθηκε από το αρχείο, έτοιμη για άλλη εφαρμογή χαρτών',
+    );
+    return '$_temp0';
+  }
 }

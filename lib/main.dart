@@ -93,6 +93,19 @@ class Pending {
   /// What it resolved to, or null while it is still unidentified.
   PlaceMatch? match;
 
+  /// What the file itself said, when the file supplied a coordinate.
+  ///
+  /// A file import is the one source that arrives already positioned: a KML or
+  /// GPX carries the coordinate, so there is nothing to look up. That matters
+  /// because looking up is the part that needs Apple's map — and on Android
+  /// there is no Apple map, which used to make an import of a perfectly good
+  /// file end in "Place lookup needs an iPhone" and an empty list.
+  ///
+  /// Such a place can be written into a file for another app. It cannot go into
+  /// an Apple Maps guide, which identifies places by Apple's own id and nothing
+  /// else.
+  final ExportPlace? fromFile;
+
   bool keep;
 
   final Origin origin;
@@ -102,12 +115,26 @@ class Pending {
     this.match, {
     this.keep = true,
     this.origin = Origin.screenshot,
+    this.fromFile,
   });
 
   bool get resolved => match != null;
 
   /// Only a resolved place can go in a guide — an Apple place id is required.
   bool get publishable => resolved && keep;
+
+  /// Whether this place can be written into a file another map app will read.
+  ///
+  /// Wider than [publishable] on purpose. An OpenStreetMap app wants a
+  /// coordinate and does not care whether Apple has ever heard of the place; a
+  /// guide wants Apple's identifier and does not care about the coordinate.
+  bool get exportable =>
+      keep &&
+      ((match?.hasCoordinate ?? false) || (fromFile?.hasCoordinate ?? false));
+
+  /// The place as a file should carry it, or null when it cannot be written.
+  ExportPlace? get forExport =>
+      ExportPlace.from(match, readAs: readAs) ?? fromFile;
 
   /// Whether this place is one the user is being charged for. A place carried
   /// over from a guide they already own is not.
@@ -835,22 +862,61 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
       }
     });
 
-    var unmatched = 0, added = 0;
+    var unmatched = 0, added = 0, positioned = 0;
     for (final place in read.places) {
+      // What the file said, kept whether or not the map can be asked. This is
+      // the fallback that makes an import useful with no lookup at all.
+      final own = ExportPlace(
+        name: place.name,
+        address: place.address ?? '',
+        lat: place.lat,
+        lon: place.lon,
+      );
+
       List<PlaceMatch> matches;
       try {
         matches = usable(
           await _resolver.resolve(place.query, region: _regionFor(place)),
         );
       } on ResolverUnavailable catch (e) {
+        // No map to ask. A file that carried coordinates does not need one, so
+        // take the rest of it at its word rather than abandoning the import —
+        // which is what used to happen on every platform without MapKit.
+        if (e.unsupported) {
+          for (final rest in read.places.skip(positioned + unmatched + added)) {
+            final own = ExportPlace(
+              name: rest.name,
+              address: rest.address ?? '',
+              lat: rest.lat,
+              lon: rest.lon,
+            );
+            if (!own.hasCoordinate) {
+              unmatched++;
+              _pending.add(
+                Pending(rest.name, null, keep: false, origin: Origin.file),
+              );
+              continue;
+            }
+            positioned++;
+            _pending.add(
+              Pending(rest.name, null, origin: Origin.file, fromFile: own),
+            );
+          }
+          setState(() {
+            _busy = false;
+            _lookingUp = false;
+            _status = [
+              if (positioned > 0) l.fileImportPositioned(positioned),
+              if (added > 0) l.fileImportSummary(added),
+              if (unmatched > 0) '· ${l.importSummaryNeedLook(unmatched)}',
+            ].join(' ');
+          });
+          return;
+        }
         setState(() {
           _busy = false;
           _lookingUp = false;
-          _status = e.throttled
-              ? l.rateLimitedDuringImport(added)
-              : e.unsupported
-              ? l.lookupUnavailable
-              : e.message;
+          _status = e.throttled ? l.rateLimitedDuringImport(added) : e.message;
         });
         return;
       }
@@ -858,14 +924,32 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
       setState(() => _readCount++);
 
       if (matches.isEmpty) {
-        unmatched++;
-        _pending.add(
-          Pending(place.name, null, keep: false, origin: Origin.file),
-        );
+        // The map does not know it. If the file positioned it, that is still
+        // enough to send elsewhere, so keep it rather than only counting it.
+        if (own.hasCoordinate) {
+          positioned++;
+          _pending.add(
+            Pending(place.name, null, origin: Origin.file, fromFile: own),
+          );
+        } else {
+          unmatched++;
+          _pending.add(
+            Pending(place.name, null, keep: false, origin: Origin.file),
+          );
+        }
         continue;
       }
       if (!_pending.any((p) => p.match?.id == matches.first.id)) {
-        _pending.add(Pending(place.name, matches.first, origin: Origin.file));
+        _pending.add(
+          Pending(
+            place.name,
+            matches.first,
+            origin: Origin.file,
+            // Kept even when the map answered: Apple's record has the better
+            // coordinate, but if it arrives without one the file's still works.
+            fromFile: own.hasCoordinate ? own : null,
+          ),
+        );
         added++;
       }
     }
@@ -875,6 +959,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
       _lookingUp = false;
       _status = [
         l.fileImportSummary(added),
+        if (positioned > 0) '· ${l.fileImportPositioned(positioned)}',
         if (unmatched > 0) '· ${l.importSummaryNeedLook(unmatched)}',
         if (read.skipped > 0) '· ${l.fileImportSkipped(read.skipped)}',
       ].join(' ');
@@ -1116,8 +1201,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   Future<void> _sendPlacesElsewhere() async {
     final l = L.of(context);
     final places = [
-      for (final p in _pending.where((p) => p.publishable))
-        ExportPlace.from(p.match, readAs: p.readAs),
+      for (final p in _pending.where((p) => p.exportable)) p.forExport,
     ].whereType<ExportPlace>().toList();
     if (places.isEmpty) return;
 
@@ -1437,6 +1521,9 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     final l = L.of(context);
     final keeping = _pending.where((p) => p.publishable).length;
+    // Not the same count: a place a file positioned can be sent to another map
+    // app without Apple ever having identified it.
+    final sendable = _pending.where((p) => p.exportable).length;
     final unresolved = _pending.where((p) => !p.resolved).length;
     // The free limit applies to what Wren found, not to what the user already
     // had, so the banner counts the same thing the paywall does.
@@ -1484,7 +1571,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
               // Android only. On iOS the destination is Apple Maps, which the
               // main button already does, and offering to "send elsewhere" there
               // would mean offering a file nothing on the phone wants.
-              if (Platform.isAndroid && keeping > 0)
+              if (Platform.isAndroid && sendable > 0)
                 PopupMenuItem(value: 'send', child: Text(l.sendPlacesTo)),
               if (_pending.isNotEmpty)
                 PopupMenuItem(value: 'clear', child: Text(l.clearList)),
@@ -1757,6 +1844,17 @@ class _PlaceCard extends StatelessWidget {
     final t = Theme.of(context).textTheme;
     final match = pending.match;
     final resolved = match != null;
+    // A place the file positioned itself. Apple has not identified it, so it
+    // cannot go into a guide -- but it has a name and an address, and showing
+    // "Not found on the map. Tap to search for it." would be doubly wrong: the
+    // place is not lost, and on a platform with no map search there is nothing
+    // for a tap to do.
+    final fromFile = pending.fromFile;
+    final shown = resolved
+        ? (match.name.isNotEmpty ? match.name : match.address)
+        : (fromFile?.name ?? '');
+    final shownAddress = resolved ? match.address : (fromFile?.address ?? '');
+    final named = shown.isNotEmpty;
 
     return Opacity(
       opacity: resolved && !pending.keep ? 0.5 : 1,
@@ -1785,22 +1883,19 @@ class _PlaceCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (resolved) ...[
+                      if (named) ...[
                         // A carried place arrives with a muid and no name. If
                         // the lookup filled one in, use it; failing that the
                         // address is still something true. The group refuses to
                         // expand when neither exists, so this never renders
                         // blank.
-                        Text(
-                          match.name.isNotEmpty ? match.name : match.address,
-                          style: t.titleMedium,
-                        ),
+                        Text(shown, style: t.titleMedium),
                         // A place carried over from a guide has no address in
                         // the payload, so the line is left out rather than
                         // rendered blank.
-                        if (match.address.isNotEmpty) ...[
+                        if (shownAddress.isNotEmpty) ...[
                           const SizedBox(height: 3),
-                          Text(match.address, style: t.bodySmall),
+                          Text(shownAddress, style: t.bodySmall),
                         ],
                       ] else ...[
                         Row(

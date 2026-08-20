@@ -509,4 +509,17 @@ class LTa extends L {
 
   @override
   String get sendPlacesFailed => 'அந்த ஆப் கோப்பை ஏற்கவில்லை';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'கோப்பிலிருந்து $count இடங்கள் வைக்கப்பட்டன, வேறு வரைபட ஆப்புக்கு அனுப்பத் தயார்',
+      one:
+          'கோப்பிலிருந்து 1 இடம் வைக்கப்பட்டது, வேறு வரைபட ஆப்புக்கு அனுப்பத் தயார்',
+    );
+    return '$_temp0';
+  }
 }

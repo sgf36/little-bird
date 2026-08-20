@@ -503,4 +503,15 @@ class LNo extends L {
 
   @override
   String get sendPlacesFailed => 'Appen tok ikke imot filen';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count steder er beholdt fra filen og klare for en annen kartapp',
+      one: '1 sted er beholdt fra filen og klart for en annen kartapp',
+    );
+    return '$_temp0';
+  }
 }

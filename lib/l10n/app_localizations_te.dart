@@ -503,4 +503,16 @@ class LTe extends L {
 
   @override
   String get sendPlacesFailed => 'ఆ యాప్ ఫైల్‌ను తీసుకోలేదు';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'ఫైల్ నుండి $count స్థలాలు ఉంచబడ్డాయి, మరో మ్యాప్ యాప్‌కు పంపడానికి సిద్ధం',
+      one: 'ఫైల్ నుండి 1 స్థలం ఉంచబడింది, మరో మ్యాప్ యాప్‌కు పంపడానికి సిద్ధం',
+    );
+    return '$_temp0';
+  }
 }

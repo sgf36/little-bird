@@ -507,4 +507,16 @@ class LKn extends L {
 
   @override
   String get sendPlacesFailed => 'ಆ ಆ್ಯಪ್ ಫೈಲ್ ಸ್ವೀಕರಿಸಲಿಲ್ಲ';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'ಫೈಲ್‌ನಿಂದ $count ಸ್ಥಳಗಳು ಉಳಿಸಲಾಗಿವೆ, ಬೇರೆ ನಕ್ಷೆ ಆ್ಯಪ್‌ಗೆ ಕಳುಹಿಸಲು ಸಿದ್ಧ',
+      one: 'ಫೈಲ್‌ನಿಂದ 1 ಸ್ಥಳ ಉಳಿಸಲಾಗಿದೆ, ಬೇರೆ ನಕ್ಷೆ ಆ್ಯಪ್‌ಗೆ ಕಳುಹಿಸಲು ಸಿದ್ಧ',
+    );
+    return '$_temp0';
+  }
 }

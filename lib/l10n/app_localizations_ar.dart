@@ -553,4 +553,19 @@ class LAr extends L {
 
   @override
   String get sendPlacesFailed => 'لم يقبل هذا التطبيق الملف';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'حُفظ $count مكان من الملف، جاهز للإرسال إلى تطبيق خرائط آخر',
+      many: 'حُفظ $count مكاناً من الملف، جاهزة للإرسال إلى تطبيق خرائط آخر',
+      few: 'حُفظت $count أماكن من الملف، جاهزة للإرسال إلى تطبيق خرائط آخر',
+      two: 'حُفظ مكانان من الملف، جاهزان للإرسال إلى تطبيق خرائط آخر',
+      one: 'حُفظ مكان واحد من الملف، جاهز للإرسال إلى تطبيق خرائط آخر',
+      zero: 'لم يُحفظ أي مكان من الملف',
+    );
+    return '$_temp0';
+  }
 }

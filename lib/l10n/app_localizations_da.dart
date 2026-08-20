@@ -503,4 +503,15 @@ class LDa extends L {
 
   @override
   String get sendPlacesFailed => 'Den app ville ikke tage filen';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count steder er beholdt fra filen og klar til en anden kortapp',
+      one: '1 sted er beholdt fra filen og klar til en anden kortapp',
+    );
+    return '$_temp0';
+  }
 }

@@ -500,4 +500,16 @@ class LHu extends L {
 
   @override
   String get sendPlacesFailed => 'Az alkalmazás nem fogadta el a fájlt';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count hely megmaradt a fájlból, készen egy másik térképalkalmazáshoz',
+      one: '1 hely megmaradt a fájlból, készen egy másik térképalkalmazáshoz',
+    );
+    return '$_temp0';
+  }
 }

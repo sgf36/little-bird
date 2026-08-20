@@ -510,4 +510,16 @@ class LEn extends L {
 
   @override
   String get sendPlacesFailed => 'That app would not take the file';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count places kept from the file, ready to send to another map app',
+      one: '1 place kept from the file, ready to send to another map app',
+    );
+    return '$_temp0';
+  }
 }

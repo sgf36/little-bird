@@ -508,4 +508,16 @@ class LDe extends L {
 
   @override
   String get sendPlacesFailed => 'Diese App hat die Datei nicht angenommen';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count Orte aus der Datei behalten, bereit für eine andere Karten-App',
+      one: '1 Ort aus der Datei behalten, bereit für eine andere Karten-App',
+    );
+    return '$_temp0';
+  }
 }

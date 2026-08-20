@@ -12,6 +12,25 @@ import 'unresolved_test.dart' show match;
 /// Answers each query with its own place, which the shared FakeResolver cannot
 /// do — it returns one fixed match, and the list's duplicate check would then
 /// collapse a whole imported file into a single row.
+/// A platform with no map search: every lookup is unsupported.
+///
+/// Not a failure — a permanent absence, which is what Android is. The
+/// distinction matters, because a failure is worth retrying and an absence is
+/// worth working around.
+class NoMapResolver extends PlaceResolver {
+  @override
+  Future<List<PlaceMatch>> resolve(String query, {Region? region}) async =>
+      throw ResolverUnavailable('no map here', unsupported: true);
+
+  @override
+  Future<PlaceLookup> lookup(List<PlaceId> ids) async =>
+      throw ResolverUnavailable('no map here', unsupported: true);
+
+  @override
+  Future<Region?> locate(String query) async =>
+      throw ResolverUnavailable('no map here', unsupported: true);
+}
+
 class QueryResolver extends PlaceResolver {
   QueryResolver(this.answers);
 
@@ -470,9 +489,13 @@ Den,35.6700,139.7100,Jingumae
       expect(resolver.regions[0]!.name, isEmpty);
     });
 
-    testWidgets('a row the map cannot find is kept for the user to search', (
-      tester,
-    ) async {
+    testWidgets('a row the map cannot find is kept, because the file '
+        'positioned it', (tester) async {
+      // The map is the authority on Apple's identifier, not on where the place
+      // is. A CSV that carried a coordinate has already answered that, so the
+      // row survives as something sendable to another map app rather than being
+      // demoted to "needs a look" -- which used to be its fate, and which made
+      // the count of usable places smaller than the file's own contents.
       final resolver = QueryResolver({
         'Fuunji': match('Fuunji', 'I43FA2531C5B5D635'),
       });
@@ -480,8 +503,43 @@ Den,35.6700,139.7100,Jingumae
       await addFrom(tester, 'From a file');
 
       expect(find.textContaining('Read 1 place from that file'), findsOne);
+      expect(find.textContaining('1 place kept from the file'), findsOne);
+      expect(find.textContaining('needs a look'), findsNothing);
+      // Shown by the name and address the file gave, not as "Not found on the
+      // map. Tap to search for it." -- the place is not lost, and on a platform
+      // with no map search a tap has nothing to offer.
+      expect(find.text('Den'), findsOne);
+      expect(find.text('Jingumae'), findsOne);
+      expect(find.text('Not found on the map'), findsNothing);
+    });
+
+    testWidgets('a file imports with no map at all, when it brought '
+        'coordinates', (tester) async {
+      // The Android case, and the one that used to fail outright. There is no
+      // MapKit outside iOS, so every lookup raises "unsupported" -- and the
+      // import used to abandon the whole file on the first one, leaving an empty
+      // list and a message about needing an iPhone. A CSV or GPX has already
+      // said where its places are, which is all another map app needs.
+      await pump(tester, resolver: NoMapResolver(), files: StubFileSource(csv));
+      await addFrom(tester, 'From a file');
+
+      expect(find.textContaining('2 places kept from the file'), findsOne);
+      expect(find.text('Fuunji'), findsOne);
+      expect(find.text('Den'), findsOne);
+    });
+
+    testWidgets('a row with no coordinate still needs a look', (tester) async {
+      // The other half of the same rule. Nothing positioned this row, so there
+      // is nothing to send anywhere and the user is the only way forward.
+      const nameOnly = 'name\nFuunji\nBacchanalia\n';
+      final resolver = QueryResolver({
+        'Fuunji': match('Fuunji', 'I43FA2531C5B5D635'),
+      });
+      await pump(tester, resolver: resolver, files: StubFileSource(nameOnly));
+      await addFrom(tester, 'From a file');
+
       expect(find.textContaining('1 needs a look'), findsOne);
-      expect(find.text('Not found on the map'), findsOne);
+      expect(find.textContaining('kept from the file'), findsNothing);
     });
 
     testWidgets('rows with no name are reported rather than hidden', (

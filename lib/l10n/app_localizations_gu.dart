@@ -497,4 +497,15 @@ class LGu extends L {
 
   @override
   String get sendPlacesFailed => 'તે ઍપે ફાઇલ સ્વીકારી નહીં';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ફાઇલમાંથી $count સ્થળો રાખ્યાં, બીજી નકશા ઍપમાં મોકલવા તૈયાર',
+      one: 'ફાઇલમાંથી 1 સ્થળ રાખ્યું, બીજી નકશા ઍપમાં મોકલવા તૈયાર',
+    );
+    return '$_temp0';
+  }
 }

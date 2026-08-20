@@ -517,4 +517,19 @@ class LHr extends L {
 
   @override
   String get sendPlacesFailed => 'Ta aplikacija nije prihvatila datoteku';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count mjesta iz datoteke spremno je za drugu kartografsku aplikaciju',
+      few:
+          '$count mjesta iz datoteke spremna su za drugu kartografsku aplikaciju',
+      one:
+          '$count mjesto iz datoteke spremno je za drugu kartografsku aplikaciju',
+    );
+    return '$_temp0';
+  }
 }

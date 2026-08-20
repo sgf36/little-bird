@@ -107,5 +107,6 @@
   "sendPlacesReady": "{count, plural, other{보낼 장소 {count}곳이 준비되었습니다}}",
   "sendPlacesNoLocation": "{count, plural, other{장소 {count}곳에 위치가 없어 보낼 수 없습니다}}",
   "sendPlacesOtherApp": "다른 앱",
-  "sendPlacesFailed": "그 앱이 파일을 받지 않았습니다"
+  "sendPlacesFailed": "그 앱이 파일을 받지 않았습니다",
+  "fileImportPositioned": "{count, plural, other{파일에서 장소 {count}곳을 보관했습니다. 다른 지도 앱으로 보낼 수 있습니다}}"
 }

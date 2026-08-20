@@ -475,4 +475,14 @@ class LTh extends L {
 
   @override
   String get sendPlacesFailed => 'แอปนั้นไม่รับไฟล์';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'เก็บสถานที่ $count แห่งจากไฟล์ พร้อมส่งไปยังแอปแผนที่อื่น',
+    );
+    return '$_temp0';
+  }
 }

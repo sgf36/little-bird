@@ -107,5 +107,6 @@
   "sendPlacesReady": "{count, plural, one{1 ಸ್ಥಳ ಕಳುಹಿಸಲು ಸಿದ್ಧ} other{{count} ಸ್ಥಳಗಳು ಕಳುಹಿಸಲು ಸಿದ್ಧ}}",
   "sendPlacesNoLocation": "{count, plural, one{1 ಸ್ಥಳಕ್ಕೆ ಸ್ಥಾನವಿಲ್ಲ, ಕಳುಹಿಸಲಾಗದು} other{{count} ಸ್ಥಳಗಳಿಗೆ ಸ್ಥಾನವಿಲ್ಲ, ಕಳುಹಿಸಲಾಗದು}}",
   "sendPlacesOtherApp": "ಬೇರೆ ಯಾವುದೇ ಆ್ಯಪ್",
-  "sendPlacesFailed": "ಆ ಆ್ಯಪ್ ಫೈಲ್ ಸ್ವೀಕರಿಸಲಿಲ್ಲ"
+  "sendPlacesFailed": "ಆ ಆ್ಯಪ್ ಫೈಲ್ ಸ್ವೀಕರಿಸಲಿಲ್ಲ",
+  "fileImportPositioned": "{count, plural, one{ಫೈಲ್‌ನಿಂದ 1 ಸ್ಥಳ ಉಳಿಸಲಾಗಿದೆ, ಬೇರೆ ನಕ್ಷೆ ಆ್ಯಪ್‌ಗೆ ಕಳುಹಿಸಲು ಸಿದ್ಧ} other{ಫೈಲ್‌ನಿಂದ {count} ಸ್ಥಳಗಳು ಉಳಿಸಲಾಗಿವೆ, ಬೇರೆ ನಕ್ಷೆ ಆ್ಯಪ್‌ಗೆ ಕಳುಹಿಸಲು ಸಿದ್ಧ}}"
 }

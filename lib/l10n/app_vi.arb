@@ -107,5 +107,6 @@
   "sendPlacesReady": "{count, plural, other{{count} địa điểm sẵn sàng để gửi}}",
   "sendPlacesNoLocation": "{count, plural, other{{count} địa điểm không có vị trí nên không thể gửi}}",
   "sendPlacesOtherApp": "Ứng dụng khác",
-  "sendPlacesFailed": "Ứng dụng đó không nhận tệp"
+  "sendPlacesFailed": "Ứng dụng đó không nhận tệp",
+  "fileImportPositioned": "{count, plural, other{Đã giữ {count} địa điểm từ tệp, sẵn sàng gửi tới ứng dụng bản đồ khác}}"
 }

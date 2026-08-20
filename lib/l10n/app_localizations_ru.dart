@@ -540,4 +540,21 @@ class LRu extends L {
 
   @override
   String get sendPlacesFailed => 'Это приложение не приняло файл';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count места из файла готовы к отправке в другое картографическое приложение',
+      many:
+          '$count мест из файла готовы к отправке в другое картографическое приложение',
+      few:
+          '$count места из файла готовы к отправке в другое картографическое приложение',
+      one:
+          '$count место из файла готово к отправке в другое картографическое приложение',
+    );
+    return '$_temp0';
+  }
 }

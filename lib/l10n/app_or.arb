@@ -107,5 +107,6 @@
   "sendPlacesReady": "{count, plural, one{1 ସ୍ଥାନ ପଠାଇବାକୁ ପ୍ରସ୍ତୁତ} other{{count} ସ୍ଥାନ ପଠାଇବାକୁ ପ୍ରସ୍ତୁତ}}",
   "sendPlacesNoLocation": "{count, plural, one{1 ସ୍ଥାନର ଅବସ୍ଥାନ ନାହିଁ, ପଠାଯିବ ନାହିଁ} other{{count} ସ୍ଥାନର ଅବସ୍ଥାନ ନାହିଁ, ପଠାଯିବ ନାହିଁ}}",
   "sendPlacesOtherApp": "ଅନ୍ୟ କୌଣସି ଆପ୍",
-  "sendPlacesFailed": "ସେହି ଆପ୍ ଫାଇଲ୍ ନେଲା ନାହିଁ"
+  "sendPlacesFailed": "ସେହି ଆପ୍ ଫାଇଲ୍ ନେଲା ନାହିଁ",
+  "fileImportPositioned": "{count, plural, one{ଫାଇଲରୁ 1 ସ୍ଥାନ ରଖାଗଲା, ଅନ୍ୟ ମ୍ୟାପ୍ ଆପକୁ ପଠାଇବାକୁ ପ୍ରସ୍ତୁତ} other{ଫାଇଲରୁ {count} ସ୍ଥାନ ରଖାଗଲା, ଅନ୍ୟ ମ୍ୟାପ୍ ଆପକୁ ପଠାଇବାକୁ ପ୍ରସ୍ତୁତ}}"
 }

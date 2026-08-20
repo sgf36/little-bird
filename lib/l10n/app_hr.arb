@@ -107,5 +107,6 @@
   "sendPlacesReady": "{count, plural, one{{count} mjesto je spremno za slanje} few{{count} mjesta su spremna za slanje} other{{count} mjesta je spremno za slanje}}",
   "sendPlacesNoLocation": "{count, plural, one{{count} mjesto nema lokaciju i ne može se poslati} few{{count} mjesta nemaju lokaciju i ne mogu se poslati} other{{count} mjesta nema lokaciju i ne može se poslati}}",
   "sendPlacesOtherApp": "Bilo koja druga aplikacija",
-  "sendPlacesFailed": "Ta aplikacija nije prihvatila datoteku"
+  "sendPlacesFailed": "Ta aplikacija nije prihvatila datoteku",
+  "fileImportPositioned": "{count, plural, one{{count} mjesto iz datoteke spremno je za drugu kartografsku aplikaciju} few{{count} mjesta iz datoteke spremna su za drugu kartografsku aplikaciju} other{{count} mjesta iz datoteke spremno je za drugu kartografsku aplikaciju}}"
 }

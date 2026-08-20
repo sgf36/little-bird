@@ -524,4 +524,17 @@ class LHe extends L {
 
   @override
   String get sendPlacesFailed => 'האפליקציה לא קיבלה את הקובץ';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count מקומות נשמרו מהקובץ ומוכנים לשליחה לאפליקציית מפות אחרת',
+      many: '$count מקומות נשמרו מהקובץ ומוכנים לשליחה לאפליקציית מפות אחרת',
+      two: 'שני מקומות נשמרו מהקובץ ומוכנים לשליחה לאפליקציית מפות אחרת',
+      one: 'מקום אחד נשמר מהקובץ ומוכן לשליחה לאפליקציית מפות אחרת',
+    );
+    return '$_temp0';
+  }
 }

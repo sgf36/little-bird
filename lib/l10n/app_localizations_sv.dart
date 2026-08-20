@@ -507,4 +507,15 @@ class LSv extends L {
 
   @override
   String get sendPlacesFailed => 'Appen tog inte emot filen';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count platser behölls från filen, klara för en annan kartapp',
+      one: '1 plats behölls från filen, klar för en annan kartapp',
+    );
+    return '$_temp0';
+  }
 }

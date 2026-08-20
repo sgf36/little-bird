@@ -507,4 +507,17 @@ class LCa extends L {
 
   @override
   String get sendPlacesFailed => 'Aquesta app no ha acceptat el fitxer';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count llocs desats del fitxer, a punt per enviar a una altra app de mapes',
+      one:
+          '1 lloc desat del fitxer, a punt per enviar a una altra app de mapes',
+    );
+    return '$_temp0';
+  }
 }

@@ -107,5 +107,6 @@
   "sendPlacesReady": "{count, plural, =1{1 plats är klar att skicka} other{{count} platser är klara att skicka}}",
   "sendPlacesNoLocation": "{count, plural, =1{1 plats saknar position och kan inte skickas} other{{count} platser saknar position och kan inte skickas}}",
   "sendPlacesOtherApp": "Någon annan app",
-  "sendPlacesFailed": "Appen tog inte emot filen"
+  "sendPlacesFailed": "Appen tog inte emot filen",
+  "fileImportPositioned": "{count, plural, =1{1 plats behölls från filen, klar för en annan kartapp} other{{count} platser behölls från filen, klara för en annan kartapp}}"
 }

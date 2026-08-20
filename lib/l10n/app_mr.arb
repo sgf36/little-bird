@@ -107,5 +107,6 @@
   "sendPlacesReady": "{count, plural, one{1 ठिकाण पाठवायला तयार} other{{count} ठिकाणे पाठवायला तयार}}",
   "sendPlacesNoLocation": "{count, plural, one{1 ठिकाणाला स्थान नाही, ते पाठवता येणार नाही} other{{count} ठिकाणांना स्थान नाही, ती पाठवता येणार नाहीत}}",
   "sendPlacesOtherApp": "दुसरे कोणतेही ॲप",
-  "sendPlacesFailed": "त्या ॲपने फाइल घेतली नाही"
+  "sendPlacesFailed": "त्या ॲपने फाइल घेतली नाही",
+  "fileImportPositioned": "{count, plural, one{फाइलमधून 1 ठिकाण ठेवले, दुसऱ्या नकाशा ॲपला पाठवायला तयार} other{फाइलमधून {count} ठिकाणे ठेवली, दुसऱ्या नकाशा ॲपला पाठवायला तयार}}"
 }

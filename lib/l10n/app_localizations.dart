@@ -830,6 +830,12 @@ abstract class L {
   /// In en, this message translates to:
   /// **'That app would not take the file'**
   String get sendPlacesFailed;
+
+  /// Shown after importing a file when the places carried their own coordinates and no map lookup was possible — they can be sent to another map app, but not put in an Apple Maps guide.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 place kept from the file, ready to send to another map app} other{{count} places kept from the file, ready to send to another map app}}'**
+  String fileImportPositioned(int count);
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

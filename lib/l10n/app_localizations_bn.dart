@@ -494,4 +494,17 @@ class LBn extends L {
 
   @override
   String get sendPlacesFailed => 'সেই অ্যাপ ফাইলটি নিল না';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'ফাইল থেকে $countটি স্থান রাখা হয়েছে, অন্য ম্যাপ অ্যাপে পাঠানোর জন্য তৈরি',
+      one:
+          'ফাইল থেকে ১টি স্থান রাখা হয়েছে, অন্য ম্যাপ অ্যাপে পাঠানোর জন্য তৈরি',
+    );
+    return '$_temp0';
+  }
 }

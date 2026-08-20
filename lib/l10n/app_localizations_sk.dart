@@ -533,4 +533,21 @@ class LSk extends L {
 
   @override
   String get sendPlacesFailed => 'Táto aplikácia súbor neprijala';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count miest zo súboru je pripravených na odoslanie do inej mapovej aplikácie',
+      many:
+          '$count miesta zo súboru sú pripravené na odoslanie do inej mapovej aplikácie',
+      few:
+          '$count miesta zo súboru sú pripravené na odoslanie do inej mapovej aplikácie',
+      one:
+          '1 miesto zo súboru je pripravené na odoslanie do inej mapovej aplikácie',
+    );
+    return '$_temp0';
+  }
 }

@@ -504,4 +504,15 @@ class LMr extends L {
 
   @override
   String get sendPlacesFailed => 'त्या ॲपने फाइल घेतली नाही';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'फाइलमधून $count ठिकाणे ठेवली, दुसऱ्या नकाशा ॲपला पाठवायला तयार',
+      one: 'फाइलमधून 1 ठिकाण ठेवले, दुसऱ्या नकाशा ॲपला पाठवायला तयार',
+    );
+    return '$_temp0';
+  }
 }

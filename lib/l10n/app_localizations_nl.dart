@@ -506,4 +506,16 @@ class LNl extends L {
 
   @override
   String get sendPlacesFailed => 'Die app nam het bestand niet aan';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count plaatsen uit het bestand bewaard, klaar voor een andere kaartenapp',
+      one: '1 plaats uit het bestand bewaard, klaar voor een andere kaartenapp',
+    );
+    return '$_temp0';
+  }
 }

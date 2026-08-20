@@ -536,4 +536,20 @@ class LSl extends L {
 
   @override
   String get sendPlacesFailed => 'Ta aplikacija ni sprejela datoteke';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count krajev iz datoteke je pripravljenih za drugo aplikacijo z zemljevidi',
+      few:
+          '$count kraji iz datoteke so pripravljeni za drugo aplikacijo z zemljevidi',
+      two:
+          '$count kraja iz datoteke sta pripravljena za drugo aplikacijo z zemljevidi',
+      one: '1 kraj iz datoteke je pripravljen za drugo aplikacijo z zemljevidi',
+    );
+    return '$_temp0';
+  }
 }

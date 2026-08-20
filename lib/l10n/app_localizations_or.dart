@@ -497,4 +497,15 @@ class LOr extends L {
 
   @override
   String get sendPlacesFailed => 'ସେହି ଆପ୍ ଫାଇଲ୍ ନେଲା ନାହିଁ';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ଫାଇଲରୁ $count ସ୍ଥାନ ରଖାଗଲା, ଅନ୍ୟ ମ୍ୟାପ୍ ଆପକୁ ପଠାଇବାକୁ ପ୍ରସ୍ତୁତ',
+      one: 'ଫାଇଲରୁ 1 ସ୍ଥାନ ରଖାଗଲା, ଅନ୍ୟ ମ୍ୟାପ୍ ଆପକୁ ପଠାଇବାକୁ ପ୍ରସ୍ତୁତ',
+    );
+    return '$_temp0';
+  }
 }

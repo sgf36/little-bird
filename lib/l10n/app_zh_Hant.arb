@@ -107,5 +107,6 @@
   "sendPlacesReady": "{count, plural, other{{count} 個地點已準備好傳送}}",
   "sendPlacesNoLocation": "{count, plural, other{{count} 個地點沒有位置，無法傳送}}",
   "sendPlacesOtherApp": "其他應用程式",
-  "sendPlacesFailed": "該應用程式沒有接收檔案"
+  "sendPlacesFailed": "該應用程式沒有接收檔案",
+  "fileImportPositioned": "{count, plural, other{已從檔案保留 {count} 個地點，可傳送到其他地圖應用程式}}"
 }

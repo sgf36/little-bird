@@ -509,4 +509,15 @@ class LPa extends L {
 
   @override
   String get sendPlacesFailed => 'ਉਸ ਐਪ ਨੇ ਫ਼ਾਈਲ ਨਹੀਂ ਲਈ';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ਫ਼ਾਈਲ ਤੋਂ $count ਥਾਵਾਂ ਰੱਖੀਆਂ, ਹੋਰ ਨਕਸ਼ਾ ਐਪ ਨੂੰ ਭੇਜਣ ਲਈ ਤਿਆਰ',
+      one: 'ਫ਼ਾਈਲ ਤੋਂ 1 ਥਾਂ ਰੱਖੀ, ਹੋਰ ਨਕਸ਼ਾ ਐਪ ਨੂੰ ਭੇਜਣ ਲਈ ਤਿਆਰ',
+    );
+    return '$_temp0';
+  }
 }

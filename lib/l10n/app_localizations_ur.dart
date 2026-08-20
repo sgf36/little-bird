@@ -509,4 +509,16 @@ class LUr extends L {
 
   @override
   String get sendPlacesFailed => 'اُس ایپ نے فائل نہیں لی';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'فائل سے $count مقامات رکھے گئے، کسی اور نقشہ ایپ کو بھیجنے کے لیے تیار',
+      one: 'فائل سے 1 مقام رکھا گیا، کسی اور نقشہ ایپ کو بھیجنے کے لیے تیار',
+    );
+    return '$_temp0';
+  }
 }
