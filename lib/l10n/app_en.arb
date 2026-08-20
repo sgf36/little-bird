@@ -16,6 +16,14 @@
   "@emptyNote": {
     "description": "A limitation of Apple Maps, stated up front. 'Guide' is Apple's own feature name — use whatever Apple Maps calls it in this language."
   },
+  "emptyBodyAndroid": "Open a list of places you already keep — a file exported from another map app, or a Google Takeout archive. CSV, KML, KMZ, GPX and GeoJSON are all read.",
+  "@emptyBodyAndroid": {
+    "description": "The opening line of the first screen, on a platform that cannot make guides. It replaces emptyBody, which describes reading screenshots into Apple Maps and is true of neither half here: there is no text recognition and no Apple Maps. Say what this build does, which is read a file."
+  },
+  "emptyNoteAndroid": "Nothing leaves until you have looked at it. Wren then hands the list to a map app on the phone.",
+  "@emptyNoteAndroid": {
+    "description": "The quieter second line of the first screen, on a platform that cannot make guides. It replaces emptyNote, which is about Apple Maps refusing to merge guides. Two promises: the list is shown before anything is sent, and the destination is whichever map app is installed. Name no map app here — the sheet that sends the places names them, and only the ones actually installed."
+  },
   "addScreenshots": "Add screenshots",
   "@addScreenshots": {
     "description": "Button. Opens the photo picker."
@@ -621,6 +629,10 @@
   "fileImportPositioned": "{count, plural, =1{1 place kept from the file, ready to send to another map app} other{{count} places kept from the file, ready to send to another map app}}",
   "@fileImportPositioned": {
     "description": "Shown after importing a file when the places carried their own coordinates and no map lookup was possible — they can be sent to another map app, but not put in an Apple Maps guide.",
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

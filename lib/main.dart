@@ -146,7 +146,7 @@ class CapturePage extends StatefulWidget {
     super.key,
     this.store,
     this.saver,
-    this.canSendElsewhere,
+    this.canMakeGuides,
     this.resolver,
     this.files,
     this.expander,
@@ -168,14 +168,28 @@ class CapturePage extends StatefulWidget {
   /// tested without a save dialog.
   final FileSaver? saver;
 
-  /// Whether to offer "Send places to" at all.
+  /// Whether this build can publish an Apple Maps guide.
   ///
-  /// Null means "decide from the platform", which is what the app does: Android
-  /// only, because on iOS the destination is Apple Maps and the main button
-  /// already goes there. A test sets it so the whole sheet can be exercised on
-  /// whatever machine the tests run on -- otherwise the one path that hands a
-  /// file to another app could only ever be checked by hand, on a phone.
-  final bool? canSendElsewhere;
+  /// Null means "decide from the platform", and the platform that cannot is
+  /// Android: there is no Apple Maps there, so a guide link opens a web page
+  /// nobody asked for. Where it is false the main button hands the list to
+  /// another map app instead, which is the whole Android product.
+  ///
+  /// One flag rather than two. "Makes guides" and "sends places elsewhere" are
+  /// exact opposites on every platform Wren runs on, and a pair of fields that
+  /// must always disagree is a bug waiting to be written.
+  ///
+  /// It gates the purchase as well as the button. The unlock sells guides of
+  /// any size, so where there are no guides there is nothing to sell -- and
+  /// [unlimitedProductId] exists in App Store Connect and not in Play Console,
+  /// so a paywall raised here would quote [unlimitedFallbackPrice] and then be
+  /// unable to take the money. Free, with no purchase, is the honest answer on
+  /// Android rather than a temporary one.
+  ///
+  /// A test sets it either way, so both products can be exercised on whatever
+  /// machine the tests run on -- otherwise the one path that hands a file to
+  /// another app could only ever be checked by hand, on a phone.
+  final bool? canMakeGuides;
   final LinkExpander? expander;
 
   /// Injectable so the share-sheet handoff can be tested without an extension.
@@ -205,7 +219,9 @@ class CapturePage extends StatefulWidget {
 class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   final _picker = ImagePicker();
   late final PlaceResolver _resolver = widget.resolver ?? MapKitResolver();
-  late final UnlockStore _store = widget.store ?? StoreUnlockStore();
+  late final UnlockStore _store =
+      widget.store ??
+      (_makesGuides ? StoreUnlockStore() : UnavailableUnlockStore());
   late final FileSource _files = widget.files ?? DocumentFileSource();
   late final FileSaver _saver = widget.saver ?? const DocumentFileSaver();
   late final LinkExpander _expander = widget.expander ?? HttpLinkExpander();
@@ -213,6 +229,10 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
       widget.shareInbox ?? const MethodChannelShareInbox();
   late final PlaceSharer _sharer =
       widget.sharer ?? const MethodChannelPlaceSharer();
+
+  /// Whether guides -- and therefore the purchase that sells bigger ones --
+  /// exist on this platform at all. See [CapturePage.canMakeGuides].
+  bool get _makesGuides => widget.canMakeGuides ?? !Platform.isAndroid;
 
   /// The My Map the user chose to keep adding to, if they have picked one.
   ///
@@ -1209,10 +1229,16 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   /// Offers the places to another map app.
   ///
   /// Android only in practice: on iOS the destination is Apple Maps and that is
-  /// what [_publish] already does. Named apps are listed first, but only if they
-  /// are actually installed — and "installed" here means installed AND declared
-  /// in the manifest's `<queries>`, because from Android 11 the two are the same
-  /// answer. Anything not listed still reaches the same file through the system
+  /// what [_publish] already does.
+  ///
+  /// Nothing here is capped, deliberately. [freePlaceLimit] limits the places
+  /// in one guide, and this makes no guide -- it writes a file and hands it
+  /// over. Counting these against a cap that sells an Apple Maps feature would
+  /// be charging for something the platform does not have.
+  ///
+  /// Named apps are listed first, but only if they are actually installed —
+  /// and "installed" here means installed AND declared in the manifest's
+  /// `<queries>`, because from Android 11 the two are the same answer. Anything not listed still reaches the same file through the system
   /// chooser, so the long tail works without Wren claiming to have tested it.
   Future<void> _sendPlacesElsewhere() async {
     final l = L.of(context);
@@ -1507,6 +1533,18 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
 
   /// Which of the three sources to add from.
   Future<void> _addPlaces() async {
+    // Where there are no guides there is only one source that works, so there
+    // is nothing to choose between. Screenshots need Apple's Vision framework
+    // and the channel behind them answers MissingPluginException; a guide read
+    // without MapKit arrives as Apple identifiers with no name and no
+    // coordinate, which is a list that looks imported and cannot be sent
+    // anywhere. Offering one working source beside two dead ones is worse than
+    // offering no menu at all.
+    if (!_makesGuides) {
+      await _importFile();
+      return;
+    }
+
     final l = L.of(context);
     final choice = await showModalBottomSheet<_AddSource>(
       context: context,
@@ -1600,18 +1638,14 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
             onSelected: (v) {
               if (v == 'restore') _restoreFromMenu();
               if (v == 'clear') _clearList();
-              if (v == 'send') _sendPlacesElsewhere();
             },
             itemBuilder: (context) => [
-              // Android only. On iOS the destination is Apple Maps, which the
-              // main button already does, and offering to "send elsewhere" there
-              // would mean offering a file nothing on the phone wants.
-              if ((widget.canSendElsewhere ?? Platform.isAndroid) &&
-                  sendable > 0)
-                PopupMenuItem(value: 'send', child: Text(l.sendPlacesTo)),
               if (_pending.isNotEmpty)
                 PopupMenuItem(value: 'clear', child: Text(l.clearList)),
-              if (!_entitlement.unlimited)
+              // Restoring is restoring a purchase, so it goes wherever the
+              // purchase goes. On Android there is none to restore and the
+              // copy says "Apple account", which would be doubly wrong.
+              if (_makesGuides && !_entitlement.unlimited)
                 PopupMenuItem(value: 'restore', child: Text(l.restorePurchase)),
             ],
           ),
@@ -1662,7 +1696,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
-          if (over > 0)
+          if (_makesGuides && over > 0)
             _Banner(
               accent: Wren.clay,
               child: Text(
@@ -1673,7 +1707,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
           // Said as soon as a guide has been read in, not at the end. Finding
           // out after choosing places and naming the guide would be a worse way
           // to learn it.
-          if (carried.isNotEmpty && !_entitlement.unlimited)
+          if (_makesGuides && carried.isNotEmpty && !_entitlement.unlimited)
             _Banner(
               accent: Wren.clay,
               child: Text(
@@ -1683,7 +1717,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
             ),
           Expanded(
             child: _pending.isEmpty
-                ? const _Empty()
+                ? _Empty(makesGuides: _makesGuides)
                 : ListView(
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                     children: [
@@ -1709,6 +1743,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
                           for (final p in carried) ...[
                             _PlaceCard(
                               pending: p,
+                              canSearch: _makesGuides,
                               onChanged: (v) =>
                                   setState(() => p.keep = v ?? true),
                               onEdit: () => _editPlace(_pending.indexOf(p)),
@@ -1719,6 +1754,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
                       for (final p in fresh) ...[
                         _PlaceCard(
                           pending: p,
+                          canSearch: _makesGuides,
                           onChanged: (v) => setState(() => p.keep = v ?? true),
                           onEdit: () => _editPlace(_pending.indexOf(p)),
                         ),
@@ -1741,14 +1777,32 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
                     ),
                   ),
                   const SizedBox(width: 10),
+                  // Two different products behind one button. A guide is
+                  // Apple Maps and does not exist on Android, where the same
+                  // list goes to whichever map app is installed instead. The
+                  // sheet used to hang off the overflow menu; it is the point
+                  // of the Android app, so it is the button.
                   Expanded(
-                    child: FilledButton.icon(
-                      onPressed: keeping == 0 ? null : _publish,
-                      icon: const Icon(Icons.map_outlined, size: 20),
-                      label: Text(
-                        keeping == 1 ? l.addToGuide : l.makeGuide(keeping),
-                      ),
-                    ),
+                    child: _makesGuides
+                        ? FilledButton.icon(
+                            onPressed: keeping == 0 ? null : _publish,
+                            icon: const Icon(Icons.map_outlined, size: 20),
+                            label: Text(
+                              keeping == 1
+                                  ? l.addToGuide
+                                  : l.makeGuide(keeping),
+                            ),
+                          )
+                        : FilledButton.icon(
+                            // Counts what can be exported, not what Apple
+                            // matched: a place a file positioned is ready to
+                            // send without any lookup having succeeded.
+                            onPressed: sendable == 0
+                                ? null
+                                : _sendPlacesElsewhere,
+                            icon: const Icon(Icons.place_outlined, size: 20),
+                            label: Text(l.sendPlacesTo),
+                          ),
                   ),
                 ],
               ),
@@ -1868,11 +1922,21 @@ class _PlaceCard extends StatelessWidget {
     required this.pending,
     required this.onChanged,
     required this.onEdit,
+    required this.canSearch,
   });
 
   final Pending pending;
   final ValueChanged<bool?> onChanged;
   final VoidCallback onEdit;
+
+  /// Whether there is a map to look a place up in.
+  ///
+  /// False on Android, and it changes what an unmatched row means. With a map,
+  /// no match is a job: tap the card, search, correct it. Without one, no match
+  /// is simply the state of every row -- MapKit is the only lookup there is --
+  /// so a card that opens a search sheet saying "needs an iPhone" turns the
+  /// normal case into an error the user cannot clear.
+  final bool canSearch;
 
   @override
   Widget build(BuildContext context) {
@@ -1886,6 +1950,13 @@ class _PlaceCard extends StatelessWidget {
     // place is not lost, and on a platform with no map search there is nothing
     // for a tap to do.
     final fromFile = pending.fromFile;
+    // Whether this row still wants something from the user. With a map that
+    // means Apple found nothing. Without one it means the file gave no
+    // coordinate, which is the only way a place can be unusable here -- and
+    // the only one worth outlining, since otherwise every row would be.
+    final needsAttention = canSearch
+        ? !resolved
+        : !(pending.forExport?.hasCoordinate ?? false);
     final shown = resolved
         ? (match.name.isNotEmpty ? match.name : match.address)
         : (fromFile?.name ?? '');
@@ -1893,7 +1964,7 @@ class _PlaceCard extends StatelessWidget {
     final named = shown.isNotEmpty;
 
     return Opacity(
-      opacity: resolved && !pending.keep ? 0.5 : 1,
+      opacity: !needsAttention && !pending.keep ? 0.5 : 1,
       child: Material(
         color: Wren.raised,
         // Shape only — Material asserts if both shape and borderRadius are
@@ -1901,15 +1972,16 @@ class _PlaceCard extends StatelessWidget {
         // appeared in it.
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: resolved
-              ? BorderSide.none
-              : const BorderSide(color: Wren.clay, width: 1.2),
+          side: needsAttention
+              ? const BorderSide(color: Wren.clay, width: 1.2)
+              : BorderSide.none,
         ),
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
           // Tapping anywhere opens the lookup. Correcting a wrong match and
           // finding one that failed are the same job, so they are one gesture.
-          onTap: onEdit,
+          // Where there is no lookup the card is not a button.
+          onTap: canSearch ? onEdit : null,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(14, 12, 8, 12),
             child: Row(
@@ -1986,14 +2058,19 @@ class _PlaceCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (resolved)
+                if (!needsAttention)
                   Checkbox(value: pending.keep, onChanged: onChanged)
-                else
+                else if (canSearch)
                   IconButton(
                     icon: const Icon(Icons.search, color: Wren.clay),
                     tooltip: l.searchAppleMaps,
                     onPressed: onEdit,
-                  ),
+                  )
+                else
+                  // Nothing to search and nothing to send: the file named this
+                  // place and gave it no position. A live checkbox here would
+                  // tick and then be quietly ignored on the way out.
+                  const Checkbox(value: false, onChanged: null),
               ],
             ),
           ),
@@ -2004,7 +2081,14 @@ class _PlaceCard extends StatelessWidget {
 }
 
 class _Empty extends StatelessWidget {
-  const _Empty();
+  const _Empty({required this.makesGuides});
+
+  /// The first screen has to describe the app that is actually installed. On
+  /// Android it reads a file and hands the list on: it takes no screenshots,
+  /// because there is no text recognition, and it makes no guide, because
+  /// there is no Apple Maps. Saying otherwise here would be the first thing
+  /// anybody saw, reviewers included.
+  final bool makesGuides;
 
   @override
   Widget build(BuildContext context) {
@@ -2024,38 +2108,50 @@ class _Empty extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),
-            Text(l.emptyBody, style: t.bodyMedium, textAlign: TextAlign.center),
+            Text(
+              makesGuides ? l.emptyBody : l.emptyBodyAndroid,
+              style: t.bodyMedium,
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 18),
-            Text(l.emptyNote, style: t.bodySmall, textAlign: TextAlign.center),
+            Text(
+              makesGuides ? l.emptyNote : l.emptyNoteAndroid,
+              style: t.bodySmall,
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 18),
             // Named here rather than left to be found inside a menu. A file
             // importer nobody knows the formats of is a file importer nobody
             // tries, and the formats are the whole answer to "will mine work".
-            Container(
-              padding: const EdgeInsets.fromLTRB(14, 11, 14, 11),
-              decoration: BoxDecoration(
-                color: Wren.raised,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Wren.line),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Icon(
-                    Icons.insert_drive_file_outlined,
-                    size: 15,
-                    color: Wren.muted,
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      l.acceptedFormats,
-                      style: t.bodySmall?.copyWith(fontSize: 12.5),
+            // Only beside screenshots, though: it opens with "Also", and where
+            // a file is the only way in it is not "also" anything -- the
+            // Android body above names the formats instead.
+            if (makesGuides)
+              Container(
+                padding: const EdgeInsets.fromLTRB(14, 11, 14, 11),
+                decoration: BoxDecoration(
+                  color: Wren.raised,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Wren.line),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(
+                      Icons.insert_drive_file_outlined,
+                      size: 15,
+                      color: Wren.muted,
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        l.acceptedFormats,
+                        style: t.bodySmall?.copyWith(fontSize: 12.5),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),

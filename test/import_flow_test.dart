@@ -101,7 +101,7 @@ Future<void> pump(
   FakeStore? store,
   PlaceSharer? sharer,
   FileSaver? saver,
-  bool? canSendElsewhere,
+  bool? canMakeGuides,
 }) async {
   await tester.pumpWidget(
     app(
@@ -111,7 +111,7 @@ Future<void> pump(
         files: files,
         sharer: sharer,
         saver: saver,
-        canSendElsewhere: canSendElsewhere,
+        canMakeGuides: canMakeGuides,
         initialPending: pending,
         initialGuideName: guideName,
       ),
@@ -617,12 +617,14 @@ Den,35.6700,139.7100,Jingumae
         files: StubFileSource(csv),
         sharer: sharer,
         saver: saver,
-        canSendElsewhere: true,
+        // The Android product: no Apple Maps, so no guide, so the main button
+        // is the hand-off rather than an item hidden in the overflow menu.
+        canMakeGuides: false,
       );
-      await addFrom(tester, 'From a file');
-      await tester.tap(find.byIcon(Icons.more_vert));
+      // No source menu here: a file is the only way in, so Add is the picker.
+      await tester.tap(find.widgetWithText(OutlinedButton, 'Add'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Send places to'));
+      await tester.tap(find.widgetWithText(FilledButton, 'Send places to'));
       await tester.pumpAndSettle();
     }
 

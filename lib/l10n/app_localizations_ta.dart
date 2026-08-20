@@ -23,6 +23,14 @@ class LTa extends L {
       'ஒரே இடம் உங்களிடம் ஏற்கெனவே உள்ள வழிகாட்டியில் சேரும். பல இடங்கள் புதிய ஒன்றை உருவாக்கும் — Apple Maps வழிகாட்டிகளை ஒன்றிணைக்க முடியாது.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Open a list of places you already keep — a file exported from another map app, or a Google Takeout archive. CSV, KML, KMZ, GPX and GeoJSON are all read.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Nothing leaves until you have looked at it. Wren then hands the list to a map app on the phone.';
+
+  @override
   String get addScreenshots => 'திரைப்பிடிப்புகளைச் சேர்க்கவும்';
 
   @override

@@ -23,6 +23,14 @@ class LSl extends L {
       'Posamezen kraj se pridruži vodniku, ki ga že imaš. Več krajev ustvari novega — Apple Zemljevidi vodnikov ne znajo združiti.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Open a list of places you already keep — a file exported from another map app, or a Google Takeout archive. CSV, KML, KMZ, GPX and GeoJSON are all read.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Nothing leaves until you have looked at it. Wren then hands the list to a map app on the phone.';
+
+  @override
   String get addScreenshots => 'Dodaj posnetke zaslona';
 
   @override

@@ -23,6 +23,14 @@ class LMr extends L {
       'एकच ठिकाण तुमच्याकडे आधीपासून असलेल्या मार्गदर्शिकेत जोडलं जातं. अनेक ठिकाणांची नवी मार्गदर्शिका होते — Apple Maps मार्गदर्शिका एकत्र करू शकत नाही.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Open a list of places you already keep — a file exported from another map app, or a Google Takeout archive. CSV, KML, KMZ, GPX and GeoJSON are all read.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Nothing leaves until you have looked at it. Wren then hands the list to a map app on the phone.';
+
+  @override
   String get addScreenshots => 'स्क्रीनशॉट जोडा';
 
   @override

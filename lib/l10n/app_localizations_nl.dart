@@ -23,6 +23,14 @@ class LNl extends L {
       'Eén plek komt in een gids die je al hebt. Meerdere maken een nieuwe — Apple Kaarten kan gidsen niet samenvoegen.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Open a list of places you already keep — a file exported from another map app, or a Google Takeout archive. CSV, KML, KMZ, GPX and GeoJSON are all read.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Nothing leaves until you have looked at it. Wren then hands the list to a map app on the phone.';
+
+  @override
   String get addScreenshots => 'Schermafbeeldingen toevoegen';
 
   @override

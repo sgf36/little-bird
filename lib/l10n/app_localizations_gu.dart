@@ -23,6 +23,14 @@ class LGu extends L {
       'એક જ જગ્યા તમારી પાસે પહેલેથી હોય તે માર્ગદર્શિકામાં ઉમેરાય છે. અનેક જગ્યાઓથી નવી બને છે — Apple Maps માર્ગદર્શિકાઓ ભેગી કરી શકતું નથી.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Open a list of places you already keep — a file exported from another map app, or a Google Takeout archive. CSV, KML, KMZ, GPX and GeoJSON are all read.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Nothing leaves until you have looked at it. Wren then hands the list to a map app on the phone.';
+
+  @override
   String get addScreenshots => 'સ્ક્રીનશૉટ ઉમેરો';
 
   @override

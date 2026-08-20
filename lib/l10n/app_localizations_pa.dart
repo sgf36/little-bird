@@ -23,6 +23,14 @@ class LPa extends L {
       'ਇੱਕੋ ਥਾਂ ਤੁਹਾਡੀ ਪਹਿਲਾਂ ਤੋਂ ਮੌਜੂਦ ਗਾਈਡ ਵਿੱਚ ਜੁੜ ਜਾਂਦੀ ਹੈ। ਕਈ ਥਾਵਾਂ ਨਵੀਂ ਬਣਾਉਂਦੀਆਂ ਹਨ — Apple Maps ਗਾਈਡਾਂ ਨੂੰ ਰਲਾ ਨਹੀਂ ਸਕਦਾ।';
 
   @override
+  String get emptyBodyAndroid =>
+      'Open a list of places you already keep — a file exported from another map app, or a Google Takeout archive. CSV, KML, KMZ, GPX and GeoJSON are all read.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Nothing leaves until you have looked at it. Wren then hands the list to a map app on the phone.';
+
+  @override
   String get addScreenshots => 'ਸਕ੍ਰੀਨਸ਼ਾਟ ਜੋੜੋ';
 
   @override

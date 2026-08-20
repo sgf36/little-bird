@@ -207,6 +207,18 @@ abstract class L {
   /// **'One place joins a guide you already have. Several become a new one — Apple Maps cannot merge guides.'**
   String get emptyNote;
 
+  /// The opening line of the first screen, on a platform that cannot make guides. It replaces emptyBody, which describes reading screenshots into Apple Maps and is true of neither half here: there is no text recognition and no Apple Maps. Say what this build does, which is read a file.
+  ///
+  /// In en, this message translates to:
+  /// **'Open a list of places you already keep — a file exported from another map app, or a Google Takeout archive. CSV, KML, KMZ, GPX and GeoJSON are all read.'**
+  String get emptyBodyAndroid;
+
+  /// The quieter second line of the first screen, on a platform that cannot make guides. It replaces emptyNote, which is about Apple Maps refusing to merge guides. Two promises: the list is shown before anything is sent, and the destination is whichever map app is installed. Name no map app here — the sheet that sends the places names them, and only the ones actually installed.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing leaves until you have looked at it. Wren then hands the list to a map app on the phone.'**
+  String get emptyNoteAndroid;
+
   /// Button. Opens the photo picker.
   ///
   /// In en, this message translates to:

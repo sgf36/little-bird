@@ -23,6 +23,14 @@ class LUr extends L {
       'ایک جگہ آپ کی پہلے سے موجود گائیڈ میں شامل ہو جاتی ہے۔ کئی جگہیں نئی گائیڈ بناتی ہیں — Apple Maps گائیڈز کو آپس میں نہیں ملا سکتا۔';
 
   @override
+  String get emptyBodyAndroid =>
+      'Open a list of places you already keep — a file exported from another map app, or a Google Takeout archive. CSV, KML, KMZ, GPX and GeoJSON are all read.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Nothing leaves until you have looked at it. Wren then hands the list to a map app on the phone.';
+
+  @override
   String get addScreenshots => 'اسکرین شاٹ شامل کریں';
 
   @override

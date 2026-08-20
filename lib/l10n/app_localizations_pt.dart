@@ -23,6 +23,14 @@ class LPt extends L {
       'Um lugar sozinho entra em um guia que você já tem. Vários criam um novo — o Mapas não consegue juntar guias.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Open a list of places you already keep — a file exported from another map app, or a Google Takeout archive. CSV, KML, KMZ, GPX and GeoJSON are all read.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Nothing leaves until you have looked at it. Wren then hands the list to a map app on the phone.';
+
+  @override
   String get addScreenshots => 'Adicionar capturas';
 
   @override

@@ -1,4 +1,24 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
+    <!-- Wren asks for no permissions of its own. This one arrives anyway:
+         `in_app_purchase` pulls in com.android.billingclient:billing, whose
+         own manifest declares BILLING, and the merged manifest is what Play
+         reads. Verified in
+         build/app/intermediates/merged_manifest/.../AndroidManifest.xml —
+         the app manifest saying nothing is not evidence that the APK says
+         nothing.
+
+         It has to go. The unlock sells Apple Maps guides of any size, there
+         is no such product in Play Console, and nothing on Android can now
+         reach a paywall. Left in, Play would advertise "In-app purchases"
+         on a listing that cannot take a payment.
+
+         Safe because no BillingClient is ever constructed here: CapturePage
+         builds an UnavailableUnlockStore when it cannot make guides, so the
+         plugin attaches its channel and is never called. If Android ever
+         does sell something, delete this line first — a billing call
+         without the permission fails at connection time, not at build. -->
+    <uses-permission android:name="com.android.vending.BILLING" tools:node="remove" />
     <application
         android:label="Wren"
         android:name="${applicationName}"

@@ -23,6 +23,14 @@ class LTe extends L {
       'ఒకే ప్రదేశం మీ దగ్గర ఇప్పటికే ఉన్న గైడ్‌లో చేరుతుంది. చాలా ప్రదేశాలు కొత్తది తయారుచేస్తాయి — Apple Maps గైడ్‌లను కలపలేదు.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Open a list of places you already keep — a file exported from another map app, or a Google Takeout archive. CSV, KML, KMZ, GPX and GeoJSON are all read.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Nothing leaves until you have looked at it. Wren then hands the list to a map app on the phone.';
+
+  @override
   String get addScreenshots => 'స్క్రీన్‌షాట్‌లు జోడించండి';
 
   @override

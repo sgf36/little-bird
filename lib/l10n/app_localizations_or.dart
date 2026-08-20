@@ -23,6 +23,14 @@ class LOr extends L {
       'ଗୋଟିଏ ସ୍ଥାନ ଆପଣଙ୍କ ପାଖରେ ପୂର୍ବରୁ ଥିବା ଗାଇଡ୍‌ରେ ଯୋଡ଼ି ହୁଏ। ଏକାଧିକ ହେଲେ ନୂଆ ଗୋଟିଏ ତିଆରି ହୁଏ — Apple Maps ଗାଇଡ୍‌ଗୁଡ଼ିକୁ ମିଶାଇ ପାରେ ନାହିଁ।';
 
   @override
+  String get emptyBodyAndroid =>
+      'Open a list of places you already keep — a file exported from another map app, or a Google Takeout archive. CSV, KML, KMZ, GPX and GeoJSON are all read.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Nothing leaves until you have looked at it. Wren then hands the list to a map app on the phone.';
+
+  @override
   String get addScreenshots => 'ସ୍କ୍ରିନଶଟ୍ ଯୋଡ଼ନ୍ତୁ';
 
   @override

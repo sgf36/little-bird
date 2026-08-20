@@ -23,6 +23,14 @@ class LKo extends L {
       '한 곳은 이미 가지고 있는 가이드에 추가됩니다. 여러 곳이면 새 가이드가 만들어집니다 — 지도는 가이드를 합칠 수 없습니다.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Open a list of places you already keep — a file exported from another map app, or a Google Takeout archive. CSV, KML, KMZ, GPX and GeoJSON are all read.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Nothing leaves until you have looked at it. Wren then hands the list to a map app on the phone.';
+
+  @override
   String get addScreenshots => '스크린샷 추가';
 
   @override

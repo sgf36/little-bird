@@ -169,10 +169,17 @@ jobs:
 
       - run: flutter pub get
 
-      # The only check that knows whether the Kotlin share bridge compiles.
-      # Gradle cannot run on the machine this app is written on -- it needs a
-      # loopback socket the sandbox refuses -- so this job is to Android what the
-      # macOS job is to iOS: the sole compiler in the loop.
+      # The only check that knows whether the Kotlin share bridge compiles,
+      # and the only one that runs on every push.
+      #
+      # Gradle did fail on the machine this app is written on, with
+      # "Unable to establish loopback connection", which is not about loopback:
+      # an AF_UNIX socket binds under %LOCALAPPDATA%\Temp there and cannot be
+      # connected to, so Selector.open() throws and the daemon and its client
+      # never meet. Fixed on 2026-08-20 by pointing
+      # -Djdk.net.unixdomain.tmpdir at a directory outside that tree, so a
+      # local build is possible again -- but CI stays the authority, because it
+      # is the only Android build anyone is obliged to look at.
       - name: Build (debug, unsigned)
         run: flutter build apk --debug
 
@@ -230,6 +237,26 @@ jobs:
           done
           [ "$found" = 1 ] || { echo "::error::no Kotlin at all in $DIR -- the sources are in some other package and nothing the manifest names can resolve"; fail=1; }
           exit $fail
+
+      # The app manifest asks for nothing, and the APK used to ship
+      # com.android.vending.BILLING anyway: `in_app_purchase` pulls in
+      # com.android.billingclient:billing, whose own manifest declares it, and
+      # Play reads the merged result. It is removed with tools:node="remove"
+      # because Android sells nothing -- the unlock is an Apple Maps feature and
+      # the product does not exist in Play Console. Reading the source manifest
+      # would not catch a regression here, so this reads what was actually
+      # built.
+      - name: Prove the APK asks for no purchase
+        run: |
+          M=$(find build/app/intermediates/merged_manifest -name AndroidManifest.xml | head -1)
+          [ -n "$M" ] || { echo "::error::no merged manifest — the check below would pass by finding nothing"; exit 1; }
+          echo "reading $M"
+          grep -o 'uses-permission android:name="[^"]*"' "$M" || true
+          if grep -q 'com.android.vending.BILLING' "$M"; then
+            echo "::error::the APK declares com.android.vending.BILLING. Play would advertise in-app purchases on a listing that cannot take a payment. Restore the tools:node=\"remove\" line in android/app/src/main/AndroidManifest.xml, or, if Android really is selling something now, create the product in Play Console first."
+            exit 1
+          fi
+          echo "no BILLING permission in the built APK"
 
       - name: Report APK size
         run: du -sh build/app/outputs/flutter-apk/app-debug.apk

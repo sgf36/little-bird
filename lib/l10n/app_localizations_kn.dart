@@ -23,6 +23,14 @@ class LKn extends L {
       'ಒಂದೇ ಸ್ಥಳ ನಿಮ್ಮಲ್ಲಿ ಈಗಾಗಲೇ ಇರುವ ಮಾರ್ಗದರ್ಶಿಗೆ ಸೇರುತ್ತದೆ. ಹಲವು ಸ್ಥಳಗಳು ಹೊಸದನ್ನು ಸೃಷ್ಟಿಸುತ್ತವೆ — Apple Maps ಮಾರ್ಗದರ್ಶಿಗಳನ್ನು ಒಗ್ಗೂಡಿಸಲಾರದು.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Open a list of places you already keep — a file exported from another map app, or a Google Takeout archive. CSV, KML, KMZ, GPX and GeoJSON are all read.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Nothing leaves until you have looked at it. Wren then hands the list to a map app on the phone.';
+
+  @override
   String get addScreenshots => 'ಸ್ಕ್ರೀನ್‌ಶಾಟ್‌ಗಳನ್ನು ಸೇರಿಸಿ';
 
   @override

@@ -23,6 +23,14 @@ class LEn extends L {
       'One place joins a guide you already have. Several become a new one — Apple Maps cannot merge guides.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Open a list of places you already keep — a file exported from another map app, or a Google Takeout archive. CSV, KML, KMZ, GPX and GeoJSON are all read.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Nothing leaves until you have looked at it. Wren then hands the list to a map app on the phone.';
+
+  @override
   String get addScreenshots => 'Add screenshots';
 
   @override

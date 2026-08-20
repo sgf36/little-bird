@@ -23,6 +23,14 @@ class LBn extends L {
       'একটা জায়গা আপনার আগের কোনো গাইডেই যোগ হয়। কয়েকটা হলে নতুন গাইড তৈরি হয় — Apple Maps গাইড একসঙ্গে জুড়তে পারে না।';
 
   @override
+  String get emptyBodyAndroid =>
+      'Open a list of places you already keep — a file exported from another map app, or a Google Takeout archive. CSV, KML, KMZ, GPX and GeoJSON are all read.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Nothing leaves until you have looked at it. Wren then hands the list to a map app on the phone.';
+
+  @override
   String get addScreenshots => 'স্ক্রিনশট যোগ করুন';
 
   @override

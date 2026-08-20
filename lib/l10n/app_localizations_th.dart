@@ -23,6 +23,14 @@ class LTh extends L {
       'ที่เดียวจะไปเพิ่มในไกด์ที่คุณมีอยู่แล้ว หลายที่จะกลายเป็นไกด์ใหม่ — Apple Maps รวมไกด์เข้าด้วยกันไม่ได้';
 
   @override
+  String get emptyBodyAndroid =>
+      'Open a list of places you already keep — a file exported from another map app, or a Google Takeout archive. CSV, KML, KMZ, GPX and GeoJSON are all read.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Nothing leaves until you have looked at it. Wren then hands the list to a map app on the phone.';
+
+  @override
   String get addScreenshots => 'เพิ่มภาพหน้าจอ';
 
   @override

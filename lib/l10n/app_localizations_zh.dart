@@ -22,6 +22,14 @@ class LZh extends L {
   String get emptyNote => '单个地点会加进你已有的指南。多个地点会新建一个 — 地图无法合并指南。';
 
   @override
+  String get emptyBodyAndroid =>
+      'Open a list of places you already keep — a file exported from another map app, or a Google Takeout archive. CSV, KML, KMZ, GPX and GeoJSON are all read.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Nothing leaves until you have looked at it. Wren then hands the list to a map app on the phone.';
+
+  @override
   String get addScreenshots => '添加截屏';
 
   @override
