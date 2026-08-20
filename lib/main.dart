@@ -1098,13 +1098,19 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               const SizedBox(height: 10),
-              Text(
-                combining
-                    ? l.unlockCombineBody(carried)
-                    : l.unlockExplain(freePlaceLimit, selected, over),
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              const SizedBox(height: 6),
+              // Only said when it is true. Opened from the menu with an empty
+              // list, "you have 0 selected — -3 more than that" is nonsense,
+              // and the sheet still has a job to do: show what the purchase is
+              // and what it costs.
+              if (combining || selected > 0) ...[
+                Text(
+                  combining
+                      ? l.unlockCombineBody(carried)
+                      : l.unlockExplain(freePlaceLimit, selected, over),
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(height: 6),
+              ],
               Text(
                 l.onePaymentKept,
                 style: Theme.of(context).textTheme.bodySmall,
@@ -1116,7 +1122,9 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
                 // the storefront, so it is never reformatted here.
                 child: Text(l.unlockFor(price)),
               ),
-              if (!combining) ...[
+              // Trimming to the free cap is only an option when there is
+              // something to trim.
+              if (!combining && selected > freePlaceLimit) ...[
                 const SizedBox(height: 10),
                 OutlinedButton(
                   onPressed: () =>
@@ -1171,6 +1179,38 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
         _status = l.alreadyInTheList(chosen.name);
       }
     });
+  }
+
+  /// Opens the purchase from the menu, with or without a list.
+  ///
+  /// The same sheet the publish flow raises, so there is one description of
+  /// what is being bought and one price, formatted by StoreKit for the
+  /// storefront. Buying here unlocks and stops; nothing is published, because
+  /// the user did not ask to publish anything.
+  Future<void> _unlockFromMenu() async {
+    final l = L.of(context);
+    final selected = _pending.where((p) => p.publishable).length;
+    switch (await _offerUnlock(selected)) {
+      case _UnlockChoice.buy:
+        if (await _store.buy()) {
+          if (!mounted) return;
+          // No banner: the two menu items disappear the moment this is true,
+          // which says it without a line of copy that would have needed
+          // translating into another forty-eight languages to say it.
+          setState(() => _entitlement = const Entitlement.unlocked());
+        } else {
+          if (!mounted) return;
+          setState(() => _status = l.purchaseDidNotComplete);
+        }
+      case _UnlockChoice.restore:
+        await _restoreFromMenu();
+      // Reachable only when the list is over the free cap, and it means "not
+      // now" here rather than "publish the first three": the menu did not ask
+      // to publish anything.
+      case _UnlockChoice.publishFree:
+      case _UnlockChoice.cancel:
+        return;
+    }
   }
 
   /// Warns that a combined guide is a new guide, before one is made.
@@ -1637,16 +1677,32 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
           PopupMenuButton<String>(
             onSelected: (v) {
               if (v == 'restore') _restoreFromMenu();
+              if (v == 'unlock') _unlockFromMenu();
               if (v == 'clear') _clearList();
             },
             itemBuilder: (context) => [
               if (_pending.isNotEmpty)
                 PopupMenuItem(value: 'clear', child: Text(l.clearList)),
-              // Restoring is restoring a purchase, so it goes wherever the
-              // purchase goes. On Android there is none to restore and the
-              // copy says "Apple account", which would be doubly wrong.
-              if (_makesGuides && !_entitlement.unlimited)
+              // Both of these are the purchase, so both go wherever the
+              // purchase goes.
+              //
+              // It has to be reachable at any time, from a standing start. It
+              // used to exist only inside the publish flow, behind a list of
+              // more than three places -- so on a review device with nothing
+              // imported there was no way to reach it at all, and App Review
+              // rejected the app under 2.1(b) for exactly that: they could not
+              // locate the In-App Purchase.
+              //
+              // And nowhere else. What it sells is guides of any size, and on
+              // a platform with no guides the product does not exist in the
+              // store either: the sheet would quote a price Play never set and
+              // then fail to take the money. Restoring is worse still, since
+              // its own copy says "Apple Account". Fixing one rejection must
+              // not manufacture another.
+              if (_makesGuides && !_entitlement.unlimited) ...[
+                PopupMenuItem(value: 'unlock', child: Text(l.guidesOfAnySize)),
                 PopupMenuItem(value: 'restore', child: Text(l.restorePurchase)),
+              ],
             ],
           ),
           const SizedBox(width: 4),

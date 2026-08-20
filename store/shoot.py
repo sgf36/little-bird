@@ -368,6 +368,64 @@ def clean_status_bar(udid):
         "--batteryState", "charged", "--batteryLevel", "100", check=False)
 
 
+# Wren gold: the colour of the bird, and of nothing the system draws. A frame
+# that is mostly one colour is only suspicious if the mark is missing from it.
+_GOLD = (242, 200, 121)
+
+# What each scene is allowed to look like. `flat` is the most one-colour a frame
+# may be; `gold` is the least of it that must be Wren gold.
+#
+# The launch screen is 93% ground by design -- a bird, a name and an idiom on an
+# empty field -- so the flatness rule that catches a black frame rejects it too.
+# Raising the limit alone would also wave through a genuinely blank app, so that
+# scene carries a floor for the mark instead: measured, the launch screen is
+# 0.67% gold, while a home screen or a black frame has none at all.
+SCENE_LIMITS = {
+    "06-a-little-bird": {"flat": 0.97, "gold": 0.003},
+}
+DEFAULT_LIMITS = {"flat": 0.92, "gold": 0.0}
+
+
+def limits(scene):
+    """The flatness and mark thresholds for one scene."""
+    return SCENE_LIMITS.get(scene, DEFAULT_LIMITS)
+
+
+def mark_coverage(path):
+    """How much of the frame is Wren gold, 0 to 1.
+
+    The other half of the "did the app draw?" question. Flatness answers it for
+    a busy screen; this answers it for a quiet one, because the simulator's home
+    screen and a black frame both contain no Wren gold whatsoever.
+    """
+    from PIL import Image
+    with Image.open(path) as im:
+        small = im.convert("RGB").resize((64, 138))
+        pixels = list(small.getdata())
+    if not pixels:
+        return 0.0
+    near = sum(1 for r, g, b in pixels
+               if abs(r - _GOLD[0]) < 40 and abs(g - _GOLD[1]) < 40
+               and abs(b - _GOLD[2]) < 45)
+    return near / len(pixels)
+
+
+def drew(path, scene=None):
+    """Whether this frame looks like the app rather than a blank.
+
+    Returns (ok, flatness). A frame passes if it is varied enough, or -- for a
+    scene that is quiet on purpose -- if it is not too flat *and* the mark is
+    there to prove the app painted it.
+    """
+    lim = limits(scene or pathlib.Path(path).stem)
+    flat = uniformity(path)
+    if flat <= DEFAULT_LIMITS["flat"]:
+        return True, flat
+    if flat <= lim["flat"] and lim["gold"] > 0:
+        return mark_coverage(path) >= lim["gold"], flat
+    return False, flat
+
+
 def uniformity(path):
     """How flat the image is, 0 (varied) to 1 (one colour).
 
@@ -522,10 +580,10 @@ def shoot_app(udid, out_dir, language, locale, settle, app_tmp,
             _sleep(settle * (attempt + 1))
             run("xcrun", "simctl", "io", udid, "screenshot", "--type=png",
                 str(out))
-            flat = uniformity(out)
+            ok, flat = drew(out, scene)
             digest = hashlib.md5(out.read_bytes()).hexdigest()
             twin = already.get(digest)
-            if flat <= 0.92 and twin is None:
+            if ok and twin is None:
                 break
             why = (f"came out {flat:.0%} one colour" if twin is None
                    else f"is byte-identical to {twin}, so it is not the app")
@@ -549,7 +607,7 @@ def shoot_app(udid, out_dir, language, locale, settle, app_tmp,
         # Stop on the first bad frame of the first locale. The alternative,
         # measured: thirty-one minutes of runner time to produce sixty-four
         # copies of the same failure, and a bill for it.
-        if first and scene == SCENES[0] and flat > 0.92:
+        if first and scene == SCENES[0] and not drew(out, scene)[0]:
             say("")
             say("STOPPING: the first frame did not draw the scene. Everything "
                 "after this would be the same failure sixty-three more times.")
@@ -671,10 +729,11 @@ def verify(paths, locale, want):
         size = png_size(p)
         if size != want:
             bad.append(f"{p.name} is {size}, wanted {want[0]}x{want[1]}")
-        flat = uniformity(p)
-        if flat > 0.92:
-            bad.append(f"{p.name} is {flat:.0%} one colour — the app probably "
-                       f"never drew")
+        ok, flat = drew(p)
+        if not ok:
+            bad.append(f"{p.name} is {flat:.0%} one colour with "
+                       f"{mark_coverage(p):.2%} of the mark showing — the app "
+                       f"probably never drew")
     seen = {}
     for p in paths:
         digest = hashlib.md5(p.read_bytes()).hexdigest()
