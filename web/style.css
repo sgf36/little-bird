@@ -230,3 +230,47 @@ footer {
   font-size: .88rem;
   display: flex; flex-wrap: wrap; gap: .4rem 1.25rem;
 }
+
+/* ── screenshots ─────────────────────────────────────────────────────── */
+/* A row that scrolls on a phone and lays out flat on a desktop. The images are
+   860px wide for a 430px slot, so they stay sharp on a retina screen, and they
+   carry width and height so the page does not jump while they load. */
+.shots {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 .5rem;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(13rem, 1fr);
+  gap: clamp(.75rem, 2.5vw, 1.25rem);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+}
+.shots li {
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  min-width: 0;
+}
+.shots img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--raised);
+}
+.shots span {
+  color: var(--muted);
+  font-size: .88rem;
+  line-height: 1.5;
+}
+@media (min-width: 56rem) {
+  /* Four across, no scrolling, once there is room for them. */
+  .shots { grid-auto-flow: row; grid-template-columns: repeat(4, 1fr); overflow-x: visible; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shots { scroll-behavior: auto; }
+}
