@@ -47,69 +47,87 @@ is documented by their vendors but has **not** been seen here.
 
 ---
 
-## 2. The four things that block an upload today
+## 2. The four things that used to block an upload
 
-Do these before anything else. Each one is small; each one is a landmine.
+**All four are done, on `android/place-handoff`.** Kept here because each one
+explains why the code looks the way it does, and because a later change could
+undo any of them without a test noticing.
 
-### 2.1 The purchase does not exist on Play, and the app will try to use it
+### 2.1 The purchase — resolved: Android is free, and sells nothing
 
-`lib/src/store_unlock.dart` uses the cross-platform `in_app_purchase` package.
-On Android that talks to **Play Billing** and asks for product
-`com.spencerfields.littlebird.unlimited`, which exists in App Store Connect and
-**does not exist in Play Console**. So on Android:
+`lib/src/store_unlock.dart` uses `in_app_purchase`, which on Android talks to
+Play Billing and asks for `com.spencerfields.littlebird.unlimited` — a product
+that exists in App Store Connect and not in Play Console. `price()` returned
+null, the sheet fell back to a hardcoded figure and `buy()` could not succeed.
 
-* `price()` returns null and the sheet falls back to `unlimitedFallbackPrice` —
-  a hardcoded price that is not a Play price.
-* `buy()` cannot succeed.
+The unlock sells guides of any size. There are no guides here, so there is
+nothing to sell, and Android is now free with no purchase at all: no paywall,
+no restore item, no unlock item in the overflow menu, no complimentary-access
+dialog, and **no free cap** — `freePlaceLimit` counts places in a guide, and
+handing a list to another map app makes no guide.
 
-Worse, the App Review fix on branch `review/rejection-1` adds a permanent
-"Guides of any size" entry to the overflow menu, gated only on
-`!_entitlement.unlimited`. **When that branch is merged, Android gets a menu
-item that opens a paywall that cannot work.** Shipping that would be a Play
-policy problem as well as a bad first impression.
+One flag decides all of it: `CapturePage.canMakeGuides`, null meaning
+"decide from the platform", which is `!Platform.isAndroid`. It also decides
+which `UnlockStore` is built, so no `BillingClient` is ever constructed.
 
-Pick one before release:
+The old `canSendElsewhere` flag is folded into it. Two fields that must always
+disagree is a bug waiting to be written.
 
-* **Recommended for v1:** make Android free with no purchase. Gate the unlock
-  entry and the paywall on a store being available — a platform check
-  (`Platform.isIOS`) is the blunt version and is honest today, since the free
-  tier's limits are about Apple Maps guides, which Android does not have.
-* Or create the non-consumable in Play Console, price it, and test it through a
-  closed track. More work, and it prices a feature Android does not yet have.
+**And the permission.** The app manifest asks for nothing and the APK shipped
+`com.android.vending.BILLING` anyway, because the billing library's own
+manifest declares it and Play reads the merged result. The same route brought
+`INTERNET` and `ACCESS_NETWORK_STATE`, from the Google datatransport that
+billing depends on. All three are removed with `tools:node="remove"`, so **the
+released app declares no permissions at all** — which is true, and worth
+saying on the listing. `android/app/src/debug/AndroidManifest.xml` adds
+`INTERNET` back for debug and profile builds, where the Dart VM service needs
+it.
 
-**Also check what the free-tier cap means on Android.** `freePlaceLimit = 3`
-limits places *per guide*. Android makes no guides, so decide explicitly whether
-sending places elsewhere is capped at all. Today it is not.
+### 2.2 "Make a guide" — resolved: the button is the hand-off
 
-### 2.2 "Make a guide" opens an Apple URL
+The publish flow built a `maps.apple.com` link and opened a browser. Where
+`canMakeGuides` is false the main button opens the "Send places to" sheet
+instead, which used to hang off the overflow menu and is the point of the
+Android app. The menu item is gone, because it was the same action twice.
 
-The publish flow builds a `maps.apple.com` guide link and calls `launchUrl`
-(`lib/main.dart`, around line 1457). On Android that opens a browser to Apple's
-site, which is useless. Either hide the publish button on Android, or repoint it
-at the "Send places to" sheet, which is the Android equivalent.
+### 2.3 The branches — resolved: merged
 
-### 2.3 The two branches have diverged and must be merged
+`review/rejection-1` is merged into `android/place-handoff`. Its one conflict
+was the item it adds to the overflow menu, "Guides of any size", gated only on
+the entitlement: on Android that would have opened a paywall quoting a price
+Play never set. Both purchase items now sit behind `canMakeGuides`. Fixing one
+store's rejection must not manufacture another's.
 
-* `android/place-handoff` — all the Android work. Last commit `21c7b4c`.
-* `review/rejection-1` — the App Store rejection fixes (purchase reachable from
-  the menu, subtitles, screenshot 06). Cut from `main` separately.
+### 2.4 Screenshots — resolved: four, shot on Android
 
-Neither is merged to `main`. Merge order does not matter, but the merge **must**
-resolve §2.1, because the rejection branch is what introduces the unlock menu
-item that Android cannot honour.
+`store/play/screenshots/en-GB/`, with `store/play/SCREENSHOTS.md` beside them.
+Nothing from `store/screenshots/` is reused; those are iPhone captures and
+several show Apple Maps.
 
-### 2.4 There are no Android screenshots
+### 2.5 What was found while doing the above — also resolved
 
-The screenshots in `store/screenshots/` are iPhone captures of the iOS app, and
-several show Apple Maps. **None may be used on Play.** Play needs its own
-phone screenshots of the Android build: minimum 2, maximum 8, 16:9 or 9:16,
-each between 320px and 3840px on a side.
+The first screen still sold the iPhone app, and two of the three ways in were
+dead ends. None of it could be screenshotted for Play.
 
-The emulator is set up for this (see §6). Shoot the flows that exist: the
-imported list, correcting a place, the "Send places to" sheet with real map apps
-installed, and an import landing in Organic Maps or OsmAnd.
+* The empty state promised to read screenshots into Apple Maps. There is no
+  text recognition here and no Apple Maps. It now describes reading a file,
+  through two new strings, `emptyBodyAndroid` and `emptyNoteAndroid`.
+* "Add screenshots" opened a photo picker and then answered "needs an iPhone".
+* "From an existing guide" read the places and left the send button
+  permanently disabled: Apple's payload carries no coordinates and there is no
+  MapKit to fill them in. Proved in a test, not assumed.
+* An unmatched row offered a magnifying glass that opened a search sheet
+  captioned "Search Apple Maps", which could only ever fail.
 
----
+So on Android **a file is the only way in**, and "Add" opens the picker
+directly rather than offering one working source beside two dead ones. A row
+carries no search icon, and the "read as" caption is shown only where it
+differs from the name above it — otherwise every row of an imported file was
+captioned with its own name.
+
+The list also now takes its title from the file: "Saved places.csv" arrives in
+the other map app as "Saved places" rather than "Places", or "Places1" once a
+second one lands.
 
 ## 3. Play Console account — the state of it
 
@@ -136,56 +154,78 @@ before acting:
 
 ---
 
-## 4. Signing
+## 4. Signing — done
 
-Nothing is set up. Play App Signing is the default and the right choice.
+Play App Signing holds the app signing key. What exists here is the **upload**
+key, which is the reason losing it is recoverable through Play support.
 
-```bash
-# Upload key. Keep the keystore OUT of the repo — sgf36/wren is public.
-keytool -genkey -v -keystore wren-upload.jks -storetype JKS \
-        -keyalg RSA -keysize 2048 -validity 10000 -alias upload
-```
+| | |
+|---|---|
+| Keystore | `Apps/Claude/Wren-Android-upload-keystore.jks` — outside this repository, which is public |
+| Alias | `upload` |
+| Password | Windows Credential Manager: service `wren-android-upload-keystore`, account `upload`. Store password and key password are the same. |
+| SHA-1 | `2C:08:1F:02:32:CD:C1:D0:A3:B7:C6:44:95:FC:18:42:7C:70:54:68` |
+| Notes | `Apps/Claude/Wren-Android-upload-keystore.README.txt` |
 
-Then `android/key.properties` (git-ignored) and a `signingConfigs` block in
-`android/app/build.gradle.kts`, which currently signs release with the **debug**
-key:
+`android/app/build.gradle.kts` reads `android/key.properties` (git-ignored),
+falling back to `ANDROID_KEYSTORE_PATH`, `ANDROID_KEYSTORE_PASSWORD`,
+`ANDROID_KEY_ALIAS` and `ANDROID_KEY_PASSWORD` in the environment, which is how
+CI would read it out of GitHub Actions secrets.
 
-```kotlin
-buildTypes {
-    release {
-        signingConfig = signingConfigs.getByName("debug")   // <- must change
-    }
-}
-```
+**There is deliberately no fall back to the debug key.** A release signed with
+it builds happily, uploads, and is refused by Play with a message about the
+certificate, which reads like a Play fault and sends you looking in the wrong
+place. Without the material the release is left unsigned, and Gradle says so at
+configuration time.
 
-Store the keystore and its passwords in Windows Credential Manager alongside the
-other secrets for this project, and record where in memory. Losing the upload
-key is recoverable through Play support; losing it *and* not using Play App
-Signing is not.
+Verified: `app-release.aab` is signed by the fingerprint above, compared
+against the keystore, and not by `CN=Android Debug`.
 
----
+**GitHub secrets are not set yet.** A release build in CI needs them; nothing
+else does.
 
 ## 5. The build
 
 ```bash
-flutter build appbundle --release     # produces build/app/outputs/bundle/release/app-release.aab
+flutter build appbundle --release --no-pub   # build/app/outputs/bundle/release/app-release.aab
+flutter build apk --release --no-pub         # a fat APK, for installing on a device by hand
 ```
 
-* `applicationId` is `com.spencerfields.littlebird` — the same id as the iOS
-  bundle, which is fine and deliberate.
+* `--no-pub` matters **in a git worktree**: without it the tool walks into a
+  missing `ios/Flutter/ephemeral` SwiftPM path and dies before Gradle starts.
+* `applicationId` is `com.spencerfields.littlebird` — the same as the iOS
+  bundle, deliberately.
 * `versionCode`/`versionName` come from `pubspec.yaml` (`version: 1.0.0+1`).
-  Play rejects a re-used `versionCode`, so bump the `+N` for every upload.
-* `namespace` is `com.spencerfields.littlebird` and the Kotlin now lives in the
-  matching package. See §7 for why that matters.
-* The manifest declares **no permissions at all**, which is true and worth
-  keeping: the hand-off needs none.
+  Play refuses a reused `versionCode`, so bump `+N` for every upload.
+* The AAB is about 50 MB; Play splits it per device.
 
-CI already builds a debug APK on every run and keeps it as the `app-debug-apk`
-artifact (`.github/workflows/ci.yml`, job `android`). There is **no release
-build in CI** — add one only after signing exists, and never put the keystore in
-the repo.
+CI builds a debug APK on every run and keeps it as `app-debug-apk`. It also
+runs `:app:processReleaseMainManifest` and asserts the release asks for no
+permissions. There is still **no signed release build in CI** — that needs the
+GitHub secrets in §4.
 
----
+### Gradle would not run on this machine, and the message was a lie
+
+Every Gradle build failed with `java.io.IOException: Unable to establish
+loopback connection`, which is not about loopback. An AF_UNIX socket **binds**
+under `%LOCALAPPDATA%\Temp` on this machine and then cannot be **connected**
+to — `SocketException: Invalid argument: connect` — while the identical code
+one directory over works. Java's `Pipe` puts its socket in the AF_UNIX temp
+directory, so `Selector.open()` throws and the daemon and its client never
+meet.
+
+The fix is one system property, in `~/.gradle/gradle.properties`:
+
+```
+org.gradle.jvmargs=... -Djdk.net.unixdomain.tmpdir=C:\Users\SpencerFields\gradle-tmp
+```
+
+It has to be on `org.gradle.jvmargs`. `GRADLE_OPTS` fixes the launcher JVM and
+leaves the daemon dying on its own `Selector`; a project `gradle.properties`
+overrides the home one for that key, so passing it through `JAVA_TOOL_OPTIONS`
+also works and is what the builds here used. The note that used to sit in that
+file blamed NordVPN and set `-Djava.net.preferIPv4Stack=true`, which makes no
+difference to a fault that never reaches an IP socket.
 
 ## 6. The emulator
 
@@ -262,89 +302,103 @@ and opens the tab only after the save succeeds.
 **Working in a git worktree**, `flutter test` and `flutter analyze` fail on a
 missing `ios/Flutter/ephemeral` SwiftPM path until `--no-pub` is passed.
 
+**A permission you never asked for is invisible in the source tree.** The app
+manifest declared nothing and the APK shipped `com.android.vending.BILLING`,
+`INTERNET` and `ACCESS_NETWORK_STATE`, all three arriving through the billing
+library and the Google datatransport under it. Read
+`build/app/intermediates/merged_manifest/**/AndroidManifest.xml`, or
+`adb shell dumpsys package` on a device. CI now reads the built manifest for
+both variants, and the check was tried in both directions — a guard that
+cannot go red proves nothing.
+
+**A screenshot can be the right size, ratio and colour depth and show
+nothing.** A cleared app takes about fifteen seconds to draw: `pm clear`, a
+cold start, and the splash gate. Shooting at ten seconds produced a 12 kB flat
+green rectangle that passed every mechanical check. Open every image.
+
+**The emulator is 1080×2400, which is 2.22:1 and over Play's 2:1 ceiling.**
+`adb shell wm size 1080x1920` before shooting, and `wm size reset` after. The
+refusal would come at upload, long after the shooting.
+
+**`screencap` writes RGBA and Play refuses an alpha channel.** Convert before
+uploading.
+
+**`adb push` wants a Windows path for the source and `MSYS_NO_PATHCONV=1` for
+the destination**, and the environment variable suppresses both conversions.
+Give the local path as `C:\...` and prefix the command.
+
+**Gradle's "Unable to establish loopback connection" is not about loopback.**
+See §5. It cost most of an afternoon and the note that was already on the
+machine blamed the wrong thing entirely.
+
 ---
 
 ## 8. Play Console work list
 
-In the order that unblocks the most.
+Everything in the repository is done. What is left needs the Play Console, a
+physical device, or a decision.
 
-1. **Finish account verification** on the physical device (§3). Nothing else can
-   be submitted until this is done.
-2. **Resolve §2.1 and §2.2**, then merge both branches to `main`.
-3. **Set up signing** (§4) and produce a signed AAB.
-4. **Internal testing track**: upload the AAB, add yourself, install from Play,
-   and confirm the hand-off still works when installed from Play rather than
-   `adb install` — CI re-signs every debug APK, so uninstall before installing.
-5. **Start closed testing with 12 testers immediately** (§3). Fourteen
-   continuous days; the clock does not start until the track is running.
-6. **Store listing** (§9) and **graphics** (§2.4).
-7. **App content declarations** (§10).
-8. Promote to production when the 14 days are served.
+1. **Finish account verification** on the Galaxy A15 (§3). Nothing can be
+   submitted until this is done, and nothing here can do it — the individual
+   developer route rejects an emulator.
+2. **Start closed testing with twelve testers the moment there is a track.**
+   Fourteen continuous days, and the clock does not start until the track is
+   running. This is the long pole; it is not the build.
+3. **Rewrite the privacy policy** at
+   <https://wren.spencerfields.com/privacy.html>. It describes the iOS app —
+   Apple Maps lookups and the App Store privacy label — and it does not say
+   that this build collects nothing at all. See `store/play/LISTING.md`.
+4. **Set the GitHub secrets** if CI is to build a signed release (§4).
+5. **Enter the listing** from `store/play/LISTING.md` and upload the four
+   screenshots from `store/play/screenshots/en-GB/`.
+6. **Answer the content declarations**, also in `store/play/LISTING.md`. Data
+   safety is now "nothing collected, nothing shared", which is stronger than
+   this document originally expected and is why §10 was rewritten.
+7. **Upload the AAB to an internal track**, install from Play rather than
+   `adb install`, and confirm the hand-off still works. CI re-signs every debug
+   APK, so uninstall before installing.
+8. Promote to production when the fourteen days are served.
 
----
+**Bump `versionCode` for every upload.** It comes from `pubspec.yaml`
+(`version: 1.0.0+1`), and Play refuses a reused one.
 
-## 9. Store listing copy
+## 9 and 10. Listing copy and content declarations
 
-Play's fields: app name (30), short description (80), full description (4000).
+Both are drafted in **`store/play/LISTING.md`**, with the app name, the short
+description, the full description and every content-declaration answer. They
+live together because the listing's claims about the five map apps have to
+match `lib/src/map_targets.dart`, and the data-safety answer has to match what
+the code actually does.
 
-Say what the app does on Android. A truthful short description is along the
-lines of *"Turn a list of places into pins in your map app"*. The full
-description should cover: the file formats it reads; that it checks each place
-with you before anything leaves; the five map apps it hands to, with the honest
-note that Gaia GPS and Mapy.com need their own accounts; and the Google Maps
-route via My Maps, including that it takes a few taps because Google exposes no
-way for an app to write a saved list.
+Two things there are worth knowing without opening it:
 
-Two rules carried over from the App Store:
-
-* **Do not name Apple products** anywhere in Play metadata. Wren was rejected
-  under App Store guideline 5.2.5 for naming Apple in the subtitle; on Play the
-  wording is irrelevant to the product anyway.
-* Other companies' app names (Organic Maps, OsmAnd, Locus Map, Gaia GPS,
-  Mapy.com, Google Maps) may be used **referentially** — "works with", "hands
-  the list to" — never in the app's own name, icon, or in a way implying
-  endorsement.
-
-The iOS listing lives in `store/metadata_*.json` and is a useful source of
-phrasing, but **its claims are about the iOS app** and most do not transfer.
-
----
-
-## 10. App content declarations
-
-Answer these from what the app actually does, which is verifiable in the code:
-
-* **Data safety.** The app has no account and no analytics. Two things leave the
-  device: a place name, sent to the map provider so it can be found; and, *only*
-  if somebody enters a complimentary access code, that code plus a random device
-  identifier, sent to `https://wren-codes.sgf36.workers.dev`
-  (`lib/src/comp_unlock.dart`). The random identifier is not linked to a person
-  and is not used for tracking. Nothing else is collected or shared.
-* **Content rating.** IARC questionnaire. No violence, no user-generated
-  content, no communication features, no gambling. It is a utility.
-* **Target audience.** Not directed at children.
-* **Ads.** None.
-* **Government / news / COVID apps.** None of these.
-* **Privacy policy URL.** <https://wren.spencerfields.com/privacy.html> — check
-  it before submitting: it is written for the iOS app and describes Apple Maps
-  lookups and the App Store privacy label.
-
----
+* **Data safety is "no data collected, no data shared".** That is stronger than
+  this document originally said, and it is true because of the work in §2: no
+  map lookup (MapKit is Apple's), no guide link to expand, and a
+  complimentary-access code that cannot be redeemed because the device
+  identifier comes from a channel with no Android implementation. The released
+  app declares no permissions, which CI proves against the built manifest.
+* **The privacy policy still describes the iOS app** and must be rewritten
+  before submission.
 
 ## 11. Where things are
 
 | Thing | Where |
 |---|---|
-| Android work | branch `android/place-handoff`, last commit `21c7b4c` |
-| App Store rejection fixes | branch `review/rejection-1` |
-| Kotlin | `android/app/src/main/kotlin/com/spencerfields/littlebird/` |
+| Android work, and the merge | branch `android/place-handoff` |
+| The one flag the Android product hangs off | `CapturePage.canMakeGuides` in `lib/main.dart` |
+| Play listing copy and content declarations | `store/play/LISTING.md` |
+| Play screenshots, and how to shoot them again | `store/play/screenshots/en-GB/`, `store/play/SCREENSHOTS.md` |
+| Upload keystore | `Apps/Claude/Wren-Android-upload-keystore.jks`, password in Credential Manager |
+| Signing configuration | `android/app/build.gradle.kts`, `android/key.properties` (git-ignored) |
 | Hand-off targets, per-app intents | `lib/src/map_targets.dart` |
 | File writer (GPX/KML/KMZ/CSV/GeoJSON) | `lib/src/place_export.dart` |
 | Share/save bridge | `lib/src/place_share.dart`, `ShareFilePlugin.kt` |
-| Tests for all of the above | `test/place_export_test.dart`, `test/place_share_test.dart`, `test/map_targets_test.dart`, and the `sending places elsewhere` group in `test/import_flow_test.dart` |
+| Everything the Android product promises, as tests | `test/android_product_test.dart` |
+| The rest of the hand-off tests | `test/place_export_test.dart`, `test/place_share_test.dart`, `test/map_targets_test.dart`, and the `sending places elsewhere` group in `test/import_flow_test.dart` |
 | Emulator launcher | `tools/emulator.sh` |
-| CI, including the Android job and its guards | `.github/workflows/ci.yml` |
+| CI, the Android job and its guards | `.github/workflows/ci.yml` |
 | Google Play account facts | memory `project-google-play-account` |
 | Everything learned about the hand-off | memory `project-reels-to-apple-maps` |
 
-Suite is 560 tests. CI is green on both branches.
+Suite is 578 tests.
