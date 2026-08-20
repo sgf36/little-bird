@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.provider.OpenableColumns
+import android.util.Log
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -54,6 +55,10 @@ class PickFilePlugin :
   override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(binding.binaryMessenger, "littlebird/files")
     channel.setMethodCallHandler(this)
+    // Logged because the failure mode is silent on both sides: an unregistered
+    // channel raises MissingPluginException, which Dart catches and turns into
+    // "could not read that file" -- indistinguishable from a bad file.
+    Log.i(TAG, "attached to littlebird/files")
   }
 
   override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
@@ -86,6 +91,7 @@ class PickFilePlugin :
       result.notImplemented()
       return
     }
+    Log.i(TAG, "pick: activity=" + (activity?.javaClass?.simpleName ?: "none"))
     val act = activity ?: run {
       result.error("no_activity", "there is no activity to open a picker from", null)
       return
@@ -103,7 +109,9 @@ class PickFilePlugin :
     }
     try {
       act.startActivityForResult(intent, REQUEST)
+      Log.i(TAG, "picker launched")
     } catch (e: Exception) {
+      Log.w(TAG, "no picker: " + e.message)
       pending = null
       result.error("no_picker", e.message, null)
     }
@@ -163,6 +171,7 @@ class PickFilePlugin :
   }
 
   private companion object {
+    const val TAG = "WrenPickFile"
     const val REQUEST = 0x77726E // "wrn"
     const val MAX_BYTES = 16 * 1024 * 1024
   }

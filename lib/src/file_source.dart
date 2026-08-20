@@ -15,6 +15,7 @@ library;
 import 'dart:convert';
 
 import 'package:archive/archive.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class FileSourceUnavailable implements Exception {
@@ -145,9 +146,14 @@ class DocumentFileSource implements FileSource {
         name: name,
         text: decodeFileBytes(bytes, name: name),
       );
-    } on MissingPluginException {
+    } on MissingPluginException catch (e) {
+      // Printed, not swallowed. The caller turns this into "could not read that
+      // file", which reads exactly like a bad file -- so on a device the one
+      // thing worth knowing, that no platform answered at all, was invisible.
+      debugPrint('littlebird/files has no platform handler: $e');
       throw FileSourceUnavailable(
-        'choosing a file needs iOS — there is no implementation here',
+        'choosing a file needs a platform implementation, and this build has '
+        'none',
         unsupported: true,
       );
     } on PlatformException catch (e) {
