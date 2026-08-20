@@ -85,6 +85,18 @@ void main() {
       expect(gpx, isNot(contains('e-')), reason: 'no exponent notation');
     });
 
+    test('the list name survives a GPX round trip', () {
+      // The writer puts it in <metadata><name> and the reader used to ignore it,
+      // so a file Wren had written came back as an untitled list -- and a name
+      // the user had given a guide was lost the moment it left the app.
+      final out = exportPlaces(
+        [dishoom],
+        PlaceFormat.gpx,
+        title: 'London bars',
+      );
+      expect(readPlaceFile(utf8.decode(out.bytes)).title, 'London bars');
+    });
+
     test('GPX round-trips through our own reader', () {
       final back = readPlaceFile(
         utf8.decode(exportPlaces([dishoom, padella], PlaceFormat.gpx).bytes),

@@ -414,7 +414,9 @@ PlaceFileResult _readXml(String xml) {
     );
   }
 
-  final title = _tagText(xml, 'Document') == null
+  // KML keeps the list name in <Document><name>, before the first Placemark --
+  // searching the whole document would find the first place's name instead.
+  final kmlTitle = _tagText(xml, 'Document') == null
       ? null
       : _tagText(
           RegExp(
@@ -426,5 +428,22 @@ PlaceFileResult _readXml(String xml) {
           'name',
         );
 
-  return PlaceFileResult(places: places, skipped: skipped, title: title);
+  // GPX keeps it in <metadata><name>, which this reader ignored -- so a file
+  // Wren had written itself came back untitled, and a list name survived the
+  // trip out to another app and was lost on the way back in.
+  final gpxTitle = _tagText(
+    RegExp(
+          r'<metadata\b[^>]*>(.*?)</metadata>',
+          dotAll: true,
+          caseSensitive: false,
+        ).firstMatch(xml)?.group(1) ??
+        '',
+    'name',
+  );
+
+  return PlaceFileResult(
+    places: places,
+    skipped: skipped,
+    title: kmlTitle ?? gpxTitle,
+  );
 }

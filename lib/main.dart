@@ -1524,7 +1524,13 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
     // Not the same count: a place a file positioned can be sent to another map
     // app without Apple ever having identified it.
     final sendable = _pending.where((p) => p.exportable).length;
-    final unresolved = _pending.where((p) => !p.resolved).length;
+    // Not simply "unresolved": a place the file positioned is not lost, and on
+    // a platform with no map search there is nothing a tap could do about it.
+    // Counting those here announced that five places needed attention while all
+    // five were ready to send.
+    final unresolved = _pending
+        .where((p) => !p.resolved && p.fromFile == null)
+        .length;
     // The free limit applies to what Wren found, not to what the user already
     // had, so the banner counts the same thing the paywall does.
     final over = _entitlement.overBy(
