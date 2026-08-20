@@ -457,8 +457,11 @@ Den,35.6700,139.7100,Jingumae
 ''';
 
     testWidgets('places from a file are looked up and listed', (tester) async {
+      // Apple's name for the first differs from the file's; for the second it
+      // is identical. Both cases in one import, because what the card does
+      // with them is the point of the next two expectations.
       final resolver = QueryResolver({
-        'Fuunji': match('Fuunji', 'I43FA2531C5B5D635'),
+        'Fuunji': match('Fuunji Ramen', 'I43FA2531C5B5D635'),
         'Den': match('Den', 'I655EEDD5976A0811'),
       });
       await pump(tester, resolver: resolver, files: StubFileSource(csv));
@@ -466,11 +469,16 @@ Den,35.6700,139.7100,Jingumae
       await addFrom(tester, 'From a file');
 
       expect(find.textContaining('Read 2 places from that file'), findsOne);
-      expect(find.text('Fuunji'), findsOne);
+      expect(find.text('Fuunji Ramen'), findsOne);
       expect(find.text('Den'), findsOne);
       // The file's own name for it is kept beside Apple's, same as a reading
       // off a screenshot — it is how a confident wrong match gets spotted.
-      expect(find.textContaining('read as'), findsWidgets);
+      expect(find.textContaining('read as “Fuunji”'), findsOne);
+      // And withheld where it would only repeat the line above it. A whole
+      // list of rows each captioned with their own name is noise standing
+      // exactly where a real correction needs to stand out — which is every
+      // row of a file imported with no map to look anything up in.
+      expect(find.textContaining('read as “Den”'), findsNothing);
     });
 
     testWidgets('the address is searched with the name', (tester) async {

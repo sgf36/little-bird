@@ -2131,8 +2131,14 @@ class _PlaceCard extends StatelessWidget {
                       // not: it is the only way to tell a right match from a
                       // confident wrong one. Omitted for a place carried over
                       // from a guide, where the name came from Apple's own
-                      // record and repeating it says nothing.
-                      if (pending.origin != Origin.guide) ...[
+                      // record and repeating it says nothing -- and omitted
+                      // whenever it would repeat the line above it, which is
+                      // every row of an imported file, since nothing
+                      // interpreted them. Six rows each saying
+                      // "read as" and then their own name is noise standing
+                      // where a real correction should stand out.
+                      if (pending.origin != Origin.guide &&
+                          pending.readAs.trim() != shown.trim()) ...[
                         const SizedBox(height: 7),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
