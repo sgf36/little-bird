@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:wren/main.dart';
 import 'package:wren/src/file_source.dart';
 import 'package:wren/src/guide_link.dart';
+import 'package:wren/src/place_export.dart';
+import 'package:wren/src/place_share.dart';
 import 'package:wren/src/resolver.dart';
 
 import 'harness.dart';
@@ -97,6 +99,9 @@ Future<void> pump(
   PlaceResolver? resolver,
   FileSource? files,
   FakeStore? store,
+  PlaceSharer? sharer,
+  FileSaver? saver,
+  bool? canSendElsewhere,
 }) async {
   await tester.pumpWidget(
     app(
@@ -104,6 +109,9 @@ Future<void> pump(
         store: store ?? FakeStore(),
         resolver: resolver ?? QueryResolver(const {}),
         files: files,
+        sharer: sharer,
+        saver: saver,
+        canSendElsewhere: canSendElsewhere,
         initialPending: pending,
         initialGuideName: guideName,
       ),
@@ -144,6 +152,8 @@ List<Pending> carried(int n) => [
 ];
 
 void main() {
+  sendingElsewhere();
+
   group('importing an existing guide', () {
     final link = buildGuideLink('London, October', [
       GuidePlace(id: PlaceId.parse('I43FA2531C5B5D635'), name: 'Dishoom'),
@@ -578,6 +588,112 @@ Den,35.6700,139.7100,Jingumae
       expect(find.textContaining('could not read'), findsNothing);
       // And the button is usable again rather than stuck reading.
       expect(find.widgetWithText(OutlinedButton, 'Add'), findsOne);
+    });
+  });
+}
+
+/// Sending the list to another map app.
+///
+/// The sheet is Android-only in the app, so these run with the platform gate
+/// opened deliberately. Without that seam the one path that hands a file to
+/// another app could only ever be checked by hand on a phone -- which is how
+/// both faults below survived until somebody did.
+void sendingElsewhere() {
+  group('sending places elsewhere', () {
+    const csv = '''
+name,latitude,longitude,address
+Fuunji,35.6895,139.6917,Shibuya
+Den,35.6700,139.7100,Jingumae
+''';
+
+    Future<void> withTwoPlaces(
+      WidgetTester tester, {
+      required PlaceSharer sharer,
+      required FileSaver saver,
+    }) async {
+      await pump(
+        tester,
+        resolver: NoMapResolver(),
+        files: StubFileSource(csv),
+        sharer: sharer,
+        saver: saver,
+        canSendElsewhere: true,
+      );
+      await addFrom(tester, 'From a file');
+      await tester.tap(find.byIcon(Icons.more_vert));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Send places to'));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('Google Maps saves the file before opening My Maps', (
+      tester,
+    ) async {
+      // Order is the whole point. Measured on a device, the old code shared the
+      // CSV and opened the tab on top of the chooser, so the file was never
+      // saved and My Maps had nothing to import.
+      final sharer = StubPlaceSharer();
+      final saver = StubFileSaver();
+      await withTwoPlaces(tester, sharer: sharer, saver: saver);
+
+      await tester.tap(find.text('Google Maps'));
+      await tester.pumpAndSettle();
+
+      expect(saver.saved.single.name, endsWith('.csv'));
+      expect(saver.saved.single.mimeType, 'text/csv');
+      expect(sharer.opened.single, 'https://www.google.com/maps/d/');
+      // A CSV is for Google, which geocodes it. Nothing was handed to another
+      // app on the device.
+      expect(sharer.sent, isEmpty);
+    });
+
+    testWidgets('a cancelled save does not open My Maps', (tester) async {
+      // Landing somebody on an import page with nothing to import is worse than
+      // doing nothing at all.
+      final sharer = StubPlaceSharer();
+      final saver = StubFileSaver(accept: false);
+      await withTwoPlaces(tester, sharer: sharer, saver: saver);
+
+      await tester.tap(find.text('Google Maps'));
+      await tester.pumpAndSettle();
+
+      expect(saver.saved, isEmpty);
+      expect(sharer.opened, isEmpty);
+    });
+
+    testWidgets('an installed map app is offered, and gets a GPX', (
+      tester,
+    ) async {
+      // Organic Maps, OsmAnd and Locus Map were each verified on a device
+      // against these exact bytes; this holds the wiring that reached them.
+      final sharer = StubPlaceSharer(installed: ['app.organicmaps']);
+      await withTwoPlaces(tester, sharer: sharer, saver: StubFileSaver());
+
+      expect(find.text('Organic Maps'), findsOne);
+      // Not installed here, so not offered -- an app named and then silently
+      // absent is worse than one left out.
+      expect(find.text('OsmAnd'), findsNothing);
+
+      await tester.tap(find.text('Organic Maps'));
+      await tester.pumpAndSettle();
+
+      final sent = sharer.sent.single;
+      expect(sent.package, 'app.organicmaps');
+      expect(sent.file.format, PlaceFormat.gpx);
+      expect(sent.target?.action, HandoffAction.send);
+      expect(sent.file.written, 2);
+    });
+
+    testWidgets('the chooser is always available', (tester) async {
+      // The path that needs no <queries>, no package list and no version gate.
+      final sharer = StubPlaceSharer();
+      await withTwoPlaces(tester, sharer: sharer, saver: StubFileSaver());
+
+      await tester.tap(find.text('Any other app'));
+      await tester.pumpAndSettle();
+
+      expect(sharer.sent.single.package, isNull);
+      expect(sharer.sent.single.file.format, PlaceFormat.gpx);
     });
   });
 }

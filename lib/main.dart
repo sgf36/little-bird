@@ -145,6 +145,8 @@ class CapturePage extends StatefulWidget {
   const CapturePage({
     super.key,
     this.store,
+    this.saver,
+    this.canSendElsewhere,
     this.resolver,
     this.files,
     this.expander,
@@ -161,6 +163,19 @@ class CapturePage extends StatefulWidget {
   final UnlockStore? store;
   final PlaceResolver? resolver;
   final FileSource? files;
+
+  /// Writes a file the user names. Injected so the Google Maps route can be
+  /// tested without a save dialog.
+  final FileSaver? saver;
+
+  /// Whether to offer "Send places to" at all.
+  ///
+  /// Null means "decide from the platform", which is what the app does: Android
+  /// only, because on iOS the destination is Apple Maps and the main button
+  /// already goes there. A test sets it so the whole sheet can be exercised on
+  /// whatever machine the tests run on -- otherwise the one path that hands a
+  /// file to another app could only ever be checked by hand, on a phone.
+  final bool? canSendElsewhere;
   final LinkExpander? expander;
 
   /// Injectable so the share-sheet handoff can be tested without an extension.
@@ -192,6 +207,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   late final PlaceResolver _resolver = widget.resolver ?? MapKitResolver();
   late final UnlockStore _store = widget.store ?? StoreUnlockStore();
   late final FileSource _files = widget.files ?? DocumentFileSource();
+  late final FileSaver _saver = widget.saver ?? const DocumentFileSaver();
   late final LinkExpander _expander = widget.expander ?? HttpLinkExpander();
   late final ShareInbox _shareInbox =
       widget.shareInbox ?? const MethodChannelShareInbox();
@@ -1303,16 +1319,29 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
     });
   }
 
-  /// The Google Maps route: a CSV, then My Maps in a Custom Tab.
+  /// The Google Maps route: save a CSV, then open My Maps in a Custom Tab.
   ///
   /// A CSV rather than a GPX because Google geocodes a name or address column
   /// itself on import, so nothing here needs a coordinate — which is the only
-  /// reason this path costs nothing to run. The file goes to the share sheet
-  /// first so it is somewhere the browser's file picker can reach it, and then
-  /// the tab opens on the import page.
+  /// reason this path costs nothing to run.
+  ///
+  /// **Saved, not shared, and in this order.** Sharing was wrong twice over,
+  /// both proven on a device: the chooser opened with no targets at all, because
+  /// nothing on a plain Android device volunteers to receive a CSV; and the
+  /// Custom Tab launched straight over the top of it, so even a working chooser
+  /// would have been buried before it could be used. The browser's file picker
+  /// is the next step, so the file has to be somewhere the user chose and can
+  /// find again.
+  ///
+  /// If the save is cancelled, the tab does not open. Landing somebody on an
+  /// import page with nothing to import is worse than doing nothing.
   Future<void> _sendToGoogleMaps(ExportResult file, L l) async {
-    await _sharer.share(file, subject: _guideName ?? 'Places');
-    if (!mounted) return;
+    final saved = await _saver.save(
+      file.bytes,
+      name: file.fileName,
+      mimeType: file.format.mimeType,
+    );
+    if (!mounted || !saved) return;
     await _sharer.openTab(myMapsUrl(mapId: _myMapId));
     if (!mounted) return;
     setState(() => _status = l.sendPlacesReady(file.written));
@@ -1577,7 +1606,8 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
               // Android only. On iOS the destination is Apple Maps, which the
               // main button already does, and offering to "send elsewhere" there
               // would mean offering a file nothing on the phone wants.
-              if (Platform.isAndroid && sendable > 0)
+              if ((widget.canSendElsewhere ?? Platform.isAndroid) &&
+                  sendable > 0)
                 PopupMenuItem(value: 'send', child: Text(l.sendPlacesTo)),
               if (_pending.isNotEmpty)
                 PopupMenuItem(value: 'clear', child: Text(l.clearList)),

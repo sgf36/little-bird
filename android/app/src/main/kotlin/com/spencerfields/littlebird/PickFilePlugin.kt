@@ -52,6 +52,9 @@ class PickFilePlugin :
    */
   private var pending: MethodChannel.Result? = null
 
+  /** Bytes waiting for the user to name a destination. */
+  private var toWrite: ByteArray? = null
+
   override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(binding.binaryMessenger, "littlebird/files")
     channel.setMethodCallHandler(this)
@@ -82,15 +85,63 @@ class PickFilePlugin :
     // rather than leaving the Dart future hanging for the life of the app.
     pending?.success(null)
     pending = null
+    toWrite = null
   }
 
   override fun onDetachedFromActivityForConfigChanges() = onDetachedFromActivity()
 
   override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
-    if (call.method != "pick") {
-      result.notImplemented()
+    when (call.method) {
+      "pick" -> pick(result)
+      "save" -> save(call, result)
+      else -> result.notImplemented()
+    }
+  }
+
+  /**
+   * Writes [call]'s bytes to a file the user names, through the system's own
+   * save dialog.
+   *
+   * Not a share. Sharing a CSV asks some other app to volunteer to receive it,
+   * and on a plain Android device nothing does -- measured on an emulator, where
+   * the chooser opened with zero targets. The Google Maps route needs the file
+   * to sit somewhere the browser's file picker can reach it afterwards, which is
+   * what ACTION_CREATE_DOCUMENT is for.
+   */
+  private fun save(call: MethodCall, result: MethodChannel.Result) {
+    val bytes = call.argument<ByteArray>("bytes")
+    val fileName = call.argument<String>("fileName")
+    val mimeType = call.argument<String>("mimeType")
+    if (bytes == null || fileName.isNullOrEmpty() || mimeType.isNullOrEmpty()) {
+      result.error("bad_args", "expected bytes, fileName and mimeType", null)
       return
     }
+    val act = activity ?: run {
+      result.error("no_activity", "there is no activity to save from", null)
+      return
+    }
+    if (pending != null) {
+      result.error("busy", "a file dialog is already open", null)
+      return
+    }
+    pending = result
+    toWrite = bytes
+    val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+      addCategory(Intent.CATEGORY_OPENABLE)
+      type = mimeType
+      putExtra(Intent.EXTRA_TITLE, fileName)
+    }
+    try {
+      act.startActivityForResult(intent, SAVE)
+      Log.i(TAG, "save dialog opened for " + fileName)
+    } catch (e: Exception) {
+      pending = null
+      toWrite = null
+      result.error("no_dialog", e.message, null)
+    }
+  }
+
+  private fun pick(result: MethodChannel.Result) {
     Log.i(TAG, "pick: activity=" + (activity?.javaClass?.simpleName ?: "none"))
     val act = activity ?: run {
       result.error("no_activity", "there is no activity to open a picker from", null)
@@ -118,13 +169,26 @@ class PickFilePlugin :
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
-    if (requestCode != REQUEST) return false
+    if (requestCode != REQUEST && requestCode != SAVE) return false
     val reply = pending ?: return true
     pending = null
+    val bytes = toWrite
+    toWrite = null
 
     val uri = data?.data
     if (resultCode != Activity.RESULT_OK || uri == null) {
       reply.success(null) // cancelled, which is not an error
+      return true
+    }
+    if (requestCode == SAVE) {
+      try {
+        write(uri, bytes ?: ByteArray(0))
+        Log.i(TAG, "saved to " + uri.lastPathSegment)
+        reply.success("saved")
+      } catch (e: Exception) {
+        Log.w(TAG, "save failed: " + e.message)
+        reply.error("write_failed", e.message, null)
+      }
       return true
     }
     try {
@@ -133,6 +197,20 @@ class PickFilePlugin :
       reply.error("read_failed", e.message, null)
     }
     return true
+  }
+
+  /** Writes to the document the user chose, truncating anything already there. */
+  private fun write(uri: Uri, bytes: ByteArray) {
+    val resolver = activity?.contentResolver
+      ?: throw IllegalStateException("no content resolver")
+    // "wt" truncates. Plain "w" leaves the tail of a longer existing file in
+    // place, which produces a valid-looking file with somebody else's rows at
+    // the end of it.
+    resolver.openOutputStream(uri, "wt").use { out ->
+      if (out == null) throw IllegalStateException("that file could not be written")
+      out.write(bytes)
+      out.flush()
+    }
   }
 
   /**
@@ -173,6 +251,7 @@ class PickFilePlugin :
   private companion object {
     const val TAG = "WrenPickFile"
     const val REQUEST = 0x77726E // "wrn"
+    const val SAVE = 0x77726F // "wro"
     const val MAX_BYTES = 16 * 1024 * 1024
   }
 }
