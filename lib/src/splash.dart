@@ -147,71 +147,110 @@ class _SplashGateState extends State<SplashGate>
           animation: _c,
           builder: (context, _) => Opacity(
             opacity: 1 - _fadeOut.value,
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Transform.scale(
-                    scale: 0.82 + 0.18 * _markIn.value,
-                    child: Opacity(
-                      opacity: _markIn.value.clamp(0, 1),
-                      child: SizedBox(
-                        width: 132,
-                        height: 132,
-                        child: CustomPaint(
-                          painter: WrenPainter(
-                            tailFlick: _flick.value,
-                            bob: _bob.value,
-                            body: Wren.gold,
-                            beak: Wren.clay,
-                            eye: Wren.ground,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 22),
-                  Opacity(
-                    opacity: _wordIn.value,
-                    child: Transform.translate(
-                      offset: Offset(0, 8 * (1 - _wordIn.value)),
-                      child: const Text(
-                        'Wren',
-                        style: TextStyle(
-                          fontFamily: Wren.serif,
-                          fontSize: 34,
-                          color: Wren.text,
-                          letterSpacing: 0.5,
-                          decoration: TextDecoration.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Opacity(
-                    opacity: _wordIn.value * 0.85,
-                    child: Padding(
-                      // The idiom is short in English and long in several other
-                      // languages, so it is given room rather than clipped.
-                      padding: const EdgeInsets.symmetric(horizontal: 32),
-                      child: Text(
-                        L.of(context).tagline,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontFamily: Wren.serif,
-                          fontStyle: FontStyle.italic,
-                          fontSize: 15,
-                          color: Wren.gold,
-                          decoration: TextDecoration.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+            child: SplashFace(
+              markIn: _markIn.value,
+              wordIn: _wordIn.value,
+              tailFlick: _flick.value,
+              bob: _bob.value,
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// The splash itself, at whatever point of the animation it is asked for.
+///
+/// Pulled out of [SplashGate] so that one composition serves both the launch
+/// animation and the App Store screenshot of it. The screenshot asks for the
+/// resting values, which is the frame the animation ends on and the one a
+/// person actually looks at — and because it is this widget rather than a
+/// picture of it, the shot cannot drift away from what the app shows.
+class SplashFace extends StatelessWidget {
+  const SplashFace({
+    super.key,
+    this.markIn = 1,
+    this.wordIn = 1,
+    this.tailFlick = 0,
+    this.bob = 0,
+  });
+
+  /// How far in the bird is: 0 before it arrives, 1 settled.
+  final double markIn;
+
+  /// How far in the name and the idiom beneath it are.
+  final double wordIn;
+
+  /// The tail flick, which is what makes it read as a wren rather than any bird.
+  final double tailFlick;
+
+  /// The small vertical bob that goes with a flick.
+  final double bob;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Transform.scale(
+            scale: 0.82 + 0.18 * markIn,
+            child: Opacity(
+              opacity: markIn.clamp(0, 1),
+              child: SizedBox(
+                width: 132,
+                height: 132,
+                child: CustomPaint(
+                  painter: WrenPainter(
+                    tailFlick: tailFlick,
+                    bob: bob,
+                    body: Wren.gold,
+                    beak: Wren.clay,
+                    eye: Wren.ground,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 22),
+          Opacity(
+            opacity: wordIn,
+            child: Transform.translate(
+              offset: Offset(0, 8 * (1 - wordIn)),
+              child: const Text(
+                'Wren',
+                style: TextStyle(
+                  fontFamily: Wren.serif,
+                  fontSize: 34,
+                  color: Wren.text,
+                  letterSpacing: 0.5,
+                  decoration: TextDecoration.none,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 6),
+          Opacity(
+            opacity: wordIn * 0.85,
+            child: Padding(
+              // The idiom is short in English and long in several other
+              // languages, so it is given room rather than clipped.
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Text(
+                L.of(context).tagline,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontFamily: Wren.serif,
+                  fontStyle: FontStyle.italic,
+                  fontSize: 15,
+                  color: Wren.gold,
+                  decoration: TextDecoration.none,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
