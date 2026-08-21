@@ -23,6 +23,14 @@ class LUk extends L {
       'Одне місце додається до путівника, який у тебе вже є. Кілька створять новий — Apple Карти не вміють об\'єднувати путівники.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Зроби знімок екрана того, що тобі радять — рілс, допис, повідомлення, сторінку путівника. Wren прочитає назви й надішле їх у застосунок карт на вашому телефоні.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Він також прочитає список, який у вас уже є, і покаже кожне місце, перш ніж щось буде надіслано.';
+
+  @override
   String get addScreenshots => 'Додати знімки екрана';
 
   @override
@@ -502,6 +510,55 @@ class LUk extends L {
   @override
   String splitProgress(int done, int total) {
     return 'Путівник $done з $total відкрито. Торкнись, щоб зробити наступний.';
+  }
+
+  @override
+  String get sendPlacesTo => 'Надіслати місця до';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count місця готові до надсилання',
+      many: '$count місць готові до надсилання',
+      few: '$count місця готові до надсилання',
+      one: '$count місце готове до надсилання',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count місця без координат, їх не надіслати',
+      many: '$count місць без координат, їх не надіслати',
+      few: '$count місця без координат, їх не надіслати',
+      one: '$count місце без координат, його не надіслати',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Будь-який інший застосунок';
+
+  @override
+  String get sendPlacesFailed => 'Цей застосунок не прийняв файл';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count місця з файлу готові до надсилання в інший застосунок карт',
+      many: '$count місць з файлу готові до надсилання в інший застосунок карт',
+      few: '$count місця з файлу готові до надсилання в інший застосунок карт',
+      one: '$count місце з файлу готове до надсилання в інший застосунок карт',
+    );
+    return '$_temp0';
   }
 
   @override

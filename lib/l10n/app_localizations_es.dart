@@ -23,6 +23,14 @@ class LEs extends L {
       'Un solo lugar se añade a una guía que ya tengas. Varios crean una nueva: Mapas no puede combinar guías.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Haz una captura de lo que te recomienden: un reel, una publicación, un mensaje, la página de una guía de viaje. Wren lee los nombres y los envía a la app de mapas de tu teléfono.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'También lee una lista que ya tengas, y te muestra cada lugar antes de que salga nada.';
+
+  @override
   String get addScreenshots => 'Añadir capturas';
 
   @override
@@ -475,6 +483,50 @@ class LEs extends L {
   }
 
   @override
+  String get sendPlacesTo => 'Enviar lugares a';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lugares listos para enviar',
+      one: '1 lugar listo para enviar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lugares no tienen ubicación y no se pueden enviar',
+      one: '1 lugar no tiene ubicación y no se puede enviar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Otra app';
+
+  @override
+  String get sendPlacesFailed => 'Esa app no aceptó el archivo';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count lugares guardados del archivo, listos para enviar a otra app de mapas',
+      one:
+          '1 lugar guardado del archivo, listo para enviar a otra app de mapas',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get compExpiring =>
       'Wren no ha podido confirmar tu acceso gratuito. Conéctate a internet en los próximos días para conservarlo.';
 }
@@ -496,6 +548,14 @@ class LEsMx extends LEs {
   @override
   String get emptyNote =>
       'Un solo lugar se agrega a una guía que ya tengas. Varios crean una nueva: Mapas no puede combinar guías.';
+
+  @override
+  String get emptyBodyAndroid =>
+      'Toma una captura de lo que te recomienden: un reel, una publicación, un mensaje, la página de una guía de viaje. Wren lee los nombres y los envía a la app de mapas de tu teléfono.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'También lee una lista que ya tengas, y te muestra cada lugar antes de que salga nada.';
 
   @override
   String get addScreenshots => 'Agregar capturas';
@@ -947,6 +1007,50 @@ class LEsMx extends LEs {
   @override
   String splitProgress(int done, int total) {
     return 'Guía $done de $total abierta. Toca para crear la siguiente.';
+  }
+
+  @override
+  String get sendPlacesTo => 'Enviar lugares a';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lugares listos para enviar',
+      one: '1 lugar listo para enviar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lugares no tienen ubicación y no se pueden enviar',
+      one: '1 lugar no tiene ubicación y no se puede enviar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Cualquier otra app';
+
+  @override
+  String get sendPlacesFailed => 'Esa app no quiso el archivo';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count lugares guardados del archivo, listos para enviar a otra app de mapas',
+      one:
+          '1 lugar guardado del archivo, listo para enviar a otra app de mapas',
+    );
+    return '$_temp0';
   }
 
   @override

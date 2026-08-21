@@ -103,5 +103,13 @@
   "splitBody": "Apple omejuje, koliko krajev zmore ena povezava do vodnika. Wren bo zato ustvaril več vodnikov ({guides}), številčenih tako, da ostane vrstni red, in med njih razporedil vse kraje ({count}).",
   "splitConfirm": "Ustvari vodnike ({guides})",
   "splitProgress": "Vodnik {done} od {total} odprt. Tapni za naslednjega.",
-  "compExpiring": "Wren ni mogel potrditi vašega brezplačnega dostopa. V naslednjih nekaj dneh se povežite z internetom, da ga obdržite."
+  "sendPlacesTo": "Pošlji kraje v",
+  "sendPlacesReady": "{count, plural, one{1 kraj je pripravljen za pošiljanje} two{{count} kraja sta pripravljena za pošiljanje} few{{count} kraji so pripravljeni za pošiljanje} other{{count} krajev je pripravljenih za pošiljanje}}",
+  "sendPlacesNoLocation": "{count, plural, one{1 kraj nima lokacije in ga ni mogoče poslati} two{{count} kraja nimata lokacije in jih ni mogoče poslati} few{{count} kraji nimajo lokacije in jih ni mogoče poslati} other{{count} krajev nima lokacije in jih ni mogoče poslati}}",
+  "sendPlacesOtherApp": "Katera koli druga aplikacija",
+  "sendPlacesFailed": "Ta aplikacija ni sprejela datoteke",
+  "fileImportPositioned": "{count, plural, one{1 kraj iz datoteke je pripravljen za drugo aplikacijo z zemljevidi} two{{count} kraja iz datoteke sta pripravljena za drugo aplikacijo z zemljevidi} few{{count} kraji iz datoteke so pripravljeni za drugo aplikacijo z zemljevidi} other{{count} krajev iz datoteke je pripravljenih za drugo aplikacijo z zemljevidi}}",
+  "compExpiring": "Wren ni mogel potrditi vašega brezplačnega dostopa. V naslednjih nekaj dneh se povežite z internetom, da ga obdržite.",
+  "emptyBodyAndroid": "Posnemi zaslon tistega, kar ti priporočijo — reel, objavo, sporočilo, stran iz vodnika. Wren prebere imena in jih pošlje v aplikacijo z zemljevidi v telefonu.",
+  "emptyNoteAndroid": "Prebere tudi seznam, ki ga že imate, in vam pokaže vsak kraj, preden kar koli odide."
 }

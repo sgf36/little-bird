@@ -23,6 +23,14 @@ class LNl extends L {
       'Eén plek komt in een gids die je al hebt. Meerdere maken een nieuwe — Apple Kaarten kan gidsen niet samenvoegen.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Maak een schermafbeelding van wat mensen je aanraden — een reel, een post, een bericht, een pagina uit een reisgids. Wren leest de namen en stuurt ze naar de kaarten-app op je telefoon.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Het leest ook een lijst die je al hebt, en laat je elke plek zien voordat er iets weggaat.';
+
+  @override
   String get addScreenshots => 'Schermafbeeldingen toevoegen';
 
   @override
@@ -473,6 +481,50 @@ class LNl extends L {
   @override
   String splitProgress(int done, int total) {
     return 'Gids $done van $total geopend. Tik om de volgende te maken.';
+  }
+
+  @override
+  String get sendPlacesTo => 'Plaatsen sturen naar';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count plaatsen klaar om te sturen',
+      one: '1 plaats klaar om te sturen',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count plaatsen hebben geen locatie en kunnen niet worden gestuurd',
+      one: '1 plaats heeft geen locatie en kan niet worden gestuurd',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Een andere app';
+
+  @override
+  String get sendPlacesFailed => 'Die app nam het bestand niet aan';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count plaatsen uit het bestand bewaard, klaar voor een andere kaartenapp',
+      one: '1 plaats uit het bestand bewaard, klaar voor een andere kaartenapp',
+    );
+    return '$_temp0';
   }
 
   @override

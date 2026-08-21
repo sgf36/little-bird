@@ -23,6 +23,14 @@ class LEn extends L {
       'One place joins a guide you already have. Several become a new one — Apple Maps cannot merge guides.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'It also reads a list you already have, and shows you every place before anything leaves.';
+
+  @override
   String get addScreenshots => 'Add screenshots';
 
   @override
@@ -478,6 +486,49 @@ class LEn extends L {
   @override
   String splitProgress(int done, int total) {
     return 'Guide $done of $total opened. Tap to make the next.';
+  }
+
+  @override
+  String get sendPlacesTo => 'Send places to';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count places ready to send',
+      one: '1 place ready to send',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count places have no location and cannot be sent',
+      one: '1 place has no location and cannot be sent',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Any other app';
+
+  @override
+  String get sendPlacesFailed => 'That app would not take the file';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count places kept from the file, ready to send to another map app',
+      one: '1 place kept from the file, ready to send to another map app',
+    );
+    return '$_temp0';
   }
 
   @override

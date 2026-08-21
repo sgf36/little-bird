@@ -23,6 +23,14 @@ class LPa extends L {
       'ਇੱਕੋ ਥਾਂ ਤੁਹਾਡੀ ਪਹਿਲਾਂ ਤੋਂ ਮੌਜੂਦ ਗਾਈਡ ਵਿੱਚ ਜੁੜ ਜਾਂਦੀ ਹੈ। ਕਈ ਥਾਵਾਂ ਨਵੀਂ ਬਣਾਉਂਦੀਆਂ ਹਨ — Apple Maps ਗਾਈਡਾਂ ਨੂੰ ਰਲਾ ਨਹੀਂ ਸਕਦਾ।';
 
   @override
+  String get emptyBodyAndroid =>
+      'ਜੋ ਕੋਈ ਤੁਹਾਨੂੰ ਦੱਸੇ, ਉਸਦਾ ਸਕ੍ਰੀਨਸ਼ਾਟ ਲੈ ਲਵੋ — ਇੱਕ ਰੀਲ, ਇੱਕ ਪੋਸਟ, ਇੱਕ ਸੁਨੇਹਾ, ਜਾਂ ਸਫ਼ਰਨਾਮੇ ਦਾ ਇੱਕ ਸਫ਼ਾ। Wren ਨਾਂ ਪੜ੍ਹ ਲੈਂਦਾ ਹੈ ਅਤੇ ਉਹਨਾਂ ਨੂੰ ਤੁਹਾਡੇ ਫ਼ੋਨ ਦੀ ਨਕਸ਼ਾ ਐਪ ਵਿੱਚ ਭੇਜ ਦਿੰਦਾ ਹੈ।';
+
+  @override
+  String get emptyNoteAndroid =>
+      'ਇਹ ਤੁਹਾਡੇ ਕੋਲ ਪਹਿਲਾਂ ਤੋਂ ਮੌਜੂਦ ਸੂਚੀ ਵੀ ਪੜ੍ਹ ਲੈਂਦਾ ਹੈ, ਅਤੇ ਕੁਝ ਵੀ ਭੇਜਣ ਤੋਂ ਪਹਿਲਾਂ ਹਰ ਥਾਂ ਦਿਖਾ ਦਿੰਦਾ ਹੈ।';
+
+  @override
   String get addScreenshots => 'ਸਕ੍ਰੀਨਸ਼ਾਟ ਜੋੜੋ';
 
   @override
@@ -477,6 +485,48 @@ class LPa extends L {
   @override
   String splitProgress(int done, int total) {
     return '$total ਵਿੱਚੋਂ $done ਗਾਈਡ ਖੁੱਲ੍ਹ ਗਈ। ਅਗਲੀ ਬਣਾਉਣ ਲਈ ਟੈਪ ਕਰੋ।';
+  }
+
+  @override
+  String get sendPlacesTo => 'ਥਾਵਾਂ ਭੇਜੋ';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ਥਾਵਾਂ ਭੇਜਣ ਲਈ ਤਿਆਰ',
+      one: '1 ਥਾਂ ਭੇਜਣ ਲਈ ਤਿਆਰ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ਥਾਵਾਂ ਦੀ ਸਥਿਤੀ ਨਹੀਂ, ਭੇਜੀਆਂ ਨਹੀਂ ਜਾ ਸਕਦੀਆਂ',
+      one: '1 ਥਾਂ ਦੀ ਸਥਿਤੀ ਨਹੀਂ, ਭੇਜੀ ਨਹੀਂ ਜਾ ਸਕਦੀ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'ਕੋਈ ਹੋਰ ਐਪ';
+
+  @override
+  String get sendPlacesFailed => 'ਉਸ ਐਪ ਨੇ ਫ਼ਾਈਲ ਨਹੀਂ ਲਈ';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ਫ਼ਾਈਲ ਤੋਂ $count ਥਾਵਾਂ ਰੱਖੀਆਂ, ਹੋਰ ਨਕਸ਼ਾ ਐਪ ਨੂੰ ਭੇਜਣ ਲਈ ਤਿਆਰ',
+      one: 'ਫ਼ਾਈਲ ਤੋਂ 1 ਥਾਂ ਰੱਖੀ, ਹੋਰ ਨਕਸ਼ਾ ਐਪ ਨੂੰ ਭੇਜਣ ਲਈ ਤਿਆਰ',
+    );
+    return '$_temp0';
   }
 
   @override

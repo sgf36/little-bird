@@ -23,6 +23,14 @@ class LHr extends L {
       'Jedno mjesto pridružuje se vodiču koji već imaš. Više njih stvara novi — Apple Karte ne mogu spojiti vodiče.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Snimi zaslon onoga što ti preporuče — reel, objavu, poruku, stranicu vodiča. Wren pročita imena i pošalje ih u aplikaciju za karte na tvom telefonu.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Pročita i popis koji već imaš, i pokaže ti svako mjesto prije nego što išta ode.';
+
+  @override
   String get addScreenshots => 'Dodaj snimke zaslona';
 
   @override
@@ -483,6 +491,54 @@ class LHr extends L {
   @override
   String splitProgress(int done, int total) {
     return 'Vodič $done od $total otvoren. Dodirni za sljedeći.';
+  }
+
+  @override
+  String get sendPlacesTo => 'Pošalji mjesta u';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mjesta je spremno za slanje',
+      few: '$count mjesta su spremna za slanje',
+      one: '$count mjesto je spremno za slanje',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mjesta nema lokaciju i ne može se poslati',
+      few: '$count mjesta nemaju lokaciju i ne mogu se poslati',
+      one: '$count mjesto nema lokaciju i ne može se poslati',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Bilo koja druga aplikacija';
+
+  @override
+  String get sendPlacesFailed => 'Ta aplikacija nije prihvatila datoteku';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count mjesta iz datoteke spremno je za drugu kartografsku aplikaciju',
+      few:
+          '$count mjesta iz datoteke spremna su za drugu kartografsku aplikaciju',
+      one:
+          '$count mjesto iz datoteke spremno je za drugu kartografsku aplikaciju',
+    );
+    return '$_temp0';
   }
 
   @override

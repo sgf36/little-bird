@@ -23,6 +23,14 @@ class LFr extends L {
       'Un lieu seul rejoint un guide que vous avez déjà. Plusieurs en créent un nouveau — Plans ne sait pas fusionner les guides.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Faites une capture de ce qu\'on vous recommande — un reel, une publication, un message, la page d\'un guide de voyage. Wren lit les noms et les envoie à l\'app de cartes de votre téléphone.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Il lit aussi une liste que vous avez déjà, et vous montre chaque lieu avant que quoi que ce soit ne parte.';
+
+  @override
   String get addScreenshots => 'Ajouter des captures';
 
   @override
@@ -477,6 +485,50 @@ class LFr extends L {
   }
 
   @override
+  String get sendPlacesTo => 'Envoyer les lieux vers';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lieux prêts à être envoyés',
+      one: '1 lieu prêt à être envoyé',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count lieux n’ont pas de position et ne peuvent pas être envoyés',
+      one: '1 lieu n’a pas de position et ne peut pas être envoyé',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Une autre app';
+
+  @override
+  String get sendPlacesFailed => 'Cette app n’a pas accepté le fichier';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count lieux conservés du fichier, prêts pour une autre app de cartes',
+      one: '1 lieu conservé du fichier, prêt pour une autre app de cartes',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get compExpiring =>
       'Wren n\'a pas pu confirmer votre accès gratuit. Connectez-vous à internet dans les prochains jours pour le conserver.';
 }
@@ -498,6 +550,14 @@ class LFrCa extends LFr {
   @override
   String get emptyNote =>
       'Un lieu seul s\'ajoute à un guide que vous avez déjà. Plusieurs en créent un nouveau — Plans ne peut pas fusionner les guides.';
+
+  @override
+  String get emptyBodyAndroid =>
+      'Faites une saisie d\'écran de ce qu\'on vous recommande — un reel, une publication, un message, la page d\'un guide de voyage. Wren lit les noms et les envoie à l\'application de cartes de votre téléphone.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Il lit aussi une liste que vous avez déjà, et vous montre chaque lieu avant que quoi que ce soit ne parte.';
 
   @override
   String get addScreenshots => 'Ajouter des saisies d\'écran';
@@ -951,6 +1011,51 @@ class LFrCa extends LFr {
   @override
   String splitProgress(int done, int total) {
     return 'Guide $done sur $total ouvert. Touchez pour créer le prochain.';
+  }
+
+  @override
+  String get sendPlacesTo => 'Envoyer les lieux vers';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lieux prêts à être envoyés',
+      one: '1 lieu prêt à être envoyé',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count lieux n’ont pas de position et ne peuvent pas être envoyés',
+      one: '1 lieu n’a pas de position et ne peut pas être envoyé',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Une autre application';
+
+  @override
+  String get sendPlacesFailed => 'Cette application n’a pas pris le fichier';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count lieux conservés du fichier, prêts pour une autre application de cartes',
+      one:
+          '1 lieu conservé du fichier, prêt pour une autre application de cartes',
+    );
+    return '$_temp0';
   }
 
   @override

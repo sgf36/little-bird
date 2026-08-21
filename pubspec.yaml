@@ -45,6 +45,9 @@ dependencies:
   # KMZ is a zip holding a KML. Pure Dart, so it adds no pod and no native
   # code — the document picker itself is a channel in AppDelegate.swift.
   archive: ^4.0.7
+  # Truncating a place name on a grapheme boundary rather than a code unit, so
+  # a long name is shortened rather than left with half an emoji at the end.
+  characters: ^1.4.0
 
 dev_dependencies:
   flutter_test:

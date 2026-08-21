@@ -23,6 +23,14 @@ class LHe extends L {
       'מקום בודד מצטרף למדריך שכבר יש לך. כמה מקומות יוצרים מדריך חדש — המפות של Apple לא יודעות למזג מדריכים.';
 
   @override
+  String get emptyBodyAndroid =>
+      'צלם מסך של מה שממליצים לך עליו — ריל, פוסט, הודעה, עמוד מתוך מדריך טיולים. Wren קורא את השמות ושולח אותם לאפליקציית המפות שבטלפון שלך.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'הוא גם קורא רשימה שכבר יש לך, ומראה לך כל מקום לפני שמשהו יוצא.';
+
+  @override
   String get addScreenshots => 'הוספת צילומי מסך';
 
   @override
@@ -488,6 +496,54 @@ class LHe extends L {
   @override
   String splitProgress(int done, int total) {
     return 'מדריך $done מתוך $total נפתח. יש להקיש כדי ליצור את הבא.';
+  }
+
+  @override
+  String get sendPlacesTo => 'שליחת מקומות אל';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count מקומות מוכנים לשליחה',
+      many: '$count מקומות מוכנים לשליחה',
+      two: 'שני מקומות מוכנים לשליחה',
+      one: 'מקום אחד מוכן לשליחה',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ל־$count מקומות אין מיקום ואי אפשר לשלוח אותם',
+      many: 'ל־$count מקומות אין מיקום ואי אפשר לשלוח אותם',
+      two: 'לשני מקומות אין מיקום ואי אפשר לשלוח אותם',
+      one: 'למקום אחד אין מיקום ואי אפשר לשלוח אותו',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'אפליקציה אחרת';
+
+  @override
+  String get sendPlacesFailed => 'האפליקציה לא קיבלה את הקובץ';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count מקומות נשמרו מהקובץ ומוכנים לשליחה לאפליקציית מפות אחרת',
+      many: '$count מקומות נשמרו מהקובץ ומוכנים לשליחה לאפליקציית מפות אחרת',
+      two: 'שני מקומות נשמרו מהקובץ ומוכנים לשליחה לאפליקציית מפות אחרת',
+      one: 'מקום אחד נשמר מהקובץ ומוכן לשליחה לאפליקציית מפות אחרת',
+    );
+    return '$_temp0';
   }
 
   @override

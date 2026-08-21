@@ -103,5 +103,13 @@
   "splitBody": "Apple limitează câte locuri poate duce un link de ghid. Wren va crea mai multe ghiduri ({guides}), numerotate ca să rămână în ordine, și va împărți între ele toate locurile ({count}).",
   "splitConfirm": "Creează ghidurile ({guides})",
   "splitProgress": "Ghidul {done} din {total} a fost deschis. Atinge pentru a-l crea pe următorul.",
-  "compExpiring": "Wren nu a putut confirma accesul tău gratuit. Conectează-te la internet în următoarele zile pentru a-l păstra."
+  "sendPlacesTo": "Trimite locurile către",
+  "sendPlacesReady": "{count, plural, =1{1 loc este gata de trimis} few{{count} locuri sunt gata de trimis} other{{count} de locuri sunt gata de trimis}}",
+  "sendPlacesNoLocation": "{count, plural, =1{1 loc nu are poziție și nu poate fi trimis} few{{count} locuri nu au poziție și nu pot fi trimise} other{{count} de locuri nu au poziție și nu pot fi trimise}}",
+  "sendPlacesOtherApp": "Orice altă aplicație",
+  "sendPlacesFailed": "Acea aplicație nu a acceptat fișierul",
+  "fileImportPositioned": "{count, plural, =1{1 loc păstrat din fișier, gata pentru altă aplicație de hărți} few{{count} locuri păstrate din fișier, gata pentru altă aplicație de hărți} other{{count} de locuri păstrate din fișier, gata pentru altă aplicație de hărți}}",
+  "compExpiring": "Wren nu a putut confirma accesul tău gratuit. Conectează-te la internet în următoarele zile pentru a-l păstra.",
+  "emptyBodyAndroid": "Fă o captură de ecran cu ce ți se recomandă — un reel, o postare, un mesaj, o pagină dintr-un ghid de călătorie. Wren citește numele și le trimite către aplicația de hărți de pe telefonul tău.",
+  "emptyNoteAndroid": "Citește și o listă pe care o ai deja, și îți arată fiecare loc înainte să plece ceva."
 }

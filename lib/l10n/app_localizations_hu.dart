@@ -23,6 +23,14 @@ class LHu extends L {
       'Egyetlen hely bekerül egy már meglévő útikalauzba. Több helyből új készül — az Apple Térképek nem tud útikalauzokat összevonni.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Készíts képernyőképet arról, amit ajánlanak neked — egy reelről, egy posztról, egy üzenetről, egy útikönyv oldaláról. A Wren kiolvassa a neveket, és elküldi őket a telefonod térkép-alkalmazásába.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Beolvassa a már meglévő listádat is, és minden helyet megmutat, mielőtt bármi elhagyná a készüléket.';
+
+  @override
   String get addScreenshots => 'Képernyőképek hozzáadása';
 
   @override
@@ -468,6 +476,49 @@ class LHu extends L {
   @override
   String splitProgress(int done, int total) {
     return '$done / $total útikalauz megnyitva. Koppints a következő elkészítéséhez.';
+  }
+
+  @override
+  String get sendPlacesTo => 'Helyek küldése';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hely készen áll a küldésre',
+      one: '1 hely készen áll a küldésre',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count helynek nincs pozíciója, így nem küldhetők',
+      one: '1 helynek nincs pozíciója, így nem küldhető',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Bármely más alkalmazás';
+
+  @override
+  String get sendPlacesFailed => 'Az alkalmazás nem fogadta el a fájlt';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count hely megmaradt a fájlból, készen egy másik térképalkalmazáshoz',
+      one: '1 hely megmaradt a fájlból, készen egy másik térképalkalmazáshoz',
+    );
+    return '$_temp0';
   }
 
   @override

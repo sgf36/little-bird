@@ -103,5 +103,13 @@
   "splitBody": "Az Apple korlátozza, hogy egy útikalauz-hivatkozás hány helyet vihet. A Wren {guides} útikalauzt készít, megszámozva, hogy sorrendben maradjanak, és ezek együtt {count} helyet tartalmaznak.",
   "splitConfirm": "{guides} útikalauz készítése",
   "splitProgress": "{done} / {total} útikalauz megnyitva. Koppints a következő elkészítéséhez.",
-  "compExpiring": "A Wren nem tudta megerősíteni az ingyenes hozzáférésedet. Csatlakozz az internethez a következő napokban, hogy megtartsd."
+  "sendPlacesTo": "Helyek küldése",
+  "sendPlacesReady": "{count, plural, =1{1 hely készen áll a küldésre} other{{count} hely készen áll a küldésre}}",
+  "sendPlacesNoLocation": "{count, plural, =1{1 helynek nincs pozíciója, így nem küldhető} other{{count} helynek nincs pozíciója, így nem küldhetők}}",
+  "sendPlacesOtherApp": "Bármely más alkalmazás",
+  "sendPlacesFailed": "Az alkalmazás nem fogadta el a fájlt",
+  "fileImportPositioned": "{count, plural, =1{1 hely megmaradt a fájlból, készen egy másik térképalkalmazáshoz} other{{count} hely megmaradt a fájlból, készen egy másik térképalkalmazáshoz}}",
+  "compExpiring": "A Wren nem tudta megerősíteni az ingyenes hozzáférésedet. Csatlakozz az internethez a következő napokban, hogy megtartsd.",
+  "emptyBodyAndroid": "Készíts képernyőképet arról, amit ajánlanak neked — egy reelről, egy posztról, egy üzenetről, egy útikönyv oldaláról. A Wren kiolvassa a neveket, és elküldi őket a telefonod térkép-alkalmazásába.",
+  "emptyNoteAndroid": "Beolvassa a már meglévő listádat is, és minden helyet megmutat, mielőtt bármi elhagyná a készüléket."
 }

@@ -26,6 +26,7 @@ import 'entitlement.dart';
 import 'file_source.dart';
 import 'guide_link.dart';
 import 'resolver.dart';
+import 'splash.dart';
 import 'theme.dart';
 
 /// Fixed, device-verified places. Real muids from real London businesses, so a
@@ -176,13 +177,18 @@ Widget? sceneFor(String name) {
         initialOverlay: ScreenshotOverlay.paywall,
       );
 
-    // The empty state, which is also the app's pitch in one sentence.
+    // The launch screen, at rest: the bird, the name, the idiom under it.
+    //
+    // It used to be the empty state, whose copy says where places end up and
+    // therefore names Apple Maps twice. That is fair referential use inside the
+    // app and it stays there — but a screenshot is store metadata, and after a
+    // 5.2.5 rejection over the subtitle there is no reason to leave an Apple
+    // product name in an image when the closing shot does not need one.
+    //
+    // The real widget, not a rebuild of it: [SplashFace] is what SplashGate
+    // paints, asked for the frame its animation ends on.
     case '06-a-little-bird':
-      return CapturePage(
-        store: _SceneStore(),
-        resolver: _SceneResolver(),
-        files: StubFileSource(''),
-      );
+      return const Material(color: Wren.ground, child: SplashFace());
 
     default:
       return null;

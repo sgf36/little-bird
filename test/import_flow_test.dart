@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:wren/main.dart';
 import 'package:wren/src/file_source.dart';
 import 'package:wren/src/guide_link.dart';
+import 'package:wren/src/place_export.dart';
+import 'package:wren/src/place_share.dart';
 import 'package:wren/src/resolver.dart';
 
 import 'harness.dart';
@@ -12,6 +14,25 @@ import 'unresolved_test.dart' show match;
 /// Answers each query with its own place, which the shared FakeResolver cannot
 /// do — it returns one fixed match, and the list's duplicate check would then
 /// collapse a whole imported file into a single row.
+/// A platform with no map search: every lookup is unsupported.
+///
+/// Not a failure — a permanent absence, which is what Android is. The
+/// distinction matters, because a failure is worth retrying and an absence is
+/// worth working around.
+class NoMapResolver extends PlaceResolver {
+  @override
+  Future<List<PlaceMatch>> resolve(String query, {Region? region}) async =>
+      throw ResolverUnavailable('no map here', unsupported: true);
+
+  @override
+  Future<PlaceLookup> lookup(List<PlaceId> ids) async =>
+      throw ResolverUnavailable('no map here', unsupported: true);
+
+  @override
+  Future<Region?> locate(String query) async =>
+      throw ResolverUnavailable('no map here', unsupported: true);
+}
+
 class QueryResolver extends PlaceResolver {
   QueryResolver(this.answers);
 
@@ -78,6 +99,9 @@ Future<void> pump(
   PlaceResolver? resolver,
   FileSource? files,
   FakeStore? store,
+  PlaceSharer? sharer,
+  FileSaver? saver,
+  bool? canMakeGuides,
 }) async {
   await tester.pumpWidget(
     app(
@@ -85,6 +109,9 @@ Future<void> pump(
         store: store ?? FakeStore(),
         resolver: resolver ?? QueryResolver(const {}),
         files: files,
+        sharer: sharer,
+        saver: saver,
+        canMakeGuides: canMakeGuides,
         initialPending: pending,
         initialGuideName: guideName,
       ),
@@ -125,6 +152,8 @@ List<Pending> carried(int n) => [
 ];
 
 void main() {
+  sendingElsewhere();
+
   group('importing an existing guide', () {
     final link = buildGuideLink('London, October', [
       GuidePlace(id: PlaceId.parse('I43FA2531C5B5D635'), name: 'Dishoom'),
@@ -428,8 +457,11 @@ Den,35.6700,139.7100,Jingumae
 ''';
 
     testWidgets('places from a file are looked up and listed', (tester) async {
+      // Apple's name for the first differs from the file's; for the second it
+      // is identical. Both cases in one import, because what the card does
+      // with them is the point of the next two expectations.
       final resolver = QueryResolver({
-        'Fuunji': match('Fuunji', 'I43FA2531C5B5D635'),
+        'Fuunji': match('Fuunji Ramen', 'I43FA2531C5B5D635'),
         'Den': match('Den', 'I655EEDD5976A0811'),
       });
       await pump(tester, resolver: resolver, files: StubFileSource(csv));
@@ -437,11 +469,16 @@ Den,35.6700,139.7100,Jingumae
       await addFrom(tester, 'From a file');
 
       expect(find.textContaining('Read 2 places from that file'), findsOne);
-      expect(find.text('Fuunji'), findsOne);
+      expect(find.text('Fuunji Ramen'), findsOne);
       expect(find.text('Den'), findsOne);
       // The file's own name for it is kept beside Apple's, same as a reading
       // off a screenshot — it is how a confident wrong match gets spotted.
-      expect(find.textContaining('read as'), findsWidgets);
+      expect(find.textContaining('read as “Fuunji”'), findsOne);
+      // And withheld where it would only repeat the line above it. A whole
+      // list of rows each captioned with their own name is noise standing
+      // exactly where a real correction needs to stand out — which is every
+      // row of a file imported with no map to look anything up in.
+      expect(find.textContaining('read as “Den”'), findsNothing);
     });
 
     testWidgets('the address is searched with the name', (tester) async {
@@ -470,9 +507,13 @@ Den,35.6700,139.7100,Jingumae
       expect(resolver.regions[0]!.name, isEmpty);
     });
 
-    testWidgets('a row the map cannot find is kept for the user to search', (
-      tester,
-    ) async {
+    testWidgets('a row the map cannot find is kept, because the file '
+        'positioned it', (tester) async {
+      // The map is the authority on Apple's identifier, not on where the place
+      // is. A CSV that carried a coordinate has already answered that, so the
+      // row survives as something sendable to another map app rather than being
+      // demoted to "needs a look" -- which used to be its fate, and which made
+      // the count of usable places smaller than the file's own contents.
       final resolver = QueryResolver({
         'Fuunji': match('Fuunji', 'I43FA2531C5B5D635'),
       });
@@ -480,8 +521,43 @@ Den,35.6700,139.7100,Jingumae
       await addFrom(tester, 'From a file');
 
       expect(find.textContaining('Read 1 place from that file'), findsOne);
+      expect(find.textContaining('1 place kept from the file'), findsOne);
+      expect(find.textContaining('needs a look'), findsNothing);
+      // Shown by the name and address the file gave, not as "Not found on the
+      // map. Tap to search for it." -- the place is not lost, and on a platform
+      // with no map search a tap has nothing to offer.
+      expect(find.text('Den'), findsOne);
+      expect(find.text('Jingumae'), findsOne);
+      expect(find.text('Not found on the map'), findsNothing);
+    });
+
+    testWidgets('a file imports with no map at all, when it brought '
+        'coordinates', (tester) async {
+      // The Android case, and the one that used to fail outright. There is no
+      // MapKit outside iOS, so every lookup raises "unsupported" -- and the
+      // import used to abandon the whole file on the first one, leaving an empty
+      // list and a message about needing an iPhone. A CSV or GPX has already
+      // said where its places are, which is all another map app needs.
+      await pump(tester, resolver: NoMapResolver(), files: StubFileSource(csv));
+      await addFrom(tester, 'From a file');
+
+      expect(find.textContaining('2 places kept from the file'), findsOne);
+      expect(find.text('Fuunji'), findsOne);
+      expect(find.text('Den'), findsOne);
+    });
+
+    testWidgets('a row with no coordinate still needs a look', (tester) async {
+      // The other half of the same rule. Nothing positioned this row, so there
+      // is nothing to send anywhere and the user is the only way forward.
+      const nameOnly = 'name\nFuunji\nBacchanalia\n';
+      final resolver = QueryResolver({
+        'Fuunji': match('Fuunji', 'I43FA2531C5B5D635'),
+      });
+      await pump(tester, resolver: resolver, files: StubFileSource(nameOnly));
+      await addFrom(tester, 'From a file');
+
       expect(find.textContaining('1 needs a look'), findsOne);
-      expect(find.text('Not found on the map'), findsOne);
+      expect(find.textContaining('kept from the file'), findsNothing);
     });
 
     testWidgets('rows with no name are reported rather than hidden', (
@@ -520,6 +596,114 @@ Den,35.6700,139.7100,Jingumae
       expect(find.textContaining('could not read'), findsNothing);
       // And the button is usable again rather than stuck reading.
       expect(find.widgetWithText(OutlinedButton, 'Add'), findsOne);
+    });
+  });
+}
+
+/// Sending the list to another map app.
+///
+/// The sheet is Android-only in the app, so these run with the platform gate
+/// opened deliberately. Without that seam the one path that hands a file to
+/// another app could only ever be checked by hand on a phone -- which is how
+/// both faults below survived until somebody did.
+void sendingElsewhere() {
+  group('sending places elsewhere', () {
+    const csv = '''
+name,latitude,longitude,address
+Fuunji,35.6895,139.6917,Shibuya
+Den,35.6700,139.7100,Jingumae
+''';
+
+    Future<void> withTwoPlaces(
+      WidgetTester tester, {
+      required PlaceSharer sharer,
+      required FileSaver saver,
+    }) async {
+      await pump(
+        tester,
+        resolver: NoMapResolver(),
+        files: StubFileSource(csv),
+        sharer: sharer,
+        saver: saver,
+        // The Android product: no Apple Maps, so no guide, so the main button
+        // is the hand-off rather than an item hidden in the overflow menu.
+        canMakeGuides: false,
+      );
+      await addFrom(tester, 'From a file');
+      // The main button, not an item in the overflow menu: where there are no
+      // guides the hand-off is the whole product, so it is the button.
+      await tester.tap(find.widgetWithText(FilledButton, 'Send places to'));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('Google Maps saves the file before opening My Maps', (
+      tester,
+    ) async {
+      // Order is the whole point. Measured on a device, the old code shared the
+      // CSV and opened the tab on top of the chooser, so the file was never
+      // saved and My Maps had nothing to import.
+      final sharer = StubPlaceSharer();
+      final saver = StubFileSaver();
+      await withTwoPlaces(tester, sharer: sharer, saver: saver);
+
+      await tester.tap(find.text('Google Maps'));
+      await tester.pumpAndSettle();
+
+      expect(saver.saved.single.name, endsWith('.csv'));
+      expect(saver.saved.single.mimeType, 'text/csv');
+      expect(sharer.opened.single, 'https://www.google.com/maps/d/');
+      // A CSV is for Google, which geocodes it. Nothing was handed to another
+      // app on the device.
+      expect(sharer.sent, isEmpty);
+    });
+
+    testWidgets('a cancelled save does not open My Maps', (tester) async {
+      // Landing somebody on an import page with nothing to import is worse than
+      // doing nothing at all.
+      final sharer = StubPlaceSharer();
+      final saver = StubFileSaver(accept: false);
+      await withTwoPlaces(tester, sharer: sharer, saver: saver);
+
+      await tester.tap(find.text('Google Maps'));
+      await tester.pumpAndSettle();
+
+      expect(saver.saved, isEmpty);
+      expect(sharer.opened, isEmpty);
+    });
+
+    testWidgets('an installed map app is offered, and gets a GPX', (
+      tester,
+    ) async {
+      // Organic Maps, OsmAnd and Locus Map were each verified on a device
+      // against these exact bytes; this holds the wiring that reached them.
+      final sharer = StubPlaceSharer(installed: ['app.organicmaps']);
+      await withTwoPlaces(tester, sharer: sharer, saver: StubFileSaver());
+
+      expect(find.text('Organic Maps'), findsOne);
+      // Not installed here, so not offered -- an app named and then silently
+      // absent is worse than one left out.
+      expect(find.text('OsmAnd'), findsNothing);
+
+      await tester.tap(find.text('Organic Maps'));
+      await tester.pumpAndSettle();
+
+      final sent = sharer.sent.single;
+      expect(sent.package, 'app.organicmaps');
+      expect(sent.file.format, PlaceFormat.gpx);
+      expect(sent.target?.action, HandoffAction.send);
+      expect(sent.file.written, 2);
+    });
+
+    testWidgets('the chooser is always available', (tester) async {
+      // The path that needs no <queries>, no package list and no version gate.
+      final sharer = StubPlaceSharer();
+      await withTwoPlaces(tester, sharer: sharer, saver: StubFileSaver());
+
+      await tester.tap(find.text('Any other app'));
+      await tester.pumpAndSettle();
+
+      expect(sharer.sent.single.package, isNull);
+      expect(sharer.sent.single.file.format, PlaceFormat.gpx);
     });
   });
 }

@@ -4,7 +4,16 @@ import 'guide_link.dart';
 
 /// A candidate match for a name read off a screenshot.
 class PlaceMatch {
-  final PlaceId id;
+  /// Apple's identifier for this place, or null where the match did not come
+  /// from Apple.
+  ///
+  /// Null is the normal case on Android, where the lookup is the platform
+  /// geocoder: it answers with a name, an address and a coordinate, which is
+  /// everything needed to write a file for another map app and nothing like an
+  /// Apple place id. Only a guide needs the id, and only Apple makes guides —
+  /// so this being null is not a degraded match, it is a match from a map that
+  /// does not issue identifiers.
+  final PlaceId? id;
   final String name;
   final String address;
   final String? category;
@@ -12,20 +21,62 @@ class PlaceMatch {
   /// Metres from the search centre, when one was supplied.
   final double? metresFromCentre;
 
+  /// Where the place actually is.
+  ///
+  /// The native side has always sent these and Dart always discarded them,
+  /// because an Apple Maps guide link needs only the identifier — Apple supplies
+  /// the coordinate from its own record. Exporting to any other map app is the
+  /// opposite case: OpenStreetMap apps do not geocode an incoming file, so a
+  /// place with no coordinate is a place they silently drop.
+  final double? lat;
+  final double? lon;
+
   const PlaceMatch({
-    required this.id,
+    this.id,
     required this.name,
     required this.address,
     this.category,
     this.metresFromCentre,
+    this.lat,
+    this.lon,
   });
 
+  /// True when this place can be written into a file for another map app.
+  bool get hasCoordinate => lat != null && lon != null;
+
+  /// Whether this is the same place as [other], for the purpose of not adding
+  /// it twice.
+  ///
+  /// **Never compare the ids directly.** Two geocoded matches both carry a
+  /// null id, and `null == null` is true — so a plain `a.id == b.id` reports
+  /// every place on Android as a duplicate of the first one, and the rest are
+  /// dropped in silence. That happened twice, in two different places, which
+  /// is why the comparison lives here now rather than at each call site.
+  ///
+  /// With ids, the id decides: Apple's identity is exact, and two branches of
+  /// the same restaurant are genuinely different places with the same name.
+  /// Without them, a name at the same coordinate is the best available answer.
+  /// One of each is treated as different, because nothing here can show they
+  /// are the same.
+  bool isSamePlaceAs(PlaceMatch? other) {
+    if (other == null) return false;
+    if (id != null || other.id != null) return id == other.id;
+    return name == other.name && lat == other.lat && lon == other.lon;
+  }
+
   factory PlaceMatch.fromMap(Map<Object?, Object?> m) => PlaceMatch(
-    id: PlaceId.parse(m['placeId'] as String),
+    // Absent from a geocoder's answer, and required from Apple's. Parsed
+    // rather than tolerated when present, so a malformed id is still an error.
+    id: switch (m['placeId']) {
+      final String raw when raw.isNotEmpty => PlaceId.parse(raw),
+      _ => null,
+    },
     name: (m['name'] as String?) ?? '',
     address: ((m['address'] as String?) ?? '').replaceAll('\n', ', '),
     category: m['category'] as String?,
     metresFromCentre: (m['metresFromCentre'] as num?)?.toDouble(),
+    lat: (m['lat'] as num?)?.toDouble(),
+    lon: (m['lon'] as num?)?.toDouble(),
   );
 }
 
@@ -170,7 +221,10 @@ class MapKitResolver extends PlaceResolver {
               .whereType<Map<Object?, Object?>>()) {
         try {
           final match = PlaceMatch.fromMap(m);
-          found[match.id] = match;
+          // This is Apple answering about ids it was given, so an answer with
+          // no id is not an answer. Dropped rather than forced, because the
+          // map it goes into is keyed by the id.
+          if (match.id != null) found[match.id!] = match;
         } on FormatException {
           // One unreadable id must not cost the whole batch its names.
           continue;
@@ -302,12 +356,23 @@ class StubResolver extends PlaceResolver {
   }
 }
 
-/// Rejects matches that cannot go in a guide, or are too far to be what was
-/// meant. The native side already applies both, so this is a backstop for any
-/// other resolver.
+/// Rejects matches that are not really places, or are too far away to be what
+/// was meant. The native side already applies both, so this is a backstop for
+/// any other resolver.
+///
+/// The category test is about Apple's answers specifically. MapKit returns
+/// points of interest and plain addresses through the same call, and only a
+/// point of interest carries a category — so a null one means Apple matched a
+/// street or a district rather than the restaurant that was asked for.
+///
+/// A geocoder has no notion of category at all, so requiring one here rejected
+/// every Android result and reported "0 found" over a lookup that had in fact
+/// succeeded. Judging what makes a place specific enough is the resolver's
+/// own job; this stays a backstop rather than becoming one platform's rule
+/// applied to another.
 List<PlaceMatch> usable(List<PlaceMatch> matches, {double maxMetres = 30000}) =>
     matches
-        .where((m) => m.category != null)
+        .where((m) => m.id == null || m.category != null)
         .where(
           (m) => m.metresFromCentre == null || m.metresFromCentre! <= maxMetres,
         )

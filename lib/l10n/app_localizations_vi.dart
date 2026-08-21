@@ -23,6 +23,14 @@ class LVi extends L {
       'Một địa điểm sẽ được thêm vào hướng dẫn bạn đã có. Nhiều địa điểm sẽ tạo hướng dẫn mới — Apple Maps không gộp được các hướng dẫn.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Chụp màn hình những gì người ta gợi ý cho bạn — một reel, một bài đăng, một tin nhắn, một trang sách hướng dẫn du lịch. Wren đọc tên và gửi chúng đến ứng dụng bản đồ trên điện thoại của bạn.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Ứng dụng cũng đọc được danh sách bạn đã có, và cho bạn xem mọi địa điểm trước khi có gì đó được gửi đi.';
+
+  @override
   String get addScreenshots => 'Thêm ảnh chụp màn hình';
 
   @override
@@ -449,6 +457,46 @@ class LVi extends L {
   @override
   String splitProgress(int done, int total) {
     return 'Đã mở hướng dẫn $done trong $total. Chạm để tạo cái tiếp theo.';
+  }
+
+  @override
+  String get sendPlacesTo => 'Gửi địa điểm tới';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count địa điểm sẵn sàng để gửi',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count địa điểm không có vị trí nên không thể gửi',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Ứng dụng khác';
+
+  @override
+  String get sendPlacesFailed => 'Ứng dụng đó không nhận tệp';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Đã giữ $count địa điểm từ tệp, sẵn sàng gửi tới ứng dụng bản đồ khác',
+    );
+    return '$_temp0';
   }
 
   @override

@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -10,7 +12,10 @@ import 'src/guide_import.dart';
 import 'src/guide_link.dart';
 import 'src/ocr.dart';
 import 'src/place_files.dart';
+import 'src/map_targets.dart';
+import 'src/place_export.dart';
 import 'src/place_search_sheet.dart';
+import 'src/place_share.dart';
 import 'src/region_hint.dart';
 import 'src/resolver.dart';
 import 'src/share_inbox.dart';
@@ -89,6 +94,19 @@ class Pending {
   /// What it resolved to, or null while it is still unidentified.
   PlaceMatch? match;
 
+  /// What the file itself said, when the file supplied a coordinate.
+  ///
+  /// A file import is the one source that arrives already positioned: a KML or
+  /// GPX carries the coordinate, so there is nothing to look up. That matters
+  /// because looking up is the part that needs Apple's map — and on Android
+  /// there is no Apple map, which used to make an import of a perfectly good
+  /// file end in "Place lookup needs an iPhone" and an empty list.
+  ///
+  /// Such a place can be written into a file for another app. It cannot go into
+  /// an Apple Maps guide, which identifies places by Apple's own id and nothing
+  /// else.
+  final ExportPlace? fromFile;
+
   bool keep;
 
   final Origin origin;
@@ -98,26 +116,52 @@ class Pending {
     this.match, {
     this.keep = true,
     this.origin = Origin.screenshot,
+    this.fromFile,
   });
 
   bool get resolved => match != null;
 
-  /// Only a resolved place can go in a guide — an Apple place id is required.
-  bool get publishable => resolved && keep;
+  /// Only a place Apple has identified can go in a guide — the link is built
+  /// out of place ids and carries nothing else. A geocoded match has a
+  /// coordinate and no id, which is enough to send and not enough to publish.
+  bool get publishable => match?.id != null && keep;
+
+  /// Whether this place can be written into a file another map app will read.
+  ///
+  /// Wider than [publishable] on purpose. An OpenStreetMap app wants a
+  /// coordinate and does not care whether Apple has ever heard of the place; a
+  /// guide wants Apple's identifier and does not care about the coordinate.
+  bool get exportable =>
+      keep &&
+      ((match?.hasCoordinate ?? false) || (fromFile?.hasCoordinate ?? false));
+
+  /// The place as a file should carry it, or null when it cannot be written.
+  ExportPlace? get forExport =>
+      ExportPlace.from(match, readAs: readAs) ?? fromFile;
 
   /// Whether this place is one the user is being charged for. A place carried
   /// over from a guide they already own is not.
   bool get billable => origin != Origin.guide;
 }
 
+/// Empty strings are a name nobody chose. Reads better than a chain of
+/// `isEmpty ? null : x` at each call site, and keeps the two places that pick a
+/// list's name agreeing on what "no name" means.
+extension on String {
+  String? get nullIfEmpty => isEmpty ? null : this;
+}
+
 class CapturePage extends StatefulWidget {
   const CapturePage({
     super.key,
     this.store,
+    this.saver,
+    this.canMakeGuides,
     this.resolver,
     this.files,
     this.expander,
     this.shareInbox,
+    this.sharer,
     this.initialPending,
     this.initialGuideName,
     this.initialOverlay = ScreenshotOverlay.none,
@@ -129,10 +173,40 @@ class CapturePage extends StatefulWidget {
   final UnlockStore? store;
   final PlaceResolver? resolver;
   final FileSource? files;
+
+  /// Writes a file the user names. Injected so the Google Maps route can be
+  /// tested without a save dialog.
+  final FileSaver? saver;
+
+  /// Whether this build can publish an Apple Maps guide.
+  ///
+  /// Null means "decide from the platform", and the platform that cannot is
+  /// Android: there is no Apple Maps there, so a guide link opens a web page
+  /// nobody asked for. Where it is false the main button hands the list to
+  /// another map app instead, which is the whole Android product.
+  ///
+  /// One flag rather than two. "Makes guides" and "sends places elsewhere" are
+  /// exact opposites on every platform Wren runs on, and a pair of fields that
+  /// must always disagree is a bug waiting to be written.
+  ///
+  /// It gates the purchase as well as the button. The unlock sells guides of
+  /// any size, so where there are no guides there is nothing to sell -- and
+  /// [unlimitedProductId] exists in App Store Connect and not in Play Console,
+  /// so a paywall raised here would quote [unlimitedFallbackPrice] and then be
+  /// unable to take the money. Free, with no purchase, is the honest answer on
+  /// Android rather than a temporary one.
+  ///
+  /// A test sets it either way, so both products can be exercised on whatever
+  /// machine the tests run on -- otherwise the one path that hands a file to
+  /// another app could only ever be checked by hand, on a phone.
+  final bool? canMakeGuides;
   final LinkExpander? expander;
 
   /// Injectable so the share-sheet handoff can be tested without an extension.
   final ShareInbox? shareInbox;
+
+  /// Injectable so sending to another map app can be tested without a device.
+  final PlaceSharer? sharer;
 
   @visibleForTesting
   final List<Pending>? initialPending;
@@ -155,11 +229,42 @@ class CapturePage extends StatefulWidget {
 class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   final _picker = ImagePicker();
   late final PlaceResolver _resolver = widget.resolver ?? MapKitResolver();
-  late final UnlockStore _store = widget.store ?? StoreUnlockStore();
+  late final UnlockStore _store =
+      widget.store ??
+      (_makesGuides ? StoreUnlockStore() : UnavailableUnlockStore());
   late final FileSource _files = widget.files ?? DocumentFileSource();
+  late final FileSaver _saver = widget.saver ?? const DocumentFileSaver();
   late final LinkExpander _expander = widget.expander ?? HttpLinkExpander();
   late final ShareInbox _shareInbox =
       widget.shareInbox ?? const MethodChannelShareInbox();
+  late final PlaceSharer _sharer =
+      widget.sharer ?? const MethodChannelPlaceSharer();
+
+  /// Whether guides -- and therefore the purchase that sells bigger ones --
+  /// exist on this platform at all. See [CapturePage.canMakeGuides].
+  bool get _makesGuides => widget.canMakeGuides ?? !Platform.isAndroid;
+
+  /// Set once a lookup has reported that this platform has no map at all.
+  ///
+  /// Not a platform check. MapKit backs the search on iOS and the system
+  /// geocoder backs it on Android, so both normally have one -- but an Android
+  /// phone without Google services has no geocoder, and there is no way to
+  /// know that except by asking. Discovered rather than assumed, and sticky
+  /// once discovered.
+  bool _noMapHere = false;
+
+  /// Whether a wrong or missing match is something the user can act on.
+  ///
+  /// Offering a search that can only answer "there is no map search on this
+  /// platform" turns every unmatched row into an error nobody can clear, which
+  /// is what the Android build did while it had no lookup at all.
+  bool get _canSearch => !_noMapHere;
+
+  /// The My Map the user chose to keep adding to, if they have picked one.
+  ///
+  /// Remembering it is worth two taps every time: with an id the Custom Tab can
+  /// open that map's edit page directly instead of the list plus a create step.
+  String? _myMapId;
   late final List<Pending> _pending = [...?widget.initialPending];
 
   /// Guide links still to be handed to Apple Maps.
@@ -251,6 +356,16 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   /// Nothing distinguishes the two beforehand — no extra gesture, no second
   /// tap, nothing greyed out — so the console is not a locked door that can be
   /// seen, it is a door that is not there.
+  ///
+  /// Open on every platform, including where there are no guides.
+  ///
+  /// It used to return immediately on Android, because `littlebird/identity`
+  /// had no implementation there and a code could not be redeemed against a
+  /// device that could not name itself. That is implemented now, so the box
+  /// opens and codes work — with one asymmetry worth knowing: Android has no
+  /// paid feature, so an ordinary unlock code is accepted and grants nothing
+  /// anybody can see. Admin codes are the reason this exists here, and the
+  /// console is what they open.
   Future<void> _compUnlock() async {
     if (_role == comp.CompRole.admin) {
       final token = await comp.heldToken();
@@ -538,6 +653,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
         } on ResolverUnavailable catch (e) {
           setState(() {
             _busy = false;
+            if (e.unsupported) _noMapHere = true;
             _status = e.throttled
                 ? l.rateLimitedDuringImport(added)
                 : e.unsupported
@@ -555,7 +671,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
         }
         // Never write silently: Apple replaces the label with its own record,
         // so a wrong match would ship under a confident name.
-        if (!_pending.any((p) => p.match?.id == matches.first.id)) {
+        if (!_pending.any((p) => matches.first.isSamePlaceAs(p.match))) {
           _pending.add(Pending(readAs, matches.first));
           added++;
         }
@@ -581,6 +697,33 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
         _status = '$e';
       });
     }
+  }
+
+  /// The file's name with its extension taken off, or null when there is
+  /// nothing left worth using.
+  ///
+  /// Only the extensions the importer actually accepts are stripped. Cutting at
+  /// the last dot would turn "Lunch. Tokyo.csv" into "Lunch" and "St. John" into
+  /// "St", which is a worse name than the one it replaced.
+  static String? _titleFrom(String filename) {
+    var name = filename;
+    for (final ext in const [
+      '.csv',
+      '.tsv',
+      '.kml',
+      '.kmz',
+      '.gpx',
+      '.geojson',
+      '.json',
+      '.zip',
+      '.txt',
+    ]) {
+      if (name.toLowerCase().endsWith(ext)) {
+        name = name.substring(0, name.length - ext.length);
+        break;
+      }
+    }
+    return name.trim().nullIfEmpty;
   }
 
   /// Reads the places out of a guide the user already has, so new ones can be
@@ -765,13 +908,21 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   /// count appears immediately and the labels arrive when they arrive. Making
   /// the user wait on a lookup for something cosmetic would be the wrong trade.
   Future<void> _nameCarriedPlaces() async {
+    // Carried places come out of a guide link, so every one of them has an
+    // Apple id and nothing else -- that is the whole payload. The id filter is
+    // a type requirement rather than a real condition.
     final nameless = _pending
-        .where((p) => p.origin == Origin.guide && (p.match?.name ?? '').isEmpty)
+        .where(
+          (p) =>
+              p.origin == Origin.guide &&
+              p.match?.id != null &&
+              (p.match?.name ?? '').isEmpty,
+        )
         .toList();
     if (nameless.isEmpty) return;
 
     final result = await _resolver.lookup([
-      for (final p in nameless) p.match!.id,
+      for (final p in nameless) p.match!.id!,
     ]);
     if (result.isEmpty || !mounted) return;
     final l = L.of(context);
@@ -828,12 +979,16 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
     });
 
     final PlaceFileResult read;
+    // Kept beyond the try, because the file's own name is the fallback title
+    // and the parser's own title is only known afterwards.
+    final String pickedName;
     try {
       final picked = await _files.pick();
       if (picked == null || !mounted) {
         setState(() => _busy = false);
         return;
       }
+      pickedName = picked.name;
       read = readPlaceFile(picked.text, filename: picked.name);
     } on PlaceFileFormat {
       // Same reasoning as the guide link: the parser's complaint is precise and
@@ -873,28 +1028,73 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
       // document name — and this method quietly dropped it, so importing
       // 8-places.geojson offered no guide name at all. Only taken when there is
       // not already one from an imported guide, which is the stronger claim.
-      final title = read.title;
-      if (_guideName == null && title != null && title.isNotEmpty) {
-        _guideName = title;
-      }
+      //
+      // Failing that, the file's own name. A CSV carries no title inside it,
+      // so a list exported as "Saved places.csv" used to arrive in the other
+      // map app called "Places" — or "Places1", once the second one landed.
+      // The name the user already gave the file is better than a word Wren
+      // made up, and on iOS it is only ever a suggestion in a box they can
+      // edit.
+      final title = read.title?.trim().nullIfEmpty ?? _titleFrom(pickedName);
+      _guideName ??= title;
     });
 
-    var unmatched = 0, added = 0;
+    var unmatched = 0, added = 0, positioned = 0;
     for (final place in read.places) {
+      // What the file said, kept whether or not the map can be asked. This is
+      // the fallback that makes an import useful with no lookup at all.
+      final own = ExportPlace(
+        name: place.name,
+        address: place.address ?? '',
+        lat: place.lat,
+        lon: place.lon,
+      );
+
       List<PlaceMatch> matches;
       try {
         matches = usable(
           await _resolver.resolve(place.query, region: _regionFor(place)),
         );
       } on ResolverUnavailable catch (e) {
+        // No map to ask. A file that carried coordinates does not need one, so
+        // take the rest of it at its word rather than abandoning the import —
+        // which is what used to happen on every platform without MapKit.
+        if (e.unsupported) {
+          _noMapHere = true;
+          for (final rest in read.places.skip(positioned + unmatched + added)) {
+            final own = ExportPlace(
+              name: rest.name,
+              address: rest.address ?? '',
+              lat: rest.lat,
+              lon: rest.lon,
+            );
+            if (!own.hasCoordinate) {
+              unmatched++;
+              _pending.add(
+                Pending(rest.name, null, keep: false, origin: Origin.file),
+              );
+              continue;
+            }
+            positioned++;
+            _pending.add(
+              Pending(rest.name, null, origin: Origin.file, fromFile: own),
+            );
+          }
+          setState(() {
+            _busy = false;
+            _lookingUp = false;
+            _status = [
+              if (positioned > 0) l.fileImportPositioned(positioned),
+              if (added > 0) l.fileImportSummary(added),
+              if (unmatched > 0) '· ${l.importSummaryNeedLook(unmatched)}',
+            ].join(' ');
+          });
+          return;
+        }
         setState(() {
           _busy = false;
           _lookingUp = false;
-          _status = e.throttled
-              ? l.rateLimitedDuringImport(added)
-              : e.unsupported
-              ? l.lookupUnavailable
-              : e.message;
+          _status = e.throttled ? l.rateLimitedDuringImport(added) : e.message;
         });
         return;
       }
@@ -902,14 +1102,32 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
       setState(() => _readCount++);
 
       if (matches.isEmpty) {
-        unmatched++;
-        _pending.add(
-          Pending(place.name, null, keep: false, origin: Origin.file),
-        );
+        // The map does not know it. If the file positioned it, that is still
+        // enough to send elsewhere, so keep it rather than only counting it.
+        if (own.hasCoordinate) {
+          positioned++;
+          _pending.add(
+            Pending(place.name, null, origin: Origin.file, fromFile: own),
+          );
+        } else {
+          unmatched++;
+          _pending.add(
+            Pending(place.name, null, keep: false, origin: Origin.file),
+          );
+        }
         continue;
       }
       if (!_pending.any((p) => p.match?.id == matches.first.id)) {
-        _pending.add(Pending(place.name, matches.first, origin: Origin.file));
+        _pending.add(
+          Pending(
+            place.name,
+            matches.first,
+            origin: Origin.file,
+            // Kept even when the map answered: Apple's record has the better
+            // coordinate, but if it arrives without one the file's still works.
+            fromFile: own.hasCoordinate ? own : null,
+          ),
+        );
         added++;
       }
     }
@@ -919,6 +1137,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
       _lookingUp = false;
       _status = [
         l.fileImportSummary(added),
+        if (positioned > 0) '· ${l.fileImportPositioned(positioned)}',
         if (unmatched > 0) '· ${l.importSummaryNeedLook(unmatched)}',
         if (read.skipped > 0) '· ${l.fileImportSkipped(read.skipped)}',
       ].join(' ');
@@ -1021,13 +1240,19 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               const SizedBox(height: 10),
-              Text(
-                combining
-                    ? l.unlockCombineBody(carried)
-                    : l.unlockExplain(freePlaceLimit, selected, over),
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              const SizedBox(height: 6),
+              // Only said when it is true. Opened from the menu with an empty
+              // list, "you have 0 selected — -3 more than that" is nonsense,
+              // and the sheet still has a job to do: show what the purchase is
+              // and what it costs.
+              if (combining || selected > 0) ...[
+                Text(
+                  combining
+                      ? l.unlockCombineBody(carried)
+                      : l.unlockExplain(freePlaceLimit, selected, over),
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(height: 6),
+              ],
               Text(
                 l.onePaymentKept,
                 style: Theme.of(context).textTheme.bodySmall,
@@ -1039,7 +1264,9 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
                 // the storefront, so it is never reformatted here.
                 child: Text(l.unlockFor(price)),
               ),
-              if (!combining) ...[
+              // Trimming to the free cap is only an option when there is
+              // something to trim.
+              if (!combining && selected > freePlaceLimit) ...[
                 const SizedBox(height: 10),
                 OutlinedButton(
                   onPressed: () =>
@@ -1085,7 +1312,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
     if (chosen == null || !mounted) return;
 
     final duplicate = _pending.indexWhere(
-      (o) => o != p && o.match?.id == chosen.id,
+      (o) => o != p && chosen.isSamePlaceAs(o.match),
     );
     setState(() {
       p.match = chosen;
@@ -1094,6 +1321,38 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
         _status = l.alreadyInTheList(chosen.name);
       }
     });
+  }
+
+  /// Opens the purchase from the menu, with or without a list.
+  ///
+  /// The same sheet the publish flow raises, so there is one description of
+  /// what is being bought and one price, formatted by StoreKit for the
+  /// storefront. Buying here unlocks and stops; nothing is published, because
+  /// the user did not ask to publish anything.
+  Future<void> _unlockFromMenu() async {
+    final l = L.of(context);
+    final selected = _pending.where((p) => p.publishable).length;
+    switch (await _offerUnlock(selected)) {
+      case _UnlockChoice.buy:
+        if (await _store.buy()) {
+          if (!mounted) return;
+          // No banner: the two menu items disappear the moment this is true,
+          // which says it without a line of copy that would have needed
+          // translating into another forty-eight languages to say it.
+          setState(() => _entitlement = const Entitlement.unlocked());
+        } else {
+          if (!mounted) return;
+          setState(() => _status = l.purchaseDidNotComplete);
+        }
+      case _UnlockChoice.restore:
+        await _restoreFromMenu();
+      // Reachable only when the list is over the free cap, and it means "not
+      // now" here rather than "publish the first three": the menu did not ask
+      // to publish anything.
+      case _UnlockChoice.publishFree:
+      case _UnlockChoice.cancel:
+        return;
+    }
   }
 
   /// Warns that a combined guide is a new guide, before one is made.
@@ -1147,6 +1406,153 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
       ),
     );
     return go ?? false;
+  }
+
+  /// Offers the places to another map app.
+  ///
+  /// Android only in practice: on iOS the destination is Apple Maps and that is
+  /// what [_publish] already does.
+  ///
+  /// Nothing here is capped, deliberately. [freePlaceLimit] limits the places
+  /// in one guide, and this makes no guide -- it writes a file and hands it
+  /// over. Counting these against a cap that sells an Apple Maps feature would
+  /// be charging for something the platform does not have.
+  ///
+  /// Named apps are listed first, but only if they are actually installed —
+  /// and "installed" here means installed AND declared in the manifest's
+  /// `<queries>`, because from Android 11 the two are the same answer. Anything not listed still reaches the same file through the system
+  /// chooser, so the long tail works without Wren claiming to have tested it.
+  Future<void> _sendPlacesElsewhere() async {
+    final l = L.of(context);
+    final places = [
+      for (final p in _pending.where((p) => p.exportable)) p.forExport,
+    ].whereType<ExportPlace>().toList();
+    if (places.isEmpty) return;
+
+    // Ask the platform which of the named apps are really there. One call per
+    // app, all at once, before the sheet is drawn.
+    final found = <String, String>{};
+    for (final t in namedTargets) {
+      final pkg = await _sharer.firstInstalled(t.packages);
+      if (pkg != null) found[t.id] = pkg;
+    }
+    if (!mounted) return;
+
+    final chosen = await showModalBottomSheet<MapTarget>(
+      context: context,
+      showDragHandle: true,
+      builder: (context) => SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(8, 0, 8, 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 2),
+                child: Text(
+                  l.sendPlacesTo,
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                child: Text(
+                  l.sendPlacesReady(places.length),
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
+              for (final t in namedTargets)
+                if (found.containsKey(t.id))
+                  ListTile(
+                    leading: const Icon(Icons.place_outlined),
+                    title: Text(t.name),
+                    subtitle: t.note.isEmpty ? null : Text(t.note),
+                    onTap: () => Navigator.pop(context, t),
+                  ),
+              // Google Maps is always offered, because the route is a web page
+              // rather than an installed app.
+              ListTile(
+                leading: const Icon(Icons.public),
+                title: Text(googleMapsTarget.name),
+                subtitle: Text(googleMapsTarget.note),
+                onTap: () => Navigator.pop(context, googleMapsTarget),
+              ),
+              const Divider(height: 8),
+              ListTile(
+                leading: const Icon(Icons.ios_share),
+                title: Text(l.sendPlacesOtherApp),
+                onTap: () => Navigator.pop(context, null),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    if (!mounted) return;
+
+    // Dismissed with the chooser row, or by swiping down. The chooser is the
+    // safe default either way; a swipe simply does nothing.
+    //
+    // GPX for the chooser as well as for the named apps: it is what all of them
+    // read as individual named places, and the one format that is never mistaken
+    // for a route.
+    final file = exportPlaces(
+      places,
+      chosen?.format ?? PlaceFormat.gpx,
+      title: _guideName ?? 'Places',
+    );
+
+    if (chosen?.id == googleMapsTarget.id) {
+      await _sendToGoogleMaps(file, l);
+      return;
+    }
+
+    final outcome = chosen == null
+        ? await _sharer.share(file, subject: _guideName ?? 'Places')
+        : await _sharer.shareTo(file, chosen, found[chosen.id]!);
+    if (!mounted) return;
+    setState(() {
+      _status = switch (outcome) {
+        // "sent" is a hand-off, never an import: not one of these apps reports
+        // back, so claiming success on their behalf would be a guess.
+        ShareOutcome.sent => [
+          l.sendPlacesReady(file.written),
+          if (file.droppedForNoCoordinate > 0)
+            '· ${l.sendPlacesNoLocation(file.droppedForNoCoordinate)}',
+        ].join(' '),
+        ShareOutcome.noHandler => l.sendPlacesFailed,
+        ShareOutcome.unavailable => l.sendPlacesFailed,
+      };
+    });
+  }
+
+  /// The Google Maps route: save a CSV, then open My Maps in a Custom Tab.
+  ///
+  /// A CSV rather than a GPX because Google geocodes a name or address column
+  /// itself on import, so nothing here needs a coordinate — which is the only
+  /// reason this path costs nothing to run.
+  ///
+  /// **Saved, not shared, and in this order.** Sharing was wrong twice over,
+  /// both proven on a device: the chooser opened with no targets at all, because
+  /// nothing on a plain Android device volunteers to receive a CSV; and the
+  /// Custom Tab launched straight over the top of it, so even a working chooser
+  /// would have been buried before it could be used. The browser's file picker
+  /// is the next step, so the file has to be somewhere the user chose and can
+  /// find again.
+  ///
+  /// If the save is cancelled, the tab does not open. Landing somebody on an
+  /// import page with nothing to import is worse than doing nothing.
+  Future<void> _sendToGoogleMaps(ExportResult file, L l) async {
+    final saved = await _saver.save(
+      file.bytes,
+      name: file.fileName,
+      mimeType: file.format.mimeType,
+    );
+    if (!mounted || !saved) return;
+    await _sharer.openTab(myMapsUrl(mapId: _myMapId));
+    if (!mounted) return;
+    setState(() => _status = l.sendPlacesReady(file.written));
   }
 
   Future<void> _publish() async {
@@ -1220,9 +1626,10 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
         break;
     }
 
-    // Safe to force: `publishable` already required a match.
+    // Safe to force: `publishable` is now exactly "Apple has identified this",
+    // so both the match and its id are present by construction.
     final places = keep
-        .map((p) => GuidePlace(id: p.match!.id, name: p.match!.name))
+        .map((p) => GuidePlace(id: p.match!.id!, name: p.match!.name))
         .toList();
 
     final String url;
@@ -1327,11 +1734,17 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
               title: Text(l.fromFile),
               onTap: () => Navigator.pop(context, _AddSource.file),
             ),
-            ListTile(
-              leading: const Icon(Icons.bookmark_border),
-              title: Text(l.fromExistingGuide),
-              onTap: () => Navigator.pop(context, _AddSource.guide),
-            ),
+            // Only where guides exist. A guide link is a list of Apple
+            // identifiers and nothing else -- no name, no coordinate -- and
+            // resolving one needs Apple's own lookup. Read anywhere else it
+            // produces a list that looks imported and cannot be sent, which
+            // was measured rather than assumed.
+            if (_makesGuides)
+              ListTile(
+                leading: const Icon(Icons.bookmark_border),
+                title: Text(l.fromExistingGuide),
+                onTap: () => Navigator.pop(context, _AddSource.guide),
+              ),
             const SizedBox(height: 8),
           ],
         ),
@@ -1352,7 +1765,16 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     final l = L.of(context);
     final keeping = _pending.where((p) => p.publishable).length;
-    final unresolved = _pending.where((p) => !p.resolved).length;
+    // Not the same count: a place a file positioned can be sent to another map
+    // app without Apple ever having identified it.
+    final sendable = _pending.where((p) => p.exportable).length;
+    // Not simply "unresolved": a place the file positioned is not lost, and on
+    // a platform with no map search there is nothing a tap could do about it.
+    // Counting those here announced that five places needed attention while all
+    // five were ready to send.
+    final unresolved = _pending
+        .where((p) => !p.resolved && p.fromFile == null)
+        .length;
     // The free limit applies to what Wren found, not to what the user already
     // had, so the banner counts the same thing the paywall does.
     final over = _entitlement.overBy(
@@ -1392,13 +1814,32 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
           PopupMenuButton<String>(
             onSelected: (v) {
               if (v == 'restore') _restoreFromMenu();
+              if (v == 'unlock') _unlockFromMenu();
               if (v == 'clear') _clearList();
             },
             itemBuilder: (context) => [
               if (_pending.isNotEmpty)
                 PopupMenuItem(value: 'clear', child: Text(l.clearList)),
-              if (!_entitlement.unlimited)
+              // Both of these are the purchase, so both go wherever the
+              // purchase goes.
+              //
+              // It has to be reachable at any time, from a standing start. It
+              // used to exist only inside the publish flow, behind a list of
+              // more than three places -- so on a review device with nothing
+              // imported there was no way to reach it at all, and App Review
+              // rejected the app under 2.1(b) for exactly that: they could not
+              // locate the In-App Purchase.
+              //
+              // And nowhere else. What it sells is guides of any size, and on
+              // a platform with no guides the product does not exist in the
+              // store either: the sheet would quote a price Play never set and
+              // then fail to take the money. Restoring is worse still, since
+              // its own copy says "Apple Account". Fixing one rejection must
+              // not manufacture another.
+              if (_makesGuides && !_entitlement.unlimited) ...[
+                PopupMenuItem(value: 'unlock', child: Text(l.guidesOfAnySize)),
                 PopupMenuItem(value: 'restore', child: Text(l.restorePurchase)),
+              ],
             ],
           ),
           const SizedBox(width: 4),
@@ -1458,7 +1899,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
-          if (over > 0)
+          if (_makesGuides && over > 0)
             _Banner(
               accent: Wren.clay,
               child: Text(
@@ -1469,7 +1910,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
           // Said as soon as a guide has been read in, not at the end. Finding
           // out after choosing places and naming the guide would be a worse way
           // to learn it.
-          if (carried.isNotEmpty && !_entitlement.unlimited)
+          if (_makesGuides && carried.isNotEmpty && !_entitlement.unlimited)
             _Banner(
               accent: Wren.clay,
               child: Text(
@@ -1479,7 +1920,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
             ),
           Expanded(
             child: _pending.isEmpty
-                ? const _Empty()
+                ? _Empty(makesGuides: _makesGuides)
                 : ListView(
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                     children: [
@@ -1505,6 +1946,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
                           for (final p in carried) ...[
                             _PlaceCard(
                               pending: p,
+                              canSearch: _canSearch,
                               onChanged: (v) =>
                                   setState(() => p.keep = v ?? true),
                               onEdit: () => _editPlace(_pending.indexOf(p)),
@@ -1515,6 +1957,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
                       for (final p in fresh) ...[
                         _PlaceCard(
                           pending: p,
+                          canSearch: _canSearch,
                           onChanged: (v) => setState(() => p.keep = v ?? true),
                           onEdit: () => _editPlace(_pending.indexOf(p)),
                         ),
@@ -1537,14 +1980,32 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
                     ),
                   ),
                   const SizedBox(width: 10),
+                  // Two different products behind one button. A guide is
+                  // Apple Maps and does not exist on Android, where the same
+                  // list goes to whichever map app is installed instead. The
+                  // sheet used to hang off the overflow menu; it is the point
+                  // of the Android app, so it is the button.
                   Expanded(
-                    child: FilledButton.icon(
-                      onPressed: keeping == 0 ? null : _publish,
-                      icon: const Icon(Icons.map_outlined, size: 20),
-                      label: Text(
-                        keeping == 1 ? l.addToGuide : l.makeGuide(keeping),
-                      ),
-                    ),
+                    child: _makesGuides
+                        ? FilledButton.icon(
+                            onPressed: keeping == 0 ? null : _publish,
+                            icon: const Icon(Icons.map_outlined, size: 20),
+                            label: Text(
+                              keeping == 1
+                                  ? l.addToGuide
+                                  : l.makeGuide(keeping),
+                            ),
+                          )
+                        : FilledButton.icon(
+                            // Counts what can be exported, not what Apple
+                            // matched: a place a file positioned is ready to
+                            // send without any lookup having succeeded.
+                            onPressed: sendable == 0
+                                ? null
+                                : _sendPlacesElsewhere,
+                            icon: const Icon(Icons.place_outlined, size: 20),
+                            label: Text(l.sendPlacesTo),
+                          ),
                   ),
                 ],
               ),
@@ -1664,11 +2125,21 @@ class _PlaceCard extends StatelessWidget {
     required this.pending,
     required this.onChanged,
     required this.onEdit,
+    required this.canSearch,
   });
 
   final Pending pending;
   final ValueChanged<bool?> onChanged;
   final VoidCallback onEdit;
+
+  /// Whether there is a map to look a place up in.
+  ///
+  /// False on Android, and it changes what an unmatched row means. With a map,
+  /// no match is a job: tap the card, search, correct it. Without one, no match
+  /// is simply the state of every row -- MapKit is the only lookup there is --
+  /// so a card that opens a search sheet saying "needs an iPhone" turns the
+  /// normal case into an error the user cannot clear.
+  final bool canSearch;
 
   @override
   Widget build(BuildContext context) {
@@ -1676,9 +2147,30 @@ class _PlaceCard extends StatelessWidget {
     final t = Theme.of(context).textTheme;
     final match = pending.match;
     final resolved = match != null;
+    // A place the file positioned itself. Apple has not identified it, so it
+    // cannot go into a guide -- but it has a name and an address, and showing
+    // "Not found on the map. Tap to search for it." would be doubly wrong: the
+    // place is not lost, and on a platform with no map search there is nothing
+    // for a tap to do.
+    final fromFile = pending.fromFile;
+    // Whether this row still wants something from the user, which is not the
+    // same as "the map did not identify it". A place a file positioned is
+    // perfectly usable: it has a name, an address and a coordinate, and
+    // outlining it in red under "Not found on the map" would be doubly wrong
+    // — the place is not lost, and the user has nothing to fix.
+    //
+    // A row needs attention when nothing positions it at all: no match and no
+    // coordinate. That is the only kind that cannot be sent anywhere.
+    final needsAttention =
+        !resolved && !(pending.forExport?.hasCoordinate ?? false);
+    final shown = resolved
+        ? (match.name.isNotEmpty ? match.name : match.address)
+        : (fromFile?.name ?? '');
+    final shownAddress = resolved ? match.address : (fromFile?.address ?? '');
+    final named = shown.isNotEmpty;
 
     return Opacity(
-      opacity: resolved && !pending.keep ? 0.5 : 1,
+      opacity: !needsAttention && !pending.keep ? 0.5 : 1,
       child: Material(
         color: Wren.raised,
         // Shape only — Material asserts if both shape and borderRadius are
@@ -1686,15 +2178,18 @@ class _PlaceCard extends StatelessWidget {
         // appeared in it.
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: resolved
-              ? BorderSide.none
-              : const BorderSide(color: Wren.clay, width: 1.2),
+          side: needsAttention
+              ? const BorderSide(color: Wren.clay, width: 1.2)
+              : BorderSide.none,
         ),
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
           // Tapping anywhere opens the lookup. Correcting a wrong match and
-          // finding one that failed are the same job, so they are one gesture.
-          onTap: onEdit,
+          // finding one that failed are the same job, so they are one gesture
+          // — including on a row that is already usable, where the reading may
+          // still have been wrong. Where there is no lookup at all the card is
+          // not a button.
+          onTap: canSearch ? onEdit : null,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(14, 12, 8, 12),
             child: Row(
@@ -1704,22 +2199,19 @@ class _PlaceCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (resolved) ...[
+                      if (named) ...[
                         // A carried place arrives with a muid and no name. If
                         // the lookup filled one in, use it; failing that the
                         // address is still something true. The group refuses to
                         // expand when neither exists, so this never renders
                         // blank.
-                        Text(
-                          match.name.isNotEmpty ? match.name : match.address,
-                          style: t.titleMedium,
-                        ),
+                        Text(shown, style: t.titleMedium),
                         // A place carried over from a guide has no address in
                         // the payload, so the line is left out rather than
                         // rendered blank.
-                        if (match.address.isNotEmpty) ...[
+                        if (shownAddress.isNotEmpty) ...[
                           const SizedBox(height: 3),
-                          Text(match.address, style: t.bodySmall),
+                          Text(shownAddress, style: t.bodySmall),
                         ],
                       ] else ...[
                         Row(
@@ -1748,8 +2240,14 @@ class _PlaceCard extends StatelessWidget {
                       // not: it is the only way to tell a right match from a
                       // confident wrong one. Omitted for a place carried over
                       // from a guide, where the name came from Apple's own
-                      // record and repeating it says nothing.
-                      if (pending.origin != Origin.guide) ...[
+                      // record and repeating it says nothing -- and omitted
+                      // whenever it would repeat the line above it, which is
+                      // every row of an imported file, since nothing
+                      // interpreted them. Six rows each saying
+                      // "read as" and then their own name is noise standing
+                      // where a real correction should stand out.
+                      if (pending.origin != Origin.guide &&
+                          pending.readAs.trim() != shown.trim()) ...[
                         const SizedBox(height: 7),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1774,14 +2272,19 @@ class _PlaceCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (resolved)
+                if (!needsAttention)
                   Checkbox(value: pending.keep, onChanged: onChanged)
-                else
+                else if (canSearch)
                   IconButton(
                     icon: const Icon(Icons.search, color: Wren.clay),
                     tooltip: l.searchAppleMaps,
                     onPressed: onEdit,
-                  ),
+                  )
+                else
+                  // Nothing to search and nothing to send: the file named this
+                  // place and gave it no position. A live checkbox here would
+                  // tick and then be quietly ignored on the way out.
+                  const Checkbox(value: false, onChanged: null),
               ],
             ),
           ),
@@ -1792,7 +2295,14 @@ class _PlaceCard extends StatelessWidget {
 }
 
 class _Empty extends StatelessWidget {
-  const _Empty();
+  const _Empty({required this.makesGuides});
+
+  /// The first screen has to describe the app that is actually installed. On
+  /// Android it reads a file and hands the list on: it takes no screenshots,
+  /// because there is no text recognition, and it makes no guide, because
+  /// there is no Apple Maps. Saying otherwise here would be the first thing
+  /// anybody saw, reviewers included.
+  final bool makesGuides;
 
   @override
   Widget build(BuildContext context) {
@@ -1812,9 +2322,17 @@ class _Empty extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),
-            Text(l.emptyBody, style: t.bodyMedium, textAlign: TextAlign.center),
+            Text(
+              makesGuides ? l.emptyBody : l.emptyBodyAndroid,
+              style: t.bodyMedium,
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 18),
-            Text(l.emptyNote, style: t.bodySmall, textAlign: TextAlign.center),
+            Text(
+              makesGuides ? l.emptyNote : l.emptyNoteAndroid,
+              style: t.bodySmall,
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 18),
             // Named here rather than left to be found inside a menu. A file
             // importer nobody knows the formats of is a file importer nobody

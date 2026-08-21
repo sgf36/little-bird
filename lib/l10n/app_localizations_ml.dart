@@ -23,6 +23,14 @@ class LMl extends L {
       'ഒറ്റ സ്ഥലം നിങ്ങൾക്ക് നേരത്തേയുള്ള ഗൈഡിൽ ചേരും. പലതും ചേർന്ന് പുതിയൊരെണ്ണം ഉണ്ടാകും — Apple Maps‌ന് ഗൈഡുകൾ കൂട്ടിച്ചേർക്കാനാവില്ല.';
 
   @override
+  String get emptyBodyAndroid =>
+      'ആരെങ്കിലും നിർദ്ദേശിക്കുന്നത് സ്ക്രീൻഷോട്ട് എടുക്കൂ — ഒരു റീൽ, ഒരു പോസ്റ്റ്, ഒരു സന്ദേശം, യാത്രാ പുസ്തകത്തിലെ ഒരു താൾ. Wren പേരുകൾ വായിച്ച് അവ നിങ്ങളുടെ ഫോണിലെ മാപ്പ് ആപ്പിലേക്ക് അയയ്ക്കും.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'നിങ്ങളുടെ പക്കലുള്ള ലിസ്റ്റും ഇത് വായിക്കും, എന്തെങ്കിലും അയയ്ക്കുന്നതിനു മുൻപ് എല്ലാ സ്ഥലവും കാണിക്കും.';
+
+  @override
   String get addScreenshots => 'സ്ക്രീൻഷോട്ടുകൾ ചേർക്കുക';
 
   @override
@@ -474,6 +482,50 @@ class LMl extends L {
   @override
   String splitProgress(int done, int total) {
     return '$totalൽ $done ഗൈഡ് തുറന്നു. അടുത്തത് ഉണ്ടാക്കാൻ ടാപ്പ് ചെയ്യുക.';
+  }
+
+  @override
+  String get sendPlacesTo => 'സ്ഥലങ്ങൾ അയയ്ക്കുക';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count സ്ഥലങ്ങൾ അയയ്ക്കാൻ തയ്യാർ',
+      one: '1 സ്ഥലം അയയ്ക്കാൻ തയ്യാർ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count സ്ഥലങ്ങൾക്ക് ലൊക്കേഷൻ ഇല്ല, അയയ്ക്കാനാകില്ല',
+      one: '1 സ്ഥലത്തിന് ലൊക്കേഷൻ ഇല്ല, അയയ്ക്കാനാകില്ല',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'മറ്റേതെങ്കിലും ആപ്പ്';
+
+  @override
+  String get sendPlacesFailed => 'ആ ആപ്പ് ഫയൽ സ്വീകരിച്ചില്ല';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'ഫയലിൽ നിന്ന് $count സ്ഥലങ്ങൾ സൂക്ഷിച്ചു, മറ്റൊരു മാപ്പ് ആപ്പിലേക്ക് അയയ്ക്കാൻ തയ്യാർ',
+      one:
+          'ഫയലിൽ നിന്ന് 1 സ്ഥലം സൂക്ഷിച്ചു, മറ്റൊരു മാപ്പ് ആപ്പിലേക്ക് അയയ്ക്കാൻ തയ്യാർ',
+    );
+    return '$_temp0';
   }
 
   @override

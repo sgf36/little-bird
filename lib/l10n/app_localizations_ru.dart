@@ -23,6 +23,14 @@ class LRu extends L {
       'Одно место добавится в путеводитель, который у тебя уже есть. Несколько создадут новый — Apple Карты не умеют объединять путеводители.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Сделай скриншот того, что тебе советуют — рилс, пост, сообщение, страницу путеводителя. Wren прочитает названия и отправит их в приложение карт на вашем телефоне.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Он также прочитает список, который у вас уже есть, и покажет каждое место, прежде чем что-либо будет отправлено.';
+
+  @override
   String get addScreenshots => 'Добавить скриншоты';
 
   @override
@@ -504,6 +512,58 @@ class LRu extends L {
   @override
   String splitProgress(int done, int total) {
     return 'Путеводитель $done из $total открыт. Нажми, чтобы сделать следующий.';
+  }
+
+  @override
+  String get sendPlacesTo => 'Отправить места в';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count места готовы к отправке',
+      many: '$count мест готовы к отправке',
+      few: '$count места готовы к отправке',
+      one: '$count место готово к отправке',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'у $count места нет координат, их не отправить',
+      many: 'у $count мест нет координат, их не отправить',
+      few: 'у $count мест нет координат, их не отправить',
+      one: 'у $count места нет координат, его не отправить',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Любое другое приложение';
+
+  @override
+  String get sendPlacesFailed => 'Это приложение не приняло файл';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count места из файла готовы к отправке в другое картографическое приложение',
+      many:
+          '$count мест из файла готовы к отправке в другое картографическое приложение',
+      few:
+          '$count места из файла готовы к отправке в другое картографическое приложение',
+      one:
+          '$count место из файла готово к отправке в другое картографическое приложение',
+    );
+    return '$_temp0';
   }
 
   @override

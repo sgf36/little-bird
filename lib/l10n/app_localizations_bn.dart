@@ -23,6 +23,14 @@ class LBn extends L {
       'একটা জায়গা আপনার আগের কোনো গাইডেই যোগ হয়। কয়েকটা হলে নতুন গাইড তৈরি হয় — Apple Maps গাইড একসঙ্গে জুড়তে পারে না।';
 
   @override
+  String get emptyBodyAndroid =>
+      'কেউ যা বলল তার স্ক্রিনশট নিন — একটা রিল, একটা পোস্ট, একটা বার্তা, ভ্রমণ-গাইডের একটা পাতা। Wren নামগুলো পড়ে নেয় আর সেগুলো ফোনের ম্যাপ অ্যাপে পাঠিয়ে দেয়।';
+
+  @override
+  String get emptyNoteAndroid =>
+      'এটি আপনার কাছে থাকা তালিকাও পড়ে নেয়, আর কিছু পাঠানোর আগে প্রতিটি জায়গা দেখিয়ে দেয়।';
+
+  @override
   String get addScreenshots => 'স্ক্রিনশট যোগ করুন';
 
   @override
@@ -462,6 +470,50 @@ class LBn extends L {
   @override
   String splitProgress(int done, int total) {
     return '$totalটির মধ্যে $doneটি গাইড খোলা হয়েছে। পরেরটি তৈরি করতে ট্যাপ করুন।';
+  }
+
+  @override
+  String get sendPlacesTo => 'স্থান পাঠাও';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countটি স্থান পাঠানোর জন্য তৈরি',
+      one: '১টি স্থান পাঠানোর জন্য তৈরি',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countটি স্থানের অবস্থান নেই, পাঠানো যাবে না',
+      one: '১টি স্থানের অবস্থান নেই, পাঠানো যাবে না',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'অন্য কোনও অ্যাপ';
+
+  @override
+  String get sendPlacesFailed => 'সেই অ্যাপ ফাইলটি নিল না';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'ফাইল থেকে $countটি স্থান রাখা হয়েছে, অন্য ম্যাপ অ্যাপে পাঠানোর জন্য তৈরি',
+      one:
+          'ফাইল থেকে ১টি স্থান রাখা হয়েছে, অন্য ম্যাপ অ্যাপে পাঠানোর জন্য তৈরি',
+    );
+    return '$_temp0';
   }
 
   @override

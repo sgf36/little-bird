@@ -103,5 +103,13 @@
   "splitBody": "Apple ogranicza, ile miejsc może pomieścić jedno łącze do przewodnika. Wren utworzy więc kilka przewodników ({guides}), ponumerowanych tak, by kolejność się zachowała, i rozłoży w nich wszystkie miejsca ({count}).",
   "splitConfirm": "Utwórz przewodniki ({guides})",
   "splitProgress": "Przewodnik {done} z {total} otwarty. Dotknij, aby utworzyć następny.",
-  "compExpiring": "Wren nie mógł potwierdzić Twojego bezpłatnego dostępu. Połącz się z internetem w ciągu najbliższych kilku dni, aby go zachować."
+  "sendPlacesTo": "Wyślij miejsca do",
+  "sendPlacesReady": "{count, plural, one{1 miejsce gotowe do wysłania} few{{count} miejsca gotowe do wysłania} many{{count} miejsc gotowych do wysłania} other{{count} miejsca gotowe do wysłania}}",
+  "sendPlacesNoLocation": "{count, plural, one{1 miejsce nie ma lokalizacji i nie da się go wysłać} few{{count} miejsca nie mają lokalizacji i nie da się ich wysłać} many{{count} miejsc nie ma lokalizacji i nie da się ich wysłać} other{{count} miejsca nie mają lokalizacji i nie da się ich wysłać}}",
+  "sendPlacesOtherApp": "Dowolna inna aplikacja",
+  "sendPlacesFailed": "Ta aplikacja nie przyjęła pliku",
+  "fileImportPositioned": "{count, plural, one{1 miejsce z pliku gotowe do wysłania do innej aplikacji map} few{{count} miejsca z pliku gotowe do wysłania do innej aplikacji map} many{{count} miejsc z pliku gotowych do wysłania do innej aplikacji map} other{{count} miejsca z pliku gotowe do wysłania do innej aplikacji map}}",
+  "compExpiring": "Wren nie mógł potwierdzić Twojego bezpłatnego dostępu. Połącz się z internetem w ciągu najbliższych kilku dni, aby go zachować.",
+  "emptyBodyAndroid": "Zrób zrzut ekranu tego, co ci polecają — rolki, posta, wiadomości, strony przewodnika. Wren odczyta nazwy i wyśle je do aplikacji map w telefonie.",
+  "emptyNoteAndroid": "Odczyta też listę, którą już masz, i pokaże każde miejsce, zanim cokolwiek wyjdzie."
 }

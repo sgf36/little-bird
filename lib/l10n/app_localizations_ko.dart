@@ -23,6 +23,14 @@ class LKo extends L {
       '한 곳은 이미 가지고 있는 가이드에 추가됩니다. 여러 곳이면 새 가이드가 만들어집니다 — 지도는 가이드를 합칠 수 없습니다.';
 
   @override
+  String get emptyBodyAndroid =>
+      '추천받은 것을 스크린샷으로 남기세요 — 릴스, 게시물, 메시지, 여행 안내서의 한 페이지. Wren이 이름을 읽어 휴대전화의 지도 앱으로 보내줍니다.';
+
+  @override
+  String get emptyNoteAndroid =>
+      '이미 가지고 있는 목록도 읽어 들이며, 무엇이든 보내기 전에 모든 장소를 보여줍니다.';
+
+  @override
   String get addScreenshots => '스크린샷 추가';
 
   @override
@@ -439,6 +447,45 @@ class LKo extends L {
   @override
   String splitProgress(int done, int total) {
     return '가이드 $total개 중 $done개를 열었습니다. 탭하여 다음을 만드세요.';
+  }
+
+  @override
+  String get sendPlacesTo => '장소 보내기';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '보낼 장소 $count곳이 준비되었습니다',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '장소 $count곳에 위치가 없어 보낼 수 없습니다',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => '다른 앱';
+
+  @override
+  String get sendPlacesFailed => '그 앱이 파일을 받지 않았습니다';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '파일에서 장소 $count곳을 보관했습니다. 다른 지도 앱으로 보낼 수 있습니다',
+    );
+    return '$_temp0';
   }
 
   @override

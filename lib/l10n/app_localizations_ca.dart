@@ -23,6 +23,14 @@ class LCa extends L {
       'Un sol lloc s\'afegeix a una guia que ja tinguis. Uns quants en creen una de nova: Mapes no pot combinar guies.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Fes una captura del que et recomanin: un reel, una publicació, un missatge, la pàgina d\'una guia de viatge. El Wren llegeix els noms i els envia a l\'app de mapes del teu telèfon.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'També llegeix una llista que ja tinguis, i et mostra cada lloc abans que surti res.';
+
+  @override
   String get addScreenshots => 'Afegir captures';
 
   @override
@@ -475,6 +483,50 @@ class LCa extends L {
   @override
   String splitProgress(int done, int total) {
     return 'Guia $done de $total oberta. Toca per crear la següent.';
+  }
+
+  @override
+  String get sendPlacesTo => 'Envia els llocs a';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count llocs a punt per enviar',
+      one: '1 lloc a punt per enviar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count llocs no tenen ubicació i no es poden enviar',
+      one: '1 lloc no té ubicació i no es pot enviar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Qualsevol altra app';
+
+  @override
+  String get sendPlacesFailed => 'Aquesta app no ha acceptat el fitxer';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count llocs desats del fitxer, a punt per enviar a una altra app de mapes',
+      one:
+          '1 lloc desat del fitxer, a punt per enviar a una altra app de mapes',
+    );
+    return '$_temp0';
   }
 
   @override

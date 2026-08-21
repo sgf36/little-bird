@@ -23,6 +23,14 @@ class LRo extends L {
       'Un singur loc intră într-un ghid pe care îl ai deja. Mai multe creează unul nou — Apple Hărți nu poate îmbina ghiduri.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Fă o captură de ecran cu ce ți se recomandă — un reel, o postare, un mesaj, o pagină dintr-un ghid de călătorie. Wren citește numele și le trimite către aplicația de hărți de pe telefonul tău.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Citește și o listă pe care o ai deja, și îți arată fiecare loc înainte să plece ceva.';
+
+  @override
   String get addScreenshots => 'Adaugă capturi de ecran';
 
   @override
@@ -486,6 +494,53 @@ class LRo extends L {
   @override
   String splitProgress(int done, int total) {
     return 'Ghidul $done din $total a fost deschis. Atinge pentru a-l crea pe următorul.';
+  }
+
+  @override
+  String get sendPlacesTo => 'Trimite locurile către';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de locuri sunt gata de trimis',
+      few: '$count locuri sunt gata de trimis',
+      one: '1 loc este gata de trimis',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count de locuri nu au poziție și nu pot fi trimise',
+      few: '$count locuri nu au poziție și nu pot fi trimise',
+      one: '1 loc nu are poziție și nu poate fi trimis',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Orice altă aplicație';
+
+  @override
+  String get sendPlacesFailed => 'Acea aplicație nu a acceptat fișierul';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count de locuri păstrate din fișier, gata pentru altă aplicație de hărți',
+      few:
+          '$count locuri păstrate din fișier, gata pentru altă aplicație de hărți',
+      one: '1 loc păstrat din fișier, gata pentru altă aplicație de hărți',
+    );
+    return '$_temp0';
   }
 
   @override

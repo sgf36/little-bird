@@ -103,5 +103,13 @@
   "splitBody": "Apple begrenser hvor mange steder én guidelink kan romme. Wren lager {guides} guider, nummererte slik at rekkefølgen holder, med {count} steder til sammen.",
   "splitConfirm": "Lag {guides} guider",
   "splitProgress": "Guide {done} av {total} er åpnet. Trykk for å lage den neste.",
-  "compExpiring": "Wren kunne ikke bekrefte den gratis tilgangen din. Koble til internett i løpet av de neste dagene for å beholde den."
+  "sendPlacesTo": "Send steder til",
+  "sendPlacesReady": "{count, plural, =1{1 sted er klart til å sendes} other{{count} steder er klare til å sendes}}",
+  "sendPlacesNoLocation": "{count, plural, =1{1 sted mangler posisjon og kan ikke sendes} other{{count} steder mangler posisjon og kan ikke sendes}}",
+  "sendPlacesOtherApp": "En annen app",
+  "sendPlacesFailed": "Appen tok ikke imot filen",
+  "fileImportPositioned": "{count, plural, =1{1 sted er beholdt fra filen og klart for en annen kartapp} other{{count} steder er beholdt fra filen og klare for en annen kartapp}}",
+  "compExpiring": "Wren kunne ikke bekrefte den gratis tilgangen din. Koble til internett i løpet av de neste dagene for å beholde den.",
+  "emptyBodyAndroid": "Ta et skjermbilde av det folk tipser deg om — en reel, et innlegg, en melding, en side i en reisehåndbok. Wren leser navnene og sender dem til kart-appen på telefonen din.",
+  "emptyNoteAndroid": "Den leser også en liste du allerede har, og viser deg hvert sted før noe sendes."
 }

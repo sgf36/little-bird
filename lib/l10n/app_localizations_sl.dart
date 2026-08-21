@@ -23,6 +23,14 @@ class LSl extends L {
       'Posamezen kraj se pridruži vodniku, ki ga že imaš. Več krajev ustvari novega — Apple Zemljevidi vodnikov ne znajo združiti.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Posnemi zaslon tistega, kar ti priporočijo — reel, objavo, sporočilo, stran iz vodnika. Wren prebere imena in jih pošlje v aplikacijo z zemljevidi v telefonu.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Prebere tudi seznam, ki ga že imate, in vam pokaže vsak kraj, preden kar koli odide.';
+
+  @override
   String get addScreenshots => 'Dodaj posnetke zaslona';
 
   @override
@@ -500,6 +508,57 @@ class LSl extends L {
   @override
   String splitProgress(int done, int total) {
     return 'Vodnik $done od $total odprt. Tapni za naslednjega.';
+  }
+
+  @override
+  String get sendPlacesTo => 'Pošlji kraje v';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count krajev je pripravljenih za pošiljanje',
+      few: '$count kraji so pripravljeni za pošiljanje',
+      two: '$count kraja sta pripravljena za pošiljanje',
+      one: '1 kraj je pripravljen za pošiljanje',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count krajev nima lokacije in jih ni mogoče poslati',
+      few: '$count kraji nimajo lokacije in jih ni mogoče poslati',
+      two: '$count kraja nimata lokacije in jih ni mogoče poslati',
+      one: '1 kraj nima lokacije in ga ni mogoče poslati',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Katera koli druga aplikacija';
+
+  @override
+  String get sendPlacesFailed => 'Ta aplikacija ni sprejela datoteke';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count krajev iz datoteke je pripravljenih za drugo aplikacijo z zemljevidi',
+      few:
+          '$count kraji iz datoteke so pripravljeni za drugo aplikacijo z zemljevidi',
+      two:
+          '$count kraja iz datoteke sta pripravljena za drugo aplikacijo z zemljevidi',
+      one: '1 kraj iz datoteke je pripravljen za drugo aplikacijo z zemljevidi',
+    );
+    return '$_temp0';
   }
 
   @override

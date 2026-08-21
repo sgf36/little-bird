@@ -103,5 +103,13 @@
   "splitBody": "Apple begrenzt, wie viele Orte ein Guide-Link tragen kann. Wren erstellt {guides} Guides, nummeriert, damit die Reihenfolge bleibt, mit {count} Orten insgesamt.",
   "splitConfirm": "{guides} Guides erstellen",
   "splitProgress": "Guide {done} von {total} geöffnet. Tippen, um den nächsten zu erstellen.",
-  "compExpiring": "Wren konnte deinen kostenlosen Zugang nicht bestätigen. Stelle in den nächsten Tagen eine Internetverbindung her, um ihn zu behalten."
+  "sendPlacesTo": "Orte senden an",
+  "sendPlacesReady": "{count, plural, =1{1 Ort ist bereit zum Senden} other{{count} Orte sind bereit zum Senden}}",
+  "sendPlacesNoLocation": "{count, plural, =1{1 Ort hat keinen Standort und kann nicht gesendet werden} other{{count} Orte haben keinen Standort und können nicht gesendet werden}}",
+  "sendPlacesOtherApp": "Andere App",
+  "sendPlacesFailed": "Diese App hat die Datei nicht angenommen",
+  "fileImportPositioned": "{count, plural, =1{1 Ort aus der Datei behalten, bereit für eine andere Karten-App} other{{count} Orte aus der Datei behalten, bereit für eine andere Karten-App}}",
+  "compExpiring": "Wren konnte deinen kostenlosen Zugang nicht bestätigen. Stelle in den nächsten Tagen eine Internetverbindung her, um ihn zu behalten.",
+  "emptyBodyAndroid": "Mach einen Screenshot von dem, was dir empfohlen wird — ein Reel, ein Post, eine Nachricht, eine Seite aus einem Reiseführer. Wren liest die Namen und schickt sie an die Karten-App auf deinem Telefon.",
+  "emptyNoteAndroid": "Es liest auch eine Liste, die du schon hast, und zeigt dir jeden Ort, bevor irgendetwas das Gerät verlässt."
 }

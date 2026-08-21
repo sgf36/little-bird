@@ -23,6 +23,14 @@ class LCs extends L {
       'Jedno místo se přidá do průvodce, kterého už máš. Několik jich vytvoří nového — Mapy Apple neumějí průvodce slučovat.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Vyfoť si obrazovku s tím, co ti doporučí — reel, příspěvek, zprávu, stránku z průvodce. Wren přečte názvy a odešle je do mapové aplikace v telefonu.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Přečte i seznam, který už máte, a ukáže vám každé místo dřív, než cokoli odejde.';
+
+  @override
   String get addScreenshots => 'Přidat snímky obrazovky';
 
   @override
@@ -497,6 +505,58 @@ class LCs extends L {
   @override
   String splitProgress(int done, int total) {
     return 'Průvodce $done z $total otevřen. Klepnutím vytvoříš dalšího.';
+  }
+
+  @override
+  String get sendPlacesTo => 'Poslat místa do';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count míst je připravených k odeslání',
+      many: '$count místa jsou připravená k odeslání',
+      few: '$count místa jsou připravená k odeslání',
+      one: '1 místo je připravené k odeslání',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count míst nemá polohu a nelze je odeslat',
+      many: '$count místa nemají polohu a nelze je odeslat',
+      few: '$count místa nemají polohu a nelze je odeslat',
+      one: '1 místo nemá polohu a nelze ho odeslat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Jakákoli jiná aplikace';
+
+  @override
+  String get sendPlacesFailed => 'Tato aplikace soubor nepřijala';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count míst ze souboru je připravených k odeslání do jiné mapové aplikace',
+      many:
+          '$count místa ze souboru jsou připravená k odeslání do jiné mapové aplikace',
+      few:
+          '$count místa ze souboru jsou připravená k odeslání do jiné mapové aplikace',
+      one:
+          '1 místo ze souboru je připravené k odeslání do jiné mapové aplikace',
+    );
+    return '$_temp0';
   }
 
   @override

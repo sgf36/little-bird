@@ -103,5 +103,13 @@
   "splitBody": "A Apple limita quantos lugares o link de um guia pode levar. O Wren vai criar {guides} guias, numerados para ficarem em ordem, com {count} lugares entre eles.",
   "splitConfirm": "Criar {guides} guias",
   "splitProgress": "Guia {done} de {total} aberto. Toque para criar o próximo.",
-  "compExpiring": "O Wren não conseguiu confirmar o seu acesso gratuito. Ligue-se à internet nos próximos dias para o manter."
+  "sendPlacesTo": "Enviar lugares para",
+  "sendPlacesReady": "{count, plural, =1{1 lugar pronto para enviar} other{{count} lugares prontos para enviar}}",
+  "sendPlacesNoLocation": "{count, plural, =1{1 lugar não tem localização e não pode ser enviado} other{{count} lugares não têm localização e não podem ser enviados}}",
+  "sendPlacesOtherApp": "Outro app",
+  "sendPlacesFailed": "Esse app não aceitou o arquivo",
+  "fileImportPositioned": "{count, plural, =1{1 lugar mantido do arquivo, pronto para outro app de mapas} other{{count} lugares mantidos do arquivo, prontos para outro app de mapas}}",
+  "compExpiring": "O Wren não conseguiu confirmar o seu acesso gratuito. Ligue-se à internet nos próximos dias para o manter.",
+  "emptyBodyAndroid": "Tire uma captura de tela do que te recomendarem — um reel, um post, uma mensagem, a página de um guia de viagem. O Wren lê os nomes e envia tudo para o app de mapas do seu telefone.",
+  "emptyNoteAndroid": "Ele também lê uma lista que você já tem, e mostra cada lugar antes de qualquer coisa sair."
 }

@@ -23,6 +23,14 @@ class LFi extends L {
       'Yksittäinen paikka liittyy oppaaseen, joka sinulla jo on. Useampi luo uuden — Apple Kartat ei osaa yhdistää oppaita.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Ota kuvakaappaus siitä, mitä sinulle suositellaan — reelistä, julkaisusta, viestistä, matkaoppaan sivusta. Wren lukee nimet ja lähettää ne puhelimesi karttasovellukseen.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Se lukee myös listan, joka sinulla jo on, ja näyttää jokaisen paikan ennen kuin mitään lähtee.';
+
+  @override
   String get addScreenshots => 'Lisää kuvakaappauksia';
 
   @override
@@ -465,6 +473,50 @@ class LFi extends L {
   @override
   String splitProgress(int done, int total) {
     return 'Opas $done / $total avattu. Napauta, niin luodaan seuraava.';
+  }
+
+  @override
+  String get sendPlacesTo => 'Lähetä paikat';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count paikkaa valmiina lähetettäväksi',
+      one: '1 paikka valmiina lähetettäväksi',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count paikalla ei ole sijaintia eikä niitä voi lähettää',
+      one: '1 paikalla ei ole sijaintia eikä sitä voi lähettää',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Mikä tahansa muu sovellus';
+
+  @override
+  String get sendPlacesFailed => 'Sovellus ei ottanut tiedostoa vastaan';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count paikkaa säilytettiin tiedostosta, valmiina toiseen karttasovellukseen',
+      one:
+          '1 paikka säilytettiin tiedostosta, valmis toiseen karttasovellukseen',
+    );
+    return '$_temp0';
   }
 
   @override

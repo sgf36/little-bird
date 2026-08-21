@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Only the one directory exports are written to. A provider that shares more
+     than it needs to is a provider that hands another app whatever it asks for.
+
+     files-path rather than cache-path: the cache is reclaimable at any moment, so
+     a receiver that defers the import to a background worker can find the bytes
+     gone after the grant already succeeded. -->
+<paths>
+    <files-path name="share" path="share/" />
+</paths>

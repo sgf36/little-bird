@@ -23,6 +23,14 @@ class LMs extends L {
       'Satu tempat akan masuk ke panduan yang sedia ada. Beberapa tempat akan mencipta panduan baharu — Apple Maps tidak boleh menggabungkan panduan.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Tangkap skrin apa sahaja yang disyorkan kepada anda — reel, hantaran, mesej, satu halaman buku panduan. Wren membaca namanya dan menghantarkannya ke apl peta pada telefon anda.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Ia juga membaca senarai yang anda sudah ada, dan menunjukkan setiap tempat sebelum apa-apa dihantar.';
+
+  @override
   String get addScreenshots => 'Tambah tangkapan skrin';
 
   @override
@@ -454,6 +462,46 @@ class LMs extends L {
   @override
   String splitProgress(int done, int total) {
     return 'Panduan $done daripada $total telah dibuka. Ketik untuk mencipta yang seterusnya.';
+  }
+
+  @override
+  String get sendPlacesTo => 'Hantar tempat ke';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tempat sedia dihantar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tempat tiada lokasi dan tidak boleh dihantar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Apl lain';
+
+  @override
+  String get sendPlacesFailed => 'Apl itu tidak menerima fail';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count tempat disimpan daripada fail, sedia dihantar ke apl peta lain',
+    );
+    return '$_temp0';
   }
 
   @override

@@ -23,6 +23,14 @@ class LTr extends L {
       'Tek bir mekân, zaten sahip olduğun bir rehbere eklenir. Birden fazlası yenisini oluşturur — Apple Harita rehberleri birleştiremez.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Sana önerilen şeyin ekran görüntüsünü al — bir reel, bir gönderi, bir mesaj, bir gezi rehberinin sayfası. Wren adları okur ve telefonundaki harita uygulamasına gönderir.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Ayrıca elindeki bir listeyi de okur ve hiçbir şey gönderilmeden önce her yeri sana gösterir.';
+
+  @override
   String get addScreenshots => 'Ekran görüntüsü ekle';
 
   @override
@@ -463,6 +471,50 @@ class LTr extends L {
   @override
   String splitProgress(int done, int total) {
     return '$total rehberin $done tanesi açıldı. Sonrakini oluşturmak için dokun.';
+  }
+
+  @override
+  String get sendPlacesTo => 'Yerleri şuraya gönder';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count yer gönderilmeye hazır',
+      one: '1 yer gönderilmeye hazır',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count yerin konumu yok, gönderilemez',
+      one: '1 yerin konumu yok, gönderilemez',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Başka bir uygulama';
+
+  @override
+  String get sendPlacesFailed => 'O uygulama dosyayı kabul etmedi';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Dosyadan $count yer korundu, başka bir harita uygulamasına gönderilmeye hazır',
+      one:
+          'Dosyadan 1 yer korundu, başka bir harita uygulamasına gönderilmeye hazır',
+    );
+    return '$_temp0';
   }
 
   @override

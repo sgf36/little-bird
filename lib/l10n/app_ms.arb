@@ -103,5 +103,13 @@
   "splitBody": "Apple mengehadkan berapa banyak tempat yang boleh dibawa oleh satu pautan panduan. Wren akan mencipta {guides} panduan, dinomborkan supaya susunannya kekal, yang bersama-sama memuatkan {count} tempat.",
   "splitConfirm": "Cipta {guides} panduan",
   "splitProgress": "Panduan {done} daripada {total} telah dibuka. Ketik untuk mencipta yang seterusnya.",
-  "compExpiring": "Wren tidak dapat mengesahkan akses percuma anda. Sambung ke internet dalam beberapa hari akan datang untuk mengekalkannya."
+  "sendPlacesTo": "Hantar tempat ke",
+  "sendPlacesReady": "{count, plural, other{{count} tempat sedia dihantar}}",
+  "sendPlacesNoLocation": "{count, plural, other{{count} tempat tiada lokasi dan tidak boleh dihantar}}",
+  "sendPlacesOtherApp": "Apl lain",
+  "sendPlacesFailed": "Apl itu tidak menerima fail",
+  "fileImportPositioned": "{count, plural, other{{count} tempat disimpan daripada fail, sedia dihantar ke apl peta lain}}",
+  "compExpiring": "Wren tidak dapat mengesahkan akses percuma anda. Sambung ke internet dalam beberapa hari akan datang untuk mengekalkannya.",
+  "emptyBodyAndroid": "Tangkap skrin apa sahaja yang disyorkan kepada anda — reel, hantaran, mesej, satu halaman buku panduan. Wren membaca namanya dan menghantarkannya ke apl peta pada telefon anda.",
+  "emptyNoteAndroid": "Ia juga membaca senarai yang anda sudah ada, dan menunjukkan setiap tempat sebelum apa-apa dihantar."
 }

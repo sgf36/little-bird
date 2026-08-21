@@ -23,6 +23,14 @@ class LGu extends L {
       'એક જ જગ્યા તમારી પાસે પહેલેથી હોય તે માર્ગદર્શિકામાં ઉમેરાય છે. અનેક જગ્યાઓથી નવી બને છે — Apple Maps માર્ગદર્શિકાઓ ભેગી કરી શકતું નથી.';
 
   @override
+  String get emptyBodyAndroid =>
+      'કોઈ તમને જે સૂચવે તેનો સ્ક્રીનશૉટ લઈ લો — રીલ, પોસ્ટ, સંદેશ, કે પ્રવાસ-પુસ્તકનું પાનું. Wren નામ વાંચી લે છે અને તેમને તમારા ફોનની નકશા ઍપમાં મોકલે છે.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'તે તમારી પાસે પહેલેથી હોય તેવી યાદી પણ વાંચે છે, અને કંઈ પણ મોકલાય તે પહેલાં દરેક સ્થળ બતાવે છે.';
+
+  @override
   String get addScreenshots => 'સ્ક્રીનશૉટ ઉમેરો';
 
   @override
@@ -465,6 +473,48 @@ class LGu extends L {
   @override
   String splitProgress(int done, int total) {
     return '$total માંથી $done માર્ગદર્શિકા ખૂલી. પછીની બનાવવા ટૅપ કરો.';
+  }
+
+  @override
+  String get sendPlacesTo => 'સ્થળો મોકલો';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count સ્થળો મોકલવા તૈયાર',
+      one: '1 સ્થળ મોકલવા તૈયાર',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count સ્થળોનું સ્થાન નથી, મોકલી શકાય નહીં',
+      one: '1 સ્થળનું સ્થાન નથી, મોકલી શકાય નહીં',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'કોઈ પણ બીજી ઍપ';
+
+  @override
+  String get sendPlacesFailed => 'તે ઍપે ફાઇલ સ્વીકારી નહીં';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ફાઇલમાંથી $count સ્થળો રાખ્યાં, બીજી નકશા ઍપમાં મોકલવા તૈયાર',
+      one: 'ફાઇલમાંથી 1 સ્થળ રાખ્યું, બીજી નકશા ઍપમાં મોકલવા તૈયાર',
+    );
+    return '$_temp0';
   }
 
   @override

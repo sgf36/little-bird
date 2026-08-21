@@ -405,7 +405,17 @@ PlaceFileResult _readXml(String xml) {
           ).firstMatch(attrs)?.group(1) ??
           '',
     );
-    places.add(FilePlace(name: name, lat: attr('lat'), lon: attr('lon')));
+    // GPX 1.1 has no address element, so an address travels in <cmt> and
+    // <desc> -- which is where Wren's own writer puts it. Reading neither meant
+    // a file Wren wrote came back with no addresses at all, and the Google Maps
+    // route then handed Google a restaurant name to geocode instead of a street.
+    //
+    // <cmt> first: the writer puts the bare address there, while <desc> may also
+    // carry the note about what a screenshot was read as.
+    final said = _tagText(body, 'cmt') ?? _tagText(body, 'desc');
+    places.add(
+      FilePlace(name: name, lat: attr('lat'), lon: attr('lon'), address: said),
+    );
   }
 
   if (places.isEmpty && skipped == 0) {
@@ -414,7 +424,9 @@ PlaceFileResult _readXml(String xml) {
     );
   }
 
-  final title = _tagText(xml, 'Document') == null
+  // KML keeps the list name in <Document><name>, before the first Placemark --
+  // searching the whole document would find the first place's name instead.
+  final kmlTitle = _tagText(xml, 'Document') == null
       ? null
       : _tagText(
           RegExp(
@@ -426,5 +438,22 @@ PlaceFileResult _readXml(String xml) {
           'name',
         );
 
-  return PlaceFileResult(places: places, skipped: skipped, title: title);
+  // GPX keeps it in <metadata><name>, which this reader ignored -- so a file
+  // Wren had written itself came back untitled, and a list name survived the
+  // trip out to another app and was lost on the way back in.
+  final gpxTitle = _tagText(
+    RegExp(
+          r'<metadata\b[^>]*>(.*?)</metadata>',
+          dotAll: true,
+          caseSensitive: false,
+        ).firstMatch(xml)?.group(1) ??
+        '',
+    'name',
+  );
+
+  return PlaceFileResult(
+    places: places,
+    skipped: skipped,
+    title: kmlTitle ?? gpxTitle,
+  );
 }

@@ -23,6 +23,14 @@ class LPl extends L {
       'Pojedyncze miejsce trafia do przewodnika, który już masz. Kilka tworzy nowy — Mapy Apple nie potrafią łączyć przewodników.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Zrób zrzut ekranu tego, co ci polecają — rolki, posta, wiadomości, strony przewodnika. Wren odczyta nazwy i wyśle je do aplikacji map w telefonie.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Odczyta też listę, którą już masz, i pokaże każde miejsce, zanim cokolwiek wyjdzie.';
+
+  @override
   String get addScreenshots => 'Dodaj zrzuty ekranu';
 
   @override
@@ -498,6 +506,54 @@ class LPl extends L {
   @override
   String splitProgress(int done, int total) {
     return 'Przewodnik $done z $total otwarty. Dotknij, aby utworzyć następny.';
+  }
+
+  @override
+  String get sendPlacesTo => 'Wyślij miejsca do';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count miejsca gotowe do wysłania',
+      many: '$count miejsc gotowych do wysłania',
+      few: '$count miejsca gotowe do wysłania',
+      one: '1 miejsce gotowe do wysłania',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count miejsca nie mają lokalizacji i nie da się ich wysłać',
+      many: '$count miejsc nie ma lokalizacji i nie da się ich wysłać',
+      few: '$count miejsca nie mają lokalizacji i nie da się ich wysłać',
+      one: '1 miejsce nie ma lokalizacji i nie da się go wysłać',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Dowolna inna aplikacja';
+
+  @override
+  String get sendPlacesFailed => 'Ta aplikacja nie przyjęła pliku';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count miejsca z pliku gotowe do wysłania do innej aplikacji map',
+      many: '$count miejsc z pliku gotowych do wysłania do innej aplikacji map',
+      few: '$count miejsca z pliku gotowe do wysłania do innej aplikacji map',
+      one: '1 miejsce z pliku gotowe do wysłania do innej aplikacji map',
+    );
+    return '$_temp0';
   }
 
   @override

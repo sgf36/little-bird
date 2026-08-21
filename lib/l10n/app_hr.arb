@@ -103,5 +103,13 @@
   "splitBody": "Apple ograničava koliko mjesta može stati u jedan link vodiča. Wren će zato napraviti nekoliko vodiča ({guides}), numeriranih tako da ostane redoslijed, i rasporediti u njih sva mjesta ({count}).",
   "splitConfirm": "Napravi vodiče ({guides})",
   "splitProgress": "Vodič {done} od {total} otvoren. Dodirni za sljedeći.",
-  "compExpiring": "Wren nije mogao potvrditi vaš besplatni pristup. Povežite se s internetom u sljedećih nekoliko dana kako biste ga zadržali."
+  "sendPlacesTo": "Pošalji mjesta u",
+  "sendPlacesReady": "{count, plural, one{{count} mjesto je spremno za slanje} few{{count} mjesta su spremna za slanje} other{{count} mjesta je spremno za slanje}}",
+  "sendPlacesNoLocation": "{count, plural, one{{count} mjesto nema lokaciju i ne može se poslati} few{{count} mjesta nemaju lokaciju i ne mogu se poslati} other{{count} mjesta nema lokaciju i ne može se poslati}}",
+  "sendPlacesOtherApp": "Bilo koja druga aplikacija",
+  "sendPlacesFailed": "Ta aplikacija nije prihvatila datoteku",
+  "fileImportPositioned": "{count, plural, one{{count} mjesto iz datoteke spremno je za drugu kartografsku aplikaciju} few{{count} mjesta iz datoteke spremna su za drugu kartografsku aplikaciju} other{{count} mjesta iz datoteke spremno je za drugu kartografsku aplikaciju}}",
+  "compExpiring": "Wren nije mogao potvrditi vaš besplatni pristup. Povežite se s internetom u sljedećih nekoliko dana kako biste ga zadržali.",
+  "emptyBodyAndroid": "Snimi zaslon onoga što ti preporuče — reel, objavu, poruku, stranicu vodiča. Wren pročita imena i pošalje ih u aplikaciju za karte na tvom telefonu.",
+  "emptyNoteAndroid": "Pročita i popis koji već imaš, i pokaže ti svako mjesto prije nego što išta ode."
 }

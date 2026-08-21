@@ -15,6 +15,7 @@ library;
 import 'dart:convert';
 
 import 'package:archive/archive.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class FileSourceUnavailable implements Exception {
@@ -145,14 +146,82 @@ class DocumentFileSource implements FileSource {
         name: name,
         text: decodeFileBytes(bytes, name: name),
       );
-    } on MissingPluginException {
+    } on MissingPluginException catch (e) {
+      // Printed, not swallowed. The caller turns this into "could not read that
+      // file", which reads exactly like a bad file -- so on a device the one
+      // thing worth knowing, that no platform answered at all, was invisible.
+      debugPrint('littlebird/files has no platform handler: $e');
       throw FileSourceUnavailable(
-        'choosing a file needs iOS — there is no implementation here',
+        'choosing a file needs a platform implementation, and this build has '
+        'none',
         unsupported: true,
       );
     } on PlatformException catch (e) {
       throw FileSourceUnavailable(e.message ?? e.code);
     }
+  }
+}
+
+/// Writes a file the user names, through the platform's own save dialog.
+///
+/// Separate from sharing on purpose. A share asks another app to volunteer to
+/// receive the bytes; a save puts them somewhere the user chose and can find
+/// again -- which is what the Google Maps route needs, because the next step is
+/// a browser file picker.
+abstract class FileSaver {
+  /// True when the bytes were written, false when the user cancelled.
+  Future<bool> save(
+    List<int> bytes, {
+    required String name,
+    required String mimeType,
+  });
+}
+
+class DocumentFileSaver implements FileSaver {
+  const DocumentFileSaver();
+
+  static const _channel = MethodChannel('littlebird/files');
+
+  @override
+  Future<bool> save(
+    List<int> bytes, {
+    required String name,
+    required String mimeType,
+  }) async {
+    try {
+      final r = await _channel.invokeMethod<String>('save', {
+        'bytes': Uint8List.fromList(bytes),
+        'fileName': name,
+        'mimeType': mimeType,
+      });
+      return r == 'saved';
+    } on MissingPluginException {
+      debugPrint('littlebird/files has no save implementation here');
+      return false;
+    } on PlatformException catch (e) {
+      debugPrint('saving failed: $e');
+      return false;
+    }
+  }
+}
+
+/// Records what it was asked to write, and whether it agreed to.
+class StubFileSaver implements FileSaver {
+  StubFileSaver({this.accept = true});
+
+  /// False stands in for the user cancelling the save dialog.
+  final bool accept;
+  final saved = <({String name, String mimeType, int bytes})>[];
+
+  @override
+  Future<bool> save(
+    List<int> bytes, {
+    required String name,
+    required String mimeType,
+  }) async {
+    if (!accept) return false;
+    saved.add((name: name, mimeType: mimeType, bytes: bytes.length));
+    return true;
   }
 }
 

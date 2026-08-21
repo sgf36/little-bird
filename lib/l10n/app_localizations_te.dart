@@ -23,6 +23,14 @@ class LTe extends L {
       'ఒకే ప్రదేశం మీ దగ్గర ఇప్పటికే ఉన్న గైడ్‌లో చేరుతుంది. చాలా ప్రదేశాలు కొత్తది తయారుచేస్తాయి — Apple Maps గైడ్‌లను కలపలేదు.';
 
   @override
+  String get emptyBodyAndroid =>
+      'ఎవరైనా సూచించినదాన్ని స్క్రీన్‌షాట్ తీసుకోండి — ఒక రీల్, ఒక పోస్ట్, ఒక సందేశం, ప్రయాణ పుస్తకంలోని ఒక పేజీ. Wren పేర్లను చదివి వాటిని మీ ఫోన్‌లోని మ్యాప్ యాప్‌కు పంపుతుంది.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'మీ దగ్గర ఇప్పటికే ఉన్న జాబితాను కూడా ఇది చదువుతుంది, ఏదైనా పంపే ముందు ప్రతి ప్రదేశాన్ని చూపిస్తుంది.';
+
+  @override
   String get addScreenshots => 'స్క్రీన్‌షాట్‌లు జోడించండి';
 
   @override
@@ -471,6 +479,49 @@ class LTe extends L {
   @override
   String splitProgress(int done, int total) {
     return '$totalలో $done గైడ్ తెరిచాం. తర్వాతది తయారుచేయడానికి నొక్కండి.';
+  }
+
+  @override
+  String get sendPlacesTo => 'స్థలాలను పంపు';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count స్థలాలు పంపడానికి సిద్ధం',
+      one: '1 స్థలం పంపడానికి సిద్ధం',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count స్థలాలకు స్థానం లేదు, పంపలేము',
+      one: '1 స్థలానికి స్థానం లేదు, పంపలేము',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'మరే యాప్ అయినా';
+
+  @override
+  String get sendPlacesFailed => 'ఆ యాప్ ఫైల్‌ను తీసుకోలేదు';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'ఫైల్ నుండి $count స్థలాలు ఉంచబడ్డాయి, మరో మ్యాప్ యాప్‌కు పంపడానికి సిద్ధం',
+      one: 'ఫైల్ నుండి 1 స్థలం ఉంచబడింది, మరో మ్యాప్ యాప్‌కు పంపడానికి సిద్ధం',
+    );
+    return '$_temp0';
   }
 
   @override

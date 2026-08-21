@@ -23,6 +23,14 @@ class LUr extends L {
       'ایک جگہ آپ کی پہلے سے موجود گائیڈ میں شامل ہو جاتی ہے۔ کئی جگہیں نئی گائیڈ بناتی ہیں — Apple Maps گائیڈز کو آپس میں نہیں ملا سکتا۔';
 
   @override
+  String get emptyBodyAndroid =>
+      'جو کوئی آپ کو بتائے، اس کا اسکرین شاٹ لے لیجیے — ایک ریل، ایک پوسٹ، ایک پیغام، یا سفری کتاب کا ایک صفحہ۔ Wren نام پڑھ لیتا ہے اور انہیں آپ کے فون کی نقشہ ایپ میں بھیج دیتا ہے۔';
+
+  @override
+  String get emptyNoteAndroid =>
+      'یہ آپ کے پاس پہلے سے موجود فہرست بھی پڑھ لیتا ہے، اور کچھ بھی بھیجے جانے سے پہلے ہر جگہ دکھا دیتا ہے۔';
+
+  @override
   String get addScreenshots => 'اسکرین شاٹ شامل کریں';
 
   @override
@@ -477,6 +485,49 @@ class LUr extends L {
   @override
   String splitProgress(int done, int total) {
     return '$total میں سے $done گائیڈ کھل گئی۔ اگلی بنانے کے لیے ٹیپ کریں۔';
+  }
+
+  @override
+  String get sendPlacesTo => 'مقامات بھیجیں';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مقامات بھیجنے کے لیے تیار',
+      one: '1 مقام بھیجنے کے لیے تیار',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مقامات کا محلِ وقوع نہیں، انہیں بھیجا نہیں جا سکتا',
+      one: '1 مقام کا محلِ وقوع نہیں، اسے بھیجا نہیں جا سکتا',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'کوئی اور ایپ';
+
+  @override
+  String get sendPlacesFailed => 'اُس ایپ نے فائل نہیں لی';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'فائل سے $count مقامات رکھے گئے، کسی اور نقشہ ایپ کو بھیجنے کے لیے تیار',
+      one: 'فائل سے 1 مقام رکھا گیا، کسی اور نقشہ ایپ کو بھیجنے کے لیے تیار',
+    );
+    return '$_temp0';
   }
 
   @override

@@ -16,6 +16,14 @@
   "@emptyNote": {
     "description": "A limitation of Apple Maps, stated up front. 'Guide' is Apple's own feature name — use whatever Apple Maps calls it in this language."
   },
+  "emptyBodyAndroid": "Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.",
+  "@emptyBodyAndroid": {
+    "description": "The opening line of the first screen, on a platform that cannot make guides. It mirrors emptyBody, which ends in Apple Maps; this one ends in whichever map app is installed. Everything before that clause is the same, and should read the same way in translation."
+  },
+  "emptyNoteAndroid": "It also reads a list you already have, and shows you every place before anything leaves.",
+  "@emptyNoteAndroid": {
+    "description": "The quieter second line of the first screen, on a platform that cannot make guides. It replaces emptyNote, which is about Apple Maps refusing to merge guides. Two things: a file is a way in as well as a screenshot, and nothing is sent until the user has seen the list. Name no map app here — the sheet that sends the places names them, and only the ones actually installed."
+  },
   "addScreenshots": "Add screenshots",
   "@addScreenshots": {
     "description": "Button. Opens the photo picker."
@@ -584,6 +592,45 @@
         "type": "int"
       },
       "total": {
+        "type": "int"
+      }
+    }
+  },
+  "sendPlacesTo": "Send places to",
+  "@sendPlacesTo": {
+    "description": "Title of the sheet that lists map apps a place list can be sent to. Android only."
+  },
+  "sendPlacesReady": "{count, plural, =1{1 place ready to send} other{{count} places ready to send}}",
+  "@sendPlacesReady": {
+    "description": "How many places will go into the exported file.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sendPlacesNoLocation": "{count, plural, =1{1 place has no location and cannot be sent} other{{count} places have no location and cannot be sent}}",
+  "@sendPlacesNoLocation": {
+    "description": "Places dropped from the export because they have no coordinate. Other map apps do not look an address up, so a place without one would vanish from the file silently — said plainly instead.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sendPlacesOtherApp": "Any other app",
+  "@sendPlacesOtherApp": {
+    "description": "Opens the system share sheet instead of a named app, so apps Wren does not list by name still work."
+  },
+  "sendPlacesFailed": "That app would not take the file",
+  "@sendPlacesFailed": {
+    "description": "Shown when the receiving app did not accept the handover."
+  },
+  "fileImportPositioned": "{count, plural, =1{1 place kept from the file, ready to send to another map app} other{{count} places kept from the file, ready to send to another map app}}",
+  "@fileImportPositioned": {
+    "description": "Shown after importing a file when the places carried their own coordinates and no map lookup was possible — they can be sent to another map app, but not put in an Apple Maps guide.",
+    "placeholders": {
+      "count": {
         "type": "int"
       }
     }

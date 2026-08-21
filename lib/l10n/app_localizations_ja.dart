@@ -23,6 +23,13 @@ class LJa extends L {
       '1件なら、すでにあるガイドに追加できます。複数だと新しいガイドになります — マップはガイドを結合できません。';
 
   @override
+  String get emptyBodyAndroid =>
+      'すすめられたものをスクリーンショットで撮るだけ。リール、投稿、メッセージ、ガイドブックのページ。Wrenが名前を読み取って、スマートフォンの地図アプリに送ります。';
+
+  @override
+  String get emptyNoteAndroid => 'すでに持っているリストも読み込めます。何かが送られる前に、すべての場所を確認できます。';
+
+  @override
   String get addScreenshots => 'スクリーンショットを追加';
 
   @override
@@ -438,6 +445,45 @@ class LJa extends L {
   @override
   String splitProgress(int done, int total) {
     return '$total個中$done個目のガイドを開きました。タップして次を作成します。';
+  }
+
+  @override
+  String get sendPlacesTo => '場所の送信先';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count件の場所を送信できます',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count件の場所に位置情報がなく、送信できません',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'ほかのアプリ';
+
+  @override
+  String get sendPlacesFailed => 'そのアプリはファイルを受け取りませんでした';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ファイルから$count件の場所を保持しました。ほかの地図アプリに送信できます',
+    );
+    return '$_temp0';
   }
 
   @override

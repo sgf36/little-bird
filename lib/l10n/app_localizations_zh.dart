@@ -22,6 +22,13 @@ class LZh extends L {
   String get emptyNote => '单个地点会加进你已有的指南。多个地点会新建一个 — 地图无法合并指南。';
 
   @override
+  String get emptyBodyAndroid =>
+      '把别人推荐给你的东西截个图 — 一条 Reel、一个帖子、一条消息、旅行指南的一页。Wren 会读出名字，发送到你手机上的地图应用。';
+
+  @override
+  String get emptyNoteAndroid => '它也能读取你已有的列表，并在任何内容发送前让你看到每一个地点。';
+
+  @override
   String get addScreenshots => '添加截屏';
 
   @override
@@ -434,6 +441,45 @@ class LZh extends L {
   }
 
   @override
+  String get sendPlacesTo => '将地点发送到';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个地点已准备好发送',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个地点没有位置，无法发送',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => '其他应用';
+
+  @override
+  String get sendPlacesFailed => '该应用没有接收文件';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '已从文件保留 $count 个地点，可发送到其他地图应用',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get compExpiring => 'Wren 无法确认你的免费使用权限。请在未来几天内连接互联网以继续保留。';
 }
 
@@ -453,6 +499,13 @@ class LZhHant extends LZh {
 
   @override
   String get emptyNote => '單一地點會加進你已有的指南。多個地點會新建一個 — 地圖無法合併指南。';
+
+  @override
+  String get emptyBodyAndroid =>
+      '把別人推薦給你的東西截個圖 — 一則 Reel、一篇貼文、一則訊息、旅遊指南的一頁。Wren 會讀出名字，傳送到你手機上的地圖應用程式。';
+
+  @override
+  String get emptyNoteAndroid => '它也能讀取你已有的清單，並在任何內容傳送前讓你看到每一個地點。';
 
   @override
   String get addScreenshots => '加入截圖';
@@ -864,6 +917,45 @@ class LZhHant extends LZh {
   @override
   String splitProgress(int done, int total) {
     return '第 $done 個指南已打開，共 $total 個。點一下來製作下一個。';
+  }
+
+  @override
+  String get sendPlacesTo => '將地點傳送到';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個地點已準備好傳送',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個地點沒有位置，無法傳送',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => '其他應用程式';
+
+  @override
+  String get sendPlacesFailed => '該應用程式沒有接收檔案';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '已從檔案保留 $count 個地點，可傳送到其他地圖應用程式',
+    );
+    return '$_temp0';
   }
 
   @override

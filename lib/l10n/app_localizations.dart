@@ -207,6 +207,18 @@ abstract class L {
   /// **'One place joins a guide you already have. Several become a new one — Apple Maps cannot merge guides.'**
   String get emptyNote;
 
+  /// The opening line of the first screen, on a platform that cannot make guides. It mirrors emptyBody, which ends in Apple Maps; this one ends in whichever map app is installed. Everything before that clause is the same, and should read the same way in translation.
+  ///
+  /// In en, this message translates to:
+  /// **'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.'**
+  String get emptyBodyAndroid;
+
+  /// The quieter second line of the first screen, on a platform that cannot make guides. It replaces emptyNote, which is about Apple Maps refusing to merge guides. Two things: a file is a way in as well as a screenshot, and nothing is sent until the user has seen the list. Name no map app here — the sheet that sends the places names them, and only the ones actually installed.
+  ///
+  /// In en, this message translates to:
+  /// **'It also reads a list you already have, and shows you every place before anything leaves.'**
+  String get emptyNoteAndroid;
+
   /// Button. Opens the photo picker.
   ///
   /// In en, this message translates to:
@@ -800,6 +812,42 @@ abstract class L {
   /// In en, this message translates to:
   /// **'Guide {done} of {total} opened. Tap to make the next.'**
   String splitProgress(int done, int total);
+
+  /// Title of the sheet that lists map apps a place list can be sent to. Android only.
+  ///
+  /// In en, this message translates to:
+  /// **'Send places to'**
+  String get sendPlacesTo;
+
+  /// How many places will go into the exported file.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 place ready to send} other{{count} places ready to send}}'**
+  String sendPlacesReady(int count);
+
+  /// Places dropped from the export because they have no coordinate. Other map apps do not look an address up, so a place without one would vanish from the file silently — said plainly instead.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 place has no location and cannot be sent} other{{count} places have no location and cannot be sent}}'**
+  String sendPlacesNoLocation(int count);
+
+  /// Opens the system share sheet instead of a named app, so apps Wren does not list by name still work.
+  ///
+  /// In en, this message translates to:
+  /// **'Any other app'**
+  String get sendPlacesOtherApp;
+
+  /// Shown when the receiving app did not accept the handover.
+  ///
+  /// In en, this message translates to:
+  /// **'That app would not take the file'**
+  String get sendPlacesFailed;
+
+  /// Shown after importing a file when the places carried their own coordinates and no map lookup was possible — they can be sent to another map app, but not put in an Apple Maps guide.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 place kept from the file, ready to send to another map app} other{{count} places kept from the file, ready to send to another map app}}'**
+  String fileImportPositioned(int count);
 
   /// Warning shown when a complimentary code that also grants administrative access has not been re-confirmed with the server for nearly a fortnight, and is days away from lapsing. Only ever seen by the handful of people holding such a code. 'Complimentary' means free of charge.
   ///

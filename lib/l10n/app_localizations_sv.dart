@@ -23,6 +23,14 @@ class LSv extends L {
       'En ensam plats hamnar i en guide du redan har. Flera blir en ny — Apple Kartor kan inte slå ihop guider.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Skärmavbilda det folk tipsar dig om — en reel, ett inlägg, ett meddelande, en sida ur en reseguide. Wren läser namnen och skickar dem till kartappen i din telefon.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Den läser också en lista du redan har, och visar dig varje plats innan något skickas.';
+
+  @override
   String get addScreenshots => 'Lägg till skärmavbilder';
 
   @override
@@ -475,6 +483,48 @@ class LSv extends L {
   @override
   String splitProgress(int done, int total) {
     return 'Guide $done av $total är öppnad. Tryck för att skapa nästa.';
+  }
+
+  @override
+  String get sendPlacesTo => 'Skicka platser till';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count platser är klara att skicka',
+      one: '1 plats är klar att skicka',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count platser saknar position och kan inte skickas',
+      one: '1 plats saknar position och kan inte skickas',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Någon annan app';
+
+  @override
+  String get sendPlacesFailed => 'Appen tog inte emot filen';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count platser behölls från filen, klara för en annan kartapp',
+      one: '1 plats behölls från filen, klar för en annan kartapp',
+    );
+    return '$_temp0';
   }
 
   @override

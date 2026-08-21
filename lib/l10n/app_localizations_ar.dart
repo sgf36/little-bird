@@ -23,6 +23,14 @@ class LAr extends L {
       'المكان الواحد يُضاف إلى دليل لديك بالفعل. الأماكن المتعددة تُنشئ دليلاً جديداً — خرائط Apple لا تستطيع دمج الأدلة.';
 
   @override
+  String get emptyBodyAndroid =>
+      'التقط لقطة شاشة لما يُنصح به أمامك — ريل أو منشور أو رسالة أو صفحة من دليل سفر. يقرأ Wren الأسماء ويرسلها إلى تطبيق الخرائط على هاتفك.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'كما يقرأ قائمة لديك بالفعل، ويعرض عليك كل مكان قبل أن يُرسل أي شيء.';
+
+  @override
   String get addScreenshots => 'إضافة لقطات شاشة';
 
   @override
@@ -513,6 +521,60 @@ class LAr extends L {
   @override
   String splitProgress(int done, int total) {
     return 'فُتح الدليل $done من $total. المس لإنشاء التالي.';
+  }
+
+  @override
+  String get sendPlacesTo => 'إرسال الأماكن إلى';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مكان جاهز للإرسال',
+      many: '$count مكاناً جاهزة للإرسال',
+      few: '$count أماكن جاهزة للإرسال',
+      two: 'مكانان جاهزان للإرسال',
+      one: 'مكان واحد جاهز للإرسال',
+      zero: 'لا مكان جاهز للإرسال',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مكان بلا موقع ولا يمكن إرساله',
+      many: '$count مكاناً بلا موقع ولا يمكن إرسالها',
+      few: '$count أماكن بلا موقع ولا يمكن إرسالها',
+      two: 'مكانان بلا موقع ولا يمكن إرسالهما',
+      one: 'مكان واحد بلا موقع ولا يمكن إرساله',
+      zero: 'لا مكان بلا موقع',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'أي تطبيق آخر';
+
+  @override
+  String get sendPlacesFailed => 'لم يقبل هذا التطبيق الملف';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'حُفظ $count مكان من الملف، جاهز للإرسال إلى تطبيق خرائط آخر',
+      many: 'حُفظ $count مكاناً من الملف، جاهزة للإرسال إلى تطبيق خرائط آخر',
+      few: 'حُفظت $count أماكن من الملف، جاهزة للإرسال إلى تطبيق خرائط آخر',
+      two: 'حُفظ مكانان من الملف، جاهزان للإرسال إلى تطبيق خرائط آخر',
+      one: 'حُفظ مكان واحد من الملف، جاهز للإرسال إلى تطبيق خرائط آخر',
+      zero: 'لم يُحفظ أي مكان من الملف',
+    );
+    return '$_temp0';
   }
 
   @override

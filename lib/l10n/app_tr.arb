@@ -103,5 +103,13 @@
   "splitBody": "Bir rehber bağlantısının taşıyabileceği mekân sayısını Apple sınırlıyor. Wren, sırası korunsun diye numaralandırılmış {guides} rehber oluşturacak ve {count} mekânı bunlara bölüştürecek.",
   "splitConfirm": "{guides} rehber oluştur",
   "splitProgress": "{total} rehberin {done} tanesi açıldı. Sonrakini oluşturmak için dokun.",
-  "compExpiring": "Wren ücretsiz erişiminizi doğrulayamadı. Erişimi korumak için önümüzdeki birkaç gün içinde internete bağlanın."
+  "sendPlacesTo": "Yerleri şuraya gönder",
+  "sendPlacesReady": "{count, plural, =1{1 yer gönderilmeye hazır} other{{count} yer gönderilmeye hazır}}",
+  "sendPlacesNoLocation": "{count, plural, =1{1 yerin konumu yok, gönderilemez} other{{count} yerin konumu yok, gönderilemez}}",
+  "sendPlacesOtherApp": "Başka bir uygulama",
+  "sendPlacesFailed": "O uygulama dosyayı kabul etmedi",
+  "fileImportPositioned": "{count, plural, =1{Dosyadan 1 yer korundu, başka bir harita uygulamasına gönderilmeye hazır} other{Dosyadan {count} yer korundu, başka bir harita uygulamasına gönderilmeye hazır}}",
+  "compExpiring": "Wren ücretsiz erişiminizi doğrulayamadı. Erişimi korumak için önümüzdeki birkaç gün içinde internete bağlanın.",
+  "emptyBodyAndroid": "Sana önerilen şeyin ekran görüntüsünü al — bir reel, bir gönderi, bir mesaj, bir gezi rehberinin sayfası. Wren adları okur ve telefonundaki harita uygulamasına gönderir.",
+  "emptyNoteAndroid": "Ayrıca elindeki bir listeyi de okur ve hiçbir şey gönderilmeden önce her yeri sana gösterir."
 }

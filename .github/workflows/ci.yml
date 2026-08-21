@@ -169,6 +169,151 @@ jobs:
   # minutes, churns build numbers and fills TestFlight with noise — one change
   # produced two builds before this gate existed.
   #
+  android:
+    name: Build Android
+    # Ubuntu, not macOS: the Android toolchain needs no Apple hardware.
+    runs-on: ubuntu-latest
+    needs: [secrets, dart]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      # The only check that knows whether the Kotlin share bridge compiles,
+      # and the only one that runs on every push.
+      #
+      # Gradle did fail on the machine this app is written on, with
+      # "Unable to establish loopback connection", which is not about loopback:
+      # an AF_UNIX socket binds under %LOCALAPPDATA%\Temp there and cannot be
+      # connected to, so Selector.open() throws and the daemon and its client
+      # never meet. Fixed on 2026-08-20 by pointing
+      # -Djdk.net.unixdomain.tmpdir at a directory outside that tree, so a
+      # local build is possible again -- but CI stays the authority, because it
+      # is the only Android build anyone is obliged to look at.
+      - name: Build (debug, unsigned)
+        run: flutter build apk --debug
+
+      # A green build says the Kotlin compiled, not that the export path is
+      # wired. These assert the things whose absence fails SILENTLY at runtime:
+      # no provider and every share dies with EACCES; the androidx provider
+      # rather than ours and a GPX is handed over as application/octet-stream;
+      # no <queries> and every named button vanishes on Android 11+; no paths
+      # file and the provider throws on first use. The Dart test
+      # test/map_targets_test.dart checks the other half — that every package
+      # Wren offers is actually declared here.
+      - name: Prove the share plumbing is declared
+        run: |
+          M=android/app/src/main/AndroidManifest.xml
+          P=android/app/src/main/res/xml/file_paths.xml
+          grep -q 'android:name="\.PlaceFileProvider"' "$M" || { echo "::error::the provider must be our subclass — androidx's FileProvider types a GPX as application/octet-stream, because Android's mime table has no gpx entry"; exit 1; }
+          grep -q 'android:grantUriPermissions="true"' "$M" || { echo "::error::without grantUriPermissions every FLAG_GRANT_READ_URI_PERMISSION is a no-op and the receiver gets a SecurityException"; exit 1; }
+          grep -q 'FILE_PROVIDER_PATHS' "$M" || { echo "::error::the provider has no paths meta-data"; exit 1; }
+          grep -q '<queries>' "$M" || { echo "::error::no <queries> — package visibility hides every map app on Android 11+"; exit 1; }
+          test -f "$P" || { echo "::error::missing res/xml/file_paths.xml"; exit 1; }
+          grep -q '<files-path' "$P" || { echo "::error::exports must live in filesDir, not the reclaimable cache — a receiver that defers the import can find the bytes gone"; exit 1; }
+          grep -qr 'androidx.browser.customtabs' android/app/src/main/kotlin || { echo "::error::no Custom Tabs import — the Google Maps route needs a real Chrome, because Google blocks sign-in in a WebView"; exit 1; }
+          echo "provider, paths, queries and Custom Tabs all present"
+
+      # Every android:name=".Foo" in the manifest is shorthand for
+      # <namespace>.Foo, and nothing in a debug build checks that the class is
+      # really there. Get it wrong and the APK builds, installs, and dies on
+      # launch with "Activity class does not exist" -- which is exactly what
+      # happened here: the namespace was renamed to com.spencerfields.littlebird
+      # while the Kotlin stayed in the old com.spencerfields.reel_places package,
+      # so the Android app could not start at all and no test said so.
+      - name: Prove every manifest class exists
+        run: |
+          M=android/app/src/main/AndroidManifest.xml
+          NS=$(grep -oP 'namespace\s*=\s*"\K[^"]+' android/app/build.gradle.kts)
+          [ -n "$NS" ] || { echo "::error::could not read the namespace from build.gradle.kts"; exit 1; }
+          DIR="android/app/src/main/kotlin/$(echo "$NS" | tr . /)"
+          echo "namespace $NS -> $DIR"
+          fail=0
+          for cls in $(grep -oP 'android:name="\.\K[A-Za-z0-9_]+' "$M" | sort -u); do
+            if [ -f "$DIR/$cls.kt" ] || [ -f "$DIR/$cls.java" ]; then
+              echo "  ok   $NS.$cls"
+            else
+              echo "::error::$M names .$cls, which resolves to $NS.$cls -- no such class in $DIR. The APK will build and then fail to launch."
+              fail=1
+            fi
+          done
+          # And the reverse: a class whose package line disagrees with the
+          # namespace compiles perfectly and is unreachable from the manifest.
+          shopt -s nullglob
+          found=0
+          for f in $DIR/*.kt; do
+            found=1
+            grep -q "^package $NS\$" "$f" || { echo "::error::$f does not declare 'package $NS'"; fail=1; }
+          done
+          [ "$found" = 1 ] || { echo "::error::no Kotlin at all in $DIR -- the sources are in some other package and nothing the manifest names can resolve"; fail=1; }
+          exit $fail
+
+      # What the app asks for is decided by its dependencies, not by its own
+      # manifest, and nothing in the source tree shows the result. Three
+      # permissions arrived that way: BILLING from the billing library, and
+      # INTERNET plus ACCESS_NETWORK_STATE from the Google datatransport it
+      # depends on.
+      #
+      # INTERNET is now genuinely needed -- the system geocoder turns a name
+      # read off a screenshot into a coordinate, and it answers over the
+      # network -- so it is declared deliberately in the app manifest rather
+      # than inherited. The other two are removed: Android sells nothing, and
+      # nothing here reads the network state.
+      #
+      # This reads what was BUILT, for both variants, because the source
+      # manifest cannot show what a dependency added.
+      - name: Prove the app asks only for what it uses
+        run: |
+          set -e
+          ( cd android && ./gradlew --no-daemon -q :app:processReleaseMainManifest )
+          R=build/app/intermediates/merged_manifest/release/processReleaseMainManifest/AndroidManifest.xml
+          [ -f "$R" ] || { echo "::error::no release manifest at $R — the checks below would pass by finding nothing"; exit 1; }
+          echo "release: $R"; grep -o 'uses-permission android:name="[^"]*"' "$R" || echo "  (none)"
+          fail=0
+          for perm in com.android.vending.BILLING android.permission.ACCESS_NETWORK_STATE; do
+            if grep -q "\"$perm\"" "$R"; then
+              echo "::error::the release manifest declares $perm, which nothing in Wren uses. It came from a dependency — restore the matching tools:node=\"remove\" line in android/app/src/main/AndroidManifest.xml. BILLING in particular makes Play advertise in-app purchases on a listing that cannot take a payment."
+              fail=1
+            fi
+          done
+          # And the one that must be there. Without it every lookup fails with
+          # a SecurityException at run time and nothing at build time.
+          grep -q '"android.permission.INTERNET"' "$R" || {
+            echo "::error::the release manifest has no INTERNET. The geocoder needs it; without it every place lookup fails on a device and no test here would notice."
+            fail=1
+          }
+          # A place name is looked up; the phone's own position never is.
+          for perm in ACCESS_FINE_LOCATION ACCESS_COARSE_LOCATION; do
+            if grep -q "$perm" "$R"; then
+              echo "::error::the release manifest declares $perm. Wren never asks where the phone is, only where a place named in a screenshot is, and a location permission on the listing says otherwise."
+              fail=1
+            fi
+          done
+          [ "$fail" = 0 ] && echo "asks for INTERNET and nothing else"
+          exit $fail
+
+      - name: Report APK size
+        run: du -sh build/app/outputs/flutter-apk/app-debug.apk
+
+      # The APK is kept because this job is the only place it can be built, and a
+      # compiled hand-off is not a working one -- proving that needs the real
+      # binary on a real Android system, driven through its own UI.
+      - name: Keep the APK for device testing
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+          retention-days: 7
+
   # Ships when you ask for it:
   #   gh workflow run ci.yml -f testflight=true
   # or on a version tag:

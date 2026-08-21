@@ -23,6 +23,14 @@ class LTa extends L {
       'ஒரே இடம் உங்களிடம் ஏற்கெனவே உள்ள வழிகாட்டியில் சேரும். பல இடங்கள் புதிய ஒன்றை உருவாக்கும் — Apple Maps வழிகாட்டிகளை ஒன்றிணைக்க முடியாது.';
 
   @override
+  String get emptyBodyAndroid =>
+      'யாராவது பரிந்துரைப்பதைத் திரைப்பிடிப்பு எடுத்துக் கொள்ளுங்கள் — ஒரு ரீல், ஒரு பதிவு, ஒரு செய்தி, பயண நூலின் ஒரு பக்கம். Wren பெயர்களைப் படித்து அவற்றை உங்கள் ஃபோனின் வரைபட ஆப்ஸுக்கு அனுப்பிவிடும்.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'உங்களிடம் ஏற்கெனவே உள்ள பட்டியலையும் இது படிக்கும், எதுவும் அனுப்பப்படும் முன் ஒவ்வொரு இடத்தையும் காட்டும்.';
+
+  @override
   String get addScreenshots => 'திரைப்பிடிப்புகளைச் சேர்க்கவும்';
 
   @override
@@ -477,6 +485,50 @@ class LTa extends L {
   @override
   String splitProgress(int done, int total) {
     return '$total-இல் $done வழிகாட்டி திறக்கப்பட்டது. அடுத்ததை உருவாக்க தட்டவும்.';
+  }
+
+  @override
+  String get sendPlacesTo => 'இடங்களை அனுப்பு';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count இடங்கள் அனுப்பத் தயார்',
+      one: '1 இடம் அனுப்பத் தயார்',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count இடங்களுக்கு இருப்பிடம் இல்லை, அனுப்ப முடியாது',
+      one: '1 இடத்திற்கு இருப்பிடம் இல்லை, அனுப்ப முடியாது',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'வேறு ஏதேனும் ஆப்';
+
+  @override
+  String get sendPlacesFailed => 'அந்த ஆப் கோப்பை ஏற்கவில்லை';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'கோப்பிலிருந்து $count இடங்கள் வைக்கப்பட்டன, வேறு வரைபட ஆப்புக்கு அனுப்பத் தயார்',
+      one:
+          'கோப்பிலிருந்து 1 இடம் வைக்கப்பட்டது, வேறு வரைபட ஆப்புக்கு அனுப்பத் தயார்',
+    );
+    return '$_temp0';
   }
 
   @override

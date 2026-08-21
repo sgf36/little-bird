@@ -23,6 +23,14 @@ class LMr extends L {
       'एकच ठिकाण तुमच्याकडे आधीपासून असलेल्या मार्गदर्शिकेत जोडलं जातं. अनेक ठिकाणांची नवी मार्गदर्शिका होते — Apple Maps मार्गदर्शिका एकत्र करू शकत नाही.';
 
   @override
+  String get emptyBodyAndroid =>
+      'कोणी सुचवलेल्या गोष्टीचा स्क्रीनशॉट घ्या — रील, पोस्ट, संदेश किंवा प्रवासी पुस्तकाचं पान. Wren नावं वाचतो आणि ती तुमच्या फोनवरील नकाशा ॲपला पाठवतो.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'तुमच्याकडे आधीच असलेली यादीही ते वाचते, आणि काहीही पाठवण्याआधी प्रत्येक ठिकाण दाखवते.';
+
+  @override
   String get addScreenshots => 'स्क्रीनशॉट जोडा';
 
   @override
@@ -472,6 +480,48 @@ class LMr extends L {
   @override
   String splitProgress(int done, int total) {
     return '$total पैकी $done मार्गदर्शिका उघडली. पुढची तयार करण्यासाठी टॅप करा.';
+  }
+
+  @override
+  String get sendPlacesTo => 'ठिकाणे पाठवा';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ठिकाणे पाठवायला तयार',
+      one: '1 ठिकाण पाठवायला तयार',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ठिकाणांना स्थान नाही, ती पाठवता येणार नाहीत',
+      one: '1 ठिकाणाला स्थान नाही, ते पाठवता येणार नाही',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'दुसरे कोणतेही ॲप';
+
+  @override
+  String get sendPlacesFailed => 'त्या ॲपने फाइल घेतली नाही';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'फाइलमधून $count ठिकाणे ठेवली, दुसऱ्या नकाशा ॲपला पाठवायला तयार',
+      one: 'फाइलमधून 1 ठिकाण ठेवले, दुसऱ्या नकाशा ॲपला पाठवायला तयार',
+    );
+    return '$_temp0';
   }
 
   @override

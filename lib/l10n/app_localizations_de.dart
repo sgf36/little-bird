@@ -23,6 +23,14 @@ class LDe extends L {
       'Ein einzelner Ort kommt in einen Guide, den du schon hast. Mehrere ergeben einen neuen — Apple Karten kann Guides nicht zusammenführen.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Mach einen Screenshot von dem, was dir empfohlen wird — ein Reel, ein Post, eine Nachricht, eine Seite aus einem Reiseführer. Wren liest die Namen und schickt sie an die Karten-App auf deinem Telefon.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Es liest auch eine Liste, die du schon hast, und zeigt dir jeden Ort, bevor irgendetwas das Gerät verlässt.';
+
+  @override
   String get addScreenshots => 'Screenshots hinzufügen';
 
   @override
@@ -475,6 +483,50 @@ class LDe extends L {
   @override
   String splitProgress(int done, int total) {
     return 'Guide $done von $total geöffnet. Tippen, um den nächsten zu erstellen.';
+  }
+
+  @override
+  String get sendPlacesTo => 'Orte senden an';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Orte sind bereit zum Senden',
+      one: '1 Ort ist bereit zum Senden',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count Orte haben keinen Standort und können nicht gesendet werden',
+      one: '1 Ort hat keinen Standort und kann nicht gesendet werden',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Andere App';
+
+  @override
+  String get sendPlacesFailed => 'Diese App hat die Datei nicht angenommen';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count Orte aus der Datei behalten, bereit für eine andere Karten-App',
+      one: '1 Ort aus der Datei behalten, bereit für eine andere Karten-App',
+    );
+    return '$_temp0';
   }
 
   @override

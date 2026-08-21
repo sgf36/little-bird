@@ -23,6 +23,14 @@ class LTh extends L {
       'ที่เดียวจะไปเพิ่มในไกด์ที่คุณมีอยู่แล้ว หลายที่จะกลายเป็นไกด์ใหม่ — Apple Maps รวมไกด์เข้าด้วยกันไม่ได้';
 
   @override
+  String get emptyBodyAndroid =>
+      'แคปหน้าจอสิ่งที่คนแนะนำคุณ — รีล โพสต์ ข้อความ หรือหน้าหนังสือนำเที่ยว Wren จะอ่านชื่อแล้วส่งไปยังแอปแผนที่ในโทรศัพท์ของคุณ';
+
+  @override
+  String get emptyNoteAndroid =>
+      'และยังอ่านรายการที่คุณมีอยู่แล้วได้ พร้อมแสดงทุกสถานที่ก่อนที่จะส่งอะไรออกไป';
+
+  @override
   String get addScreenshots => 'เพิ่มภาพหน้าจอ';
 
   @override
@@ -445,6 +453,45 @@ class LTh extends L {
   @override
   String splitProgress(int done, int total) {
     return 'เปิดไกด์ที่ $done จาก $total แล้ว แตะเพื่อสร้างอันต่อไป';
+  }
+
+  @override
+  String get sendPlacesTo => 'ส่งสถานที่ไปที่';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'สถานที่ $count แห่งพร้อมส่ง',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'สถานที่ $count แห่งไม่มีตำแหน่ง จึงส่งไม่ได้',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'แอปอื่น';
+
+  @override
+  String get sendPlacesFailed => 'แอปนั้นไม่รับไฟล์';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'เก็บสถานที่ $count แห่งจากไฟล์ พร้อมส่งไปยังแอปแผนที่อื่น',
+    );
+    return '$_temp0';
   }
 
   @override

@@ -23,6 +23,14 @@ class LOr extends L {
       'ଗୋଟିଏ ସ୍ଥାନ ଆପଣଙ୍କ ପାଖରେ ପୂର୍ବରୁ ଥିବା ଗାଇଡ୍‌ରେ ଯୋଡ଼ି ହୁଏ। ଏକାଧିକ ହେଲେ ନୂଆ ଗୋଟିଏ ତିଆରି ହୁଏ — Apple Maps ଗାଇଡ୍‌ଗୁଡ଼ିକୁ ମିଶାଇ ପାରେ ନାହିଁ।';
 
   @override
+  String get emptyBodyAndroid =>
+      'କେହି ଯାହା ସୁପାରିଶ କରନ୍ତି ତାହାର ସ୍କ୍ରିନଶଟ୍ ନିଅନ୍ତୁ — ଏକ ରିଲ୍, ଏକ ପୋଷ୍ଟ, ଏକ ବାର୍ତ୍ତା, କିମ୍ବା ଗାଇଡ୍‌ବୁକ୍‌ର ଗୋଟିଏ ପୃଷ୍ଠା। Wren ନାମଗୁଡ଼ିକ ପଢ଼ି ସେଗୁଡ଼ିକୁ ଆପଣଙ୍କ ଫୋନର ମାନଚିତ୍ର ଆପ୍‌କୁ ପଠାଇଦିଏ।';
+
+  @override
+  String get emptyNoteAndroid =>
+      'ଆପଣଙ୍କ ପାଖରେ ପୂର୍ବରୁ ଥିବା ତାଲିକାକୁ ମଧ୍ୟ ଏହା ପଢ଼େ, ଏବଂ କିଛି ପଠାଯିବା ପୂର୍ବରୁ ପ୍ରତ୍ୟେକ ସ୍ଥାନ ଦେଖାଏ।';
+
+  @override
   String get addScreenshots => 'ସ୍କ୍ରିନଶଟ୍ ଯୋଡ଼ନ୍ତୁ';
 
   @override
@@ -465,6 +473,48 @@ class LOr extends L {
   @override
   String splitProgress(int done, int total) {
     return '$totalରୁ $doneଟି ଗାଇଡ୍ ଖୋଲିଲା। ପରବର୍ତ୍ତୀଟି ତିଆରି କରିବାକୁ ଟ୍ୟାପ୍ କରନ୍ତୁ।';
+  }
+
+  @override
+  String get sendPlacesTo => 'ସ୍ଥାନ ପଠାନ୍ତୁ';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ସ୍ଥାନ ପଠାଇବାକୁ ପ୍ରସ୍ତୁତ',
+      one: '1 ସ୍ଥାନ ପଠାଇବାକୁ ପ୍ରସ୍ତୁତ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ସ୍ଥାନର ଅବସ୍ଥାନ ନାହିଁ, ପଠାଯିବ ନାହିଁ',
+      one: '1 ସ୍ଥାନର ଅବସ୍ଥାନ ନାହିଁ, ପଠାଯିବ ନାହିଁ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'ଅନ୍ୟ କୌଣସି ଆପ୍';
+
+  @override
+  String get sendPlacesFailed => 'ସେହି ଆପ୍ ଫାଇଲ୍ ନେଲା ନାହିଁ';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ଫାଇଲରୁ $count ସ୍ଥାନ ରଖାଗଲା, ଅନ୍ୟ ମ୍ୟାପ୍ ଆପକୁ ପଠାଇବାକୁ ପ୍ରସ୍ତୁତ',
+      one: 'ଫାଇଲରୁ 1 ସ୍ଥାନ ରଖାଗଲା, ଅନ୍ୟ ମ୍ୟାପ୍ ଆପକୁ ପଠାଇବାକୁ ପ୍ରସ୍ତୁତ',
+    );
+    return '$_temp0';
   }
 
   @override

@@ -23,6 +23,14 @@ class LEl extends L {
       'Ένα μεμονωμένο μέρος μπαίνει σε οδηγό που έχεις ήδη. Πολλά φτιάχνουν καινούριο — οι Χάρτες της Apple δεν συγχωνεύουν οδηγούς.';
 
   @override
+  String get emptyBodyAndroid =>
+      'Βγάλε στιγμιότυπο οθόνης απ\' ό,τι σου προτείνουν — ένα reel, μια ανάρτηση, ένα μήνυμα, μια σελίδα από ταξιδιωτικό οδηγό. Το Wren διαβάζει τα ονόματα και τα στέλνει στην εφαρμογή χαρτών του τηλεφώνου.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Διαβάζει επίσης μια λίστα που έχετε ήδη, και σας δείχνει κάθε μέρος πριν φύγει οτιδήποτε.';
+
+  @override
   String get addScreenshots => 'Προσθήκη στιγμιότυπων';
 
   @override
@@ -481,6 +489,50 @@ class LEl extends L {
   @override
   String splitProgress(int done, int total) {
     return 'Άνοιξε ο οδηγός $done από $total. Άγγιξε για να φτιάξεις τον επόμενο.';
+  }
+
+  @override
+  String get sendPlacesTo => 'Αποστολή τοποθεσιών σε';
+
+  @override
+  String sendPlacesReady(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count τοποθεσίες έτοιμες για αποστολή',
+      one: '1 τοποθεσία έτοιμη για αποστολή',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sendPlacesNoLocation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count τοποθεσίες δεν έχουν θέση και δεν μπορούν να σταλούν',
+      one: '1 τοποθεσία δεν έχει θέση και δεν μπορεί να σταλεί',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sendPlacesOtherApp => 'Οποιαδήποτε άλλη εφαρμογή';
+
+  @override
+  String get sendPlacesFailed => 'Αυτή η εφαρμογή δεν δέχτηκε το αρχείο';
+
+  @override
+  String fileImportPositioned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count τοποθεσίες κρατήθηκαν από το αρχείο, έτοιμες για άλλη εφαρμογή χαρτών',
+      one:
+          '1 τοποθεσία κρατήθηκε από το αρχείο, έτοιμη για άλλη εφαρμογή χαρτών',
+    );
+    return '$_temp0';
   }
 
   @override
