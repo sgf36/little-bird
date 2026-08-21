@@ -48,10 +48,17 @@ def check(resp):
     return data.get("data")
 
 def upload(path: pathlib.Path):
+    # The destination follows the file's own place under web/. It used to be
+    # DOCROOT for every file, with only the basename sent, which was harmless
+    # while the site was flat and silently destructive once it was not:
+    # deploying web/de/privacy.html overwrote the ENGLISH privacy page with the
+    # German one, reported success, and left the German page untouched.
+    rel = path.resolve().parent.relative_to(WEB.resolve())
+    target = DOCROOT if rel == pathlib.Path(".") else f"{DOCROOT}/{rel.as_posix()}"
     with path.open("rb") as fh:
         r = S.post(
             f"https://{HOST}:{PORT}/execute/Fileman/upload_files",
-            data={"dir": DOCROOT, "overwrite": 1},
+            data={"dir": target, "overwrite": 1},
             files={"file-1": (path.name, fh, "application/octet-stream")},
             timeout=120,
         )
@@ -62,15 +69,21 @@ def upload(path: pathlib.Path):
             sys.exit(f"{path.name} rejected: {entry.get('reason')}")
     return path.stat().st_size
 
+SUFFIXES = {".html", ".css", ".js", ".php", ".svg", ".png", ".ico", ".txt", ".xml"}
+
+# rglob, not iterdir: the translated pages live in web/<lang>/ and were
+# invisible to the default run, so a full deploy quietly published the English
+# changes and nothing else.
 targets = [pathlib.Path(a) for a in sys.argv[1:]] or \
-          sorted(p for p in WEB.iterdir() if p.is_file() and p.suffix in {".html", ".css", ".js", ".php", ".svg", ".png", ".ico", ".txt", ".xml"})
+          sorted(p for p in WEB.rglob("*") if p.is_file() and p.suffix in SUFFIXES)
 
 if not targets:
     sys.exit("nothing to upload")
 
 for p in targets:
     size = upload(p)
-    print(f"uploaded {p.name}  ({size:,} bytes)")
+    shown = p.resolve().relative_to(WEB.resolve()).as_posix()
+    print(f"uploaded {shown}  ({size:,} bytes)")
 
 print(f"\ndeployed to {DOCROOT}")
 print("verify at https://wren.spencerfields.com/ — a 200 from the API is")
