@@ -14,6 +14,7 @@ import 'src/place_search_sheet.dart';
 import 'src/region_hint.dart';
 import 'src/resolver.dart';
 import 'src/share_inbox.dart';
+import 'src/admin_sheet.dart';
 import 'src/comp_unlock.dart' as comp;
 import 'src/screenshots.dart';
 import 'src/splash.dart';
@@ -173,6 +174,15 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   int _queuedTotal = 0;
 
   Entitlement _entitlement = const Entitlement.free();
+
+  /// What this device's complimentary token grants, if it holds one.
+  ///
+  /// Only [comp.CompRole.admin] changes anything on screen, and only by
+  /// changing where the long press goes. Held as state rather than asked for
+  /// at the moment of the press so the press cannot pause on a disk read; the
+  /// value it is compared against is re-derived from the signature every time
+  /// it is set, never remembered as a flag.
+  comp.CompRole _role = comp.CompRole.none;
   String? _status;
   bool _busy = false;
   int _readCount = 0;
@@ -206,10 +216,12 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
         setState(() => _entitlement = const Entitlement.unlocked());
       }
     });
-    comp.wasUnlocked().then((unlocked) {
-      if (unlocked && mounted) {
-        setState(() => _entitlement = const Entitlement.unlocked());
-      }
+    comp.heldRole().then((role) {
+      if (role == comp.CompRole.none || !mounted) return;
+      setState(() {
+        _entitlement = const Entitlement.unlocked();
+        _role = role;
+      });
     });
 
     if (widget.initialOverlay != ScreenshotOverlay.none) {
@@ -234,8 +246,23 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   /// Reached by long-pressing the title. Nothing on screen advertises it, and
   /// a code has to be issued before it does anything — the entry point on its
   /// own is not a way in.
+  ///
+  /// One press, two destinations. A device that has redeemed an admin code
+  /// gets the code console; everyone else gets the box to type a code into.
+  /// Nothing distinguishes the two beforehand — no extra gesture, no second
+  /// tap, nothing greyed out — so the console is not a locked door that can be
+  /// seen, it is a door that is not there.
   Future<void> _compUnlock() async {
-    if (_entitlement.unlimited) return;
+    if (_role == comp.CompRole.admin) {
+      final token = await comp.heldToken();
+      if (token == null || !mounted) return;
+      await showAdminSheet(context, token);
+      return;
+    }
+    // Deliberately still offered to someone who has already paid, because an
+    // admin code is the one thing worth entering when the app is unlocked
+    // already, and refusing to open the box would make it unreachable for the
+    // only person who needs it.
     final l = L.of(context);
     final controller = TextEditingController();
     final entered = await showDialog<String>(
@@ -272,12 +299,16 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
     // it says so rather than appearing to hang.
     setState(() => _status = l.compChecking);
     final outcome = await comp.redeem(entered);
+    // Read back from the stored token rather than from the reply, so what the
+    // app believes about this device is decided by a signature either way.
+    final role = await comp.heldRole();
     if (!mounted) return;
 
     setState(() {
       switch (outcome) {
         case comp.RedeemOutcome.unlocked:
           _entitlement = const Entitlement.unlocked();
+          _role = role;
           _status = l.compEnabled;
         case comp.RedeemOutcome.refused:
           _status = l.compRefused;

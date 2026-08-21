@@ -27,6 +27,42 @@ They also expire 28 days after generation, are capped at 100 per version, and
 need the app to be on sale. This works before launch, does not expire, and is
 reachable from inside the app.
 
+## Two kinds of code
+
+A code carries a **role**.
+
+- `unlock` — the paid feature, and nothing else. Every code was this before
+  roles existed, and every code issued before the `role` column was added still
+  is.
+- `admin` — the same unlock, plus the right to issue and withdraw codes from
+  inside the app. Wren shows no sign of this to anyone else: the long press on
+  the app name opens the code box as it always has, and opens the console only
+  on a device that has redeemed an admin code.
+
+An admin code is a real transfer of authority — whoever holds one can give the
+paid feature away, and can issue further admin codes. Issue them by name and to
+people, not to roles.
+
+### Withdrawing an administrator actually works
+
+An unlock cannot be taken back. It is a signed token on somebody's phone,
+checked offline, and by design nothing here is consulted again.
+
+The console is the opposite: every `/admin/*` request re-reads the code's role
+from the `codes` table. So revoking an admin code takes the console away on the
+next request — while leaving the unlock it also granted, which is unreachable.
+
+### Migrating
+
+`schema.sql` uses `CREATE TABLE IF NOT EXISTS`, so re-running it against the
+live database does **not** add the column. Run the migration first, then deploy:
+
+    wrangler d1 execute wren-codes --remote --file=migrations/0001-code-role.sql
+    wrangler deploy
+
+Deploying without it makes every redemption fail with `no such column: role`,
+which from the app looks exactly like a code that was never issued.
+
 ## Shape
 
 - **D1**, not KV. Redeeming has to be atomic, and KV has no transactions.
@@ -59,6 +95,28 @@ The public key is in `lib/src/comp_unlock.dart` and is meant to be there.
 Replacing the key pair invalidates every token already issued, so everyone who
 has redeemed would silently lose their unlock — generate it once.
 
+## Who may call /admin/*
+
+Two callers, one header, so a phone and a curl command make the same request.
+
+- **The operator's `ADMIN_TOKEN`** — tried first, compared in constant time.
+  Unchanged, and still the only way to withdraw the code a phone is using.
+- **A device holding an admin code** — the very token it was issued when it
+  redeemed. The signature is verified against `WREN_PUBLIC_KEY`, and then the
+  code it names is looked up: it must still be an admin code, still be live,
+  and still have been redeemed by that device.
+
+The order matters. Dispatching on the dot in `payload.signature` instead would
+lock the operator out the day their token happened to contain a full stop.
+
+The `r` claim in the token is *not* what authorises anything. It tells the app
+whether to offer the console; the table decides what the server will do. That
+split is what makes an administrator revocable.
+
+`WREN_PUBLIC_KEY` is a var in `wrangler.toml`, not a secret — it is the same
+value compiled into the app, it can verify a signature but never make one, and
+a test asserts the two copies match.
+
 ## Secrets
 
     wrangler secret put WREN_SIGNING_KEY   # base64 pkcs8, from tools/keygen.mjs
@@ -82,6 +140,15 @@ The admin token is in Windows Credential Manager under service
       -H "Authorization: Bearer $env:T" -H "Content-Type: application/json" `
       -d '{"count":5,"note":"friends","maxUses":1}'
 
+    # one code that can issue further codes from inside the app
+    curl -X POST https://wren-codes.sgf36.workers.dev/admin/codes `
+      -H "Authorization: Bearer $env:T" -H "Content-Type: application/json" `
+      -d '{"count":1,"note":"me","maxUses":1,"role":"admin"}'
+
+`role` is omitted for an ordinary unlock. Anything the server does not
+recognise is an unlock too — defaulting the other way would make a typo an
+administrator.
+
     # who has used what
     curl https://wren-codes.sgf36.workers.dev/admin/codes -H "Authorization: Bearer $env:T"
 
@@ -100,6 +167,8 @@ previous `--dart-define` version could not.
 
 `POST /redeem` with `{"code": "...", "device": "..."}`.
 
-- `200 {"token": "..."}` — accepted
+- `200 {"token": "...", "role": "unlock"|"admin"}` — accepted. The role is
+  also inside the signed token, and only that copy counts: the app reads it
+  from the signature, and the server re-reads it from the table.
 - `403` — wrong, spent, revoked or expired; deliberately indistinguishable
 - `429` — too many failures from this address

@@ -18,6 +18,15 @@
 /// from then on. Two consequences worth having: the app never phones home at
 /// launch, and pointing it at a look-alike server gains nothing, because a
 /// forged approval cannot carry a valid signature.
+///
+/// A code carries a role, which is inside the signed payload. Most codes are
+/// [CompRole.unlock] and do exactly what is described above. A few are
+/// [CompRole.admin], which is the same unlock plus the right to issue and
+/// withdraw codes from inside the app — see `admin_codes.dart`. The role is
+/// read from the token rather than remembered as a flag, so writing one into
+/// app storage by hand is not a promotion; and the server re-reads it from its
+/// own table before doing anything administrative, so this claim decides what
+/// the app *shows*, never what the server *allows*.
 library;
 
 import 'dart:convert';
@@ -29,7 +38,10 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Overridable so a build can be pointed at a local Worker during development.
-const String _endpoint = String.fromEnvironment(
+/// Public because the code console in `admin_codes.dart` talks to the same
+/// Worker, and a development build must not point one half at localhost and
+/// leave the other half addressing production.
+const String compEndpoint = String.fromEnvironment(
   'WREN_CODES_URL',
   defaultValue: 'https://wren-codes.sgf36.workers.dev',
 );
@@ -41,6 +53,20 @@ const String _publicKeyBase64 = 'LN6bVyBTvZgcov3ElAo5JtlrUy02BYKZUgBxMVtq3Ys=';
 
 const _tokenKey = 'comp_token';
 const _channel = MethodChannel('littlebird/identity');
+
+/// What a redeemed code grants.
+enum CompRole {
+  /// No valid token held. Not a code that failed — no code at all.
+  none,
+
+  /// The paid feature, and nothing else. Every code was this before roles
+  /// existed, and a token minted before they did carries no role claim and is
+  /// read as one.
+  unlock,
+
+  /// The paid feature, plus the code console. Held by whoever runs Wren.
+  admin,
+}
 
 enum RedeemOutcome {
   /// Accepted. The entitlement is stored and holds from now on.
@@ -95,17 +121,18 @@ Future<String?> _deviceId() async {
 List<int> _fromBase64Url(String s) =>
     base64Url.decode(s.padRight((s.length + 3) & ~3, '='));
 
-/// Checks the signature and that the token was issued to *this* device.
+/// The claims of a token that verifies and was issued to *this* device, or
+/// null for anything else.
 ///
 /// The device id is inside the signed payload, so a token copied off someone
 /// else's phone fails here rather than granting a second unlock from one code.
-Future<bool> _tokenIsGood(
+Future<Map<String, dynamic>?> _goodClaims(
   String token,
   String device, [
   String? publicKey,
 ]) async {
   final parts = token.split('.');
-  if (parts.length != 2) return false;
+  if (parts.length != 2) return null;
   try {
     final payload = _fromBase64Url(parts[0]);
     final signature = _fromBase64Url(parts[1]);
@@ -117,13 +144,19 @@ Future<bool> _tokenIsGood(
       payload,
       signature: Signature(signature, publicKey: key),
     );
-    if (!valid) return false;
+    if (!valid) return null;
     final claims = jsonDecode(utf8.decode(payload)) as Map<String, dynamic>;
-    return claims['d'] == device;
+    return claims['d'] == device ? claims : null;
   } catch (_) {
-    return false;
+    return null;
   }
 }
+
+/// The role a verified payload names. Anything unrecognised, absent included,
+/// is an ordinary unlock — a token that predates roles must not read as an
+/// administrator, and neither must one whose claim has been mangled.
+CompRole _roleOf(Map<String, dynamic> claims) =>
+    claims['r'] == 'admin' ? CompRole.admin : CompRole.unlock;
 
 /// Sends a code, and on success stores the token it gets back.
 Future<RedeemOutcome> redeem(
@@ -141,7 +174,7 @@ Future<RedeemOutcome> redeem(
   final ({int status, String body}) reply;
   try {
     reply = await (send ?? _send)(
-      Uri.parse('$_endpoint/redeem'),
+      Uri.parse('$compEndpoint/redeem'),
       jsonEncode({'code': code, 'device': id}),
     );
   } catch (_) {
@@ -158,8 +191,10 @@ Future<RedeemOutcome> redeem(
     return RedeemOutcome.untrusted;
   }
 
-  // Verified before it is stored. A 200 is not proof of anything on its own.
-  if (!await _tokenIsGood(token, id, publicKey)) {
+  // Verified before it is stored. A 200 is not proof of anything on its own,
+  // and neither is the `role` the reply states beside the token — only what is
+  // inside the signature counts.
+  if (await _goodClaims(token, id, publicKey) == null) {
     return RedeemOutcome.untrusted;
   }
 
@@ -176,14 +211,38 @@ Future<RedeemOutcome> redeem(
 Future<bool> wasUnlocked({
   @visibleForTesting String? device,
   @visibleForTesting String? publicKey,
+}) async =>
+    await heldRole(device: device, publicKey: publicKey) != CompRole.none;
+
+/// What this device's stored token grants, checked the same way and at the
+/// same moment as the unlock itself.
+///
+/// Re-derived from the signature on every call rather than kept as a
+/// preference, for the same reason [wasUnlocked] is: a value written into app
+/// storage by hand has to be worth nothing. A token that no longer verifies —
+/// wrong device, wrong signing pair, edited — is dropped here rather than
+/// re-checked on every launch for ever.
+Future<CompRole> heldRole({
+  @visibleForTesting String? device,
+  @visibleForTesting String? publicKey,
 }) async {
   final prefs = await SharedPreferences.getInstance();
   final token = prefs.getString(_tokenKey);
-  if (token == null) return false;
+  if (token == null) return CompRole.none;
   final id = device ?? await _deviceId();
-  if (id == null) return false;
-  if (await _tokenIsGood(token, id, publicKey)) return true;
+  if (id == null) return CompRole.none;
+  final claims = await _goodClaims(token, id, publicKey);
+  if (claims != null) return _roleOf(claims);
   // Not ours, or not genuine. Drop it rather than keep asking.
   await prefs.remove(_tokenKey);
-  return false;
+  return CompRole.none;
 }
+
+/// The stored token itself, for presenting to the code console's endpoints.
+///
+/// Deliberately not verified here: every caller has already asked [heldRole]
+/// whether this device is an administrator, and the server verifies the
+/// signature again regardless. Returning it unchecked keeps one answer to
+/// "is this token good", in [heldRole], rather than two that can disagree.
+Future<String?> heldToken() async =>
+    (await SharedPreferences.getInstance()).getString(_tokenKey);

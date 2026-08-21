@@ -12,7 +12,19 @@ CREATE TABLE IF NOT EXISTS codes (
   max_uses    INTEGER NOT NULL DEFAULT 1,
   revoked     INTEGER NOT NULL DEFAULT 0,
   created_at  INTEGER NOT NULL,
-  expires_at  INTEGER                                -- NULL means never
+  expires_at  INTEGER,                               -- NULL means never
+  -- What the code grants. 'unlock' is the paid feature and nothing else;
+  -- 'admin' is that plus the ability to issue and withdraw codes from inside
+  -- the app. Defaulted, so every code that existed before this column did is
+  -- an ordinary unlock rather than silently becoming an administrator.
+  --
+  -- This column, not the `r` claim in the token, is what decides whether an
+  -- administrative request is allowed. The token says what the app should
+  -- show; the table says what the server will do. Keeping the decision here
+  -- is what makes revoking an administrator take effect immediately, on a
+  -- device that is already holding a valid signed token.
+  role        TEXT    NOT NULL DEFAULT 'unlock'
+      CHECK (role IN ('unlock', 'admin'))
 );
 
 -- One row per (code, device). The primary key is what makes redeeming

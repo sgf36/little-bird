@@ -27,9 +27,15 @@ void main() {
   setUp(() => SharedPreferences.setMockInitialValues({}));
 
   /// A token exactly as the Worker builds one.
-  Future<String> tokenFor(String device) async {
+  Future<String> tokenFor(String device, {String? role}) async {
     final payload = utf8.encode(
-      jsonEncode({'v': 1, 'd': device, 'c': 'TESTCODE', 't': 1786921210}),
+      jsonEncode({
+        'v': 1,
+        'd': device,
+        'c': 'TESTCODE',
+        'r': ?role,
+        't': 1786921210,
+      }),
     );
     final signature = await Ed25519().sign(payload, keyPair: keys);
     String url(List<int> b) => base64Url.encode(b).replaceAll('=', '');
@@ -171,6 +177,22 @@ void main() {
       expect(prefs.getString('comp_token'), isNull);
     });
 
+    test('a token with no role at all is still an unlock', () async {
+      // Every token issued before roles existed looks like this. They must go
+      // on working, and they must not read as administrators.
+      SharedPreferences.setMockInitialValues({
+        'comp_token': await tokenFor('device-A'),
+      });
+      expect(
+        await wasUnlocked(device: 'device-A', publicKey: publicKey),
+        isTrue,
+      );
+      expect(
+        await heldRole(device: 'device-A', publicKey: publicKey),
+        CompRole.unlock,
+      );
+    });
+
     test('holds across restarts without the network', () async {
       SharedPreferences.setMockInitialValues({
         'comp_token': await tokenFor('device-A'),
@@ -181,6 +203,95 @@ void main() {
           isTrue,
         );
       }
+    });
+  });
+
+  group('heldRole', () {
+    test('nothing stored grants nothing', () async {
+      expect(
+        await heldRole(device: 'device-A', publicKey: publicKey),
+        CompRole.none,
+      );
+    });
+
+    test('an admin code grants the console as well as the unlock', () async {
+      SharedPreferences.setMockInitialValues({
+        'comp_token': await tokenFor('device-A', role: 'admin'),
+      });
+      expect(
+        await heldRole(device: 'device-A', publicKey: publicKey),
+        CompRole.admin,
+      );
+      expect(
+        await wasUnlocked(device: 'device-A', publicKey: publicKey),
+        isTrue,
+      );
+    });
+
+    test('an ordinary code grants only the unlock', () async {
+      SharedPreferences.setMockInitialValues({
+        'comp_token': await tokenFor('device-A', role: 'unlock'),
+      });
+      expect(
+        await heldRole(device: 'device-A', publicKey: publicKey),
+        CompRole.unlock,
+      );
+    });
+
+    test('a role nobody recognises is not a promotion', () async {
+      // Total by construction: the console is offered for exactly one value
+      // and refused for every other, rather than refused for a list of known
+      // ones and offered for whatever is left.
+      for (final claimed in ['ADMIN', 'administrator', '', 'root']) {
+        SharedPreferences.setMockInitialValues({
+          'comp_token': await tokenFor('device-A', role: claimed),
+        });
+        expect(
+          await heldRole(device: 'device-A', publicKey: publicKey),
+          CompRole.unlock,
+          reason: '"$claimed" was read as an administrator',
+        );
+      }
+    });
+
+    test(
+      'an admin claim on a token signed by anyone else is worth nothing',
+      () async {
+        // The claim is inside the signature, so promoting yourself means forging
+        // one. This is the whole of why the role travels in the token rather
+        // than beside it.
+        SharedPreferences.setMockInitialValues({
+          'comp_token': await tokenFor('device-A', role: 'admin'),
+        });
+        expect(
+          await heldRole(device: 'device-A', publicKey: otherPublicKey),
+          CompRole.none,
+        );
+      },
+    );
+
+    test('a token for another device grants nothing and is dropped', () async {
+      SharedPreferences.setMockInitialValues({
+        'comp_token': await tokenFor('device-A', role: 'admin'),
+      });
+      expect(
+        await heldRole(device: 'device-B', publicKey: publicKey),
+        CompRole.none,
+      );
+      final prefs = await SharedPreferences.getInstance();
+      expect(prefs.getString('comp_token'), isNull);
+    });
+  });
+
+  group('heldToken', () {
+    test('is what the console will present, unchanged', () async {
+      final token = await tokenFor('device-A', role: 'admin');
+      SharedPreferences.setMockInitialValues({'comp_token': token});
+      expect(await heldToken(), token);
+    });
+
+    test('is null with nothing stored', () async {
+      expect(await heldToken(), isNull);
     });
   });
 }
