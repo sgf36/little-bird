@@ -13,5 +13,6 @@ class MainActivity : FlutterActivity() {
     flutterEngine.plugins.add(PickFilePlugin())
     flutterEngine.plugins.add(OcrPlugin(applicationContext))
     flutterEngine.plugins.add(PlacesPlugin(applicationContext))
+    flutterEngine.plugins.add(IdentityPlugin(applicationContext))
   }
 }

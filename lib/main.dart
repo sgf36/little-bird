@@ -357,17 +357,16 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   /// tap, nothing greyed out — so the console is not a locked door that can be
   /// seen, it is a door that is not there.
   ///
-  /// Neither exists where there are no guides, for the same reason as the rest
-  /// of the purchase: the code unlocks guides of any size, and unlocking a cap
-  /// that does not apply is nothing. It also could not work — the device
-  /// identifier a code is issued against comes from `littlebird/identity`,
-  /// which has no Android implementation, so [comp.redeem] answers
-  /// "unreachable" without reaching anything and [comp.renewIfDue] returns
-  /// before it reaches the network for the same reason. That is why this build
-  /// makes no network request at all, which is what the Data Safety
-  /// declaration rests on.
+  /// Open on every platform, including where there are no guides.
+  ///
+  /// It used to return immediately on Android, because `littlebird/identity`
+  /// had no implementation there and a code could not be redeemed against a
+  /// device that could not name itself. That is implemented now, so the box
+  /// opens and codes work — with one asymmetry worth knowing: Android has no
+  /// paid feature, so an ordinary unlock code is accepted and grants nothing
+  /// anybody can see. Admin codes are the reason this exists here, and the
+  /// console is what they open.
   Future<void> _compUnlock() async {
-    if (!_makesGuides) return;
     if (_role == comp.CompRole.admin) {
       final token = await comp.heldToken();
       if (token == null || !mounted) return;

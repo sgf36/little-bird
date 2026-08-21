@@ -92,10 +92,23 @@ Answered from what the app does, all of it checkable in the code.
 Two things changed on 2026-08-20, in opposite directions, and both are worth
 stating precisely because this is the answer Play holds you to.
 
-*Nothing is collected.* No account, no analytics, no advertising identifier.
-The complimentary-access code cannot be redeemed on Android — the device
-identifier it is issued against comes from a channel with no Android
-implementation — and that entry point is hidden here.
+*One thing is collected, and only if you enter a code.* No account, no
+analytics, no advertising identifier. But complimentary codes **do** work on
+Android as of 2026-08-21: `littlebird/identity` is implemented, so entering a
+code sends **the code and a random identifier for this installation** to Wren's
+own Cloudflare Worker, which is how a code can be used once and not again. A
+code that also grants administrative access is re-confirmed about once a day,
+which is what makes such a code withdrawable.
+
+Under Play's taxonomy that is *Device or other IDs*, **collected**, not shared
+with anyone else, required for the feature rather than optional, and not used
+for advertising or tracking. It is not collected at all for anybody who never
+enters a code — which is almost everybody, since codes go to named people.
+
+The identifier is random and derived from nothing: not `ANDROID_ID`, not the
+advertising id, nothing about the hardware or the account. It also does **not**
+survive reinstalling, unlike the iPhone version, which keeps it in the Keychain
+— see `IdentityPlugin.kt`.
 
 *One thing is shared.* Turning "Dishoom Shoreditch" into a coordinate means
 asking a map, and the platform geocoder answers over the network. So a **place
@@ -109,7 +122,8 @@ model inside the bundle. Say this plainly on the listing; it is the question
 anybody will actually have.
 
 The app declares exactly one permission, INTERNET, and CI proves that against
-the built manifest rather than the source. There is deliberately **no location
+the built manifest rather than the source. It is needed twice over now: the
+geocoder, and the code server. There is deliberately **no location
 permission**: Wren never asks where the phone is, only where a place named in a
 screenshot is.
 
