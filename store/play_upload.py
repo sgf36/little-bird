@@ -9,11 +9,25 @@ Four REST calls around an "edit": create, upload the bundle, assign it to a
 track, commit. Talking to the API directly rather than through fastlane keeps
 the one credential that can publish this app away from a third-party toolchain.
 
-**A first release does not reach a phone on the day it is built.** A track
-release on an app that has never been published goes to "Pending publication"
-until Google reviews it, and the tester opt-in link does not exist until that
-finishes. `--share` is the way round it: Internal app sharing has no track and
-no review, and returns a URL that installs this exact bundle.
+**A first release does not reach a phone on the day it is built, and there is
+no way round it.** A track release on an app that has never been published goes
+to "Pending publication" until Google reviews it, and the tester opt-in link
+does not exist until that finishes.
+
+`--share` is *not* the escape hatch it is in Easy-Post's copy of this tool.
+Measured on 2026-08-21 against this package, Internal app sharing refuses with
+
+    400 FAILED_PRECONDITION
+    UploadException: NOT_PUBLISHED [[]] (com.spencerfields.littlebird)
+
+so it wants a published release too. It is kept here because it works once the
+app has one, and because the next person will otherwise read Easy-Post's note
+and expect it to work today.
+
+What unblocks the first publication is the App content declarations — data
+safety, content rating, target audience, ads, the privacy policy URL — which
+have no API and must be completed in the Console. Until they are, nothing
+reaches a phone through Play by any route.
 
 Production is not offered. Releasing to the public should be a deliberate act
 in the Console, not a flag on the script that also does routine test uploads.
