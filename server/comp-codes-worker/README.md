@@ -165,6 +165,15 @@ administrator.
       -H "Authorization: Bearer $env:T" -H "Content-Type: application/json" `
       -d '{"code":"XXXX-XXXX-XXXX-XXXX"}'
 
+### If a probe gets 403 and you are sure the token is right
+
+Check `/health` first. It answers `{"ok":true}` to anyone, so a 403 there is
+not this Worker refusing you — it is Cloudflare's edge refusing the *client*,
+and the body says `error code: 1010` rather than `{"error":"forbidden"}`. A
+default `python-urllib`, `python-requests` or `curl` user agent is enough to
+trigger it. Send an ordinary `User-Agent` and it goes away. The two 403s are
+otherwise indistinguishable, and the wrong one reads as a revoked credential.
+
 **The App Review code is not single use.** Review may test across several
 resubmissions, and a reviewer who finds a spent code is a rejection. It is
 issued with a high `maxUses` and noted as such. Because it lives here rather
