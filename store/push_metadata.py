@@ -150,6 +150,15 @@ def push_iap(meta, product_id):
     if st in (200, 201):
         print(f"  {meta['locale']}: purchase set")
         return True
+    # An approved, on-sale purchase cannot be edited, and Apple saying so is not
+    # a failure of this run: the text it holds is the text that was approved.
+    # Counting it as one made the script report "0 of 49 succeeded" on every run
+    # after the purchase went live, while every listing had in fact been
+    # written — a summary that says the opposite of what happened.
+    if st == 409 and "ACTIVE state" in (errs(d) or ""):
+        print(f"  {meta['locale']}: purchase unchanged (live; Apple will not "
+              f"edit a live one)")
+        return True
     print(f"  {meta['locale']}: purchase FAILED {st} — {errs(d)}")
     return False
 
@@ -191,8 +200,19 @@ def push(meta):
                                        "id": editable["id"],
                                        "type": "appInfos"}}}}})
         if st not in (200, 201):
-            print(f"  name/subtitle {locale}: FAILED {st} — {errs(d)}")
-            ok = False
+            # The app name, subtitle and privacy policy URL are frozen while a
+            # version is in review or on sale — they belong to what Apple
+            # approved, not to the version being prepared. Refusing to change
+            # them is Apple working correctly, so it is reported and not
+            # counted: otherwise every run during a review says nothing
+            # succeeded, when every description was in fact written.
+            frozen = "can not be modified in the current state" in (errs(d) or "")
+            if frozen:
+                print(f"  name/subtitle {locale}: unchanged (frozen while a "
+                      f"version is in review or on sale)")
+            else:
+                print(f"  name/subtitle {locale}: FAILED {st} — {errs(d)}")
+                ok = False
 
     # --- description and the rest live on the version ---------------------
     st, vers = call("GET", f"apps/{APP}/appStoreVersions?limit=5")
