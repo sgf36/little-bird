@@ -57,8 +57,16 @@ next request — while leaving the unlock it also granted, which is unreachable.
 `schema.sql` uses `CREATE TABLE IF NOT EXISTS`, so re-running it against the
 live database does **not** add the column. Run the migration first, then deploy:
 
-    npx wrangler d1 execute wren-codes --remote --file=migrations/0001-code-role.sql
+    npx wrangler d1 execute wren-codes --remote       --command "ALTER TABLE codes ADD COLUMN role TEXT NOT NULL DEFAULT 'unlock';"
     npx wrangler deploy
+
+`--command`, not `--file`. `--file` uploads through D1's import endpoint,
+which refuses this account's Wrangler OAuth token with "Authentication error
+[code: 10000]" even though `wrangler whoami` shows d1 (write) and Super
+Administrator — the query endpoint accepts the very same token. It reads as a
+permissions problem, is not one, and logging in again does not help. The
+migration is one statement, so `--command` loses nothing; a longer one would
+need `CLOUDFLARE_API_TOKEN` set to a real API token instead.
 
 Deploying without it makes every redemption fail with `no such column: role`,
 which from the app looks exactly like a code that was never issued.

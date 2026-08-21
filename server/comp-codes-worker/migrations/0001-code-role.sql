@@ -6,9 +6,17 @@
 -- first makes every redemption and every listing fail with "no such column:
 -- role", which looks like a broken code rather than a missing migration.
 --
--- Run it before deploying, not after:
+-- Run it before deploying, not after — and as a --command, not as a --file:
 --
---   npx wrangler d1 execute wren-codes --remote --file=migrations/0001-code-role.sql
+--   npx wrangler d1 execute wren-codes --remote --     --command "ALTER TABLE codes ADD COLUMN role TEXT NOT NULL DEFAULT 'unlock';"
+--
+-- `--file` does not run the statements as queries. It uploads them through
+-- D1's *import* endpoint, and that endpoint refuses this account's Wrangler
+-- OAuth token with "Authentication error [code: 10000]" — while the query
+-- endpoint accepts the same token, and `wrangler whoami` reports d1 (write)
+-- and Super Administrator. So the failure looks like a permissions problem,
+-- is not one, and is not fixed by logging in again. Either use --command, as
+-- above, or supply a real API token in CLOUDFLARE_API_TOKEN.
 --
 -- SQLite has no `ADD COLUMN IF NOT EXISTS`, so running this twice reports
 -- "duplicate column name: role" and changes nothing. That error means the
