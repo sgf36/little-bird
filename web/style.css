@@ -220,3 +220,12 @@ footer {
   font-size: .88rem;
   display: flex; flex-wrap: wrap; gap: .4rem 1.25rem;
 }
+
+/* ── get the app ─────────────────────────────────────────────────────── */
+/* Apple's own artwork, one file per language, used unmodified. Sized by
+   HEIGHT and never by width: every badge is 40 units tall and the width
+   varies with the wording — French is 126.5, Japanese and Chinese 108.9 —
+   so a fixed width would stretch some languages and squash others. */
+.get-app { margin: 1.6rem 0 0; }
+.get-app a { display: inline-block; line-height: 0; }
+.get-app .badge { height: 44px; width: auto; display: block; }
