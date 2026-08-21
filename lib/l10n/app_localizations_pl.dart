@@ -499,4 +499,8 @@ class LPl extends L {
   String splitProgress(int done, int total) {
     return 'Przewodnik $done z $total otwarty. Dotknij, aby utworzyć następny.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren nie mógł potwierdzić Twojego bezpłatnego dostępu. Połącz się z internetem w ciągu najbliższych kilku dni, aby go zachować.';
 }

@@ -472,4 +472,8 @@ class LTe extends L {
   String splitProgress(int done, int total) {
     return '$totalలో $done గైడ్ తెరిచాం. తర్వాతది తయారుచేయడానికి నొక్కండి.';
   }
+
+  @override
+  String get compExpiring =>
+      'మీ ఉచిత యాక్సెస్‌ను Wren నిర్ధారించలేకపోయింది. దాన్ని కొనసాగించడానికి రాబోయే కొద్ది రోజుల్లో ఇంటర్నెట్‌కు కనెక్ట్ అవ్వండి.';
 }

@@ -463,4 +463,8 @@ class LBn extends L {
   String splitProgress(int done, int total) {
     return '$totalটির মধ্যে $doneটি গাইড খোলা হয়েছে। পরেরটি তৈরি করতে ট্যাপ করুন।';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren আপনার বিনামূল্যের অ্যাক্সেস নিশ্চিত করতে পারেনি। এটি ধরে রাখতে আগামী কয়েক দিনের মধ্যে ইন্টারনেটে সংযুক্ত হোন।';
 }

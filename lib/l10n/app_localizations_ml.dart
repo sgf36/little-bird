@@ -475,4 +475,8 @@ class LMl extends L {
   String splitProgress(int done, int total) {
     return '$totalൽ $done ഗൈഡ് തുറന്നു. അടുത്തത് ഉണ്ടാക്കാൻ ടാപ്പ് ചെയ്യുക.';
   }
+
+  @override
+  String get compExpiring =>
+      'നിങ്ങളുടെ സൗജന്യ ആക്‌സസ് സ്ഥിരീകരിക്കാൻ Wren-ന് കഴിഞ്ഞില്ല. അത് നിലനിർത്താൻ അടുത്ത ഏതാനും ദിവസങ്ങൾക്കുള്ളിൽ ഇന്റർനെറ്റിലേക്ക് കണക്റ്റ് ചെയ്യുക.';
 }

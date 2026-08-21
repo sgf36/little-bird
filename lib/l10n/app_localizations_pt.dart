@@ -472,6 +472,10 @@ class LPt extends L {
   String splitProgress(int done, int total) {
     return 'Guia $done de $total aberto. Toque para criar o próximo.';
   }
+
+  @override
+  String get compExpiring =>
+      'O Wren não conseguiu confirmar o seu acesso gratuito. Ligue-se à internet nos próximos dias para o manter.';
 }
 
 /// The translations for Portuguese, as used in Portugal (`pt_PT`).
@@ -944,4 +948,8 @@ class LPtPt extends LPt {
   String splitProgress(int done, int total) {
     return 'Guia $done de $total aberto. Toque para criar o seguinte.';
   }
+
+  @override
+  String get compExpiring =>
+      'O Wren não conseguiu confirmar o seu acesso gratuito. Ligue-se à internet nos próximos dias para o manter.';
 }

@@ -473,6 +473,10 @@ class LEs extends L {
   String splitProgress(int done, int total) {
     return 'Guía $done de $total abierta. Toca para crear la siguiente.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren no ha podido confirmar tu acceso gratuito. Conéctate a internet en los próximos días para conservarlo.';
 }
 
 /// The translations for Spanish Castilian, as used in Mexico (`es_MX`).
@@ -944,4 +948,8 @@ class LEsMx extends LEs {
   String splitProgress(int done, int total) {
     return 'Guía $done de $total abierta. Toca para crear la siguiente.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren no pudo confirmar tu acceso gratuito. Conéctate a internet en los próximos días para conservarlo.';
 }

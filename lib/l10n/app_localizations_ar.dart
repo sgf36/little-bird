@@ -514,4 +514,8 @@ class LAr extends L {
   String splitProgress(int done, int total) {
     return 'فُتح الدليل $done من $total. المس لإنشاء التالي.';
   }
+
+  @override
+  String get compExpiring =>
+      'تعذّر على Wren تأكيد وصولك المجاني. اتصل بالإنترنت خلال الأيام القليلة القادمة للحفاظ عليه.';
 }

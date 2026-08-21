@@ -489,4 +489,8 @@ class LHe extends L {
   String splitProgress(int done, int total) {
     return 'מדריך $done מתוך $total נפתח. יש להקיש כדי ליצור את הבא.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren לא הצליח לאמת את הגישה ללא תשלום שלך. התחבר לאינטרנט בימים הקרובים כדי לשמור עליה.';
 }

@@ -455,4 +455,8 @@ class LId extends L {
   String splitProgress(int done, int total) {
     return 'Panduan $done dari $total sudah dibuka. Ketuk untuk membuat yang berikutnya.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren tidak dapat mengonfirmasi akses gratis Anda. Sambungkan ke internet dalam beberapa hari ke depan untuk mempertahankannya.';
 }

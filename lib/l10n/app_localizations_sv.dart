@@ -476,4 +476,8 @@ class LSv extends L {
   String splitProgress(int done, int total) {
     return 'Guide $done av $total är öppnad. Tryck för att skapa nästa.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren kunde inte bekräfta din kostnadsfria åtkomst. Anslut till internet under de närmaste dagarna för att behålla den.';
 }

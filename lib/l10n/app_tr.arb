@@ -102,5 +102,6 @@
   "splitTitle": "Bu, birden fazla rehber oluşturacak",
   "splitBody": "Bir rehber bağlantısının taşıyabileceği mekân sayısını Apple sınırlıyor. Wren, sırası korunsun diye numaralandırılmış {guides} rehber oluşturacak ve {count} mekânı bunlara bölüştürecek.",
   "splitConfirm": "{guides} rehber oluştur",
-  "splitProgress": "{total} rehberin {done} tanesi açıldı. Sonrakini oluşturmak için dokun."
+  "splitProgress": "{total} rehberin {done} tanesi açıldı. Sonrakini oluşturmak için dokun.",
+  "compExpiring": "Wren ücretsiz erişiminizi doğrulayamadı. Erişimi korumak için önümüzdeki birkaç gün içinde internete bağlanın."
 }

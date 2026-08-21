@@ -102,5 +102,6 @@
   "splitTitle": "Việc này sẽ tạo nhiều hướng dẫn",
   "splitBody": "Apple giới hạn số địa điểm mà một liên kết hướng dẫn có thể chứa. Wren sẽ tạo {guides} hướng dẫn, được đánh số để giữ đúng thứ tự, cùng chứa {count} địa điểm.",
   "splitConfirm": "Tạo {guides} hướng dẫn",
-  "splitProgress": "Đã mở hướng dẫn {done} trong {total}. Chạm để tạo cái tiếp theo."
+  "splitProgress": "Đã mở hướng dẫn {done} trong {total}. Chạm để tạo cái tiếp theo.",
+  "compExpiring": "Wren không thể xác nhận quyền truy cập miễn phí của bạn. Hãy kết nối internet trong vài ngày tới để giữ quyền này."
 }

@@ -501,4 +501,8 @@ class LSl extends L {
   String splitProgress(int done, int total) {
     return 'Vodnik $done od $total odprt. Tapni za naslednjega.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren ni mogel potrditi vašega brezplačnega dostopa. V naslednjih nekaj dneh se povežite z internetom, da ga obdržite.';
 }

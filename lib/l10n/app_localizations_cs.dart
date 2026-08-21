@@ -498,4 +498,8 @@ class LCs extends L {
   String splitProgress(int done, int total) {
     return 'Průvodce $done z $total otevřen. Klepnutím vytvoříš dalšího.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren nemohl ověřit váš bezplatný přístup. Během několika příštích dnů se připojte k internetu, abyste si jej zachovali.';
 }

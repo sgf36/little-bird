@@ -102,5 +102,6 @@
   "splitTitle": "Dit levert meer dan één gids op",
   "splitBody": "Apple beperkt hoeveel plekken één gidslink kan bevatten. Wren maakt {guides} gidsen, genummerd zodat de volgorde blijft, met samen {count} plekken.",
   "splitConfirm": "Maak {guides} gidsen",
-  "splitProgress": "Gids {done} van {total} geopend. Tik om de volgende te maken."
+  "splitProgress": "Gids {done} van {total} geopend. Tik om de volgende te maken.",
+  "compExpiring": "Wren kon je gratis toegang niet bevestigen. Maak de komende dagen verbinding met internet om die te behouden."
 }

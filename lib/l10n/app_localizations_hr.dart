@@ -484,4 +484,8 @@ class LHr extends L {
   String splitProgress(int done, int total) {
     return 'Vodič $done od $total otvoren. Dodirni za sljedeći.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren nije mogao potvrditi vaš besplatni pristup. Povežite se s internetom u sljedećih nekoliko dana kako biste ga zadržali.';
 }

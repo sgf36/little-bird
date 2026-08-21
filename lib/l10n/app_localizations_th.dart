@@ -446,4 +446,8 @@ class LTh extends L {
   String splitProgress(int done, int total) {
     return 'เปิดไกด์ที่ $done จาก $total แล้ว แตะเพื่อสร้างอันต่อไป';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren ไม่สามารถยืนยันสิทธิ์การใช้งานฟรีของคุณได้ โปรดเชื่อมต่ออินเทอร์เน็ตภายในไม่กี่วันข้างหน้าเพื่อรักษาสิทธิ์ไว้';
 }

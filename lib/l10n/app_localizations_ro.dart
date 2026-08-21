@@ -487,4 +487,8 @@ class LRo extends L {
   String splitProgress(int done, int total) {
     return 'Ghidul $done din $total a fost deschis. Atinge pentru a-l crea pe următorul.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren nu a putut confirma accesul tău gratuit. Conectează-te la internet în următoarele zile pentru a-l păstra.';
 }

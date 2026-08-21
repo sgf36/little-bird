@@ -102,5 +102,6 @@
   "splitTitle": "Verrà creata più di una guida",
   "splitBody": "Apple limita quanti luoghi può contenere il link di una guida. Wren creerà {guides} guide, numerate per restare in ordine, con {count} luoghi in tutto.",
   "splitConfirm": "Crea {guides} guide",
-  "splitProgress": "Guida {done} di {total} aperta. Tocca per creare la prossima."
+  "splitProgress": "Guida {done} di {total} aperta. Tocca per creare la prossima.",
+  "compExpiring": "Wren non è riuscito a confermare il tuo accesso gratuito. Collegati a internet nei prossimi giorni per conservarlo."
 }

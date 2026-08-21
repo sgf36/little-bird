@@ -476,4 +476,8 @@ class LKn extends L {
   String splitProgress(int done, int total) {
     return '$totalರಲ್ಲಿ $done ಮಾರ್ಗದರ್ಶಿ ತೆರೆಯಲಾಯಿತು. ಮುಂದಿನದನ್ನು ರಚಿಸಲು ಟ್ಯಾಪ್ ಮಾಡಿ.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren ನಿಮ್ಮ ಉಚಿತ ಪ್ರವೇಶವನ್ನು ಖಚಿತಪಡಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ಅದನ್ನು ಉಳಿಸಿಕೊಳ್ಳಲು ಮುಂದಿನ ಕೆಲವು ದಿನಗಳಲ್ಲಿ ಇಂಟರ್ನೆಟ್‌ಗೆ ಸಂಪರ್ಕಿಸಿ.';
 }

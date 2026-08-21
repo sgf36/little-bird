@@ -476,4 +476,8 @@ class LDe extends L {
   String splitProgress(int done, int total) {
     return 'Guide $done von $total geöffnet. Tippen, um den nächsten zu erstellen.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren konnte deinen kostenlosen Zugang nicht bestätigen. Stelle in den nächsten Tagen eine Internetverbindung her, um ihn zu behalten.';
 }

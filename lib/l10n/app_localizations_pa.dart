@@ -478,4 +478,8 @@ class LPa extends L {
   String splitProgress(int done, int total) {
     return '$total ਵਿੱਚੋਂ $done ਗਾਈਡ ਖੁੱਲ੍ਹ ਗਈ। ਅਗਲੀ ਬਣਾਉਣ ਲਈ ਟੈਪ ਕਰੋ।';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren ਤੁਹਾਡੀ ਮੁਫ਼ਤ ਪਹੁੰਚ ਦੀ ਪੁਸ਼ਟੀ ਨਹੀਂ ਕਰ ਸਕਿਆ। ਇਸਨੂੰ ਬਰਕਰਾਰ ਰੱਖਣ ਲਈ ਅਗਲੇ ਕੁਝ ਦਿਨਾਂ ਵਿੱਚ ਇੰਟਰਨੈੱਟ ਨਾਲ ਕਨੈਕਟ ਕਰੋ।';
 }

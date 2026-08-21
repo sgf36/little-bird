@@ -474,4 +474,8 @@ class LIt extends L {
   String splitProgress(int done, int total) {
     return 'Guida $done di $total aperta. Tocca per creare la prossima.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren non è riuscito a confermare il tuo accesso gratuito. Collegati a internet nei prossimi giorni per conservarlo.';
 }

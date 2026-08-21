@@ -102,5 +102,6 @@
   "splitTitle": "Powstanie więcej niż jeden przewodnik",
   "splitBody": "Apple ogranicza, ile miejsc może pomieścić jedno łącze do przewodnika. Wren utworzy więc kilka przewodników ({guides}), ponumerowanych tak, by kolejność się zachowała, i rozłoży w nich wszystkie miejsca ({count}).",
   "splitConfirm": "Utwórz przewodniki ({guides})",
-  "splitProgress": "Przewodnik {done} z {total} otwarty. Dotknij, aby utworzyć następny."
+  "splitProgress": "Przewodnik {done} z {total} otwarty. Dotknij, aby utworzyć następny.",
+  "compExpiring": "Wren nie mógł potwierdzić Twojego bezpłatnego dostępu. Połącz się z internetem w ciągu najbliższych kilku dni, aby go zachować."
 }

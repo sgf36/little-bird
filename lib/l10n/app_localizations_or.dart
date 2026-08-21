@@ -466,4 +466,8 @@ class LOr extends L {
   String splitProgress(int done, int total) {
     return '$totalରୁ $doneଟି ଗାଇଡ୍ ଖୋଲିଲା। ପରବର୍ତ୍ତୀଟି ତିଆରି କରିବାକୁ ଟ୍ୟାପ୍ କରନ୍ତୁ।';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren ଆପଣଙ୍କ ମାଗଣା ଆକ୍ସେସ୍ ନିଶ୍ଚିତ କରିପାରିଲା ନାହିଁ। ଏହା ରଖିବା ପାଇଁ ଆଗାମୀ କିଛି ଦିନ ମଧ୍ୟରେ ଇଣ୍ଟରନେଟ୍ ସହ ସଂଯୋଗ କରନ୍ତୁ।';
 }

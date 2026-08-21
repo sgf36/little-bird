@@ -102,5 +102,6 @@
   "splitTitle": "Det blir mer än en guide",
   "splitBody": "Apple begränsar hur många platser en guidelänk kan bära. Wren skapar {guides} guider, numrerade så att ordningen håller, med {count} platser tillsammans.",
   "splitConfirm": "Skapa {guides} guider",
-  "splitProgress": "Guide {done} av {total} är öppnad. Tryck för att skapa nästa."
+  "splitProgress": "Guide {done} av {total} är öppnad. Tryck för att skapa nästa.",
+  "compExpiring": "Wren kunde inte bekräfta din kostnadsfria åtkomst. Anslut till internet under de närmaste dagarna för att behålla den."
 }

@@ -45,12 +45,31 @@ people, not to roles.
 
 ### Withdrawing an administrator actually works
 
-An unlock cannot be taken back. It is a signed token on somebody's phone,
-checked offline, and by design nothing here is consulted again.
+The console is checked against the table on every `/admin/*` request, so
+revoking an admin code takes it away on the next one.
 
-The console is the opposite: every `/admin/*` request re-reads the code's role
-from the `codes` table. So revoking an admin code takes the console away on the
-next request — while leaving the unlock it also granted, which is unreachable.
+The unlock it also granted used to survive that, because an unlock is a signed
+token checked offline and nothing here was ever consulted again. Admin tokens
+now expire: the app treats one as good for a fortnight (`compGrace`) and asks
+`POST /renew` for a fresh one daily. Withdrawing a code therefore ends the
+unlock too — within the day for a phone that can reach the network, within the
+fortnight for one that cannot.
+
+**Renewal, not an "is this still live?" call.** A yes-or-no answer can be
+forged into a no by anything on the network and starved into a yes by
+unplugging. A token can be neither forged nor invented, so a look-alike server
+can only stay silent — and silence already ends the same way as refusal once
+the fortnight runs out. Dodging a withdrawal by staying offline and being
+withdrawn are the same outcome, with no code having to tell them apart.
+
+`/renew` reads the redemption row and never writes one, so renewing does not
+spend a use. If it did, the App Review code's five hundred would be gone in a
+week. There is a test asserting no statement in that path writes.
+
+**Ordinary unlock codes do not renew and are not revocable.** They reach the
+network once, when the code is entered, which is what the privacy page promises
+and why most copies of Wren have no server at all. Only the app decides this;
+`/renew` will happily reissue either kind.
 
 ### Migrating
 
@@ -189,3 +208,14 @@ previous `--dart-define` version could not.
   from the signature, and the server re-reads it from the table.
 - `403` — wrong, spent, revoked or expired; deliberately indistinguishable
 - `429` — too many failures from this address
+
+## Renewing, from the app
+
+`POST /renew` with `{"token": "..."}`.
+
+- `200 {"token": "...", "role": "..."}` — still live, here is a fresh one
+- `403` — withdrawn, expired, or never redeemed by this device; one reason for
+  all three, as with redeeming
+
+Only administrators call it, once a day. A `403` drops the token immediately; a
+network failure changes nothing and lets it age.

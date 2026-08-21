@@ -482,4 +482,8 @@ class LEl extends L {
   String splitProgress(int done, int total) {
     return 'Άνοιξε ο οδηγός $done από $total. Άγγιξε για να φτιάξεις τον επόμενο.';
   }
+
+  @override
+  String get compExpiring =>
+      'Το Wren δεν μπόρεσε να επιβεβαιώσει τη δωρεάν πρόσβασή σας. Συνδεθείτε στο διαδίκτυο τις επόμενες ημέρες για να τη διατηρήσετε.';
 }

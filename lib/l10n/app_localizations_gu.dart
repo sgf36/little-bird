@@ -466,4 +466,8 @@ class LGu extends L {
   String splitProgress(int done, int total) {
     return '$total માંથી $done માર્ગદર્શિકા ખૂલી. પછીની બનાવવા ટૅપ કરો.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren તમારો મફત ઍક્સેસ ચકાસી શક્યું નથી. તેને જાળવી રાખવા આગામી થોડા દિવસોમાં ઇન્ટરનેટ સાથે કનેક્ટ થાઓ.';
 }

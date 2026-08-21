@@ -472,4 +472,8 @@ class LNo extends L {
   String splitProgress(int done, int total) {
     return 'Guide $done av $total er åpnet. Trykk for å lage den neste.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren kunne ikke bekrefte den gratis tilgangen din. Koble til internett i løpet av de neste dagene for å beholde den.';
 }

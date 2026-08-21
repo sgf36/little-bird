@@ -476,4 +476,8 @@ class LCa extends L {
   String splitProgress(int done, int total) {
     return 'Guia $done de $total oberta. Toca per crear la següent.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren no ha pogut confirmar el vostre accés gratuït. Connecteu-vos a internet els propers dies per conservar-lo.';
 }

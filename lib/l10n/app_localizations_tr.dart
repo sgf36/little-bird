@@ -464,4 +464,8 @@ class LTr extends L {
   String splitProgress(int done, int total) {
     return '$total rehberin $done tanesi açıldı. Sonrakini oluşturmak için dokun.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren ücretsiz erişiminizi doğrulayamadı. Erişimi korumak için önümüzdeki birkaç gün içinde internete bağlanın.';
 }

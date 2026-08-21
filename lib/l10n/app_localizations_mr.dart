@@ -473,4 +473,8 @@ class LMr extends L {
   String splitProgress(int done, int total) {
     return '$total पैकी $done मार्गदर्शिका उघडली. पुढची तयार करण्यासाठी टॅप करा.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren तुमचा मोफत प्रवेश सत्यापित करू शकले नाही. तो टिकवण्यासाठी पुढील काही दिवसांत इंटरनेटशी कनेक्ट करा.';
 }

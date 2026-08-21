@@ -498,4 +498,8 @@ class LSk extends L {
   String splitProgress(int done, int total) {
     return 'Sprievodca $done z $total otvorený. Klepnutím vytvoríš ďalšieho.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren nedokázal overiť váš bezplatný prístup. V najbližších dňoch sa pripojte na internet, aby ste si ho zachovali.';
 }

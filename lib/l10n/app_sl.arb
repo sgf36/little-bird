@@ -102,5 +102,6 @@
   "splitTitle": "Nastalo bo več vodnikov",
   "splitBody": "Apple omejuje, koliko krajev zmore ena povezava do vodnika. Wren bo zato ustvaril več vodnikov ({guides}), številčenih tako, da ostane vrstni red, in med njih razporedil vse kraje ({count}).",
   "splitConfirm": "Ustvari vodnike ({guides})",
-  "splitProgress": "Vodnik {done} od {total} odprt. Tapni za naslednjega."
+  "splitProgress": "Vodnik {done} od {total} odprt. Tapni za naslednjega.",
+  "compExpiring": "Wren ni mogel potrditi vašega brezplačnega dostopa. V naslednjih nekaj dneh se povežite z internetom, da ga obdržite."
 }

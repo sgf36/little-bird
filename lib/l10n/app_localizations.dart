@@ -633,7 +633,7 @@ abstract class L {
   /// **'{count, plural, =1{Read 1 place from that guide} other{Read {count} places from that guide}}'**
   String importedGuideSummary(int count);
 
-  /// Some entries in the guide carried no Apple place identifier, so they cannot go into the new guide. Said plainly rather than hidden, because the user would otherwise wonder where a place went.
+  /// Places in the pasted guide that cannot go into the new one: either they carried no Apple place identifier, or Apple answered that it no longer has a record of that identifier. Said plainly rather than hidden, because Apple drops such places on arrival and the user would otherwise wonder where a place went. The wording is deliberately general so it covers both causes without a second string in 47 languages.
   ///
   /// In en, this message translates to:
   /// **'{count, plural, =1{1 place in it cannot be carried over} other{{count} places in it cannot be carried over}}'**
@@ -800,6 +800,12 @@ abstract class L {
   /// In en, this message translates to:
   /// **'Guide {done} of {total} opened. Tap to make the next.'**
   String splitProgress(int done, int total);
+
+  /// Warning shown when a complimentary code that also grants administrative access has not been re-confirmed with the server for nearly a fortnight, and is days away from lapsing. Only ever seen by the handful of people holding such a code. 'Complimentary' means free of charge.
+  ///
+  /// In en, this message translates to:
+  /// **'Wren could not confirm your complimentary access. Connect to the internet in the next few days to keep it.'**
+  String get compExpiring;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

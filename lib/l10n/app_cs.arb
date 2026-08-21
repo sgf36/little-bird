@@ -102,5 +102,6 @@
   "splitTitle": "Vznikne víc než jeden průvodce",
   "splitBody": "Apple omezuje, kolik míst se vejde do jednoho odkazu na průvodce. Wren proto vytvoří několik průvodců ({guides}), číslovaných tak, aby zůstalo jejich pořadí, a rozdělí do nich všechna místa ({count}).",
   "splitConfirm": "Vytvořit průvodce ({guides})",
-  "splitProgress": "Průvodce {done} z {total} otevřen. Klepnutím vytvoříš dalšího."
+  "splitProgress": "Průvodce {done} z {total} otevřen. Klepnutím vytvoříš dalšího.",
+  "compExpiring": "Wren nemohl ověřit váš bezplatný přístup. Během několika příštích dnů se připojte k internetu, abyste si jej zachovali."
 }

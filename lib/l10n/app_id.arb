@@ -102,5 +102,6 @@
   "splitTitle": "Ini akan membuat lebih dari satu panduan",
   "splitBody": "Apple membatasi berapa banyak tempat yang bisa dibawa satu tautan panduan. Wren akan membuat {guides} panduan, diberi nomor agar urutannya tetap, yang bersama-sama memuat {count} tempat.",
   "splitConfirm": "Buat {guides} panduan",
-  "splitProgress": "Panduan {done} dari {total} sudah dibuka. Ketuk untuk membuat yang berikutnya."
+  "splitProgress": "Panduan {done} dari {total} sudah dibuka. Ketuk untuk membuat yang berikutnya.",
+  "compExpiring": "Wren tidak dapat mengonfirmasi akses gratis Anda. Sambungkan ke internet dalam beberapa hari ke depan untuk mempertahankannya."
 }

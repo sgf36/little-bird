@@ -232,6 +232,57 @@ async function redeem(request, env) {
   return json({ token: await issueToken(env, device, code, role), role });
 }
 
+/**
+ * Re-issues a token that is still good, so that withdrawing a code reaches a
+ * device which has already redeemed it.
+ *
+ * An unlock is otherwise permanent: it is a signature checked on the phone,
+ * and nothing here is consulted again. That is right for a code given to a
+ * friend and wrong for one that also opens the code console, so the app treats
+ * an admin token as good for a fortnight and asks for a fresh one daily.
+ *
+ * Renewal rather than an "is this still live?" answer, deliberately. A boolean
+ * can be forged in the deny direction by anything sitting on the network, and
+ * suppressed in the allow direction by unplugging. A token cannot be forged at
+ * all, so a fake server can neither grant nor withdraw: the worst it manages is
+ * silence, and silence is already the same as refusal once the fortnight runs
+ * out. Blocking the network to dodge a withdrawal and simply being withdrawn
+ * therefore end in the same place, with no code deciding which is which.
+ *
+ * Reads the redemption row and never writes one, so renewing does not spend a
+ * use — which would otherwise burn through the App Review code in under a week.
+ */
+export async function renew(request, env) {
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: 'bad_request' }, 400);
+  }
+
+  const claims = await verifiedClaims(env, body.token);
+  // One reason for every refusal, as with redeeming. A device being told
+  // whether its code was withdrawn or merely expired is of no use to it and
+  // tells anyone holding a stolen token which it is.
+  if (!claims) return json({ error: 'not_live' }, 403);
+
+  const code = normalise(claims.c);
+  const device = String(claims.d ?? '');
+  if (!code || !device) return json({ error: 'not_live' }, 403);
+
+  const row = await env.DB.prepare(`
+    SELECT c.role AS role FROM redemptions r
+      JOIN codes c ON c.code = r.code
+     WHERE r.code = ?1 AND r.device = ?2
+       AND c.revoked = 0
+       AND (c.expires_at IS NULL OR c.expires_at > ?3)`)
+    .bind(code, device, Math.floor(Date.now() / 1000)).first();
+  if (!row) return json({ error: 'not_live' }, 403);
+
+  const role = row.role === 'admin' ? 'admin' : 'unlock';
+  return json({ token: await issueToken(env, device, code, role), role });
+}
+
 function isOperator(given, env) {
   const want = env.ADMIN_TOKEN ?? '';
   if (!want || given.length !== want.length) return false;
@@ -374,6 +425,9 @@ export default {
     }
     if (url.pathname === '/redeem' && request.method === 'POST') {
       return redeem(request, env);
+    }
+    if (url.pathname === '/renew' && request.method === 'POST') {
+      return renew(request, env);
     }
 
     if (url.pathname.startsWith('/admin/')) {

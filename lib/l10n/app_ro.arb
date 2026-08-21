@@ -102,5 +102,6 @@
   "splitTitle": "Se vor crea mai multe ghiduri",
   "splitBody": "Apple limitează câte locuri poate duce un link de ghid. Wren va crea mai multe ghiduri ({guides}), numerotate ca să rămână în ordine, și va împărți între ele toate locurile ({count}).",
   "splitConfirm": "Creează ghidurile ({guides})",
-  "splitProgress": "Ghidul {done} din {total} a fost deschis. Atinge pentru a-l crea pe următorul."
+  "splitProgress": "Ghidul {done} din {total} a fost deschis. Atinge pentru a-l crea pe următorul.",
+  "compExpiring": "Wren nu a putut confirma accesul tău gratuit. Conectează-te la internet în următoarele zile pentru a-l păstra."
 }

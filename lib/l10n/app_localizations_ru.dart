@@ -505,4 +505,8 @@ class LRu extends L {
   String splitProgress(int done, int total) {
     return 'Путеводитель $done из $total открыт. Нажми, чтобы сделать следующий.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren не смог подтвердить ваш бесплатный доступ. Подключитесь к интернету в ближайшие дни, чтобы сохранить его.';
 }

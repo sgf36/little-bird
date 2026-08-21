@@ -439,4 +439,8 @@ class LJa extends L {
   String splitProgress(int done, int total) {
     return '$total個中$done個目のガイドを開きました。タップして次を作成します。';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren は無償アクセスを確認できませんでした。維持するには、数日以内にインターネットに接続してください。';
 }

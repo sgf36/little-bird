@@ -478,4 +478,8 @@ class LUr extends L {
   String splitProgress(int done, int total) {
     return '$total میں سے $done گائیڈ کھل گئی۔ اگلی بنانے کے لیے ٹیپ کریں۔';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren آپ کی مفت رسائی کی تصدیق نہیں کر سکا۔ اسے برقرار رکھنے کے لیے اگلے چند دنوں میں انٹرنیٹ سے منسلک ہوں۔';
 }

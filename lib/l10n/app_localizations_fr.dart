@@ -475,6 +475,10 @@ class LFr extends L {
   String splitProgress(int done, int total) {
     return 'Guide $done sur $total ouvert. Touchez pour créer le suivant.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren n\'a pas pu confirmer votre accès gratuit. Connectez-vous à internet dans les prochains jours pour le conserver.';
 }
 
 /// The translations for French, as used in Canada (`fr_CA`).
@@ -948,4 +952,8 @@ class LFrCa extends LFr {
   String splitProgress(int done, int total) {
     return 'Guide $done sur $total ouvert. Touchez pour créer le prochain.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren n\'a pas pu confirmer votre accès gratuit. Connectez-vous à internet au cours des prochains jours pour le conserver.';
 }

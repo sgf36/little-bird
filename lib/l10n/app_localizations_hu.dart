@@ -469,4 +469,8 @@ class LHu extends L {
   String splitProgress(int done, int total) {
     return '$done / $total útikalauz megnyitva. Koppints a következő elkészítéséhez.';
   }
+
+  @override
+  String get compExpiring =>
+      'A Wren nem tudta megerősíteni az ingyenes hozzáférésedet. Csatlakozz az internethez a következő napokban, hogy megtartsd.';
 }

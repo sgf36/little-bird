@@ -466,4 +466,8 @@ class LFi extends L {
   String splitProgress(int done, int total) {
     return 'Opas $done / $total avattu. Napauta, niin luodaan seuraava.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren ei voinut vahvistaa maksutonta käyttöoikeuttasi. Yhdistä internetiin lähipäivinä säilyttääksesi sen.';
 }

@@ -183,6 +183,11 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   /// value it is compared against is re-derived from the signature every time
   /// it is set, never remembered as a flag.
   comp.CompRole _role = comp.CompRole.none;
+
+  /// Set when an administrator's access is within days of lapsing because the
+  /// server has not been reachable. Null the rest of the time, which is nearly
+  /// always — a successful renewal clears it by making the token young again.
+  bool _compExpiring = false;
   String? _status;
   bool _busy = false;
   int _readCount = 0;
@@ -216,13 +221,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
         setState(() => _entitlement = const Entitlement.unlocked());
       }
     });
-    comp.heldRole().then((role) {
-      if (role == comp.CompRole.none || !mounted) return;
-      setState(() {
-        _entitlement = const Entitlement.unlocked();
-        _role = role;
-      });
-    });
+    _refreshCompAccess();
 
     if (widget.initialOverlay != ScreenshotOverlay.none) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -309,6 +308,9 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
         case comp.RedeemOutcome.unlocked:
           _entitlement = const Entitlement.unlocked();
           _role = role;
+          // A code just redeemed is a token just issued, so whatever the
+          // warning was about is over.
+          _compExpiring = false;
           _status = l.compEnabled;
         case comp.RedeemOutcome.refused:
           _status = l.compRefused;
@@ -598,7 +600,35 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   /// starting it, so resuming is when a link usually arrives.
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) _takeSharedGuide();
+    if (state != AppLifecycleState.resumed) return;
+    _takeSharedGuide();
+    // A phone that is never restarted would otherwise go a fortnight without
+    // asking, and lapse while in daily use.
+    _refreshCompAccess();
+  }
+
+  /// Re-establishes what this device's complimentary token grants.
+  ///
+  /// Renewing is a no-op for everyone except an administrator whose token is a
+  /// day old, so this is a disk read for almost every user and for every user
+  /// who has never entered a code at all.
+  ///
+  /// The entitlement is recomposed rather than merely raised, because a token
+  /// that has just been withdrawn must not take a *purchase* down with it —
+  /// somebody can hold both, and only one of them is revocable.
+  Future<void> _refreshCompAccess() async {
+    final role = await comp.renewIfDue();
+    final left = await comp.compTimeLeft();
+    if (!mounted) return;
+    final bought = await StoreUnlockStore.cachedUnlocked();
+    if (!mounted) return;
+    setState(() {
+      _role = role;
+      _compExpiring = left != null;
+      _entitlement = bought || role != comp.CompRole.none
+          ? const Entitlement.unlocked()
+          : const Entitlement.free();
+    });
   }
 
   /// Collects a link the share extension left, and imports it.
@@ -1383,6 +1413,16 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
                 _lookingUp
                     ? l.lookingUpProgress(_readCount, _totalCount)
                     : l.readingProgress(_readCount, _totalCount),
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ),
+          // Above the status line, because it is about losing something
+          // rather than about what just happened.
+          if (_compExpiring)
+            _Banner(
+              accent: Wren.clay,
+              child: Text(
+                l.compExpiring,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ),

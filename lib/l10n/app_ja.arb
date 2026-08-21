@@ -102,5 +102,6 @@
   "splitTitle": "ガイドは複数に分かれます",
   "splitBody": "1つのガイドのリンクに入れられる場所の数はAppleによって制限されています。Wrenが{guides}個のガイドを作り、順番が保たれるよう番号を付けて、合わせて{count}件の場所を収めます。",
   "splitConfirm": "{guides}個のガイドを作成",
-  "splitProgress": "{total}個中{done}個目のガイドを開きました。タップして次を作成します。"
+  "splitProgress": "{total}個中{done}個目のガイドを開きました。タップして次を作成します。",
+  "compExpiring": "Wren は無償アクセスを確認できませんでした。維持するには、数日以内にインターネットに接続してください。"
 }

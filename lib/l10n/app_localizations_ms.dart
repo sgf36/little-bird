@@ -455,4 +455,8 @@ class LMs extends L {
   String splitProgress(int done, int total) {
     return 'Panduan $done daripada $total telah dibuka. Ketik untuk mencipta yang seterusnya.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren tidak dapat mengesahkan akses percuma anda. Sambung ke internet dalam beberapa hari akan datang untuk mengekalkannya.';
 }

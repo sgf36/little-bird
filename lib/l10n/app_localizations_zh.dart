@@ -432,6 +432,9 @@ class LZh extends L {
   String splitProgress(int done, int total) {
     return '第 $done 个指南已打开，共 $total 个。轻点以创建下一个。';
   }
+
+  @override
+  String get compExpiring => 'Wren 无法确认你的免费使用权限。请在未来几天内连接互联网以继续保留。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -862,4 +865,7 @@ class LZhHant extends LZh {
   String splitProgress(int done, int total) {
     return '第 $done 個指南已打開，共 $total 個。點一下來製作下一個。';
   }
+
+  @override
+  String get compExpiring => 'Wren 無法確認你的免費使用權限。請在未來幾天內連接網際網路以繼續保留。';
 }

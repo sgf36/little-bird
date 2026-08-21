@@ -503,4 +503,8 @@ class LUk extends L {
   String splitProgress(int done, int total) {
     return 'Путівник $done з $total відкрито. Торкнись, щоб зробити наступний.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren не зміг підтвердити ваш безкоштовний доступ. Підключіться до інтернету впродовж найближчих днів, щоб зберегти його.';
 }

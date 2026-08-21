@@ -587,5 +587,9 @@
         "type": "int"
       }
     }
+  },
+  "compExpiring": "Wren could not confirm your complimentary access. Connect to the internet in the next few days to keep it.",
+  "@compExpiring": {
+    "description": "Warning shown when a complimentary code that also grants administrative access has not been re-confirmed with the server for nearly a fortnight, and is days away from lapsing. Only ever seen by the handful of people holding such a code. 'Complimentary' means free of charge."
   }
 }

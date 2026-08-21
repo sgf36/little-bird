@@ -478,4 +478,8 @@ class LTa extends L {
   String splitProgress(int done, int total) {
     return '$total-இல் $done வழிகாட்டி திறக்கப்பட்டது. அடுத்ததை உருவாக்க தட்டவும்.';
   }
+
+  @override
+  String get compExpiring =>
+      'உங்கள் இலவச அணுகலை Wren உறுதிப்படுத்த முடியவில்லை. அதைத் தக்கவைக்க அடுத்த சில நாட்களில் இணையத்துடன் இணைக்கவும்.';
 }

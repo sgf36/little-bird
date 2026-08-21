@@ -102,5 +102,6 @@
   "splitTitle": "Ez több útikalauzt készít",
   "splitBody": "Az Apple korlátozza, hogy egy útikalauz-hivatkozás hány helyet vihet. A Wren {guides} útikalauzt készít, megszámozva, hogy sorrendben maradjanak, és ezek együtt {count} helyet tartalmaznak.",
   "splitConfirm": "{guides} útikalauz készítése",
-  "splitProgress": "{done} / {total} útikalauz megnyitva. Koppints a következő elkészítéséhez."
+  "splitProgress": "{done} / {total} útikalauz megnyitva. Koppints a következő elkészítéséhez.",
+  "compExpiring": "A Wren nem tudta megerősíteni az ingyenes hozzáférésedet. Csatlakozz az internethez a következő napokban, hogy megtartsd."
 }

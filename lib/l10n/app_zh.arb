@@ -102,5 +102,6 @@
   "splitTitle": "这会生成多个指南",
   "splitBody": "一个指南链接能带多少个地点是 Apple 定的上限。Wren 会做 {guides} 个指南，按顺序编号，一起收下这 {count} 个地点。",
   "splitConfirm": "创建 {guides} 个指南",
-  "splitProgress": "第 {done} 个指南已打开，共 {total} 个。轻点以创建下一个。"
+  "splitProgress": "第 {done} 个指南已打开，共 {total} 个。轻点以创建下一个。",
+  "compExpiring": "Wren 无法确认你的免费使用权限。请在未来几天内连接互联网以继续保留。"
 }

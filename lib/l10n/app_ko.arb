@@ -102,5 +102,6 @@
   "splitTitle": "가이드가 여러 개로 나뉩니다",
   "splitBody": "한 가이드 링크에 담을 수 있는 장소 수는 Apple이 제한합니다. Wren이 가이드 {guides}개를 만들어 순서가 유지되도록 번호를 붙이고, 그 안에 장소 {count}곳을 나눠 담습니다.",
   "splitConfirm": "가이드 {guides}개 만들기",
-  "splitProgress": "가이드 {total}개 중 {done}개를 열었습니다. 탭하여 다음을 만드세요."
+  "splitProgress": "가이드 {total}개 중 {done}개를 열었습니다. 탭하여 다음을 만드세요.",
+  "compExpiring": "Wren에서 무료 이용 권한을 확인하지 못했습니다. 유지하려면 며칠 안에 인터넷에 연결하세요."
 }

@@ -479,4 +479,8 @@ class LEn extends L {
   String splitProgress(int done, int total) {
     return 'Guide $done of $total opened. Tap to make the next.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren could not confirm your complimentary access. Connect to the internet in the next few days to keep it.';
 }

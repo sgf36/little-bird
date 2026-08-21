@@ -470,4 +470,8 @@ class LHi extends L {
   String splitProgress(int done, int total) {
     return '$total में से $done गाइड खुल गई। अगली बनाने के लिए टैप करें।';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren आपकी निःशुल्क पहुँच की पुष्टि नहीं कर सका। इसे बनाए रखने के लिए अगले कुछ दिनों में इंटरनेट से कनेक्ट करें।';
 }

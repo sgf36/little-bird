@@ -102,5 +102,6 @@
   "splitTitle": "Bit će više od jednog vodiča",
   "splitBody": "Apple ograničava koliko mjesta može stati u jedan link vodiča. Wren će zato napraviti nekoliko vodiča ({guides}), numeriranih tako da ostane redoslijed, i rasporediti u njih sva mjesta ({count}).",
   "splitConfirm": "Napravi vodiče ({guides})",
-  "splitProgress": "Vodič {done} od {total} otvoren. Dodirni za sljedeći."
+  "splitProgress": "Vodič {done} od {total} otvoren. Dodirni za sljedeći.",
+  "compExpiring": "Wren nije mogao potvrditi vaš besplatni pristup. Povežite se s internetom u sljedećih nekoliko dana kako biste ga zadržali."
 }

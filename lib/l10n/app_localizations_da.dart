@@ -472,4 +472,8 @@ class LDa extends L {
   String splitProgress(int done, int total) {
     return 'Guide $done af $total er åbnet. Tryk for at lave den næste.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren kunne ikke bekræfte din gratis adgang. Opret forbindelse til internettet i løbet af de næste par dage for at beholde den.';
 }

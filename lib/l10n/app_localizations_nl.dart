@@ -474,4 +474,8 @@ class LNl extends L {
   String splitProgress(int done, int total) {
     return 'Gids $done van $total geopend. Tik om de volgende te maken.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren kon je gratis toegang niet bevestigen. Maak de komende dagen verbinding met internet om die te behouden.';
 }

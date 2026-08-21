@@ -450,4 +450,8 @@ class LVi extends L {
   String splitProgress(int done, int total) {
     return 'Đã mở hướng dẫn $done trong $total. Chạm để tạo cái tiếp theo.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren không thể xác nhận quyền truy cập miễn phí của bạn. Hãy kết nối internet trong vài ngày tới để giữ quyền này.';
 }

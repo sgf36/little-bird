@@ -440,4 +440,8 @@ class LKo extends L {
   String splitProgress(int done, int total) {
     return '가이드 $total개 중 $done개를 열었습니다. 탭하여 다음을 만드세요.';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren에서 무료 이용 권한을 확인하지 못했습니다. 유지하려면 며칠 안에 인터넷에 연결하세요.';
 }
