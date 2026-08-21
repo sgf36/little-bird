@@ -24,11 +24,11 @@ class LTa extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'யாராவது பரிந்துரைப்பதைத் திரைப்பிடிப்பு எடுத்துக் கொள்ளுங்கள் — ஒரு ரீல், ஒரு பதிவு, ஒரு செய்தி, பயண நூலின் ஒரு பக்கம். Wren பெயர்களைப் படித்து அவற்றை உங்கள் ஃபோனின் வரைபட ஆப்ஸுக்கு அனுப்பிவிடும்.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'உங்களிடம் ஏற்கெனவே உள்ள பட்டியலையும் இது படிக்கும், எதுவும் அனுப்பப்படும் முன் ஒவ்வொரு இடத்தையும் காட்டும்.';
 
   @override
   String get addScreenshots => 'திரைப்பிடிப்புகளைச் சேர்க்கவும்';

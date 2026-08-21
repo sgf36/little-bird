@@ -24,11 +24,11 @@ class LTh extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'แคปหน้าจอสิ่งที่คนแนะนำคุณ — รีล โพสต์ ข้อความ หรือหน้าหนังสือนำเที่ยว Wren จะอ่านชื่อแล้วส่งไปยังแอปแผนที่ในโทรศัพท์ของคุณ';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'และยังอ่านรายการที่คุณมีอยู่แล้วได้ พร้อมแสดงทุกสถานที่ก่อนที่จะส่งอะไรออกไป';
 
   @override
   String get addScreenshots => 'เพิ่มภาพหน้าจอ';

@@ -24,11 +24,11 @@ class LCa extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Fes una captura del que et recomanin: un reel, una publicació, un missatge, la pàgina d\'una guia de viatge. El Wren llegeix els noms i els envia a l\'app de mapes del teu telèfon.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'També llegeix una llista que ja tinguis, i et mostra cada lloc abans que surti res.';
 
   @override
   String get addScreenshots => 'Afegir captures';

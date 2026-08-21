@@ -24,11 +24,11 @@ class LRo extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Fă o captură de ecran cu ce ți se recomandă — un reel, o postare, un mesaj, o pagină dintr-un ghid de călătorie. Wren citește numele și le trimite către aplicația de hărți de pe telefonul tău.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'Citește și o listă pe care o ai deja, și îți arată fiecare loc înainte să plece ceva.';
 
   @override
   String get addScreenshots => 'Adaugă capturi de ecran';

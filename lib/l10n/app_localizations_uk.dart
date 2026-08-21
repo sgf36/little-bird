@@ -24,11 +24,11 @@ class LUk extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Зроби знімок екрана того, що тобі радять — рілс, допис, повідомлення, сторінку путівника. Wren прочитає назви й надішле їх у застосунок карт на вашому телефоні.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'Він також прочитає список, який у вас уже є, і покаже кожне місце, перш ніж щось буде надіслано.';
 
   @override
   String get addScreenshots => 'Додати знімки екрана';

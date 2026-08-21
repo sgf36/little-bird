@@ -24,11 +24,11 @@ class LPt extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Tire uma captura de tela do que te recomendarem — um reel, um post, uma mensagem, a página de um guia de viagem. O Wren lê os nomes e envia tudo para o app de mapas do seu telefone.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'Ele também lê uma lista que você já tem, e mostra cada lugar antes de qualquer coisa sair.';
 
   @override
   String get addScreenshots => 'Adicionar capturas';
@@ -546,6 +546,14 @@ class LPtPt extends LPt {
   @override
   String get emptyNote =>
       'Um lugar sozinho junta-se a um guia que já tem. Vários criam um novo — o Mapas não consegue juntar guias.';
+
+  @override
+  String get emptyBodyAndroid =>
+      'Faça uma captura de ecrã do que lhe recomendarem — um reel, uma publicação, uma mensagem, a página de um guia de viagem. O Wren lê os nomes e envia-os para a aplicação de mapas do seu telemóvel.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Também lê uma lista que já tem, e mostra-lhe cada lugar antes de sair seja o que for.';
 
   @override
   String get addScreenshots => 'Adicionar capturas de ecrã';

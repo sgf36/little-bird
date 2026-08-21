@@ -109,5 +109,7 @@
   "sendPlacesOtherApp": "Bármely más alkalmazás",
   "sendPlacesFailed": "Az alkalmazás nem fogadta el a fájlt",
   "fileImportPositioned": "{count, plural, =1{1 hely megmaradt a fájlból, készen egy másik térképalkalmazáshoz} other{{count} hely megmaradt a fájlból, készen egy másik térképalkalmazáshoz}}",
-  "compExpiring": "A Wren nem tudta megerősíteni az ingyenes hozzáférésedet. Csatlakozz az internethez a következő napokban, hogy megtartsd."
+  "compExpiring": "A Wren nem tudta megerősíteni az ingyenes hozzáférésedet. Csatlakozz az internethez a következő napokban, hogy megtartsd.",
+  "emptyBodyAndroid": "Készíts képernyőképet arról, amit ajánlanak neked — egy reelről, egy posztról, egy üzenetről, egy útikönyv oldaláról. A Wren kiolvassa a neveket, és elküldi őket a telefonod térkép-alkalmazásába.",
+  "emptyNoteAndroid": "Beolvassa a már meglévő listádat is, és minden helyet megmutat, mielőtt bármi elhagyná a készüléket."
 }

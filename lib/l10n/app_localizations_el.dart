@@ -24,11 +24,11 @@ class LEl extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Βγάλε στιγμιότυπο οθόνης απ\' ό,τι σου προτείνουν — ένα reel, μια ανάρτηση, ένα μήνυμα, μια σελίδα από ταξιδιωτικό οδηγό. Το Wren διαβάζει τα ονόματα και τα στέλνει στην εφαρμογή χαρτών του τηλεφώνου.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'Διαβάζει επίσης μια λίστα που έχετε ήδη, και σας δείχνει κάθε μέρος πριν φύγει οτιδήποτε.';
 
   @override
   String get addScreenshots => 'Προσθήκη στιγμιότυπων';

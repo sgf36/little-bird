@@ -109,5 +109,7 @@
   "sendPlacesOtherApp": "Cualquier otra app",
   "sendPlacesFailed": "Esa app no quiso el archivo",
   "fileImportPositioned": "{count, plural, =1{1 lugar guardado del archivo, listo para enviar a otra app de mapas} other{{count} lugares guardados del archivo, listos para enviar a otra app de mapas}}",
-  "compExpiring": "Wren no pudo confirmar tu acceso gratuito. Conéctate a internet en los próximos días para conservarlo."
+  "compExpiring": "Wren no pudo confirmar tu acceso gratuito. Conéctate a internet en los próximos días para conservarlo.",
+  "emptyBodyAndroid": "Toma una captura de lo que te recomienden: un reel, una publicación, un mensaje, la página de una guía de viaje. Wren lee los nombres y los envía a la app de mapas de tu teléfono.",
+  "emptyNoteAndroid": "También lee una lista que ya tengas, y te muestra cada lugar antes de que salga nada."
 }

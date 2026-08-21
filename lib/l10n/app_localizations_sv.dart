@@ -24,11 +24,11 @@ class LSv extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Skärmavbilda det folk tipsar dig om — en reel, ett inlägg, ett meddelande, en sida ur en reseguide. Wren läser namnen och skickar dem till kartappen i din telefon.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'Den läser också en lista du redan har, och visar dig varje plats innan något skickas.';
 
   @override
   String get addScreenshots => 'Lägg till skärmavbilder';

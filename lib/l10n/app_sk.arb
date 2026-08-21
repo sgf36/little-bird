@@ -109,5 +109,7 @@
   "sendPlacesOtherApp": "Ktorákoľvek iná aplikácia",
   "sendPlacesFailed": "Táto aplikácia súbor neprijala",
   "fileImportPositioned": "{count, plural, one{1 miesto zo súboru je pripravené na odoslanie do inej mapovej aplikácie} few{{count} miesta zo súboru sú pripravené na odoslanie do inej mapovej aplikácie} many{{count} miesta zo súboru sú pripravené na odoslanie do inej mapovej aplikácie} other{{count} miest zo súboru je pripravených na odoslanie do inej mapovej aplikácie}}",
-  "compExpiring": "Wren nedokázal overiť váš bezplatný prístup. V najbližších dňoch sa pripojte na internet, aby ste si ho zachovali."
+  "compExpiring": "Wren nedokázal overiť váš bezplatný prístup. V najbližších dňoch sa pripojte na internet, aby ste si ho zachovali.",
+  "emptyBodyAndroid": "Odfoť si obrazovku s tým, čo ti odporúčajú — reel, príspevok, správu, stranu zo sprievodcu. Wren prečíta názvy a odošle ich do mapovej aplikácie v telefóne.",
+  "emptyNoteAndroid": "Prečíta aj zoznam, ktorý už máte, a ukáže vám každé miesto skôr, než čokoľvek odíde."
 }

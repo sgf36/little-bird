@@ -24,11 +24,11 @@ class LNo extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Ta et skjermbilde av det folk tipser deg om — en reel, et innlegg, en melding, en side i en reisehåndbok. Wren leser navnene og sender dem til kart-appen på telefonen din.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'Den leser også en liste du allerede har, og viser deg hvert sted før noe sendes.';
 
   @override
   String get addScreenshots => 'Legg til skjermbilder';

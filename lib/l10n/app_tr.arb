@@ -109,5 +109,7 @@
   "sendPlacesOtherApp": "Başka bir uygulama",
   "sendPlacesFailed": "O uygulama dosyayı kabul etmedi",
   "fileImportPositioned": "{count, plural, =1{Dosyadan 1 yer korundu, başka bir harita uygulamasına gönderilmeye hazır} other{Dosyadan {count} yer korundu, başka bir harita uygulamasına gönderilmeye hazır}}",
-  "compExpiring": "Wren ücretsiz erişiminizi doğrulayamadı. Erişimi korumak için önümüzdeki birkaç gün içinde internete bağlanın."
+  "compExpiring": "Wren ücretsiz erişiminizi doğrulayamadı. Erişimi korumak için önümüzdeki birkaç gün içinde internete bağlanın.",
+  "emptyBodyAndroid": "Sana önerilen şeyin ekran görüntüsünü al — bir reel, bir gönderi, bir mesaj, bir gezi rehberinin sayfası. Wren adları okur ve telefonundaki harita uygulamasına gönderir.",
+  "emptyNoteAndroid": "Ayrıca elindeki bir listeyi de okur ve hiçbir şey gönderilmeden önce her yeri sana gösterir."
 }

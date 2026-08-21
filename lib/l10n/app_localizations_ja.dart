@@ -24,11 +24,10 @@ class LJa extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'すすめられたものをスクリーンショットで撮るだけ。リール、投稿、メッセージ、ガイドブックのページ。Wrenが名前を読み取って、スマートフォンの地図アプリに送ります。';
 
   @override
-  String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+  String get emptyNoteAndroid => 'すでに持っているリストも読み込めます。何かが送られる前に、すべての場所を確認できます。';
 
   @override
   String get addScreenshots => 'スクリーンショットを追加';

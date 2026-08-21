@@ -109,5 +109,7 @@
   "sendPlacesOtherApp": "Andere App",
   "sendPlacesFailed": "Diese App hat die Datei nicht angenommen",
   "fileImportPositioned": "{count, plural, =1{1 Ort aus der Datei behalten, bereit für eine andere Karten-App} other{{count} Orte aus der Datei behalten, bereit für eine andere Karten-App}}",
-  "compExpiring": "Wren konnte deinen kostenlosen Zugang nicht bestätigen. Stelle in den nächsten Tagen eine Internetverbindung her, um ihn zu behalten."
+  "compExpiring": "Wren konnte deinen kostenlosen Zugang nicht bestätigen. Stelle in den nächsten Tagen eine Internetverbindung her, um ihn zu behalten.",
+  "emptyBodyAndroid": "Mach einen Screenshot von dem, was dir empfohlen wird — ein Reel, ein Post, eine Nachricht, eine Seite aus einem Reiseführer. Wren liest die Namen und schickt sie an die Karten-App auf deinem Telefon.",
+  "emptyNoteAndroid": "Es liest auch eine Liste, die du schon hast, und zeigt dir jeden Ort, bevor irgendetwas das Gerät verlässt."
 }

@@ -24,11 +24,11 @@ class LCs extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Vyfoť si obrazovku s tím, co ti doporučí — reel, příspěvek, zprávu, stránku z průvodce. Wren přečte názvy a odešle je do mapové aplikace v telefonu.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'Přečte i seznam, který už máte, a ukáže vám každé místo dřív, než cokoli odejde.';
 
   @override
   String get addScreenshots => 'Přidat snímky obrazovky';

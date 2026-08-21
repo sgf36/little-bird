@@ -24,11 +24,11 @@ class LSl extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Posnemi zaslon tistega, kar ti priporočijo — reel, objavo, sporočilo, stran iz vodnika. Wren prebere imena in jih pošlje v aplikacijo z zemljevidi v telefonu.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'Prebere tudi seznam, ki ga že imate, in vam pokaže vsak kraj, preden kar koli odide.';
 
   @override
   String get addScreenshots => 'Dodaj posnetke zaslona';

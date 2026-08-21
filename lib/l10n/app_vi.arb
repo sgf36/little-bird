@@ -109,5 +109,7 @@
   "sendPlacesOtherApp": "Ứng dụng khác",
   "sendPlacesFailed": "Ứng dụng đó không nhận tệp",
   "fileImportPositioned": "{count, plural, other{Đã giữ {count} địa điểm từ tệp, sẵn sàng gửi tới ứng dụng bản đồ khác}}",
-  "compExpiring": "Wren không thể xác nhận quyền truy cập miễn phí của bạn. Hãy kết nối internet trong vài ngày tới để giữ quyền này."
+  "compExpiring": "Wren không thể xác nhận quyền truy cập miễn phí của bạn. Hãy kết nối internet trong vài ngày tới để giữ quyền này.",
+  "emptyBodyAndroid": "Chụp màn hình những gì người ta gợi ý cho bạn — một reel, một bài đăng, một tin nhắn, một trang sách hướng dẫn du lịch. Wren đọc tên và gửi chúng đến ứng dụng bản đồ trên điện thoại của bạn.",
+  "emptyNoteAndroid": "Ứng dụng cũng đọc được danh sách bạn đã có, và cho bạn xem mọi địa điểm trước khi có gì đó được gửi đi."
 }

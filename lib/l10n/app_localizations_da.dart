@@ -24,11 +24,11 @@ class LDa extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Tag et skærmbillede af det, folk anbefaler dig — en reel, et opslag, en besked, en side i en rejseguide. Wren læser navnene og sender dem til kort-appen på din telefon.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'Den læser også en liste, du allerede har, og viser dig hvert sted, før noget sendes.';
 
   @override
   String get addScreenshots => 'Tilføj skærmbilleder';

@@ -24,11 +24,11 @@ class LTr extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Sana önerilen şeyin ekran görüntüsünü al — bir reel, bir gönderi, bir mesaj, bir gezi rehberinin sayfası. Wren adları okur ve telefonundaki harita uygulamasına gönderir.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'Ayrıca elindeki bir listeyi de okur ve hiçbir şey gönderilmeden önce her yeri sana gösterir.';
 
   @override
   String get addScreenshots => 'Ekran görüntüsü ekle';

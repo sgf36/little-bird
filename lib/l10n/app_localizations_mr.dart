@@ -24,11 +24,11 @@ class LMr extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'कोणी सुचवलेल्या गोष्टीचा स्क्रीनशॉट घ्या — रील, पोस्ट, संदेश किंवा प्रवासी पुस्तकाचं पान. Wren नावं वाचतो आणि ती तुमच्या फोनवरील नकाशा ॲपला पाठवतो.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'तुमच्याकडे आधीच असलेली यादीही ते वाचते, आणि काहीही पाठवण्याआधी प्रत्येक ठिकाण दाखवते.';
 
   @override
   String get addScreenshots => 'स्क्रीनशॉट जोडा';

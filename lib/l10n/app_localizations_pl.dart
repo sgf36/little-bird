@@ -24,11 +24,11 @@ class LPl extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Zrób zrzut ekranu tego, co ci polecają — rolki, posta, wiadomości, strony przewodnika. Wren odczyta nazwy i wyśle je do aplikacji map w telefonie.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'Odczyta też listę, którą już masz, i pokaże każde miejsce, zanim cokolwiek wyjdzie.';
 
   @override
   String get addScreenshots => 'Dodaj zrzuty ekranu';

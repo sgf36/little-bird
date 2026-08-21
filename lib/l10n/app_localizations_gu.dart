@@ -24,11 +24,11 @@ class LGu extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'કોઈ તમને જે સૂચવે તેનો સ્ક્રીનશૉટ લઈ લો — રીલ, પોસ્ટ, સંદેશ, કે પ્રવાસ-પુસ્તકનું પાનું. Wren નામ વાંચી લે છે અને તેમને તમારા ફોનની નકશા ઍપમાં મોકલે છે.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'તે તમારી પાસે પહેલેથી હોય તેવી યાદી પણ વાંચે છે, અને કંઈ પણ મોકલાય તે પહેલાં દરેક સ્થળ બતાવે છે.';
 
   @override
   String get addScreenshots => 'સ્ક્રીનશૉટ ઉમેરો';

@@ -109,5 +109,7 @@
   "sendPlacesOtherApp": "其他應用程式",
   "sendPlacesFailed": "該應用程式沒有接收檔案",
   "fileImportPositioned": "{count, plural, other{已從檔案保留 {count} 個地點，可傳送到其他地圖應用程式}}",
-  "compExpiring": "Wren 無法確認你的免費使用權限。請在未來幾天內連接網際網路以繼續保留。"
+  "compExpiring": "Wren 無法確認你的免費使用權限。請在未來幾天內連接網際網路以繼續保留。",
+  "emptyBodyAndroid": "把別人推薦給你的東西截個圖 — 一則 Reel、一篇貼文、一則訊息、旅遊指南的一頁。Wren 會讀出名字，傳送到你手機上的地圖應用程式。",
+  "emptyNoteAndroid": "它也能讀取你已有的清單，並在任何內容傳送前讓你看到每一個地點。"
 }

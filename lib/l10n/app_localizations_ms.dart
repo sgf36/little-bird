@@ -24,11 +24,11 @@ class LMs extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Tangkap skrin apa sahaja yang disyorkan kepada anda — reel, hantaran, mesej, satu halaman buku panduan. Wren membaca namanya dan menghantarkannya ke apl peta pada telefon anda.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'Ia juga membaca senarai yang anda sudah ada, dan menunjukkan setiap tempat sebelum apa-apa dihantar.';
 
   @override
   String get addScreenshots => 'Tambah tangkapan skrin';

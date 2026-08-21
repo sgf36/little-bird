@@ -24,11 +24,11 @@ class LBn extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'কেউ যা বলল তার স্ক্রিনশট নিন — একটা রিল, একটা পোস্ট, একটা বার্তা, ভ্রমণ-গাইডের একটা পাতা। Wren নামগুলো পড়ে নেয় আর সেগুলো ফোনের ম্যাপ অ্যাপে পাঠিয়ে দেয়।';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'এটি আপনার কাছে থাকা তালিকাও পড়ে নেয়, আর কিছু পাঠানোর আগে প্রতিটি জায়গা দেখিয়ে দেয়।';
 
   @override
   String get addScreenshots => 'স্ক্রিনশট যোগ করুন';

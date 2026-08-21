@@ -24,11 +24,11 @@ class LIt extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Fai uno screenshot di ciò che ti consigliano: un reel, un post, un messaggio, la pagina di una guida. Wren legge i nomi e li invia all\'app di mappe del tuo telefono.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'Legge anche un elenco che hai già, e ti mostra ogni luogo prima che parta qualcosa.';
 
   @override
   String get addScreenshots => 'Aggiungi screenshot';

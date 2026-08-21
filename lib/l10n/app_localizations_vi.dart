@@ -24,11 +24,11 @@ class LVi extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Chụp màn hình những gì người ta gợi ý cho bạn — một reel, một bài đăng, một tin nhắn, một trang sách hướng dẫn du lịch. Wren đọc tên và gửi chúng đến ứng dụng bản đồ trên điện thoại của bạn.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'Ứng dụng cũng đọc được danh sách bạn đã có, và cho bạn xem mọi địa điểm trước khi có gì đó được gửi đi.';
 
   @override
   String get addScreenshots => 'Thêm ảnh chụp màn hình';

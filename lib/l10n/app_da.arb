@@ -109,5 +109,7 @@
   "sendPlacesOtherApp": "En anden app",
   "sendPlacesFailed": "Den app ville ikke tage filen",
   "fileImportPositioned": "{count, plural, =1{1 sted er beholdt fra filen og klar til en anden kortapp} other{{count} steder er beholdt fra filen og klar til en anden kortapp}}",
-  "compExpiring": "Wren kunne ikke bekræfte din gratis adgang. Opret forbindelse til internettet i løbet af de næste par dage for at beholde den."
+  "compExpiring": "Wren kunne ikke bekræfte din gratis adgang. Opret forbindelse til internettet i løbet af de næste par dage for at beholde den.",
+  "emptyBodyAndroid": "Tag et skærmbillede af det, folk anbefaler dig — en reel, et opslag, en besked, en side i en rejseguide. Wren læser navnene og sender dem til kort-appen på din telefon.",
+  "emptyNoteAndroid": "Den læser også en liste, du allerede har, og viser dig hvert sted, før noget sendes."
 }

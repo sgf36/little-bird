@@ -24,11 +24,11 @@ class LFr extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Faites une capture de ce qu\'on vous recommande — un reel, une publication, un message, la page d\'un guide de voyage. Wren lit les noms et les envoie à l\'app de cartes de votre téléphone.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'Il lit aussi une liste que vous avez déjà, et vous montre chaque lieu avant que quoi que ce soit ne parte.';
 
   @override
   String get addScreenshots => 'Ajouter des captures';
@@ -550,6 +550,14 @@ class LFrCa extends LFr {
   @override
   String get emptyNote =>
       'Un lieu seul s\'ajoute à un guide que vous avez déjà. Plusieurs en créent un nouveau — Plans ne peut pas fusionner les guides.';
+
+  @override
+  String get emptyBodyAndroid =>
+      'Faites une saisie d\'écran de ce qu\'on vous recommande — un reel, une publication, un message, la page d\'un guide de voyage. Wren lit les noms et les envoie à l\'application de cartes de votre téléphone.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'Il lit aussi une liste que vous avez déjà, et vous montre chaque lieu avant que quoi que ce soit ne parte.';
 
   @override
   String get addScreenshots => 'Ajouter des saisies d\'écran';

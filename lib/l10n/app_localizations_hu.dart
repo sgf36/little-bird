@@ -24,11 +24,11 @@ class LHu extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Készíts képernyőképet arról, amit ajánlanak neked — egy reelről, egy posztról, egy üzenetről, egy útikönyv oldaláról. A Wren kiolvassa a neveket, és elküldi őket a telefonod térkép-alkalmazásába.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'Beolvassa a már meglévő listádat is, és minden helyet megmutat, mielőtt bármi elhagyná a készüléket.';
 
   @override
   String get addScreenshots => 'Képernyőképek hozzáadása';

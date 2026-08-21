@@ -24,11 +24,11 @@ class LDe extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Mach einen Screenshot von dem, was dir empfohlen wird — ein Reel, ein Post, eine Nachricht, eine Seite aus einem Reiseführer. Wren liest die Namen und schickt sie an die Karten-App auf deinem Telefon.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'Es liest auch eine Liste, die du schon hast, und zeigt dir jeden Ort, bevor irgendetwas das Gerät verlässt.';
 
   @override
   String get addScreenshots => 'Screenshots hinzufügen';

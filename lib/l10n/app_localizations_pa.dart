@@ -24,11 +24,11 @@ class LPa extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'ਜੋ ਕੋਈ ਤੁਹਾਨੂੰ ਦੱਸੇ, ਉਸਦਾ ਸਕ੍ਰੀਨਸ਼ਾਟ ਲੈ ਲਵੋ — ਇੱਕ ਰੀਲ, ਇੱਕ ਪੋਸਟ, ਇੱਕ ਸੁਨੇਹਾ, ਜਾਂ ਸਫ਼ਰਨਾਮੇ ਦਾ ਇੱਕ ਸਫ਼ਾ। Wren ਨਾਂ ਪੜ੍ਹ ਲੈਂਦਾ ਹੈ ਅਤੇ ਉਹਨਾਂ ਨੂੰ ਤੁਹਾਡੇ ਫ਼ੋਨ ਦੀ ਨਕਸ਼ਾ ਐਪ ਵਿੱਚ ਭੇਜ ਦਿੰਦਾ ਹੈ।';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'ਇਹ ਤੁਹਾਡੇ ਕੋਲ ਪਹਿਲਾਂ ਤੋਂ ਮੌਜੂਦ ਸੂਚੀ ਵੀ ਪੜ੍ਹ ਲੈਂਦਾ ਹੈ, ਅਤੇ ਕੁਝ ਵੀ ਭੇਜਣ ਤੋਂ ਪਹਿਲਾਂ ਹਰ ਥਾਂ ਦਿਖਾ ਦਿੰਦਾ ਹੈ।';
 
   @override
   String get addScreenshots => 'ਸਕ੍ਰੀਨਸ਼ਾਟ ਜੋੜੋ';

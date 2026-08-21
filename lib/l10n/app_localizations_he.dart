@@ -24,11 +24,11 @@ class LHe extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'צלם מסך של מה שממליצים לך עליו — ריל, פוסט, הודעה, עמוד מתוך מדריך טיולים. Wren קורא את השמות ושולח אותם לאפליקציית המפות שבטלפון שלך.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'הוא גם קורא רשימה שכבר יש לך, ומראה לך כל מקום לפני שמשהו יוצא.';
 
   @override
   String get addScreenshots => 'הוספת צילומי מסך';

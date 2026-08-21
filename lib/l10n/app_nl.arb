@@ -109,5 +109,7 @@
   "sendPlacesOtherApp": "Een andere app",
   "sendPlacesFailed": "Die app nam het bestand niet aan",
   "fileImportPositioned": "{count, plural, =1{1 plaats uit het bestand bewaard, klaar voor een andere kaartenapp} other{{count} plaatsen uit het bestand bewaard, klaar voor een andere kaartenapp}}",
-  "compExpiring": "Wren kon je gratis toegang niet bevestigen. Maak de komende dagen verbinding met internet om die te behouden."
+  "compExpiring": "Wren kon je gratis toegang niet bevestigen. Maak de komende dagen verbinding met internet om die te behouden.",
+  "emptyBodyAndroid": "Maak een schermafbeelding van wat mensen je aanraden — een reel, een post, een bericht, een pagina uit een reisgids. Wren leest de namen en stuurt ze naar de kaarten-app op je telefoon.",
+  "emptyNoteAndroid": "Het leest ook een lijst die je al hebt, en laat je elke plek zien voordat er iets weggaat."
 }

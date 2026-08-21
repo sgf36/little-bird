@@ -24,11 +24,11 @@ class LFi extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Ota kuvakaappaus siitä, mitä sinulle suositellaan — reelistä, julkaisusta, viestistä, matkaoppaan sivusta. Wren lukee nimet ja lähettää ne puhelimesi karttasovellukseen.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'Se lukee myös listan, joka sinulla jo on, ja näyttää jokaisen paikan ennen kuin mitään lähtee.';
 
   @override
   String get addScreenshots => 'Lisää kuvakaappauksia';

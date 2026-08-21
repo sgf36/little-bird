@@ -24,11 +24,11 @@ class LEs extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Haz una captura de lo que te recomienden: un reel, una publicación, un mensaje, la página de una guía de viaje. Wren lee los nombres y los envía a la app de mapas de tu teléfono.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'También lee una lista que ya tengas, y te muestra cada lugar antes de que salga nada.';
 
   @override
   String get addScreenshots => 'Añadir capturas';
@@ -548,6 +548,14 @@ class LEsMx extends LEs {
   @override
   String get emptyNote =>
       'Un solo lugar se agrega a una guía que ya tengas. Varios crean una nueva: Mapas no puede combinar guías.';
+
+  @override
+  String get emptyBodyAndroid =>
+      'Toma una captura de lo que te recomienden: un reel, una publicación, un mensaje, la página de una guía de viaje. Wren lee los nombres y los envía a la app de mapas de tu teléfono.';
+
+  @override
+  String get emptyNoteAndroid =>
+      'También lee una lista que ya tengas, y te muestra cada lugar antes de que salga nada.';
 
   @override
   String get addScreenshots => 'Agregar capturas';

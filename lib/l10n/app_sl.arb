@@ -109,5 +109,7 @@
   "sendPlacesOtherApp": "Katera koli druga aplikacija",
   "sendPlacesFailed": "Ta aplikacija ni sprejela datoteke",
   "fileImportPositioned": "{count, plural, one{1 kraj iz datoteke je pripravljen za drugo aplikacijo z zemljevidi} two{{count} kraja iz datoteke sta pripravljena za drugo aplikacijo z zemljevidi} few{{count} kraji iz datoteke so pripravljeni za drugo aplikacijo z zemljevidi} other{{count} krajev iz datoteke je pripravljenih za drugo aplikacijo z zemljevidi}}",
-  "compExpiring": "Wren ni mogel potrditi vašega brezplačnega dostopa. V naslednjih nekaj dneh se povežite z internetom, da ga obdržite."
+  "compExpiring": "Wren ni mogel potrditi vašega brezplačnega dostopa. V naslednjih nekaj dneh se povežite z internetom, da ga obdržite.",
+  "emptyBodyAndroid": "Posnemi zaslon tistega, kar ti priporočijo — reel, objavo, sporočilo, stran iz vodnika. Wren prebere imena in jih pošlje v aplikacijo z zemljevidi v telefonu.",
+  "emptyNoteAndroid": "Prebere tudi seznam, ki ga že imate, in vam pokaže vsak kraj, preden kar koli odide."
 }

@@ -24,11 +24,11 @@ class LRu extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'Сделай скриншот того, что тебе советуют — рилс, пост, сообщение, страницу путеводителя. Wren прочитает названия и отправит их в приложение карт на вашем телефоне.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'Он также прочитает список, который у вас уже есть, и покажет каждое место, прежде чем что-либо будет отправлено.';
 
   @override
   String get addScreenshots => 'Добавить скриншоты';

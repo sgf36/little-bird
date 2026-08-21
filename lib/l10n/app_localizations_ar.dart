@@ -24,11 +24,11 @@ class LAr extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'التقط لقطة شاشة لما يُنصح به أمامك — ريل أو منشور أو رسالة أو صفحة من دليل سفر. يقرأ Wren الأسماء ويرسلها إلى تطبيق الخرائط على هاتفك.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'كما يقرأ قائمة لديك بالفعل، ويعرض عليك كل مكان قبل أن يُرسل أي شيء.';
 
   @override
   String get addScreenshots => 'إضافة لقطات شاشة';

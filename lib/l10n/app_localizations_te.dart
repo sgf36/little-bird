@@ -24,11 +24,11 @@ class LTe extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'ఎవరైనా సూచించినదాన్ని స్క్రీన్‌షాట్ తీసుకోండి — ఒక రీల్, ఒక పోస్ట్, ఒక సందేశం, ప్రయాణ పుస్తకంలోని ఒక పేజీ. Wren పేర్లను చదివి వాటిని మీ ఫోన్‌లోని మ్యాప్ యాప్‌కు పంపుతుంది.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'మీ దగ్గర ఇప్పటికే ఉన్న జాబితాను కూడా ఇది చదువుతుంది, ఏదైనా పంపే ముందు ప్రతి ప్రదేశాన్ని చూపిస్తుంది.';
 
   @override
   String get addScreenshots => 'స్క్రీన్‌షాట్‌లు జోడించండి';

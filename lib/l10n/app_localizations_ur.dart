@@ -24,11 +24,11 @@ class LUr extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'جو کوئی آپ کو بتائے، اس کا اسکرین شاٹ لے لیجیے — ایک ریل، ایک پوسٹ، ایک پیغام، یا سفری کتاب کا ایک صفحہ۔ Wren نام پڑھ لیتا ہے اور انہیں آپ کے فون کی نقشہ ایپ میں بھیج دیتا ہے۔';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'یہ آپ کے پاس پہلے سے موجود فہرست بھی پڑھ لیتا ہے، اور کچھ بھی بھیجے جانے سے پہلے ہر جگہ دکھا دیتا ہے۔';
 
   @override
   String get addScreenshots => 'اسکرین شاٹ شامل کریں';

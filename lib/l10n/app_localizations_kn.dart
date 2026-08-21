@@ -24,11 +24,11 @@ class LKn extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      'ಯಾರಾದರೂ ಸೂಚಿಸಿದ್ದನ್ನು ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ತೆಗೆದುಕೊಳ್ಳಿ — ಒಂದು ರೀಲ್, ಒಂದು ಪೋಸ್ಟ್, ಒಂದು ಸಂದೇಶ, ಪ್ರವಾಸ ಪುಸ್ತಕದ ಒಂದು ಪುಟ. Wren ಹೆಸರುಗಳನ್ನು ಓದಿ ಅವನ್ನು ನಿಮ್ಮ ಫೋನ್‌ನ ನಕ್ಷೆ ಆ್ಯಪ್‌ಗೆ ಕಳುಹಿಸುತ್ತದೆ.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      'ನಿಮ್ಮ ಬಳಿ ಈಗಾಗಲೇ ಇರುವ ಪಟ್ಟಿಯನ್ನೂ ಇದು ಓದುತ್ತದೆ, ಮತ್ತು ಏನಾದರೂ ಕಳುಹಿಸುವ ಮೊದಲು ಪ್ರತಿ ಸ್ಥಳವನ್ನೂ ತೋರಿಸುತ್ತದೆ.';
 
   @override
   String get addScreenshots => 'ಸ್ಕ್ರೀನ್‌ಶಾಟ್‌ಗಳನ್ನು ಸೇರಿಸಿ';

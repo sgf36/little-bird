@@ -24,11 +24,11 @@ class LKo extends L {
 
   @override
   String get emptyBodyAndroid =>
-      'Screenshot what people tell you about — a reel, a post, a message, a page of a guidebook. Wren reads the names and sends them to the map app on your phone.';
+      '추천받은 것을 스크린샷으로 남기세요 — 릴스, 게시물, 메시지, 여행 안내서의 한 페이지. Wren이 이름을 읽어 휴대전화의 지도 앱으로 보내줍니다.';
 
   @override
   String get emptyNoteAndroid =>
-      'It also reads a list you already have, and shows you every place before anything leaves.';
+      '이미 가지고 있는 목록도 읽어 들이며, 무엇이든 보내기 전에 모든 장소를 보여줍니다.';
 
   @override
   String get addScreenshots => '스크린샷 추가';

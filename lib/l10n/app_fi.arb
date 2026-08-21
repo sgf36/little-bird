@@ -109,5 +109,7 @@
   "sendPlacesOtherApp": "Mikä tahansa muu sovellus",
   "sendPlacesFailed": "Sovellus ei ottanut tiedostoa vastaan",
   "fileImportPositioned": "{count, plural, =1{1 paikka säilytettiin tiedostosta, valmis toiseen karttasovellukseen} other{{count} paikkaa säilytettiin tiedostosta, valmiina toiseen karttasovellukseen}}",
-  "compExpiring": "Wren ei voinut vahvistaa maksutonta käyttöoikeuttasi. Yhdistä internetiin lähipäivinä säilyttääksesi sen."
+  "compExpiring": "Wren ei voinut vahvistaa maksutonta käyttöoikeuttasi. Yhdistä internetiin lähipäivinä säilyttääksesi sen.",
+  "emptyBodyAndroid": "Ota kuvakaappaus siitä, mitä sinulle suositellaan — reelistä, julkaisusta, viestistä, matkaoppaan sivusta. Wren lukee nimet ja lähettää ne puhelimesi karttasovellukseen.",
+  "emptyNoteAndroid": "Se lukee myös listan, joka sinulla jo on, ja näyttää jokaisen paikan ennen kuin mitään lähtee."
 }

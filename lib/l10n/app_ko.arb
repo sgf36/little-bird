@@ -109,5 +109,7 @@
   "sendPlacesOtherApp": "다른 앱",
   "sendPlacesFailed": "그 앱이 파일을 받지 않았습니다",
   "fileImportPositioned": "{count, plural, other{파일에서 장소 {count}곳을 보관했습니다. 다른 지도 앱으로 보낼 수 있습니다}}",
-  "compExpiring": "Wren에서 무료 이용 권한을 확인하지 못했습니다. 유지하려면 며칠 안에 인터넷에 연결하세요."
+  "compExpiring": "Wren에서 무료 이용 권한을 확인하지 못했습니다. 유지하려면 며칠 안에 인터넷에 연결하세요.",
+  "emptyBodyAndroid": "추천받은 것을 스크린샷으로 남기세요 — 릴스, 게시물, 메시지, 여행 안내서의 한 페이지. Wren이 이름을 읽어 휴대전화의 지도 앱으로 보내줍니다.",
+  "emptyNoteAndroid": "이미 가지고 있는 목록도 읽어 들이며, 무엇이든 보내기 전에 모든 장소를 보여줍니다."
 }
