@@ -516,4 +516,8 @@ class LGu extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren તમારો મફત ઍક્સેસ ચકાસી શક્યું નથી. તેને જાળવી રાખવા આગામી થોડા દિવસોમાં ઇન્ટરનેટ સાથે કનેક્ટ થાઓ.';
 }

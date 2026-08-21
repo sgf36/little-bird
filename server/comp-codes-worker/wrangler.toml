@@ -10,6 +10,14 @@ compatibility_date = "2026-08-16"
 # at the interactive prompt only. Passing the value as the argument creates a
 # secret whose name is the credential and leaves the real one unset.
 
+# The verifying half of the signing pair, so the Worker can check a token a
+# phone presents when it asks to issue or withdraw codes. Public by definition:
+# the same value is compiled into the app in lib/src/comp_unlock.dart, and it
+# can verify a signature but never produce one. It is a var rather than a
+# secret precisely because it is not one.
+[vars]
+WREN_PUBLIC_KEY = "LN6bVyBTvZgcov3ElAo5JtlrUy02BYKZUgBxMVtq3Ys="
+
 [[d1_databases]]
 binding = "DB"
 database_name = "wren-codes"

@@ -108,5 +108,6 @@
   "sendPlacesNoLocation": "{count, plural, other{{count} tempat tidak punya lokasi dan tidak bisa dikirim}}",
   "sendPlacesOtherApp": "Aplikasi lain",
   "sendPlacesFailed": "Aplikasi itu tidak menerima berkas",
-  "fileImportPositioned": "{count, plural, other{{count} tempat disimpan dari berkas, siap dikirim ke aplikasi peta lain}}"
+  "fileImportPositioned": "{count, plural, other{{count} tempat disimpan dari berkas, siap dikirim ke aplikasi peta lain}}",
+  "compExpiring": "Wren tidak dapat mengonfirmasi akses gratis Anda. Sambungkan ke internet dalam beberapa hari ke depan untuk mempertahankannya."
 }

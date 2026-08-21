@@ -498,4 +498,8 @@ class LVi extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren không thể xác nhận quyền truy cập miễn phí của bạn. Hãy kết nối internet trong vài ngày tới để giữ quyền này.';
 }

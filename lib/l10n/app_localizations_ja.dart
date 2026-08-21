@@ -486,4 +486,8 @@ class LJa extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren は無償アクセスを確認できませんでした。維持するには、数日以内にインターネットに接続してください。';
 }

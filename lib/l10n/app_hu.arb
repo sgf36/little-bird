@@ -108,5 +108,6 @@
   "sendPlacesNoLocation": "{count, plural, =1{1 helynek nincs pozíciója, így nem küldhető} other{{count} helynek nincs pozíciója, így nem küldhetők}}",
   "sendPlacesOtherApp": "Bármely más alkalmazás",
   "sendPlacesFailed": "Az alkalmazás nem fogadta el a fájlt",
-  "fileImportPositioned": "{count, plural, =1{1 hely megmaradt a fájlból, készen egy másik térképalkalmazáshoz} other{{count} hely megmaradt a fájlból, készen egy másik térképalkalmazáshoz}}"
+  "fileImportPositioned": "{count, plural, =1{1 hely megmaradt a fájlból, készen egy másik térképalkalmazáshoz} other{{count} hely megmaradt a fájlból, készen egy másik térképalkalmazáshoz}}",
+  "compExpiring": "A Wren nem tudta megerősíteni az ingyenes hozzáférésedet. Csatlakozz az internethez a következő napokban, hogy megtartsd."
 }

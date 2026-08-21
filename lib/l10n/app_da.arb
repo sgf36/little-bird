@@ -108,5 +108,6 @@
   "sendPlacesNoLocation": "{count, plural, =1{1 sted har ingen placering og kan ikke sendes} other{{count} steder har ingen placering og kan ikke sendes}}",
   "sendPlacesOtherApp": "En anden app",
   "sendPlacesFailed": "Den app ville ikke tage filen",
-  "fileImportPositioned": "{count, plural, =1{1 sted er beholdt fra filen og klar til en anden kortapp} other{{count} steder er beholdt fra filen og klar til en anden kortapp}}"
+  "fileImportPositioned": "{count, plural, =1{1 sted er beholdt fra filen og klar til en anden kortapp} other{{count} steder er beholdt fra filen og klar til en anden kortapp}}",
+  "compExpiring": "Wren kunne ikke bekræfte din gratis adgang. Opret forbindelse til internettet i løbet af de næste par dage for at beholde den."
 }

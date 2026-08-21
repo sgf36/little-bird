@@ -522,4 +522,8 @@ class LDa extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren kunne ikke bekræfte din gratis adgang. Opret forbindelse til internettet i løbet af de næste par dage for at beholde den.';
 }

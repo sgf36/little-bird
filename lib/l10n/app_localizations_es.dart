@@ -525,6 +525,10 @@ class LEs extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren no ha podido confirmar tu acceso gratuito. Conéctate a internet en los próximos días para conservarlo.';
 }
 
 /// The translations for Spanish Castilian, as used in Mexico (`es_MX`).
@@ -1040,4 +1044,8 @@ class LEsMx extends LEs {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren no pudo confirmar tu acceso gratuito. Conéctate a internet en los próximos días para conservarlo.';
 }

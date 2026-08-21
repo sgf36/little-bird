@@ -487,4 +487,8 @@ class LKo extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren에서 무료 이용 권한을 확인하지 못했습니다. 유지하려면 며칠 안에 인터넷에 연결하세요.';
 }

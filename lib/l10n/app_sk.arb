@@ -108,5 +108,6 @@
   "sendPlacesNoLocation": "{count, plural, one{1 miesto nemá polohu a nedá sa odoslať} few{{count} miesta nemajú polohu a nedajú sa odoslať} many{{count} miesta nemajú polohu a nedajú sa odoslať} other{{count} miest nemá polohu a nedajú sa odoslať}}",
   "sendPlacesOtherApp": "Ktorákoľvek iná aplikácia",
   "sendPlacesFailed": "Táto aplikácia súbor neprijala",
-  "fileImportPositioned": "{count, plural, one{1 miesto zo súboru je pripravené na odoslanie do inej mapovej aplikácie} few{{count} miesta zo súboru sú pripravené na odoslanie do inej mapovej aplikácie} many{{count} miesta zo súboru sú pripravené na odoslanie do inej mapovej aplikácie} other{{count} miest zo súboru je pripravených na odoslanie do inej mapovej aplikácie}}"
+  "fileImportPositioned": "{count, plural, one{1 miesto zo súboru je pripravené na odoslanie do inej mapovej aplikácie} few{{count} miesta zo súboru sú pripravené na odoslanie do inej mapovej aplikácie} many{{count} miesta zo súboru sú pripravené na odoslanie do inej mapovej aplikácie} other{{count} miest zo súboru je pripravených na odoslanie do inej mapovej aplikácie}}",
+  "compExpiring": "Wren nedokázal overiť váš bezplatný prístup. V najbližších dňoch sa pripojte na internet, aby ste si ho zachovali."
 }

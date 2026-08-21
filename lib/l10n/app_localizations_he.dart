@@ -545,4 +545,8 @@ class LHe extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren לא הצליח לאמת את הגישה ללא תשלום שלך. התחבר לאינטרנט בימים הקרובים כדי לשמור עליה.';
 }

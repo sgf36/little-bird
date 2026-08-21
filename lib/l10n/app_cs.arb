@@ -108,5 +108,6 @@
   "sendPlacesNoLocation": "{count, plural, one{1 místo nemá polohu a nelze ho odeslat} few{{count} místa nemají polohu a nelze je odeslat} many{{count} místa nemají polohu a nelze je odeslat} other{{count} míst nemá polohu a nelze je odeslat}}",
   "sendPlacesOtherApp": "Jakákoli jiná aplikace",
   "sendPlacesFailed": "Tato aplikace soubor nepřijala",
-  "fileImportPositioned": "{count, plural, one{1 místo ze souboru je připravené k odeslání do jiné mapové aplikace} few{{count} místa ze souboru jsou připravená k odeslání do jiné mapové aplikace} many{{count} místa ze souboru jsou připravená k odeslání do jiné mapové aplikace} other{{count} míst ze souboru je připravených k odeslání do jiné mapové aplikace}}"
+  "fileImportPositioned": "{count, plural, one{1 místo ze souboru je připravené k odeslání do jiné mapové aplikace} few{{count} místa ze souboru jsou připravená k odeslání do jiné mapové aplikace} many{{count} místa ze souboru jsou připravená k odeslání do jiné mapové aplikace} other{{count} míst ze souboru je připravených k odeslání do jiné mapové aplikace}}",
+  "compExpiring": "Wren nemohl ověřit váš bezplatný přístup. Během několika příštích dnů se připojte k internetu, abyste si jej zachovali."
 }

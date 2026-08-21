@@ -108,5 +108,6 @@
   "sendPlacesNoLocation": "{count, plural, other{{count} địa điểm không có vị trí nên không thể gửi}}",
   "sendPlacesOtherApp": "Ứng dụng khác",
   "sendPlacesFailed": "Ứng dụng đó không nhận tệp",
-  "fileImportPositioned": "{count, plural, other{Đã giữ {count} địa điểm từ tệp, sẵn sàng gửi tới ứng dụng bản đồ khác}}"
+  "fileImportPositioned": "{count, plural, other{Đã giữ {count} địa điểm từ tệp, sẵn sàng gửi tới ứng dụng bản đồ khác}}",
+  "compExpiring": "Wren không thể xác nhận quyền truy cập miễn phí của bạn. Hãy kết nối internet trong vài ngày tới để giữ quyền này."
 }

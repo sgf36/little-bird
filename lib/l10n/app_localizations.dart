@@ -848,6 +848,12 @@ abstract class L {
   /// In en, this message translates to:
   /// **'{count, plural, =1{1 place kept from the file, ready to send to another map app} other{{count} places kept from the file, ready to send to another map app}}'**
   String fileImportPositioned(int count);
+
+  /// Warning shown when a complimentary code that also grants administrative access has not been re-confirmed with the server for nearly a fortnight, and is days away from lapsing. Only ever seen by the handful of people holding such a code. 'Complimentary' means free of charge.
+  ///
+  /// In en, this message translates to:
+  /// **'Wren could not confirm your complimentary access. Connect to the internet in the next few days to keep it.'**
+  String get compExpiring;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

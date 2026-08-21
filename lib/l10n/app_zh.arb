@@ -108,5 +108,6 @@
   "sendPlacesNoLocation": "{count, plural, other{{count} 个地点没有位置，无法发送}}",
   "sendPlacesOtherApp": "其他应用",
   "sendPlacesFailed": "该应用没有接收文件",
-  "fileImportPositioned": "{count, plural, other{已从文件保留 {count} 个地点，可发送到其他地图应用}}"
+  "fileImportPositioned": "{count, plural, other{已从文件保留 {count} 个地点，可发送到其他地图应用}}",
+  "compExpiring": "Wren 无法确认你的免费使用权限。请在未来几天内连接互联网以继续保留。"
 }

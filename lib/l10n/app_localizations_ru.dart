@@ -565,4 +565,8 @@ class LRu extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren не смог подтвердить ваш бесплатный доступ. Подключитесь к интернету в ближайшие дни, чтобы сохранить его.';
 }

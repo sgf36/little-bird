@@ -108,5 +108,6 @@
   "sendPlacesNoLocation": "{count, plural, =1{1 lieu n’a pas de position et ne peut pas être envoyé} other{{count} lieux n’ont pas de position et ne peuvent pas être envoyés}}",
   "sendPlacesOtherApp": "Une autre app",
   "sendPlacesFailed": "Cette app n’a pas accepté le fichier",
-  "fileImportPositioned": "{count, plural, =1{1 lieu conservé du fichier, prêt pour une autre app de cartes} other{{count} lieux conservés du fichier, prêts pour une autre app de cartes}}"
+  "fileImportPositioned": "{count, plural, =1{1 lieu conservé du fichier, prêt pour une autre app de cartes} other{{count} lieux conservés du fichier, prêts pour une autre app de cartes}}",
+  "compExpiring": "Wren n'a pas pu confirmer votre accès gratuit. Connectez-vous à internet dans les prochains jours pour le conserver."
 }

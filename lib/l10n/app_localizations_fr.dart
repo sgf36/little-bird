@@ -527,6 +527,10 @@ class LFr extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren n\'a pas pu confirmer votre accès gratuit. Connectez-vous à internet dans les prochains jours pour le conserver.';
 }
 
 /// The translations for French, as used in Canada (`fr_CA`).
@@ -1045,4 +1049,8 @@ class LFrCa extends LFr {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren n\'a pas pu confirmer votre accès gratuit. Connectez-vous à internet au cours des prochains jours pour le conserver.';
 }

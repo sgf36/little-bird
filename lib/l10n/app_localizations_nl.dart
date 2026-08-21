@@ -526,4 +526,8 @@ class LNl extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren kon je gratis toegang niet bevestigen. Maak de komende dagen verbinding met internet om die te behouden.';
 }

@@ -520,4 +520,8 @@ class LHu extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'A Wren nem tudta megerősíteni az ingyenes hozzáférésedet. Csatlakozz az internethez a következő napokban, hogy megtartsd.';
 }

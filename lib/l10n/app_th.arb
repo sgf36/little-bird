@@ -108,5 +108,6 @@
   "sendPlacesNoLocation": "{count, plural, other{สถานที่ {count} แห่งไม่มีตำแหน่ง จึงส่งไม่ได้}}",
   "sendPlacesOtherApp": "แอปอื่น",
   "sendPlacesFailed": "แอปนั้นไม่รับไฟล์",
-  "fileImportPositioned": "{count, plural, other{เก็บสถานที่ {count} แห่งจากไฟล์ พร้อมส่งไปยังแอปแผนที่อื่น}}"
+  "fileImportPositioned": "{count, plural, other{เก็บสถานที่ {count} แห่งจากไฟล์ พร้อมส่งไปยังแอปแผนที่อื่น}}",
+  "compExpiring": "Wren ไม่สามารถยืนยันสิทธิ์การใช้งานฟรีของคุณได้ โปรดเชื่อมต่ออินเทอร์เน็ตภายในไม่กี่วันข้างหน้าเพื่อรักษาสิทธิ์ไว้"
 }

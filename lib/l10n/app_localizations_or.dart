@@ -516,4 +516,8 @@ class LOr extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren ଆପଣଙ୍କ ମାଗଣା ଆକ୍ସେସ୍ ନିଶ୍ଚିତ କରିପାରିଲା ନାହିଁ। ଏହା ରଖିବା ପାଇଁ ଆଗାମୀ କିଛି ଦିନ ମଧ୍ୟରେ ଇଣ୍ଟରନେଟ୍ ସହ ସଂଯୋଗ କରନ୍ତୁ।';
 }

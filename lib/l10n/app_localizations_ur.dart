@@ -529,4 +529,8 @@ class LUr extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren آپ کی مفت رسائی کی تصدیق نہیں کر سکا۔ اسے برقرار رکھنے کے لیے اگلے چند دنوں میں انٹرنیٹ سے منسلک ہوں۔';
 }

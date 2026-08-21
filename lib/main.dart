@@ -19,6 +19,7 @@ import 'src/place_share.dart';
 import 'src/region_hint.dart';
 import 'src/resolver.dart';
 import 'src/share_inbox.dart';
+import 'src/admin_sheet.dart';
 import 'src/comp_unlock.dart' as comp;
 import 'src/screenshots.dart';
 import 'src/splash.dart';
@@ -278,6 +279,20 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   int _queuedTotal = 0;
 
   Entitlement _entitlement = const Entitlement.free();
+
+  /// What this device's complimentary token grants, if it holds one.
+  ///
+  /// Only [comp.CompRole.admin] changes anything on screen, and only by
+  /// changing where the long press goes. Held as state rather than asked for
+  /// at the moment of the press so the press cannot pause on a disk read; the
+  /// value it is compared against is re-derived from the signature every time
+  /// it is set, never remembered as a flag.
+  comp.CompRole _role = comp.CompRole.none;
+
+  /// Set when an administrator's access is within days of lapsing because the
+  /// server has not been reachable. Null the rest of the time, which is nearly
+  /// always — a successful renewal clears it by making the token young again.
+  bool _compExpiring = false;
   String? _status;
   bool _busy = false;
   int _readCount = 0;
@@ -311,11 +326,7 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
         setState(() => _entitlement = const Entitlement.unlocked());
       }
     });
-    comp.wasUnlocked().then((unlocked) {
-      if (unlocked && mounted) {
-        setState(() => _entitlement = const Entitlement.unlocked());
-      }
-    });
+    _refreshCompAccess();
 
     if (widget.initialOverlay != ScreenshotOverlay.none) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -340,15 +351,33 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   /// a code has to be issued before it does anything — the entry point on its
   /// own is not a way in.
   ///
-  /// Absent where there are no guides, for the same reason as the rest of the
-  /// purchase: the code unlocks guides of any size, and unlocking a cap that
-  /// does not apply is nothing. It also cannot work — the device identifier a
-  /// code is issued against comes from `littlebird/identity`, which has no
-  /// Android implementation, so [comp.redeem] answers "unreachable" without
-  /// reaching anything. That is the whole reason this build makes no network
-  /// request at all, which is what the Data Safety declaration rests on.
+  /// One press, two destinations. A device that has redeemed an admin code
+  /// gets the code console; everyone else gets the box to type a code into.
+  /// Nothing distinguishes the two beforehand — no extra gesture, no second
+  /// tap, nothing greyed out — so the console is not a locked door that can be
+  /// seen, it is a door that is not there.
+  ///
+  /// Neither exists where there are no guides, for the same reason as the rest
+  /// of the purchase: the code unlocks guides of any size, and unlocking a cap
+  /// that does not apply is nothing. It also could not work — the device
+  /// identifier a code is issued against comes from `littlebird/identity`,
+  /// which has no Android implementation, so [comp.redeem] answers
+  /// "unreachable" without reaching anything and [comp.renewIfDue] returns
+  /// before it reaches the network for the same reason. That is why this build
+  /// makes no network request at all, which is what the Data Safety
+  /// declaration rests on.
   Future<void> _compUnlock() async {
-    if (!_makesGuides || _entitlement.unlimited) return;
+    if (!_makesGuides) return;
+    if (_role == comp.CompRole.admin) {
+      final token = await comp.heldToken();
+      if (token == null || !mounted) return;
+      await showAdminSheet(context, token);
+      return;
+    }
+    // Deliberately still offered to someone who has already paid, because an
+    // admin code is the one thing worth entering when the app is unlocked
+    // already, and refusing to open the box would make it unreachable for the
+    // only person who needs it.
     final l = L.of(context);
     final controller = TextEditingController();
     final entered = await showDialog<String>(
@@ -385,12 +414,19 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
     // it says so rather than appearing to hang.
     setState(() => _status = l.compChecking);
     final outcome = await comp.redeem(entered);
+    // Read back from the stored token rather than from the reply, so what the
+    // app believes about this device is decided by a signature either way.
+    final role = await comp.heldRole();
     if (!mounted) return;
 
     setState(() {
       switch (outcome) {
         case comp.RedeemOutcome.unlocked:
           _entitlement = const Entitlement.unlocked();
+          _role = role;
+          // A code just redeemed is a token just issued, so whatever the
+          // warning was about is over.
+          _compExpiring = false;
           _status = l.compEnabled;
         case comp.RedeemOutcome.refused:
           _status = l.compRefused;
@@ -708,7 +744,35 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
   /// starting it, so resuming is when a link usually arrives.
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) _takeSharedGuide();
+    if (state != AppLifecycleState.resumed) return;
+    _takeSharedGuide();
+    // A phone that is never restarted would otherwise go a fortnight without
+    // asking, and lapse while in daily use.
+    _refreshCompAccess();
+  }
+
+  /// Re-establishes what this device's complimentary token grants.
+  ///
+  /// Renewing is a no-op for everyone except an administrator whose token is a
+  /// day old, so this is a disk read for almost every user and for every user
+  /// who has never entered a code at all.
+  ///
+  /// The entitlement is recomposed rather than merely raised, because a token
+  /// that has just been withdrawn must not take a *purchase* down with it —
+  /// somebody can hold both, and only one of them is revocable.
+  Future<void> _refreshCompAccess() async {
+    final role = await comp.renewIfDue();
+    final left = await comp.compTimeLeft();
+    if (!mounted) return;
+    final bought = await StoreUnlockStore.cachedUnlocked();
+    if (!mounted) return;
+    setState(() {
+      _role = role;
+      _compExpiring = left != null;
+      _entitlement = bought || role != comp.CompRole.none
+          ? const Entitlement.unlocked()
+          : const Entitlement.free();
+    });
   }
 
   /// Collects a link the share extension left, and imports it.
@@ -1791,6 +1855,16 @@ class _CapturePageState extends State<CapturePage> with WidgetsBindingObserver {
                 _lookingUp
                     ? l.lookingUpProgress(_readCount, _totalCount)
                     : l.readingProgress(_readCount, _totalCount),
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ),
+          // Above the status line, because it is about losing something
+          // rather than about what just happened.
+          if (_compExpiring)
+            _Banner(
+              accent: Wren.clay,
+              child: Text(
+                l.compExpiring,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ),

@@ -515,4 +515,8 @@ class LBn extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren আপনার বিনামূল্যের অ্যাক্সেস নিশ্চিত করতে পারেনি। এটি ধরে রাখতে আগামী কয়েক দিনের মধ্যে ইন্টারনেটে সংযুক্ত হোন।';
 }

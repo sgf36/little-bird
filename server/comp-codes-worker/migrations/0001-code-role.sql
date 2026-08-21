@@ -1,0 +1,29 @@
+-- Adds the `role` column to an existing `wren-codes` database.
+--
+-- `schema.sql` is written with `CREATE TABLE IF NOT EXISTS`, so re-running it
+-- against the live database does nothing at all — it does not add a column to
+-- a table that is already there. Deploying the Worker without running this
+-- first makes every redemption and every listing fail with "no such column:
+-- role", which looks like a broken code rather than a missing migration.
+--
+-- Run it before deploying, not after — and as a --command, not as a --file:
+--
+--   npx wrangler d1 execute wren-codes --remote --     --command "ALTER TABLE codes ADD COLUMN role TEXT NOT NULL DEFAULT 'unlock';"
+--
+-- `--file` does not run the statements as queries. It uploads them through
+-- D1's *import* endpoint, and that endpoint refuses this account's Wrangler
+-- OAuth token with "Authentication error [code: 10000]" — while the query
+-- endpoint accepts the same token, and `wrangler whoami` reports d1 (write)
+-- and Super Administrator. So the failure looks like a permissions problem,
+-- is not one, and is not fixed by logging in again. Either use --command, as
+-- above, or supply a real API token in CLOUDFLARE_API_TOKEN.
+--
+-- SQLite has no `ADD COLUMN IF NOT EXISTS`, so running this twice reports
+-- "duplicate column name: role" and changes nothing. That error means the
+-- migration is already applied.
+--
+-- Every code issued before this ran becomes an ordinary unlock, which is what
+-- it already was. A CHECK constraint cannot be added to an existing table
+-- without rebuilding it, so the values are constrained in the Worker instead —
+-- `createCodes` refuses anything but 'unlock' or 'admin'.
+ALTER TABLE codes ADD COLUMN role TEXT NOT NULL DEFAULT 'unlock';

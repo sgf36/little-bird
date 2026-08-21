@@ -576,4 +576,8 @@ class LAr extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'تعذّر على Wren تأكيد وصولك المجاني. اتصل بالإنترنت خلال الأيام القليلة القادمة للحفاظ عليه.';
 }

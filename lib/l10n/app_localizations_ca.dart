@@ -528,4 +528,8 @@ class LCa extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren no ha pogut confirmar el vostre accés gratuït. Connecteu-vos a internet els propers dies per conservar-lo.';
 }

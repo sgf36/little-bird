@@ -518,4 +518,8 @@ class LFi extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren ei voinut vahvistaa maksutonta käyttöoikeuttasi. Yhdistä internetiin lähipäivinä säilyttääksesi sen.';
 }

@@ -526,4 +526,8 @@ class LSv extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren kunde inte bekräfta din kostnadsfria åtkomst. Anslut till internet under de närmaste dagarna för att behålla den.';
 }

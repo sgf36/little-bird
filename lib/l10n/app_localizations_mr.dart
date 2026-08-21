@@ -523,4 +523,8 @@ class LMr extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren तुमचा मोफत प्रवेश सत्यापित करू शकले नाही. तो टिकवण्यासाठी पुढील काही दिवसांत इंटरनेटशी कनेक्ट करा.';
 }

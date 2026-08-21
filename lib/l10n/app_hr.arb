@@ -108,5 +108,6 @@
   "sendPlacesNoLocation": "{count, plural, one{{count} mjesto nema lokaciju i ne može se poslati} few{{count} mjesta nemaju lokaciju i ne mogu se poslati} other{{count} mjesta nema lokaciju i ne može se poslati}}",
   "sendPlacesOtherApp": "Bilo koja druga aplikacija",
   "sendPlacesFailed": "Ta aplikacija nije prihvatila datoteku",
-  "fileImportPositioned": "{count, plural, one{{count} mjesto iz datoteke spremno je za drugu kartografsku aplikaciju} few{{count} mjesta iz datoteke spremna su za drugu kartografsku aplikaciju} other{{count} mjesta iz datoteke spremno je za drugu kartografsku aplikaciju}}"
+  "fileImportPositioned": "{count, plural, one{{count} mjesto iz datoteke spremno je za drugu kartografsku aplikaciju} few{{count} mjesta iz datoteke spremna su za drugu kartografsku aplikaciju} other{{count} mjesta iz datoteke spremno je za drugu kartografsku aplikaciju}}",
+  "compExpiring": "Wren nije mogao potvrditi vaš besplatni pristup. Povežite se s internetom u sljedećih nekoliko dana kako biste ga zadržali."
 }

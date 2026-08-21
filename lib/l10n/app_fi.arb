@@ -108,5 +108,6 @@
   "sendPlacesNoLocation": "{count, plural, =1{1 paikalla ei ole sijaintia eikä sitä voi lähettää} other{{count} paikalla ei ole sijaintia eikä niitä voi lähettää}}",
   "sendPlacesOtherApp": "Mikä tahansa muu sovellus",
   "sendPlacesFailed": "Sovellus ei ottanut tiedostoa vastaan",
-  "fileImportPositioned": "{count, plural, =1{1 paikka säilytettiin tiedostosta, valmis toiseen karttasovellukseen} other{{count} paikkaa säilytettiin tiedostosta, valmiina toiseen karttasovellukseen}}"
+  "fileImportPositioned": "{count, plural, =1{1 paikka säilytettiin tiedostosta, valmis toiseen karttasovellukseen} other{{count} paikkaa säilytettiin tiedostosta, valmiina toiseen karttasovellukseen}}",
+  "compExpiring": "Wren ei voinut vahvistaa maksutonta käyttöoikeuttasi. Yhdistä internetiin lähipäivinä säilyttääksesi sen."
 }

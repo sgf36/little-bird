@@ -108,5 +108,6 @@
   "sendPlacesNoLocation": "{count, plural, other{{count}件の場所に位置情報がなく、送信できません}}",
   "sendPlacesOtherApp": "ほかのアプリ",
   "sendPlacesFailed": "そのアプリはファイルを受け取りませんでした",
-  "fileImportPositioned": "{count, plural, other{ファイルから{count}件の場所を保持しました。ほかの地図アプリに送信できます}}"
+  "fileImportPositioned": "{count, plural, other{ファイルから{count}件の場所を保持しました。ほかの地図アプリに送信できます}}",
+  "compExpiring": "Wren は無償アクセスを確認できませんでした。維持するには、数日以内にインターネットに接続してください。"
 }

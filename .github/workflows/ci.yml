@@ -78,6 +78,25 @@ jobs:
       - run: flutter analyze
       - run: flutter test --reporter expanded
 
+  # The Worker that issues complimentary codes. Its one testable half is token
+  # verification, which decides whether a phone holding an admin code may issue
+  # or withdraw codes at all — a verifier that said yes to anything would make
+  # every check behind it decorative, and one that said no to everything would
+  # look exactly like a withdrawn code. Node implements the same WebCrypto
+  # Ed25519 the Worker runtime does, so it can be checked without deploying.
+  worker:
+    name: Test the codes Worker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      # No dependencies and no lockfile: node:test is built in, so there is
+      # nothing to install and nothing to keep up to date.
+      - run: node --test
+        working-directory: server/comp-codes-worker
+
   ios:
     name: Build iOS
     runs-on: macos-26

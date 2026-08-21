@@ -1,0 +1,11 @@
+{
+  "name": "wren-comp-codes-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx wrangler dev",
+    "deploy": "npx wrangler deploy",
+    "migrate": "npx wrangler d1 execute wren-codes --remote --command \"ALTER TABLE codes ADD COLUMN role TEXT NOT NULL DEFAULT 'unlock';\"",
+    "test": "node --test"
+  }
+}

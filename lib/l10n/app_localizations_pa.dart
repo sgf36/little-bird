@@ -528,4 +528,8 @@ class LPa extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren ਤੁਹਾਡੀ ਮੁਫ਼ਤ ਪਹੁੰਚ ਦੀ ਪੁਸ਼ਟੀ ਨਹੀਂ ਕਰ ਸਕਿਆ। ਇਸਨੂੰ ਬਰਕਰਾਰ ਰੱਖਣ ਲਈ ਅਗਲੇ ਕੁਝ ਦਿਨਾਂ ਵਿੱਚ ਇੰਟਰਨੈੱਟ ਨਾਲ ਕਨੈਕਟ ਕਰੋ।';
 }

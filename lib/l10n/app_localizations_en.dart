@@ -530,4 +530,8 @@ class LEn extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren could not confirm your complimentary access. Connect to the internet in the next few days to keep it.';
 }

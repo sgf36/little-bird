@@ -503,4 +503,8 @@ class LMs extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren tidak dapat mengesahkan akses percuma anda. Sambung ke internet dalam beberapa hari akan datang untuk mengekalkannya.';
 }

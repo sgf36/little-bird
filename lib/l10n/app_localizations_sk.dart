@@ -558,4 +558,8 @@ class LSk extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'Wren nedokázal overiť váš bezplatný prístup. V najbližších dňoch sa pripojte na internet, aby ste si ho zachovali.';
 }

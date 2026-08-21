@@ -523,6 +523,10 @@ class LPt extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'O Wren não conseguiu confirmar o seu acesso gratuito. Ligue-se à internet nos próximos dias para o manter.';
 }
 
 /// The translations for Portuguese, as used in Portugal (`pt_PT`).
@@ -1038,4 +1042,8 @@ class LPtPt extends LPt {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'O Wren não conseguiu confirmar o seu acesso gratuito. Ligue-se à internet nos próximos dias para o manter.';
 }

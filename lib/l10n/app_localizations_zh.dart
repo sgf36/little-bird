@@ -479,6 +479,9 @@ class LZh extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring => 'Wren 无法确认你的免费使用权限。请在未来几天内连接互联网以继续保留。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -948,4 +951,7 @@ class LZhHant extends LZh {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring => 'Wren 無法確認你的免費使用權限。請在未來幾天內連接網際網路以繼續保留。';
 }

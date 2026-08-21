@@ -530,4 +530,8 @@ class LTa extends L {
     );
     return '$_temp0';
   }
+
+  @override
+  String get compExpiring =>
+      'உங்கள் இலவச அணுகலை Wren உறுதிப்படுத்த முடியவில்லை. அதைத் தக்கவைக்க அடுத்த சில நாட்களில் இணையத்துடன் இணைக்கவும்.';
 }
