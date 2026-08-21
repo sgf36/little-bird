@@ -8,7 +8,7 @@
 --
 -- Run it before deploying, not after:
 --
---   wrangler d1 execute wren-codes --remote --file=migrations/0001-code-role.sql
+--   npx wrangler d1 execute wren-codes --remote --file=migrations/0001-code-role.sql
 --
 -- SQLite has no `ADD COLUMN IF NOT EXISTS`, so running this twice reports
 -- "duplicate column name: role" and changes nothing. That error means the

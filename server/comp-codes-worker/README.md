@@ -57,8 +57,8 @@ next request — while leaving the unlock it also granted, which is unreachable.
 `schema.sql` uses `CREATE TABLE IF NOT EXISTS`, so re-running it against the
 live database does **not** add the column. Run the migration first, then deploy:
 
-    wrangler d1 execute wren-codes --remote --file=migrations/0001-code-role.sql
-    wrangler deploy
+    npx wrangler d1 execute wren-codes --remote --file=migrations/0001-code-role.sql
+    npx wrangler deploy
 
 Deploying without it makes every redemption fail with `no such column: role`,
 which from the app looks exactly like a code that was never issued.

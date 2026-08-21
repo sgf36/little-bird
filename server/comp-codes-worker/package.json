@@ -3,9 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
-    "migrate": "wrangler d1 execute wren-codes --remote --file=migrations/0001-code-role.sql",
+    "dev": "npx wrangler dev",
+    "deploy": "npx wrangler deploy",
+    "migrate": "npx wrangler d1 execute wren-codes --remote --file=migrations/0001-code-role.sql",
     "test": "node --test"
   }
 }
