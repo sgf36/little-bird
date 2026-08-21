@@ -116,17 +116,31 @@ void main() {
     expect(store.restoreCalls, 0);
   });
 
-  testWidgets('the complimentary code is not offered either', (tester) async {
-    // Long-pressing the title opens it. Undiscoverable, so no reviewer will
-    // find it -- but it unlocks guides of any size, which is nothing here, and
-    // it is the only thing in the app that would open a socket. It cannot even
-    // do that: the device identifier a code is issued against comes from a
-    // channel with no Android implementation. Leaving a dialog that can only
-    // ever answer "could not be reached" is worse than not having one.
+  testWidgets('the complimentary code is offered here too', (tester) async {
+    // It used to be withheld on Android, because the device identifier a code
+    // is issued against came from a channel with no Android implementation, so
+    // the dialog could only ever answer "could not be reached". IdentityPlugin
+    // supplies that now, and codes work.
+    //
+    // An ordinary unlock code still grants nothing anybody can see: this build
+    // makes no guides, so there is no cap to lift. Admin codes are the reason
+    // the box is here, and the console is what they open — which is why the
+    // test is that it opens, not that anything is unlocked by it.
     await pumpAndroid(tester);
     await tester.longPress(find.text('Wren'));
     await tester.pumpAndSettle();
-    expect(find.text('Complimentary access'), findsNothing);
+    expect(find.text('Complimentary access'), findsOne);
+  });
+
+  testWidgets('and the console is not, without an admin code', (tester) async {
+    // The entry point is the same long press on both platforms. What it opens
+    // depends on the token this device holds, and a device with none — which
+    // is every device in a test — gets the box, never the console.
+    await pumpAndroid(tester);
+    await tester.longPress(find.text('Wren'));
+    await tester.pumpAndSettle();
+    expect(find.text('Codes'), findsNothing);
+    expect(find.text('New code'), findsNothing);
   });
 
   testWidgets('a guide-making build keeps the complimentary code', (
