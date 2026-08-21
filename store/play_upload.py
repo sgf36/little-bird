@@ -86,7 +86,7 @@ def main():
             fail(None, h, "internal app sharing", r)
         d = r.json()
         print("\ninstall link: %s" % d.get("downloadUrl"))
-        print("version code: %s" % d.get("certificateFingerprint", "")[:0] or d.get("sha256", "")[:0] or "")
+        print("sha256      : %s" % d.get("sha256", "(not returned)"))
         return
 
     r = requests.post("%s/applications/%s/edits" % (BASE, PACKAGE), headers=h, timeout=60)
