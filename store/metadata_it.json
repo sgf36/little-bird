@@ -6,5 +6,6 @@
   "inAppPurchase": {
     "name": "Guide grandi e già esistenti",
     "description": "Guide più grandi e aggiunte alle esistenti."
-  }
+  },
+  "whatsNew": "Soprattutto lavoro di base. Nulla è cambiato nel modo in cui Wren legge uno screenshot o crea una guida.\n\nL'accesso gratuito ora si riconferma di tanto in tanto, così un codice regalato può essere revocato. Se hai acquistato lo sblocco, niente di tutto questo ti riguarda: ciò che è acquistato è tuo e Wren non lo ricontrolla mai."
 }

@@ -12,5 +12,6 @@
     "productId": "com.spencerfields.littlebird.unlimited",
     "name": "Any size, and existing guides",
     "description": "Bigger guides, and adding to existing ones."
-  }
+  },
+  "whatsNew": "Groundwork, mostly. Nothing has changed in how Wren reads a screenshot or makes a guide.\n\nComplimentary access now re-confirms itself from time to time, so a code that was given away can be withdrawn. If you bought the unlock, none of this touches you — a purchase is yours, and Wren never re-checks it."
 }

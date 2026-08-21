@@ -6,5 +6,6 @@
   "inAppPurchase": {
     "name": "Mọi kích cỡ và hướng dẫn cũ",
     "description": "Hướng dẫn lớn hơn, và thêm vào cái đã có."
-  }
+  },
+  "whatsNew": "Chủ yếu là phần nền móng. Không có gì thay đổi trong cách Wren đọc ảnh chụp màn hình hay tạo một hướng dẫn.\n\nQuyền truy cập miễn phí giờ đây tự xác nhận lại theo thời gian, để một mã đã trao đi có thể được thu hồi. Nếu bạn đã mua bản mở khóa thì không điều nào trong số này ảnh hưởng đến bạn — thứ đã mua là của bạn, và Wren không bao giờ kiểm tra lại."
 }

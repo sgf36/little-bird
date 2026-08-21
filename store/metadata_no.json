@@ -6,5 +6,6 @@
   "inAppPurchase": {
     "name": "Alle størrelser og dem du har",
     "description": "Større guider, og legg til i dem du har."
-  }
+  },
+  "whatsNew": "Mest grunnarbeid. Ingenting er endret i hvordan Wren leser et skjermbilde eller lager en guide.\n\nGratis tilgang bekrefter seg nå selv fra tid til annen, slik at en kode som er gitt bort kan trekkes tilbake. Har du kjøpt opplåsningen, berører ingenting av dette deg — det kjøpte er ditt, og Wren sjekker det aldri på nytt."
 }

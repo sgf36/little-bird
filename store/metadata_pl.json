@@ -6,5 +6,6 @@
   "inAppPurchase": {
     "name": "Duże i istniejące przewodniki",
     "description": "Większe przewodniki i dopisywanie do nich."
-  }
+  },
+  "whatsNew": "Głównie prace u podstaw. Nic się nie zmieniło w tym, jak Wren odczytuje zrzut ekranu ani jak tworzy przewodnik.\n\nBezpłatny dostęp potwierdza się teraz od czasu do czasu na nowo, więc podarowany kod można wycofać. Jeśli kupiłeś odblokowanie, nic z tego cię nie dotyczy — kupione jest twoje, a Wren nigdy tego nie sprawdza ponownie."
 }

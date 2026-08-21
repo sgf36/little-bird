@@ -6,5 +6,6 @@
   "inAppPurchase": {
     "name": "Sans limite, guides existants",
     "description": "Guides plus grands, et ajouts aux existants."
-  }
+  },
+  "whatsNew": "Surtout des fondations. Rien n'a changé dans la façon dont Wren lit une capture ou crée un guide.\n\nL'accès gratuit se reconfirme désormais de temps à autre, si bien qu'un code offert peut être retiré. Si vous avez acheté le déverrouillage, rien de tout cela ne vous concerne : un achat vous appartient, et Wren ne le revérifie jamais."
 }

@@ -6,5 +6,6 @@
   "inAppPurchase": {
     "name": "Večji in obstoječi vodniki",
     "description": "Večji vodniki in dodajanje v obstoječe."
-  }
+  },
+  "whatsNew": "Večinoma delo v temeljih. V tem, kako Wren prebere posnetek zaslona ali ustvari vodnik, se ni nič spremenilo.\n\nBrezplačni dostop se zdaj občasno znova potrdi, tako da je mogoče podarjeno kodo preklicati. Če ste odklep kupili, se vas nič od tega ne tiče — kupljeno je vaše in Wren tega nikoli znova ne preverja."
 }

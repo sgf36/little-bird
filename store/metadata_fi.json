@@ -6,5 +6,6 @@
   "inAppPurchase": {
     "name": "Oppaat ilman rajoituksia",
     "description": "Isommat oppaat ja lisäys olemassa oleviin."
-  }
+  },
+  "whatsNew": "Enimmäkseen pohjatyötä. Siihen, miten Wren lukee kuvakaappauksen tai tekee oppaan, ei ole tullut muutoksia.\n\nMaksuton käyttöoikeus vahvistetaan nyt aika ajoin uudelleen, joten lahjaksi annettu koodi voidaan peruuttaa. Jos ostit avauksen, mikään tästä ei koske sinua — ostettu on sinun, eikä Wren tarkista sitä koskaan uudelleen."
 }

@@ -6,5 +6,6 @@
   "inAppPurchase": {
     "name": "Guies grans i ja existents",
     "description": "Guies més grans, i afegir a existents."
-  }
+  },
+  "whatsNew": "Sobretot feina de fonaments. No ha canviat res en com Wren llegeix una captura ni en com fa una guia.\n\nL'accés gratuït ara es torna a confirmar de tant en tant, de manera que un codi que s'ha regalat es pot retirar. Si vas comprar el desbloqueig, res d'això t'afecta: una compra és teva i Wren no la torna a comprovar mai."
 }

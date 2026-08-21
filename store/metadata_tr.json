@@ -6,5 +6,6 @@
   "inAppPurchase": {
     "name": "Her boyut ve mevcut rehberler",
     "description": "Daha büyük rehberler ve mevcutlara ekleme."
-  }
+  },
+  "whatsNew": "Çoğunlukla temel işler. Wren'in bir ekran görüntüsünü okuma ya da rehber oluşturma biçiminde hiçbir şey değişmedi.\n\nÜcretsiz erişim artık zaman zaman kendini yeniden doğruluyor, böylece verilmiş bir kod geri çekilebiliyor. Kilidi satın aldıysan bunların hiçbiri seni ilgilendirmez — satın alınan senindir ve Wren onu bir daha asla denetlemez."
 }

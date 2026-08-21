@@ -6,5 +6,6 @@
   "inAppPurchase": {
     "name": "Guias grandes e já existentes",
     "description": "Guias maiores e adicionar aos existentes."
-  }
+  },
+  "whatsNew": "Sobretudo trabalho de base. Nada mudou na forma como o Wren lê uma captura de ecrã ou cria um guia.\n\nO acesso gratuito passa a reconfirmar-se de tempos a tempos, de modo que um código oferecido pode ser retirado. Se comprou o desbloqueio, nada disto lhe diz respeito — o que é comprado é seu, e o Wren nunca o volta a verificar."
 }

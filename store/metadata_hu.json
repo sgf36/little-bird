@@ -6,5 +6,6 @@
   "inAppPurchase": {
     "name": "Nagyobb és meglévő útikalauzok",
     "description": "Nagyobb útikalauzok és a meglévők bővítése."
-  }
+  },
+  "whatsNew": "Nagyrészt alapozás. Abban, ahogyan a Wren beolvas egy képernyőképet vagy útikalauzt készít, semmi sem változott.\n\nAz ingyenes hozzáférés mostantól időről időre újra megerősíti magát, így egy elajándékozott kód visszavonható. Ha megvásároltad a feloldást, ebből semmi sem érint téged — a megvásárolt a tiéd, és a Wren soha nem ellenőrzi újra."
 }

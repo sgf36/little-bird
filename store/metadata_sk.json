@@ -6,5 +6,6 @@
   "inAppPurchase": {
     "name": "Väčší aj existujúci sprievodca",
     "description": "Väčší sprievodcovia a pridávanie k nim."
-  }
+  },
+  "whatsNew": "Prevažne práca v základoch. Na tom, ako Wren číta snímku obrazovky alebo vytvára sprievodcu, sa nič nezmenilo.\n\nBezplatný prístup sa teraz čas od času nanovo potvrdzuje, takže darovaný kód možno stiahnuť späť. Ak ste si odomknutie kúpili, nič z toho sa vás netýka — kúpené je vaše a Wren to nikdy znovu neoveruje."
 }
