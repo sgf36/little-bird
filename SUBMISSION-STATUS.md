@@ -1,111 +1,72 @@
 # Wren — where the submission stands
 
-Last updated 17 August 2026, after the file and guide importers landed.
-Everything below was verified against App Store Connect or CI, not assumed.
+Last updated 21 August 2026. Everything below was read back from App Store
+Connect on that date, not assumed. The version of this file before it was four
+days stale and said the opposite of the truth on its first line: it claimed the
+app was not submitted, when 1.0 had been live for days.
 
-## Not submitted. One thing needs you, in a browser.
-
-### App Privacy questionnaire — the only remaining blocker
-
-Apple's exact words when the submission was attempted:
-
-> `STATE_ERROR.APP_DATA_USAGES_REQUIRED` — You must have published answers to
-> your app's data usages.
-
-App Store Connect → Wren → **App Privacy** → answer and **Publish**.
-
-`appDataUsages` and every sibling endpoint 404 under the App Manager key,
-including on Easy-Post, which has been through review. That is the API's shape,
-not a permissions problem, and a stronger key will not help.
-
-For Wren the honest answers are short. Nothing is collected, with one exception
-worth declaring rather than hiding: entering a complimentary code sends the code
-and a random device identifier to the Worker. That is not linked to a person and
-is not used for tracking, so it is either "Data Not Collected" or, conservatively,
-*Identifiers → Device ID*, used for **App Functionality**, **not linked** to the
-user, **not** used for tracking. Either is defensible; the second is safer and
-costs nothing.
-
-Two things that were **not** true when this file was first written and are worth
-knowing before answering:
-
-- The app now reads **files the user chooses** through the document picker. They
-  are read on the device and never uploaded, so nothing changes in the answers —
-  but the reviewer sees a file picker now, and the review notes explain it.
-- The app now decodes a **shared Apple Maps guide link** the user pastes. That is
-  a string the user supplies; nothing is fetched and no Apple account is touched.
-
-The privacy page already describes all of this, so the two will agree:
-https://wren.spencerfields.com/privacy.html
-
-## Settled since the last version of this file
+## 1.0 is on the App Store. 1.1.0 is prepared and waiting for you to submit it.
 
 | | |
 |---|---|
-| Paid Applications Agreement | **Done** — executed for Easy-Post, which covers the account. `GET /v1/agreements` still 404s; there is no API, and there did not need to be. |
-| iPad | **iPhone-only.** `TARGETED_DEVICE_FAMILY = "1"`. There is no iPad layout and the input is screenshots taken on a phone. This also cleared `STATE_ERROR.SCREENSHOT_REQUIRED.APP_IPAD_PRO_3GEN_129`. Reversible in a later version. |
-| Minimum iOS | **18.0**, raised from 13.0. Not a preference — `MKMapItem.identifier` is iOS 18+ and its `rawValue` is the muid a guide link needs, so below 18 every lookup returned nothing and the app installed, read screenshots correctly, then found no places at all. Apple asked for the same thing independently: **ITMS-90068** on build 48 flagged MinimumOSVersion 13.0 as under the 15.0 floor arriving Spring 2027. |
+| **1.0** | `READY_FOR_SALE` — live, build 105 |
+| **1.1.0** | `PREPARE_FOR_SUBMISSION` — build **108** attached, VALID, minOS 18.0 |
+| Release notes | All 49 locales, pushed from `store/metadata_*.json` |
+| Reviewer notes | Updated for 1.1.0 and matching the repo byte for byte |
+| Purchase `unlimited` | `APPROVED` |
+| App Privacy questionnaire | Answered and published 17 August. Still correct — see below |
+| Paid Applications Agreement | Executed via Easy-Post, which covers the account |
+| Copyright, age rating, category, screenshots, privacy URLs | All set |
 
-## What the app does now that the listing had to catch up with
+**The only step left is pressing Submit**, deliberately left to a person so the
+build and the in-app purchase can be seen attached rather than reported so.
 
-Three ways in, not one — the **Add** button opens a menu:
+### Why the privacy answers did not need revisiting for 1.1.0
 
-1. **Screenshots**, as before.
-2. **A file** — CSV, KML, KMZ, GPX, GeoJSON, Google Takeout. Read through a
-   `UIDocumentPickerViewController` channel in `AppDelegate.swift` rather than a
-   plugin, for the same reason OCR and place lookup are.
-3. **An existing guide** — paste a shared link and Wren decodes the places
-   already in it, shown as a collapsed group. Apple's share sheet gives a
-   short `maps.apple/ug/…` link with no payload, so it is expanded via one
-   request to Apple first; the app refused such links outright until
-   17 August. Publishing uses `guide?_col=`, which creates a guide;
-   `guides?user=`, which Apple emits for sharing, decodes identically but
-   **arrives empty** when synthesised — that cost a build.
+Administrative complimentary codes now re-confirm themselves daily. That changes
+how *often* the device identifier is sent, not what is sent or why: it is the
+same identifier, for the same purpose, and Apple's form has no field for
+frequency. The label declares *Identifiers → Device ID, App Functionality, not
+linked to the user, not used for tracking*, which is also what
+https://wren.spencerfields.com/privacy.html says it declares, so the two agree.
 
-**The purchase now unlocks two things**, and Apple reviews the in-app-purchase
-description against actual behaviour, so both had to be named in all 49 locales:
-guides over three places, and combining with a guide you already have.
+### Two things the API cannot see, and one trap
 
-Three rules in that flow are counter-intuitive, and each was a bug first:
+`appDataUsages` and `agreements` both 404 under this key. That is the API's
+shape, not a permissions problem, and a stronger key does not help.
+`store/readiness.py` prints `?` for them, meaning **could not look** — not
+"missing". Reading that `?` as a blocker is how the previous version of this
+file came to name a satisfied requirement as the thing holding up a submission.
 
-- Carried-over places **do not count** against the three-place cap. Counting
-  them makes importing a guide of twenty trip a limit built for three.
-- The paywall for combining **must not** offer "save the first three instead".
-  That option trims what Wren found; applied here it publishes a guide missing
-  places the user already had.
-- "Nothing new to add" is checked **before** the purchase is offered. The
-  original order took the money and then produced a duplicate guide. Pinned by a
-  test asserting `buyCalls == 0`.
+`store/push_metadata.py` reports `0 of 49 succeeded` whenever the in-app
+purchase is live: Apple refuses to edit an `ACTIVE` InAppPurchaseLocalization,
+and the script counts a locale as successful only if the listing *and* the
+purchase both wrote. The listings do get written. Read the per-locale
+`listing set` lines, not the summary.
 
-## Done and verified
+## What 1.1.0 contains
 
-| | |
-|---|---|
-| Build 58 | Signed, uploaded, attached to Internal Testers AND set on the version record, which pointed at build 48 until 17 August. Carries the importers, the iOS 18 target, the new paywall, short-link expansion and the raised guide-link ceiling. |
-| Tests | 472, green. Includes 72 scene renders across twelve languages and 10 checks on the manual-test fixtures. |
-| App UI | All 46 translated languages, plus English. 26 new strings this round. |
-| Listings | 49 locales, all within Apple's caps. **Not yet re-pushed** — see below. |
-| Test fixtures | `testdata/`, nine files, one per failure mode, each verified through the app's own reader. See `testdata/README.md`. |
-| Screenshots | Pipeline built (`store/shoot.py`, `.github/workflows/screenshots.yml`), **not yet run** — deliberately waiting until device testing confirms nothing needs fixing. |
-| Purchase | `READY_TO_SUBMIT`. |
-| Age rating, category, copyright, content rights, review contact | All set. |
-| Comp codes | Worker live, single-use enforced. Reviewer code `7QFG-7FVY-QXP6-2AT6` is deliberately **not** single-use. |
+A code console, reachable only on a device that has redeemed an administrative
+complimentary code, and revocable administrators: an admin token is now good for
+a fortnight and re-confirms daily, so withdrawing such a code ends the unlock it
+granted. Ordinary unlock codes do not renew and are not revocable. A purchase is
+untouched and is never re-checked.
 
-## The two steps left, in order
+The console is deliberately absent from the public release notes — describing it
+there is the one thing that would make it discoverable — and deliberately
+present in the reviewer notes, because guideline 2.3.1 asks that functionality
+be clear to App Review rather than only to end users. The App Review code
+`7QFG-7FVY-QXP6-2AT6` is an ordinary unlock code, so the console cannot be opened
+during review, and unlock codes never renew, so nothing about renewal reaches a
+reviewer either.
 
-1. **You test build 58** on the phone, using `testdata/` and the guide-link
-   instructions in `testdata/README.md`, plus the five ceiling links in the
-   artifact — the lean encoding is parsed by Apple's server but has not been
-   opened from the app on a device.
-2. Then, in either order:
-   - `gh workflow run screenshots.yml -f upload=true` — takes and uploads the
-     ten localised sets. Roughly forty minutes of wall-clock. It waits for
-     step 1 so the store page matches the build you approved, not because it
-     costs anything: this repo is public, and the Actions timing API reports
-     zero billable macOS milliseconds.
-   - `python store/push_metadata.py --all` — pushes the updated listings.
-   - Publish the App Privacy answers in the browser.
-   - `python store/submit.py` — idempotent, safe to re-run.
+## Android
+
+`Wren-android-1.1.0+2-internal.aab`, built from the branch tip and signed with
+the upload key (`META-INF/UPLOAD.RSA`, fingerprint `B0:67:…:27:93`, checked
+against the keystore). Waiting on the Play app record before it can go to the
+internal testing track. Package name is `com.spencerfields.littlebird` — the id
+predates the rename and is what the bundle is actually signed under.
 
 ## The guide-link ceiling, measured
 
