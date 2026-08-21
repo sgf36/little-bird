@@ -91,13 +91,23 @@ h3 {
   color: var(--gold);
   margin: 0;
 }
-.lede { font-size: clamp(1.02rem, 2.6vw, 1.15rem); margin: 0; max-width: 36rem; }
+/* Matched to the body measure above: a lede narrower than the text beneath it
+   made the intro look like a pull-quote rather than the opening paragraph. */
+.lede { font-size: clamp(1.02rem, 2.6vw, 1.15rem); margin: 0; max-width: 44rem; }
 .lede + .lede { color: var(--muted); }
 .prose { display: flex; flex-direction: column; gap: 1.15rem; }
 /* Running text keeps a comfortable line length whatever the container does.
-   Roughly 70 characters, which is the measure the old page-wide 44rem was
-   really enforcing. */
-.prose > p, .prose > ul { max-width: 38rem; }
+   Widened from 38rem after measuring the rendered page: at 1585px every other
+   element -- headings, the status block, the footer -- was 928px while the
+   text was 608px, leaving 320px of dead space to the right of the paragraphs
+   and only under them. That reads as a layout fault rather than a measure.
+   44rem is about 77 characters at this size, still inside the comfortable
+   range, and closes a third of the gap.
+
+   Narrowing the headings to match instead was the obvious alternative and is
+   worse: it fixes the ragged edge by using LESS of the page, which is the
+   opposite of what the page needed. */
+.prose > p, .prose > ul { max-width: 44rem; }
 .updated { color: var(--muted); font-size: .88rem; margin: 0; }
 
 section > p { margin: 0 0 .9rem; }
@@ -219,6 +229,50 @@ footer {
   color: var(--muted);
   font-size: .88rem;
   display: flex; flex-wrap: wrap; gap: .4rem 1.25rem;
+}
+
+/* ── screenshots ─────────────────────────────────────────────────────── */
+/* A row that scrolls on a phone and lays out flat on a desktop. The images are
+   860px wide for a 430px slot, so they stay sharp on a retina screen, and they
+   carry width and height so the page does not jump while they load. */
+.shots {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 .5rem;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(13rem, 1fr);
+  gap: clamp(.75rem, 2.5vw, 1.25rem);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+}
+.shots li {
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  min-width: 0;
+}
+.shots img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--raised);
+}
+.shots span {
+  color: var(--muted);
+  font-size: .88rem;
+  line-height: 1.5;
+}
+@media (min-width: 56rem) {
+  /* Four across, no scrolling, once there is room for them. */
+  .shots { grid-auto-flow: row; grid-template-columns: repeat(4, 1fr); overflow-x: visible; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shots { scroll-behavior: auto; }
 }
 
 /* ── get the app ─────────────────────────────────────────────────────── */

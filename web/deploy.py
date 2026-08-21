@@ -4,13 +4,19 @@ No browser, no login — the API token lives in Windows Credential Manager under
 service `cpanel-littlebird-site` (falling back to the EasyPost token, which is
 the same cPanel account), or in CPANEL_API_TOKEN.
 
-Three traps on this host, all of which mimic other faults:
+Four traps on this host, all of which mimic other faults:
   1. UAPI answers HTTP 200 even when the call failed. Check the JSON `status`.
   2. Responses carry no charset header, so requests guesses latin-1 and the
      output looks like mojibake that is not actually there. Decode as UTF-8.
   3. mod_security returns 406 to a python-requests User-Agent.
+  4. upload_files takes a directory and a filename, never a path. Handing it
+     `ar/index.html` used to upload the Arabic page to the docroot as
+     `index.html` -- silently replacing the English homepage with it. Every
+     upload now goes to the directory the file sits in, relative to web/, and
+     the directory is created first if it is not there.
 
-Usage:  python web/deploy.py [file ...]      (default: everything in web/)
+Usage:  python web/deploy.py [file ...]      (default: every file in web/,
+        including the translated pages and images in subdirectories)
 """
 import json, os, sys, pathlib, keyring, requests
 
@@ -47,14 +53,35 @@ def check(resp):
         sys.exit(f"cPanel refused: {data.get('errors') or data}")
     return data.get("data")
 
+_made = set()
+
+
+def remote_dir(path: pathlib.Path) -> str:
+    """The directory this file belongs in, mirroring its place under web/."""
+    rel = path.resolve().relative_to(WEB.resolve()).parent
+    return DOCROOT if rel == pathlib.Path(".") else f"{DOCROOT}/{rel.as_posix()}"
+
+
+def ensure_dir(remote: str):
+    """Creates a directory on the host, once, if it is not already there.
+
+    mkdir answers an error when the directory exists, which is not a failure
+    worth stopping for -- so this asks and moves on rather than checking first.
+    """
+    if remote == DOCROOT or remote in _made:
+        return
+    parent, _, name = remote.rpartition("/")
+    S.post(
+        f"https://{HOST}:{PORT}/execute/Fileman/mkdir",
+        data={"path": parent, "name": name},
+        timeout=60,
+    )
+    _made.add(remote)
+
+
 def upload(path: pathlib.Path):
-    # The destination follows the file's own place under web/. It used to be
-    # DOCROOT for every file, with only the basename sent, which was harmless
-    # while the site was flat and silently destructive once it was not:
-    # deploying web/de/privacy.html overwrote the ENGLISH privacy page with the
-    # German one, reported success, and left the German page untouched.
-    rel = path.resolve().parent.relative_to(WEB.resolve())
-    target = DOCROOT if rel == pathlib.Path(".") else f"{DOCROOT}/{rel.as_posix()}"
+    target = remote_dir(path)
+    ensure_dir(target)
     with path.open("rb") as fh:
         r = S.post(
             f"https://{HOST}:{PORT}/execute/Fileman/upload_files",
@@ -69,11 +96,9 @@ def upload(path: pathlib.Path):
             sys.exit(f"{path.name} rejected: {entry.get('reason')}")
     return path.stat().st_size
 
-SUFFIXES = {".html", ".css", ".js", ".php", ".svg", ".png", ".ico", ".txt", ".xml"}
+SUFFIXES = {".html", ".css", ".js", ".php", ".svg", ".png", ".ico", ".txt",
+            ".xml", ".webp", ".jpg", ".jpeg", ".woff2"}
 
-# rglob, not iterdir: the translated pages live in web/<lang>/ and were
-# invisible to the default run, so a full deploy quietly published the English
-# changes and nothing else.
 targets = [pathlib.Path(a) for a in sys.argv[1:]] or \
           sorted(p for p in WEB.rglob("*") if p.is_file() and p.suffix in SUFFIXES)
 
@@ -82,8 +107,8 @@ if not targets:
 
 for p in targets:
     size = upload(p)
-    shown = p.resolve().relative_to(WEB.resolve()).as_posix()
-    print(f"uploaded {shown}  ({size:,} bytes)")
+    where = remote_dir(p).replace(DOCROOT, "") or "/"
+    print(f"uploaded {where}/{p.name}".replace("//", "/") + f"  ({size:,} bytes)")
 
 print(f"\ndeployed to {DOCROOT}")
 print("verify at https://wren.spencerfields.com/ — a 200 from the API is")
