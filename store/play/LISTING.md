@@ -141,9 +141,14 @@ no communication features, no gambling, no purchases. A utility.
 
 **Government, news, financial or health app.** None of these.
 
-**Privacy policy URL.** <https://wren.spencerfields.com/privacy.html> —
-**this needs rewriting before submission.** It is written for the iOS app: it
-describes Apple Maps lookups and the App Store privacy label, neither of which
-applies here, and it does not say that the Android build collects nothing at
-all. A page that under-describes the app is a smaller problem than one that
-describes a different app.
+**Privacy policy URL.** <https://wren.spencerfields.com/android-privacy.html>
+
+Written for this app and live in sixteen languages since 2026-08-21. Do **not**
+give Play the /privacy.html address: that one is the iPhone policy, describing
+Apple Maps lookups, an App Store privacy label and a Keychain, none of which
+exist here — and it does not describe the identifier this build sends when a
+code is entered.
+
+The two pages agree on the sections that are true of both — who this is, the ICO
+registration, children, your rights, the website — and diverge everywhere the
+platforms do. If either changes, check the other.
