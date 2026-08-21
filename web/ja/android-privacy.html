@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="ja">
+
+
+
+<head>
+
+
+
+<meta charset="utf-8">
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Android版のプライバシー — Wren</title>
+
+
+
+<meta name="description" content="Android版のWrenが集めるもの、そして端末から出ていくもの。スクリーンショットは出ていきません。">
+
+
+
+<meta name="theme-color" content="#12332F">
+
+
+
+<link rel="icon" href="data:image/svg+xml,&lt;svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'&gt;&lt;rect%20width='100'%20height='100'%20rx='22'%20fill='%231E4B45'/&gt;&lt;polygon%20points='22,62%2012,29%2024,23%2031,50'%20fill='%23F2C879'/&gt;&lt;ellipse%20cx='42'%20cy='60'%20rx='23'%20ry='17'%20fill='%23F2C879'/&gt;&lt;ellipse%20cx='63'%20cy='44'%20rx='12'%20ry='11.5'%20fill='%23F2C879'/&gt;&lt;polygon%20points='74,42%2089,46%2074,48'%20fill='%23E08A4B'/&gt;&lt;circle%20cx='67'%20cy='41'%20r='2.3'%20fill='%231E4B45'/&gt;&lt;/svg&gt;">
+
+
+
+<link rel="stylesheet" href="../style.css">
+
+
+
+<link rel="canonical" href="https://wren.spencerfields.com/ja/android-android-privacy.html"><!-- i18n:begin --><link rel="alternate" hreflang="x-default" href="https://wren.spencerfields.com/android-android-android-privacy.html"><link rel="alternate" hreflang="en" href="https://wren.spencerfields.com/android-android-android-privacy.html"><link rel="alternate" hreflang="zh" href="https://wren.spencerfields.com/zh/android-android-android-privacy.html"><link rel="alternate" hreflang="hi" href="https://wren.spencerfields.com/hi/android-android-android-privacy.html"><link rel="alternate" hreflang="es" href="https://wren.spencerfields.com/es/android-android-android-privacy.html"><link rel="alternate" hreflang="ar" href="https://wren.spencerfields.com/ar/android-android-android-privacy.html"><link rel="alternate" hreflang="fr" href="https://wren.spencerfields.com/fr/android-android-android-privacy.html"><link rel="alternate" hreflang="bn" href="https://wren.spencerfields.com/bn/android-android-android-privacy.html"><link rel="alternate" hreflang="pt" href="https://wren.spencerfields.com/pt/android-android-android-privacy.html"><link rel="alternate" hreflang="id" href="https://wren.spencerfields.com/id/android-android-android-privacy.html"><link rel="alternate" hreflang="ur" href="https://wren.spencerfields.com/ur/android-android-android-privacy.html"><link rel="alternate" hreflang="ru" href="https://wren.spencerfields.com/ru/android-android-android-privacy.html"><link rel="alternate" hreflang="de" href="https://wren.spencerfields.com/de/android-android-android-privacy.html"><link rel="alternate" hreflang="ja" href="https://wren.spencerfields.com/ja/android-android-android-privacy.html"><link rel="alternate" hreflang="mr" href="https://wren.spencerfields.com/mr/android-android-android-privacy.html"><link rel="alternate" hreflang="te" href="https://wren.spencerfields.com/te/android-android-android-privacy.html"><link rel="alternate" hreflang="sv" href="https://wren.spencerfields.com/sv/android-android-android-privacy.html"><!-- i18n:end --></head>
+
+
+
+<body>
+
+
+
+<div class="wrap">
+
+
+
+
+
+
+
+  <!-- i18n:begin --><p class="i18n-legal" style="margin:0 0 1.5rem;padding:.75rem 1rem;border-left:3px solid currentColor;opacity:.8;font-size:.9rem">このページは便宜のために提供された翻訳です。英語版が正式なテキストであり、内容に相違がある場合は英語版が優先されます。</p><!-- i18n:end --><div class="topbar">
+
+
+
+    <a class="brand" href="index.html">
+
+
+
+      <svg viewbox="0 0 100 100" role="img" aria-label="Wren">
+
+
+
+        <rect width="100" height="100" rx="22" fill="#1E4B45"></rect>
+
+
+
+        <polygon points="22,62 12,29 24,23 31,50" fill="#F2C879"></polygon>
+
+
+
+        <ellipse cx="42" cy="60" rx="23" ry="17" fill="#F2C879"></ellipse>
+
+
+
+        <ellipse cx="63" cy="44" rx="12" ry="11.5" fill="#F2C879"></ellipse>
+
+
+
+        <polygon points="74,42 89,46 74,48" fill="#E08A4B"></polygon>
+
+
+
+        <circle cx="67" cy="41" r="2.3" fill="#1E4B45"></circle>
+
+
+
+      </svg>
+
+
+
+      Wren
+
+
+
+    </a>
+
+
+
+    <nav><a href="index.html">概要</a><a href="apps.html">アプリ</a>
+
+
+
+      <a href="support.html">サポート</a>
+
+
+
+      <a href="privacy.html">プライバシー</a>
+
+
+
+      <a href="terms.html">利用規約</a></nav>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <!-- i18n:begin --><details class="i18n-picker"><summary><span aria-hidden="true">🌐</span> 日本語</summary><ul><li><a href="../android-privacy.html" lang="en" hreflang="en">English</a></li><li><a href="../zh/android-privacy.html" lang="zh" hreflang="zh">简体中文</a></li><li><a href="../hi/android-privacy.html" lang="hi" hreflang="hi">हिन्दी</a></li><li><a href="../es/android-privacy.html" lang="es" hreflang="es">Español</a></li><li><a href="../ar/android-privacy.html" lang="ar" hreflang="ar">العربية</a></li><li><a href="../fr/android-privacy.html" lang="fr" hreflang="fr">Français</a></li><li><a href="../bn/android-privacy.html" lang="bn" hreflang="bn">বাংলা</a></li><li><a href="../pt/android-privacy.html" lang="pt" hreflang="pt">Português</a></li><li><a href="../id/android-privacy.html" lang="id" hreflang="id">Bahasa Indonesia</a></li><li><a href="../ur/android-privacy.html" lang="ur" hreflang="ur">اردو</a></li><li><a href="../ru/android-privacy.html" lang="ru" hreflang="ru">Русский</a></li><li><a href="../de/android-privacy.html" lang="de" hreflang="de">Deutsch</a></li><li><span aria-current="true" class="i18n-current">日本語</span></li><li><a href="../mr/android-privacy.html" lang="mr" hreflang="mr">मराठी</a></li><li><a href="../te/android-privacy.html" lang="te" hreflang="te">తెలుగు</a></li><li><a href="../sv/android-privacy.html" lang="sv" hreflang="sv">Svenska</a></li></ul></details><style>.i18n-picker{margin:.75rem 0 1.25rem;font-size:.9rem;border:1px solid currentColor;border-radius:6px;padding:.4rem .7rem;display:inline-block;opacity:.75}.i18n-picker[open]{display:block}.i18n-picker:hover{opacity:1}.i18n-picker summary{cursor:pointer;list-style:none}.i18n-picker summary::-webkit-details-marker{display:none}.i18n-picker summary::after{content:' \25BE'}.i18n-picker[open] summary::after{content:' \25B4'}.i18n-picker ul{list-style:none;padding:.75rem 0 .15rem;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(10rem,1fr));gap:.4rem .9rem}.i18n-picker li{margin:0}.i18n-picker a{text-decoration:none}.i18n-picker a:hover{text-decoration:underline}.i18n-current{font-weight:700}</style><!-- i18n:end --><header class="hero">
+
+
+
+    <h1>Android版のプライバシー</h1>
+
+
+
+    <p class="updated">最終更新日:2026年8月17日</p>
+
+
+
+  </header>
+
+
+
+
+
+
+
+  <div class="status">
+
+
+
+    <span class="label">要約</span>
+
+
+
+    <p><strong>アプリ</strong>にはアカウントもアナリティクスもありません。スクリーンショットやインポートしたファイルはお使いのスマートフォン上で読み取られるだけで、アップロードされることは一切ありません。唯一保持されるのはお使いのデバイス用のランダムな識別子で、それも無償コードを受け取り、それを入力することを選んだ場合に限られます——独自のサーバーと通信する理由は、それだけです。</p>
+
+
+
+    <p><strong>このウェブサイト</strong>については事情が異なります。Google Analyticsを使用していますが、初回訪問時に表示される通知に同意した場合に限られます。同意しなければCookieは一切設定されません。</p>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>運営者について</h2>
+
+
+
+    <p>Wrenは、英国に所在する個人事業主Spencer Fieldsによって制作されています(住所:Lytchett House, 13 Freeland Park, Wareham Road, Lytchett Matravers, Poole, BH16 6FA)。本ポリシーに関するお問い合わせは<strong>Apps [at] spencerfields [dot] com</strong>までお願いいたします。</p>
+
+
+
+  </section>
+
+  <section>
+
+    <h2>Wrenが集めるもの</h2>
+
+    <p>ひとつの例外を除いて、何も集めません。その例外も、お客様が選んだ場合に限られます。無償コードを入力すると、そのコードと、このインストールに固有のランダムな識別子が、Wrenが運営するサーバーに送られます。それ以外にお客様に関するものは、収集も保存も共有もしません。アカウントもログインもなく、解析も広告識別子もクラッシュレポートもありません。</p>
+
+    <p>コードを一度も入力しなければ——ほとんどの方は入力しません。コードは名前の分かっている相手にお渡しするものだからです——Wrenが独自のサーバーと通信することはまったくありません。</p>
+
+  </section>
+
+  <section>
+
+    <h2>スクリーンショットと読み込んだファイル</h2>
+
+    <p>端末上で読み取られ、アップロードされることはありません。文字認識はアプリ自体に含まれるモデルで動くため、ネットワークを切っていてもスクリーンショットは読み取れますし、画像が端末から出ることはありません。読み込んだCSV、GPX、KML、Takeoutのエクスポートについても同じです。</p>
+
+  </section>
+
+  <section>
+
+    <h2>端末から出ていくものと、その行き先</h2>
+
+    <p>2つあります。どちらもスクリーンショットではありません。</p>
+
+    <p>1つめは<strong>場所の名前と、お客様が確認した都市</strong>です。「Dishoom Shoreditch」を座標にするには地図に尋ねる必要があり、Android自身のジオコーダーがネットワーク越しに答えます。多くの端末ではそれはGoogleであり、Googleのプライバシーポリシーのもとで、住所を調べるどのアプリとも同じことです。ほかには何も付きませんし、お客様が検索を求めるまでは何も送られません。</p>
+
+    <p>都市は<em>お客様</em>がアプリで選んだものです。Wrenが端末の位置を尋ねることはありません——位置情報の権限は意図的にありません。尋ねるのは、名前のある場所がどこかということだけです。</p>
+
+    <p>2つめは無償コードとランダムな識別子で、次に説明します。</p>
+
+  </section>
+
+  <section>
+
+    <h2>無償コード</h2>
+
+    <p>一部の方には、支払いなしで有料機能を使える無償コードをお渡ししています。コードが入力されると、開発者が運営するCloudflare Workerに2つのものが送られます。<strong>コードそのものと、このインストールに固有のランダムな識別子</strong>です。この組み合わせを保存することで、コードを一度だけ使えるようにしています。サーバーが必要な理由はそれだけです。端末には、そのコードが別の端末ですでに使われたかどうかを知るすべがないからです。</p>
+
+    <p>識別子はWrenが生成するもので、何からも導き出されていません。Android IDでも、広告識別子でもなく、ハードウェアやアカウントに由来するものでもありません。示すのはこのインストールだけです。アプリを削除すると識別子も消えるため、入れ直すと新しい識別子になります。</p>
+
+    <p>ごく少数のコードは、開発者自身のコードコンソールへの管理者アクセスも付与します。そうしたコードを取り消せるようにするため、それらだけが1日に1回程度サーバーであらためて確認されます。再確認で送られるのは同じ2つだけです。通常のコードは入力時に一度確認されるだけで、その後は確認されません。</p>
+
+    <p>コードが<em>拒否</em>された場合、その送信元IPアドレスだけが最大1時間記録されます。エンドポイントを推測で叩き続けられないようにするためです。コードや識別子と一緒に保存されることはなく、コードが通った場合はそもそも保存されず、自動的に削除されます。</p>
+
+  </section>
+
+  <section>
+
+    <h2>リストを別の地図アプリに渡す</h2>
+
+    <p>リストは端末上のファイルとして書き出され、お選びになったアプリに渡されます。この受け渡しは端末の中で完結します。アップロードは行われず、ファイルが相手のアプリに渡った時点でWrenは関与しません。</p>
+
+    <p>Google マイマップだけは触れておく価値があります。WrenはAndroid自身の保存ダイアログでファイルを保存し、そのうえでブラウザでgoogle.com/maps/d/を開きます。その先はお客様のブラウザが、お客様自身のGoogleセッションで行うことです。Wrenは何もアップロードしませんし、その内容を見ることもできません。</p>
+
+  </section>
+
+  <section>
+
+    <h2>権限</h2>
+
+    <p>ちょうど1つ、インターネットへのアクセスだけです。場所の検索と、コードを入力する場合のコード確認に必要です。位置情報も、カメラも、連絡先もありません。システムのファイル選択でお客様が渡したもの以外のファイルにもアクセスしません。</p>
+
+  </section>
+
+  <section>
+
+    <h2>端末に保存されるもの</h2>
+
+    <p>無償コードを引き換えた場合は、それを確認する署名付きの返信。これによりWrenはオフラインでアクセス権を確認できます。そして、公開または消去するまでのあいだ、作業中の場所のリスト。</p>
+
+    <p>いずれも端末上の通常のアプリ保存領域にあり、端末自体の暗号化で保護されます。Wrenを削除すれば一緒に消えます。</p>
+
+  </section>
+
+<section>
+
+
+
+    <h2>Instagramやその他のアプリ</h2>
+
+
+
+    <p>WrenはInstagram、TikTok、その他いかなるサービスにも接続しません。これらのアカウントへのアクセス権を持たず、そこから何かを読み取ったり、スクレイピングしたり、ダウンロードしたりすることもありません。お客様が撮影し、共有することを選んだスクリーンショットのみを読み取ります。</p>
+
+
+
+  </section>
+
+<section>
+
+
+
+    <h2>お子様について</h2>
+
+
+
+    <p>Wrenは子供を対象としておらず、年齢を問わず誰からも個人データを収集しません。</p>
+
+
+
+  </section>
+
+<section>
+
+
+
+    <h2>お客様の権利</h2>
+
+
+
+    <p>英国GDPRおよびEU GDPRのもとで、お客様はご自身に関して保有されている個人データについて、アクセス、訂正、消去、制限、異議申立て、データポータビリティの権利を有します。</p>
+
+
+
+    <p>無料コードを一度も入力したことがない場合、Wrenはお客様について一切何も保持していないため、実際にはアクセス、訂正、消去すべきものは何もありません。入力したことがある場合、保持されている唯一の記録は、使用したコードと、それに付随するランダムな端末識別子であり、コードが再利用されないようにするために保持されています。上記の住所までご連絡いただければ、1か月以内に削除するか、お客様にお送りします。削除すると、そのコードは他の方が使用できるようになります。</p>
+
+
+
+    <p>英国にお住まいの場合は、<a href="https://ico.org.uk/">情報コミッショナー事務局（Information Commissioner's Office）</a>に苦情を申し立てることもできます。</p>
+
+
+
+  </section>
+
+<section>
+
+
+
+    <h2>このウェブサイトについて</h2>
+
+
+
+    <p>このサイトでは、訪問数を数え、どのページが読まれているかを確認するために<strong>Google Analytics</strong>を、ページのどの部分が読まれ、どこで人々がつまずいているかを見るために<strong>Microsoft Clarity</strong>を使用しています。これらはサイト上で使用している唯一の第三者サービスであり、広告は一切なく、ここで得られる情報は、お客様のプロフィールを作成したり、他所で追跡したりする目的には使用されません。</p>
+
+
+
+    <p><strong>お客様が同意するまで、何も読み込まれません。</strong>分析用クッキーは必須のものではないため、Privacy and Electronic Communications Regulations（電子通信・プライバシー規則）のもとでは、事前にお客様の同意が必要です。初回訪問時に「同意する」と「拒否する」の選択肢を含む通知が表示されます。選択が行われるまで、Google Consent Modeによってすべてのストレージ種別が「拒否」状態に保たれ、GoogleのスクリプトもMicrosoftのスクリプトも一切読み込まれません。つまり「拒否する」を選んだ場合、クッキーは一切設定されず、両者に何のデータも送られません。お客様の選択はブラウザのローカルストレージに保存されるため、通知は一度だけ表示されます。</p>
+
+
+
+    <p>考えを変えたくなったときは、ブラウザでこのサイトのデータを消去すれば、通知が再び表示されます。</p>
+
+
+
+    <p>同意いただいた場合、Googleは通常のアナリティクス信号——ご覧になったページ、おおよその位置情報、お使いの端末やブラウザの種類——を受け取り、訪問ごとの区別のためにCookieを設定します。この点においてGoogleはデータ処理者として機能し、その取り扱いは<a href="https://policies.google.com/privacy">Googleのプライバシーポリシー</a>に従います。広告およびパーソナライズに関する信号は、どちらを選択されても拒否されたままです。</p>
+
+
+
+    <p><strong>Microsoft Clarity</strong>は単なる集計にとどまりません。同意された場合、訪問中のページのスクロールやクリックの様子が記録され、その操作が再生される仕組みになっており、また、ある訪問と別の訪問を区別するために独自のクッキーを設定します。フォーム欄に入力された内容やドロップダウンで選択された内容は、ブラウザから送信される前にマスク処理されます。Clarityはどの動作モードにおいてもこれらをマスクし、それを無効にする方法は提供されていません。当サイトで使用している設定では、ページ上のどこに表示される数字やメールアドレスであっても、同様にマスクされます。この点においてMicrosoftはデータ処理者として関与しており、その取り扱いは<a href="https://privacy.microsoft.com/privacystatement">Microsoftのプライバシーステートメント</a>に定められています。訪問の記録は集計情報とは異なるため、無断で実施することは認められておらず、そのために同意の有無を前提とせず、選択肢として提示しているのです。</p>
+
+    <p>これとは別に、ホスティングプロバイダーは通常のサーバーアクセスログを保持していますが、これはどのウェブサイトでも通常行われていることであり、Wrenが読み取ったり利用したりするものではありません。</p>
+
+
+
+    <p><strong>これらはアプリには一切当てはまりません。</strong>Androidアプリ版のWrenには、いかなる種類のアナリティクスも含まれておらず、これまでも含まれたことはありません。この項目はこのウェブサイトのみに関するものです。</p>
+
+
+
+  </section>
+
+<section>
+
+
+
+    <h2>変更について</h2>
+
+
+
+    <p>本ポリシーが変更された場合、ページ上部の日付もあわせて更新されます。重要な変更は、ひっそりと行うのではなく、このページ上でお知らせします。</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <footer><span>Wren</span>
+
+
+
+    <span><a href="support.html">サポート</a></span>
+
+
+
+    <span><a href="terms.html">利用規約</a></span></footer>
+
+
+
+
+
+
+
+</div>
+
+
+
+<script src="../analytics.js" defer></script>
+
+
+
+</body>
+
+
+
+</html>

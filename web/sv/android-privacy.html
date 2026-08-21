@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="sv">
+
+
+
+<head>
+
+
+
+<meta charset="utf-8">
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Integritet för Android — Wren</title>
+
+
+
+<meta name="description" content="Vad Wren för Android samlar in, och vad som lämnar din telefon. Skärmbilder gör det aldrig.">
+
+
+
+<meta name="theme-color" content="#12332F">
+
+
+
+<link rel="icon" href="data:image/svg+xml,&lt;svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'&gt;&lt;rect%20width='100'%20height='100'%20rx='22'%20fill='%231E4B45'/&gt;&lt;polygon%20points='22,62%2012,29%2024,23%2031,50'%20fill='%23F2C879'/&gt;&lt;ellipse%20cx='42'%20cy='60'%20rx='23'%20ry='17'%20fill='%23F2C879'/&gt;&lt;ellipse%20cx='63'%20cy='44'%20rx='12'%20ry='11.5'%20fill='%23F2C879'/&gt;&lt;polygon%20points='74,42%2089,46%2074,48'%20fill='%23E08A4B'/&gt;&lt;circle%20cx='67'%20cy='41'%20r='2.3'%20fill='%231E4B45'/&gt;&lt;/svg&gt;">
+
+
+
+<link rel="stylesheet" href="../style.css">
+
+
+
+<link rel="canonical" href="https://wren.spencerfields.com/sv/android-android-privacy.html"><!-- i18n:begin --><link rel="alternate" hreflang="x-default" href="https://wren.spencerfields.com/android-android-android-privacy.html"><link rel="alternate" hreflang="en" href="https://wren.spencerfields.com/android-android-android-privacy.html"><link rel="alternate" hreflang="zh" href="https://wren.spencerfields.com/zh/android-android-android-privacy.html"><link rel="alternate" hreflang="hi" href="https://wren.spencerfields.com/hi/android-android-android-privacy.html"><link rel="alternate" hreflang="es" href="https://wren.spencerfields.com/es/android-android-android-privacy.html"><link rel="alternate" hreflang="ar" href="https://wren.spencerfields.com/ar/android-android-android-privacy.html"><link rel="alternate" hreflang="fr" href="https://wren.spencerfields.com/fr/android-android-android-privacy.html"><link rel="alternate" hreflang="bn" href="https://wren.spencerfields.com/bn/android-android-android-privacy.html"><link rel="alternate" hreflang="pt" href="https://wren.spencerfields.com/pt/android-android-android-privacy.html"><link rel="alternate" hreflang="id" href="https://wren.spencerfields.com/id/android-android-android-privacy.html"><link rel="alternate" hreflang="ur" href="https://wren.spencerfields.com/ur/android-android-android-privacy.html"><link rel="alternate" hreflang="ru" href="https://wren.spencerfields.com/ru/android-android-android-privacy.html"><link rel="alternate" hreflang="de" href="https://wren.spencerfields.com/de/android-android-android-privacy.html"><link rel="alternate" hreflang="ja" href="https://wren.spencerfields.com/ja/android-android-android-privacy.html"><link rel="alternate" hreflang="mr" href="https://wren.spencerfields.com/mr/android-android-android-privacy.html"><link rel="alternate" hreflang="te" href="https://wren.spencerfields.com/te/android-android-android-privacy.html"><link rel="alternate" hreflang="sv" href="https://wren.spencerfields.com/sv/android-android-android-privacy.html"><!-- i18n:end --></head>
+
+
+
+<body>
+
+
+
+<div class="wrap">
+
+
+
+
+
+
+
+  <!-- i18n:begin --><p class="i18n-legal" style="margin:0 0 1.5rem;padding:.75rem 1rem;border-left:3px solid currentColor;opacity:.8;font-size:.9rem">Denna sida är en översättning som tillhandahålls för bekvämlighets skull. Den engelska versionen är den auktoritativa texten och gäller vid eventuella avvikelser.</p><!-- i18n:end --><div class="topbar">
+
+
+
+    <a class="brand" href="index.html">
+
+
+
+      <svg viewbox="0 0 100 100" role="img" aria-label="Wren">
+
+
+
+        <rect width="100" height="100" rx="22" fill="#1E4B45"></rect>
+
+
+
+        <polygon points="22,62 12,29 24,23 31,50" fill="#F2C879"></polygon>
+
+
+
+        <ellipse cx="42" cy="60" rx="23" ry="17" fill="#F2C879"></ellipse>
+
+
+
+        <ellipse cx="63" cy="44" rx="12" ry="11.5" fill="#F2C879"></ellipse>
+
+
+
+        <polygon points="74,42 89,46 74,48" fill="#E08A4B"></polygon>
+
+
+
+        <circle cx="67" cy="41" r="2.3" fill="#1E4B45"></circle>
+
+
+
+      </svg>
+
+
+
+      Wren
+
+
+
+    </a>
+
+
+
+    <nav><a href="index.html">Översikt</a><a href="apps.html">Appar</a>
+
+
+
+      <a href="support.html">Support</a>
+
+
+
+      <a href="privacy.html">Integritet</a>
+
+
+
+      <a href="terms.html">Villkor</a></nav>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <!-- i18n:begin --><details class="i18n-picker"><summary><span aria-hidden="true">🌐</span> Svenska</summary><ul><li><a href="../android-privacy.html" lang="en" hreflang="en">English</a></li><li><a href="../zh/android-privacy.html" lang="zh" hreflang="zh">简体中文</a></li><li><a href="../hi/android-privacy.html" lang="hi" hreflang="hi">हिन्दी</a></li><li><a href="../es/android-privacy.html" lang="es" hreflang="es">Español</a></li><li><a href="../ar/android-privacy.html" lang="ar" hreflang="ar">العربية</a></li><li><a href="../fr/android-privacy.html" lang="fr" hreflang="fr">Français</a></li><li><a href="../bn/android-privacy.html" lang="bn" hreflang="bn">বাংলা</a></li><li><a href="../pt/android-privacy.html" lang="pt" hreflang="pt">Português</a></li><li><a href="../id/android-privacy.html" lang="id" hreflang="id">Bahasa Indonesia</a></li><li><a href="../ur/android-privacy.html" lang="ur" hreflang="ur">اردو</a></li><li><a href="../ru/android-privacy.html" lang="ru" hreflang="ru">Русский</a></li><li><a href="../de/android-privacy.html" lang="de" hreflang="de">Deutsch</a></li><li><a href="../ja/android-privacy.html" lang="ja" hreflang="ja">日本語</a></li><li><a href="../mr/android-privacy.html" lang="mr" hreflang="mr">मराठी</a></li><li><a href="../te/android-privacy.html" lang="te" hreflang="te">తెలుగు</a></li><li><span aria-current="true" class="i18n-current">Svenska</span></li></ul></details><style>.i18n-picker{margin:.75rem 0 1.25rem;font-size:.9rem;border:1px solid currentColor;border-radius:6px;padding:.4rem .7rem;display:inline-block;opacity:.75}.i18n-picker[open]{display:block}.i18n-picker:hover{opacity:1}.i18n-picker summary{cursor:pointer;list-style:none}.i18n-picker summary::-webkit-details-marker{display:none}.i18n-picker summary::after{content:' \25BE'}.i18n-picker[open] summary::after{content:' \25B4'}.i18n-picker ul{list-style:none;padding:.75rem 0 .15rem;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(10rem,1fr));gap:.4rem .9rem}.i18n-picker li{margin:0}.i18n-picker a{text-decoration:none}.i18n-picker a:hover{text-decoration:underline}.i18n-current{font-weight:700}</style><!-- i18n:end --><header class="hero">
+
+
+
+    <h1>Integritet för Android</h1>
+
+
+
+    <p class="updated">Senast uppdaterad 17 augusti 2026</p>
+
+
+
+  </header>
+
+
+
+
+
+
+
+  <div class="status">
+
+
+
+    <span class="label">Kortversionen</span>
+
+
+
+    <p><strong>Appen</strong> har inga konton och ingen analys. Dina skärmavbilder och alla filer du importerar läses på din telefon och laddas aldrig upp. Det enda den sparar är en slumpmässig identifierare för din enhet, och endast om du har fått en kostnadsfri kod och väljer att ange den – vilket också är det enda tillfället då den kontaktar en egen server.</p>
+
+
+
+    <p><strong>Den här webbplatsen</strong> är en separat fråga: den använder Google Analytics, och endast om du godkänner meddelandet vid ditt första besök. Om du avböjer sätts inga kakor.</p>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>Vem detta är</h2>
+
+
+
+    <p>Wren skapas av Spencer Fields, en enskild näringsidkare etablerad i Storbritannien, på Lytchett House, 13 Freeland Park, Wareham Road, Lytchett Matravers, Poole, BH16 6FA. För allt som rör denna policy, skriv till <strong>Apps [at] spencerfields [dot] com</strong>.</p>
+
+
+
+  </section>
+
+  <section>
+
+    <h2>Vad Wren samlar in</h2>
+
+    <p>Ingenting, med ett undantag, och bara om du väljer det: när en kostnadsfri kod anges skickas den koden och en slumpmässig identifierare för den här installationen till en server som Wren driver. Inget annat om dig samlas in, lagras eller delas. Inget konto, ingen inloggning, ingen analys, ingen annonsidentifierare, inga kraschrapporter.</p>
+
+    <p>Om du aldrig anger någon kod — och nästan ingen gör det, eftersom koder ges till namngivna personer — kontaktar Wren aldrig någon egen server över huvud taget.</p>
+
+  </section>
+
+  <section>
+
+    <h2>Dina skärmbilder och filer du importerar</h2>
+
+    <p>Läses på telefonen och laddas aldrig upp. Textigenkänningen körs från en modell inuti själva appen, så att läsa en skärmbild fungerar med nätverket avstängt, och bilden lämnar aldrig din enhet. Detsamma gäller en CSV-, GPX-, KML- eller Takeout-fil som du importerar.</p>
+
+  </section>
+
+  <section>
+
+    <h2>Vad som lämnar din enhet, och vart det tar vägen</h2>
+
+    <p>Två saker, och ingen av dem är en skärmbild.</p>
+
+    <p>Den första är <strong>namnet på en plats, och den stad du bekräftade</strong>. Att göra om ”Dishoom Shoreditch” till en koordinat innebär att fråga en karta, och Androids egen geokodare svarar över nätet — på de flesta telefoner är det Google, under Googles integritetspolicy, precis som för vilken app som helst som slår upp en adress. Inget annat följer med, och ingenting skickas alls förrän du ber om en sökning.</p>
+
+    <p>Staden är den <em>du</em> valde i appen. Wren frågar aldrig var din telefon är — det finns medvetet ingen platsbehörighet. Den frågar bara var en namngiven plats ligger.</p>
+
+    <p>Den andra är en kostnadsfri kod och en slumpmässig identifierare, som beskrivs härnäst.</p>
+
+  </section>
+
+  <section>
+
+    <h2>Kostnadsfria koder</h2>
+
+    <p>En del människor får en kod som låser upp betalfunktionerna utan betalning. När en kod anges skickas två saker till en Cloudflare Worker som utvecklaren driver: <strong>koden, och en slumpmässig identifierare för den här installationen</strong>. Paret sparas för att en kod ska kunna användas en gång och inte igen — vilket är hela skälet till att en server alls är inblandad, eftersom en telefon omöjligt kan veta att en kod redan använts på en annan telefon.</p>
+
+    <p>Identifieraren skapas av Wren och härleds inte ur något: inte ur ditt Android-ID, inte ur annonsidentifieraren, inte ur något som rör hårdvaran eller ditt konto. Den pekar ut den här installationen och ingenting mer. Avinstallerar du appen försvinner den, så en ny installation är en ny identifierare.</p>
+
+    <p>Ett fåtal koder ger dessutom administrativ åtkomst till utvecklarens egen kodkonsol. Bara de bekräftas på nytt mot servern, ungefär en gång om dagen, så att en sådan kod ska kunna dras tillbaka. En ny bekräftelse skickar samma två saker och inget mer. En vanlig kod kontrolleras en gång, när den anges, och aldrig därefter.</p>
+
+    <p>Om en kod <em>avvisas</em> antecknas den ursprungliga IP-adressen för sig i högst en timme, så att slutpunkten inte kan hamras med gissningar. Den lagras inte tillsammans med koden eller identifieraren, den lagras inte alls när en kod går igenom, och den raderas automatiskt.</p>
+
+  </section>
+
+  <section>
+
+    <h2>Att skicka din lista till en annan kartapp</h2>
+
+    <p>Listan skrivs till en fil på din telefon och lämnas över till den app du väljer. Den överlämningen är lokal: ingenting laddas upp, och Wren är inte inblandad så snart den andra appen har filen.</p>
+
+    <p>Google My Maps är undantaget värt att nämna. Wren sparar filen genom Androids egen spardialog och öppnar sedan google.com/maps/d/ i din webbläsare. Vad som händer sedan är din webbläsare, i din egen Google-session — Wren laddar inte upp något och kan inte se det.</p>
+
+  </section>
+
+  <section>
+
+    <h2>Behörigheter</h2>
+
+    <p>Exakt en: internetåtkomst, som behövs för platsuppslagningen och, om du anger en, för koden. Ingen plats, ingen kamera, inga kontakter, och ingen åtkomst till andra filer än dem du räcker över via systemets filväljare.</p>
+
+  </section>
+
+  <section>
+
+    <h2>Vad som sparas på din enhet</h2>
+
+    <p>Om du har löst in en kostnadsfri kod, det signerade svar som bekräftar det. Det är detta som låter Wren kontrollera din åtkomst offline. Och listan över platser du arbetar med, tills du publicerar eller rensar den.</p>
+
+    <p>Det är vanlig applagring på din telefon, som omfattas av enhetens egen kryptering. Raderar du Wren raderas de.</p>
+
+  </section>
+
+<section>
+
+
+
+    <h2>Instagram och andra appar</h2>
+
+
+
+    <p>Wren ansluter inte till Instagram, TikTok eller någon annan tjänst. Den har ingen åtkomst till dina konton hos dem och läser, skrapar eller laddar inte ner något från dem. Den läser endast skärmdumpar som du har tagit och valt att dela med den.</p>
+
+
+
+  </section>
+
+<section>
+
+
+
+    <h2>Barn</h2>
+
+
+
+    <p>Wren riktar sig inte till barn och samlar inte in några personuppgifter från någon, oavsett ålder.</p>
+
+
+
+  </section>
+
+<section>
+
+
+
+    <h2>Dina rättigheter</h2>
+
+
+
+    <p>Enligt brittiska GDPR och EU:s GDPR har du rätt till åtkomst, rättelse, radering, begränsning, invändning och dataportabilitet avseende personuppgifter som lagras om dig.</p>
+
+
+
+    <p>Om du aldrig har angett en kostnadsfri kod har Wren ingenting alls om dig, så i praktiken finns det inget att komma åt, rätta eller radera. Om du har gjort det är den enda posten koden du använde och den slumpmässiga enhetsidentifieraren som följde med den, sparad så att koden inte kan användas igen. Skriv till adressen ovan så raderas den, eller skickas till dig, inom en månad. Om den raderas frigörs koden för någon annan.</p>
+
+
+
+    <p>Om du befinner dig i Storbritannien kan du också klaga till <a href="https://ico.org.uk/">Information Commissioner's Office</a>.</p>
+
+
+
+  </section>
+
+<section>
+
+
+
+    <h2>Denna webbplats</h2>
+
+
+
+    <p>Denna webbplats använder <strong>Google Analytics</strong> för att räkna besök och se vilka sidor folk läser, och <strong>Microsoft Clarity</strong> för att se vilka delar av en sida som läses och var folk fastnar. De är de enda tredje parterna på webbplatsen, det finns ingen reklam, och ingenting här används för att skapa en profil av dig eller följa dig någon annanstans.</p>
+
+
+
+    <p><strong>Ingenting laddas förrän du godkänner.</strong> Analyscookies är inte strikt nödvändiga, så enligt reglerna om integritet och elektronisk kommunikation krävs ditt samtycke först. Ett meddelande visas vid ditt första besök med Acceptera och Avböj. Tills du väljer håller Google Consent Mode alla lagringstyper på "nekad", och varken Googles eller Microsofts skript laddas alls – så att avböja innebär att inga cookies sätts och att ingen av dem skickas något. Ditt val sparas i webbläsarens lokala lagring så att meddelandet visas endast en gång.</p>
+
+
+
+    <p>Om du ändrar dig kan du rensa webbplatsens data i din webbläsare, så visas meddelandet igen.</p>
+
+
+
+    <p>Om du accepterar tar Google emot de vanliga analyssignalerna – vilka sidor du besöker, ungefär var du befinner dig och vilken typ av enhet och webbläsare du använder – och sätter cookies för att skilja ett besök från nästa. Google agerar personuppgiftsbiträde för detta, och hanteringen styrs av <a href="https://policies.google.com/privacy">Googles integritetspolicy</a>. Signaler för annonsering och personalisering förblir nekade oavsett vad du väljer.</p>
+
+
+
+    <p><strong>Microsoft Clarity</strong> gör mer än att räkna besök. Om du accepterar registrerar den hur en sida scrollas och klickas under ditt besök och spelar upp dessa interaktioner igen, och den sätter sina egna cookies för att skilja ett besök från nästa. Allt som skrivs i ett formulärfält eller väljs i en rullgardinsmeny maskeras innan det lämnar din webbläsare: Clarity maskerar detta i alla lägen den erbjuder och ger ingen möjlighet att stänga av det. Med den inställning som används här maskeras även siffror och e-postadresser som förekommer var som helst på sidan. Microsoft agerar personuppgiftsbiträde för detta, och hanteringen styrs av <a href="https://privacy.microsoft.com/privacystatement">Microsofts sekretesspolicy</a>. Eftersom en inspelning av ett besök inte är aggregerad information är det inte något som får köras utan att fråga, vilket är anledningen till att valet erbjuds i stället för att antas.</p>
+
+    <p>Separat håller webbhotellet ordinarie serveråtkomstloggar, vilket är normalt för alla webbplatser och inte något Wren läser eller använder.</p>
+
+
+
+    <p><strong>Inget av detta gäller appen.</strong> Wren-appen för Android innehåller ingen analys av något slag och har aldrig gjort det. Detta avsnitt handlar enbart om denna webbplats.</p>
+
+
+
+  </section>
+
+<section>
+
+
+
+    <h2>Ändringar</h2>
+
+
+
+    <p>Om denna policy ändras ändras även datumet högst upp. Väsentliga ändringar kommer att anges på denna sida i stället för att göras i tysthet.</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <footer><span>Wren</span>
+
+
+
+    <span><a href="support.html">Support</a></span>
+
+
+
+    <span><a href="terms.html">Villkor</a></span></footer>
+
+
+
+
+
+
+
+</div>
+
+
+
+<script src="../analytics.js" defer></script>
+
+
+
+</body>
+
+
+
+</html>

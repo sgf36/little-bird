@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+
+
+<head>
+
+
+
+<meta charset="utf-8">
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>الخصوصية على Android — Wren</title>
+
+
+
+<meta name="description" content="ما الذي يجمعه Wren على Android، وما الذي يغادر هاتفك. لقطات الشاشة لا تغادره أبدًا.">
+
+
+
+<meta name="theme-color" content="#12332F">
+
+
+
+<link rel="icon" href="data:image/svg+xml,&lt;svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'&gt;&lt;rect%20width='100'%20height='100'%20rx='22'%20fill='%231E4B45'/&gt;&lt;polygon%20points='22,62%2012,29%2024,23%2031,50'%20fill='%23F2C879'/&gt;&lt;ellipse%20cx='42'%20cy='60'%20rx='23'%20ry='17'%20fill='%23F2C879'/&gt;&lt;ellipse%20cx='63'%20cy='44'%20rx='12'%20ry='11.5'%20fill='%23F2C879'/&gt;&lt;polygon%20points='74,42%2089,46%2074,48'%20fill='%23E08A4B'/&gt;&lt;circle%20cx='67'%20cy='41'%20r='2.3'%20fill='%231E4B45'/&gt;&lt;/svg&gt;">
+
+
+
+<link rel="stylesheet" href="../style.css">
+
+
+
+<link rel="canonical" href="https://wren.spencerfields.com/ar/android-android-privacy.html"><!-- i18n:begin --><link rel="alternate" hreflang="x-default" href="https://wren.spencerfields.com/android-android-android-privacy.html"><link rel="alternate" hreflang="en" href="https://wren.spencerfields.com/android-android-android-privacy.html"><link rel="alternate" hreflang="zh" href="https://wren.spencerfields.com/zh/android-android-android-privacy.html"><link rel="alternate" hreflang="hi" href="https://wren.spencerfields.com/hi/android-android-android-privacy.html"><link rel="alternate" hreflang="es" href="https://wren.spencerfields.com/es/android-android-android-privacy.html"><link rel="alternate" hreflang="ar" href="https://wren.spencerfields.com/ar/android-android-android-privacy.html"><link rel="alternate" hreflang="fr" href="https://wren.spencerfields.com/fr/android-android-android-privacy.html"><link rel="alternate" hreflang="bn" href="https://wren.spencerfields.com/bn/android-android-android-privacy.html"><link rel="alternate" hreflang="pt" href="https://wren.spencerfields.com/pt/android-android-android-privacy.html"><link rel="alternate" hreflang="id" href="https://wren.spencerfields.com/id/android-android-android-privacy.html"><link rel="alternate" hreflang="ur" href="https://wren.spencerfields.com/ur/android-android-android-privacy.html"><link rel="alternate" hreflang="ru" href="https://wren.spencerfields.com/ru/android-android-android-privacy.html"><link rel="alternate" hreflang="de" href="https://wren.spencerfields.com/de/android-android-android-privacy.html"><link rel="alternate" hreflang="ja" href="https://wren.spencerfields.com/ja/android-android-android-privacy.html"><link rel="alternate" hreflang="mr" href="https://wren.spencerfields.com/mr/android-android-android-privacy.html"><link rel="alternate" hreflang="te" href="https://wren.spencerfields.com/te/android-android-android-privacy.html"><link rel="alternate" hreflang="sv" href="https://wren.spencerfields.com/sv/android-android-android-privacy.html"><!-- i18n:end --></head>
+
+
+
+<body>
+
+
+
+<div class="wrap">
+
+
+
+
+
+
+
+  <!-- i18n:begin --><p class="i18n-legal" style="margin:0 0 1.5rem;padding:.75rem 1rem;border-left:3px solid currentColor;opacity:.8;font-size:.9rem">هذه الصفحة ترجمة مقدَّمة للتسهيل. النسخة الإنجليزية هي النص المعتمد وهي التي يُعمل بها في حال وجود أي تعارض.</p><!-- i18n:end --><div class="topbar">
+
+
+
+    <a class="brand" href="index.html">
+
+
+
+      <svg viewbox="0 0 100 100" role="img" aria-label="Wren">
+
+
+
+        <rect width="100" height="100" rx="22" fill="#1E4B45"></rect>
+
+
+
+        <polygon points="22,62 12,29 24,23 31,50" fill="#F2C879"></polygon>
+
+
+
+        <ellipse cx="42" cy="60" rx="23" ry="17" fill="#F2C879"></ellipse>
+
+
+
+        <ellipse cx="63" cy="44" rx="12" ry="11.5" fill="#F2C879"></ellipse>
+
+
+
+        <polygon points="74,42 89,46 74,48" fill="#E08A4B"></polygon>
+
+
+
+        <circle cx="67" cy="41" r="2.3" fill="#1E4B45"></circle>
+
+
+
+      </svg>
+
+
+
+      Wren
+
+
+
+    </a>
+
+
+
+    <nav><a href="index.html">نظرة عامة</a><a href="apps.html">التطبيقات</a>
+
+
+
+      <a href="support.html">الدعم</a>
+
+
+
+      <a href="privacy.html">الخصوصية</a>
+
+
+
+      <a href="terms.html">الشروط</a></nav>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <!-- i18n:begin --><details class="i18n-picker"><summary><span aria-hidden="true">🌐</span> العربية</summary><ul><li><a href="../android-privacy.html" lang="en" hreflang="en">English</a></li><li><a href="../zh/android-privacy.html" lang="zh" hreflang="zh">简体中文</a></li><li><a href="../hi/android-privacy.html" lang="hi" hreflang="hi">हिन्दी</a></li><li><a href="../es/android-privacy.html" lang="es" hreflang="es">Español</a></li><li><span aria-current="true" class="i18n-current">العربية</span></li><li><a href="../fr/android-privacy.html" lang="fr" hreflang="fr">Français</a></li><li><a href="../bn/android-privacy.html" lang="bn" hreflang="bn">বাংলা</a></li><li><a href="../pt/android-privacy.html" lang="pt" hreflang="pt">Português</a></li><li><a href="../id/android-privacy.html" lang="id" hreflang="id">Bahasa Indonesia</a></li><li><a href="../ur/android-privacy.html" lang="ur" hreflang="ur">اردو</a></li><li><a href="../ru/android-privacy.html" lang="ru" hreflang="ru">Русский</a></li><li><a href="../de/android-privacy.html" lang="de" hreflang="de">Deutsch</a></li><li><a href="../ja/android-privacy.html" lang="ja" hreflang="ja">日本語</a></li><li><a href="../mr/android-privacy.html" lang="mr" hreflang="mr">मराठी</a></li><li><a href="../te/android-privacy.html" lang="te" hreflang="te">తెలుగు</a></li><li><a href="../sv/android-privacy.html" lang="sv" hreflang="sv">Svenska</a></li></ul></details><style>.i18n-picker{margin:.75rem 0 1.25rem;font-size:.9rem;border:1px solid currentColor;border-radius:6px;padding:.4rem .7rem;display:inline-block;opacity:.75}.i18n-picker[open]{display:block}.i18n-picker:hover{opacity:1}.i18n-picker summary{cursor:pointer;list-style:none}.i18n-picker summary::-webkit-details-marker{display:none}.i18n-picker summary::after{content:' \25BE'}.i18n-picker[open] summary::after{content:' \25B4'}.i18n-picker ul{list-style:none;padding:.75rem 0 .15rem;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(10rem,1fr));gap:.4rem .9rem}.i18n-picker li{margin:0}.i18n-picker a{text-decoration:none}.i18n-picker a:hover{text-decoration:underline}.i18n-current{font-weight:700}</style><!-- i18n:end --><header class="hero">
+
+
+
+    <h1>الخصوصية على Android</h1>
+
+
+
+    <p class="updated">آخر تحديث 17 أغسطس 2026</p>
+
+
+
+  </header>
+
+
+
+
+
+
+
+  <div class="status">
+
+
+
+    <span class="label">النسخة المختصرة</span>
+
+
+
+    <p><strong>التطبيق</strong> لا يحتوي على حسابات ولا تحليلات. تُقرأ لقطات الشاشة وأي ملف تستورده على هاتفك ولا يتم رفعها مطلقًا. الشيء الوحيد الذي يحتفظ به هو معرّف عشوائي لجهازك، وذلك فقط إذا حصلت على رمز مجاني واخترت إدخاله — وهو أيضًا السبب الوحيد الذي يجعله يتواصل مع خادم خاص به.</p>
+
+
+
+    <p><strong>هذا الموقع</strong> أمر مختلف: فهو يستخدم Google Analytics، وذلك فقط إذا وافقت على الإشعار عند زيارتك الأولى. وفي حال الرفض، لا يتم تعيين أي ملفات تعريف ارتباط.</p>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <section>
+
+
+
+    <h2>من نحن</h2>
+
+
+
+    <p>تطبيق Wren من صنع Spencer Fields، وهو تاجر فردي مؤسس في المملكة المتحدة، بعنوان Lytchett House, 13 Freeland Park, Wareham Road, Lytchett Matravers, Poole, BH16 6FA. لأي استفسار يتعلق بهذه السياسة، يُرجى الكتابة إلى <strong>Apps [at] spencerfields [dot] com</strong>.</p>
+
+
+
+  </section>
+
+  <section>
+
+    <h2>ما الذي يجمعه Wren</h2>
+
+    <p>لا شيء، باستثناء واحد، وفقط إذا اخترته أنت: عند إدخال رمز مجاني يُرسَل ذلك الرمز ومعرّف عشوائي لهذا التثبيت إلى خادم يديره Wren. ولا يُجمَع عنك شيء آخر ولا يُخزَّن ولا يُشارَك. لا حساب، ولا تسجيل دخول، ولا تحليلات، ولا معرّف إعلاني، ولا تقارير أعطال.</p>
+
+    <p>وإذا لم تُدخل رمزًا قط — ولا يفعل ذلك إلا القليل، لأن الرموز تُمنح لأشخاص بأعيانهم — فإن Wren لا يتواصل مع أي خادم خاص به إطلاقًا.</p>
+
+  </section>
+
+  <section>
+
+    <h2>لقطات الشاشة والملفات التي تستوردها</h2>
+
+    <p>تُقرأ على الهاتف ولا تُرفع أبدًا. يعمل التعرّف على النص بنموذج بداخل التطبيق نفسه، لذا تُقرأ لقطة الشاشة والشبكة مغلقة، ولا تغادر الصورة جهازك. وينطبق الأمر نفسه على أي ملف CSV أو GPX أو KML أو تصدير من Takeout تستورده.</p>
+
+  </section>
+
+  <section>
+
+    <h2>ما الذي يغادر جهازك وإلى أين يذهب</h2>
+
+    <p>شيئان، وليس أي منهما لقطة شاشة.</p>
+
+    <p>الأول هو <strong>اسم المكان والمدينة التي أكّدتها</strong>. تحويل «Dishoom Shoreditch» إلى إحداثية يعني سؤال خريطة، ومحوّل المواقع الخاص بـ Android يجيب عبر الشبكة — وعلى معظم الهواتف يكون ذلك Google، وفق سياسة خصوصية Google، تمامًا كأي تطبيق يبحث عن عنوان. ولا يذهب معه شيء آخر، ولا يذهب شيء أصلًا قبل أن تطلب البحث.</p>
+
+    <p>والمدينة هي التي اخترتَها <em>أنت</em> في التطبيق. ولا يسأل Wren أبدًا أين هاتفك — فلا يوجد إذن للموقع، وذلك عن قصد. إنما يسأل أين يقع مكان له اسم.</p>
+
+    <p>والثاني رمز مجاني ومعرّف عشوائي، وهو موضّح فيما يلي.</p>
+
+  </section>
+
+  <section>
+
+    <h2>الرموز المجانية</h2>
+
+    <p>يحصل بعض الأشخاص على رمز يفتح الميزات المدفوعة دون دفع. وعند إدخال رمز يُرسَل شيئان إلى Cloudflare Worker يديره المطوّر: <strong>الرمز نفسه، ومعرّف عشوائي لهذا التثبيت</strong>. ويُحفظ هذان معًا حتى يُستخدم الرمز مرة واحدة لا أكثر، وهذا هو السبب الوحيد لوجود خادم: لا سبيل للهاتف أن يعرف أن الرمز استُخدم على هاتف آخر.</p>
+
+    <p>المعرّف يولّده Wren وهو غير مشتق من أي شيء: ليس من معرّف Android لديك، ولا من المعرّف الإعلاني، ولا من أي شيء يخص الجهاز أو حسابك. إنه يدل على هذا التثبيت ولا شيء غيره. وإلغاء تثبيت التطبيق يزيله، فالتثبيت الجديد معرّف جديد.</p>
+
+    <p>وعدد قليل من الرموز يمنح كذلك صلاحيات إدارية على لوحة الرموز الخاصة بالمطوّر. وتلك وحدها يُعاد تأكيدها لدى الخادم مرة واحدة يوميًا تقريبًا، حتى يمكن سحب مثل هذا الرمز. وإعادة التأكيد تُرسل العنصرين ذاتهما ولا شيء سواهما. أما الرمز العادي فيُفحص مرة واحدة عند إدخاله، ثم لا يُفحص بعدها أبدًا.</p>
+
+    <p>وإذا <em>رُفض</em> رمز، يُسجَّل عنوان IP المصدر وحده لمدة تصل إلى ساعة، حتى لا يمكن إغراق نقطة الوصول بالتخمينات. ولا يُخزَّن بجوار الرمز أو المعرّف، ولا يُخزَّن أصلًا عند نجاح الرمز، ويُحذف تلقائيًا.</p>
+
+  </section>
+
+  <section>
+
+    <h2>إرسال قائمتك إلى تطبيق خرائط آخر</h2>
+
+    <p>تُكتب القائمة في ملف على هاتفك وتُسلَّم إلى التطبيق الذي تختاره. وهذا التسليم محلي: لا يُرفع شيء، ولا يعود لـ Wren دور بمجرد أن يستلم التطبيق الآخر الملف.</p>
+
+    <p>وGoogle My Maps هو الاستثناء الجدير بالذكر. يحفظ Wren الملف عبر نافذة الحفظ الخاصة بـ Android، ثم يفتح google.com/maps/d/ في متصفحك. وما يحدث بعد ذلك هو شأن متصفحك ضمن جلسة Google الخاصة بك — فـ Wren لا يرفع شيئًا ولا يمكنه رؤيته.</p>
+
+  </section>
+
+  <section>
+
+    <h2>الأذونات</h2>
+
+    <p>إذن واحد فقط: الوصول إلى الإنترنت، لازم للبحث عن الأماكن، ولفحص الرمز إن أدخلت واحدًا. لا موقع، ولا كاميرا، ولا جهات اتصال، ولا وصول إلى ملفات غير التي تسلّمها له عبر أداة اختيار الملفات في النظام.</p>
+
+  </section>
+
+  <section>
+
+    <h2>ما الذي يُخزَّن على جهازك</h2>
+
+    <p>إن استخدمت رمزًا مجانيًا، الرد الموقَّع الذي يؤكد ذلك. وهذا ما يتيح لـ Wren التحقق من وصولك دون اتصال بالإنترنت. وقائمة الأماكن التي تعمل عليها، إلى أن تنشرها أو تمسحها.</p>
+
+    <p>وهذه مساحة تخزين تطبيق عادية على هاتفك، يشملها تشفير جهازك نفسه. وحذف Wren يحذفها.</p>
+
+  </section>
+
+<section>
+
+
+
+    <h2>إنستغرام وتطبيقات أخرى</h2>
+
+
+
+    <p>لا يتصل Wren بإنستغرام أو تيك توك أو أي خدمة أخرى. وليس لديه أي وصول إلى حساباتك عليها، ولا يقرأ أو يستخلص أو يُنزّل أي شيء منها. كل ما يفعله هو قراءة لقطات الشاشة التي التقطتها واخترت مشاركتها معه.</p>
+
+
+
+  </section>
+
+<section>
+
+
+
+    <h2>الأطفال</h2>
+
+
+
+    <p>Wren غير موجّه للأطفال ولا يجمع أي بيانات شخصية من أي شخص، أيًا كان عمره.</p>
+
+
+
+  </section>
+
+<section>
+
+
+
+    <h2>حقوقك</h2>
+
+
+
+    <p>بموجب اللائحة العامة لحماية البيانات في المملكة المتحدة واللائحة العامة لحماية البيانات في الاتحاد الأوروبي، لك حقوق الوصول والتصحيح والمحو والتقييد والاعتراض ونقل البيانات الشخصية المحتفَظ بها عنك.</p>
+
+
+
+    <p>إن لم تُدخل رمزًا مجانيًا قط، فلا يحتفظ Wren بأي شيء عنك على الإطلاق، وبالتالي لا يوجد عمليًا ما يُطلب الوصول إليه أو تصحيحه أو محوه. أما إن فعلت، فالسجل الوحيد هو الرمز الذي استخدمته ومعرّف الجهاز العشوائي المرفق به، ويُحتفظ بهما حتى لا يُستخدم الرمز مرة أخرى. راسلنا على العنوان أعلاه وسيُحذف، أو يُرسل إليك، خلال شهر واحد. حذفه يُطلق الرمز لشخص آخر.</p>
+
+
+
+    <p>إن كنت مقيمًا في المملكة المتحدة، يمكنك أيضًا تقديم شكوى إلى <a href="https://ico.org.uk/">مكتب مفوض المعلومات</a>.</p>
+
+
+
+  </section>
+
+<section>
+
+
+
+    <h2>هذا الموقع</h2>
+
+
+
+    <p>يستخدم هذا الموقع <strong>Google Analytics</strong> لعدّ الزيارات ومعرفة الصفحات التي يقرؤها الزوّار، و<strong>Microsoft Clarity</strong> لمعرفة أجزاء الصفحة التي تُقرأ والمواضع التي يتعثّر الزوّار فيها. وهما الجهتان الخارجيتان الوحيدتان على الموقع، ولا توجد إعلانات، ولا يُستخدم أي شيء هنا لبناء ملف تعريفي عنك أو لتتبّعك في مواقع أخرى.</p>
+
+
+
+    <p><strong>لا يتم تحميل أي شيء قبل موافقتك.</strong> ملفات تعريف الارتباط الخاصة بالتحليلات ليست ضرورية بشكل صارم، ولذلك فهي تتطلب موافقتك المسبقة بموجب لائحة الخصوصية والاتصالات الإلكترونية. يظهر إشعار عند زيارتك الأولى يتضمّن خيارَي قبول ورفض. وإلى أن تختار، يضبط Google Consent Mode كل أنواع التخزين على وضع "مرفوض"، ولا يتم تحميل نصّ Google أو نصّ Microsoft على الإطلاق — أي أن الرفض لا يضع أي ملفات تعريف ارتباط ولا يرسل لأي منهما شيئًا. يُحفظ اختيارك في التخزين المحلي لمتصفحك حتى لا يظهر الإشعار إلا مرة واحدة.</p>
+
+
+
+    <p>لتغيير رأيك، امسح بيانات هذا الموقع في متصفحك، وسيظهر الإشعار مرة أخرى.</p>
+
+
+
+    <p>إذا وافقت، تتلقى Google إشارات التحليلات المعتادة - الصفحات التي تشاهدها، ومكانك تقريبًا، ونوع الجهاز والمتصفح الذي تستخدمه - وتضع ملفات تعريف ارتباط لتمييز كل زيارة عن الأخرى. تعمل Google كمعالج بيانات في هذا الشأن، ويخضع تعاملها لـ<a href="https://policies.google.com/privacy">سياسة خصوصية Google</a>. تظل إشارات الإعلانات والتخصيص مرفوضة أيًا كان اختيارك.</p>
+
+
+
+    <p><strong>يتجاوز Microsoft Clarity مجرّد العدّ.</strong> فإذا وافقت، فإنه يسجّل كيفية التمرير والنقر على الصفحة أثناء زيارتك ويعيد عرض هذه التفاعلات، ويضبط ملفات تعريف ارتباط خاصة به للتمييز بين زيارة وأخرى. وأي شيء يُكتب في حقل نموذج أو يُختار من قائمة منسدلة يُموّه قبل أن يغادر متصفحك: يموّه Clarity هذه العناصر في كل الأنماط التي يوفرها ولا يقدّم وسيلة لتعطيل ذلك. وفي الإعداد المستخدم هنا، تُموّه أيضًا الأرقام وعناوين البريد الإلكتروني التي تظهر في أي موضع من الصفحة. وتعمل Microsoft كجهة معالجة للبيانات في هذا الشأن، وتخضع طريقة تعاملها مع البيانات لـ<a href="https://privacy.microsoft.com/privacystatement">بيان خصوصية Microsoft</a>. وبما أن تسجيل الزيارة ليس معلومات مجمّعة، فهو ليس شيئًا يمكن تشغيله دون طلب الإذن، ولهذا يُعرض الاختيار بدلاً من افتراضه.</p>
+
+    <p>بشكل منفصل، يحتفظ مزوّد الاستضافة بسجلات وصول الخادم المعتادة، وهو أمر طبيعي لأي موقع إلكتروني وليس شيئًا تقرأه Wren أو تستخدمه.</p>
+
+
+
+    <p><strong>لا شيء من هذا ينطبق على التطبيق.</strong> تطبيق Wren لنظام Android لا يحتوي على أي تحليلات من أي نوع ولم يحتوِ قط. هذا القسم يخص هذا الموقع الإلكتروني فقط.</p>
+
+
+
+  </section>
+
+<section>
+
+
+
+    <h2>التغييرات</h2>
+
+
+
+    <p>إذا تغيّرت هذه السياسة، يتغيّر التاريخ الموجود أعلاها معها. سيُشار إلى التغييرات الجوهرية في هذه الصفحة بدلًا من إجرائها بصمت.</p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <footer><span>Wren</span>
+
+
+
+    <span><a href="support.html">الدعم</a></span>
+
+
+
+    <span><a href="terms.html">الشروط</a></span></footer>
+
+
+
+
+
+
+
+</div>
+
+
+
+<script src="../analytics.js" defer></script>
+
+
+
+</body>
+
+
+
+</html>
