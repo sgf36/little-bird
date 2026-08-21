@@ -62,11 +62,45 @@ reviewer either.
 
 ## Android
 
-`Wren-android-1.1.0+2-internal.aab`, built from the branch tip and signed with
-the upload key (`META-INF/UPLOAD.RSA`, fingerprint `B0:67:…:27:93`, checked
-against the keystore). Waiting on the Play app record before it can go to the
-internal testing track. Package name is `com.spencerfields.littlebird` — the id
-predates the rename and is what the bundle is actually signed under.
+**On Play's internal track and going no further until the Console is finished.**
+
+`com.spencerfields.littlebird` — the id predates the rename and is what the
+bundle is signed under. 1.1.0, versionCode 2, `status: completed`, read back
+from Play rather than inferred. Signed with the upload key
+(`META-INF/UPLOAD.RSA`, fingerprint `B0:67:…:27:93`, checked against the
+keystore). The store listing — title, both descriptions, contact details, four
+screenshots — was filled through the API and read back.
+
+| | |
+|---|---|
+| Listing text and graphics | `store/play_listing.py --apply` |
+| Bundle to a track | `store/play_upload.py --aab <path>` |
+| Credential | Easy-Post's Play service account; it reaches this app too |
+
+### What is left, and why no script can do it
+
+The **App content declarations** — data safety, content rating, target audience,
+ads, the privacy policy URL — have no endpoint in `androidpublisher` v3. They
+are Console-only for every developer. `store/play/LISTING.md` §10 holds the
+answers.
+
+Give Play **<https://wren.spencerfields.com/android-privacy.html>**, not
+`/privacy.html`. The latter is the iPhone policy and describes an app this is
+not.
+
+Until those are done nothing reaches a phone by any route: a track release on an
+app that has never been published waits at "Pending publication" for Google's
+first review, and Internal app sharing — which Easy-Post's tooling calls the way
+round exactly this — refuses with `NOT_PUBLISHED`, measured against this
+package.
+
+### Expect this in the listing
+
+Play will advertise that the app collects a device identifier. That is correct:
+entering a complimentary code sends the code and a random installation
+identifier to Wren's Worker. Almost nobody ever triggers it, because codes go to
+named people — but Play asks what an app *can* collect, not what it usually
+does, and the privacy page says the same thing in the same terms.
 
 ## The guide-link ceiling, measured
 
